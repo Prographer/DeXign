@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phlet.Core", "Phlet.Core\Ph
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phlet.Extension", "Phlet.Extension\Phlet.Extension.csproj", "{D5964727-2CF5-42C1-A40E-7D6CDC8F6FB5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phlet.Test", "Phlet.Test\Phlet.Test.csproj", "{1635E6AE-1350-4DD4-B780-11A44979C13A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{D5964727-2CF5-42C1-A40E-7D6CDC8F6FB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5964727-2CF5-42C1-A40E-7D6CDC8F6FB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5964727-2CF5-42C1-A40E-7D6CDC8F6FB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1635E6AE-1350-4DD4-B780-11A44979C13A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1635E6AE-1350-4DD4-B780-11A44979C13A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1635E6AE-1350-4DD4-B780-11A44979C13A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1635E6AE-1350-4DD4-B780-11A44979C13A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
