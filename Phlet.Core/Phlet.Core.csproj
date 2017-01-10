@@ -83,11 +83,16 @@
     <Compile Include="Generator\WPFGenerator.cs" />
     <Compile Include="Generator\XFormsGenerator.cs" />
     <Compile Include="Generator\XMLGenerator.cs" />
+    <Compile Include="LayoutAlignment.cs" />
+    <Compile Include="LayoutExpandFlag.cs" />
+    <Compile Include="LayoutOptions.cs" />
+    <Compile Include="LayoutOptionsConverter.cs" />
     <Compile Include="Print\PPComponent.cs" />
     <Compile Include="Print\PPEvent.cs" />
     <Compile Include="Print\PPFunction.cs" />
     <Compile Include="Print\PPView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Phlet.Extension\Phlet.Extension.csproj">
