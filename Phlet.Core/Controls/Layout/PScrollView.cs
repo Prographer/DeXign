@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Phlet.Core.Controls
 {
-    public class PScrollView
+    [XForms("Xamarin.Forms", "ScrollView")]
+    public class PScrollView : PLayout
     {
     }
 }

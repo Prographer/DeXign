@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace Phlet.Core.Collections
 {
-    public class PControlCollection<T> : ObservableCollection<T> where T : PControl
+    public class PControlCollection<T> : ObservableCollection<T> where T : PVisual
     {
         public PControlCollection()
         {

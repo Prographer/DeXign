@@ -1,18 +1,25 @@
-﻿using Phlet.Core.Collections;
-using Phlet.Extension;
+﻿using Phlet.Extension;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace Phlet.Core.Controls
 {
-    public class PLayout : PControl
+    [XForms("Xamarin.Forms", "Page")]
+    public class PPage : PVisual
     {
+        public static readonly DependencyProperty TitleProperty
+            = DependencyHelper.Register();
+
         public static readonly DependencyProperty PaddingProperty
             = DependencyHelper.Register();
+
+        [XForms("Title")]
+        public string Title { get; set; }
 
         [XForms("Padding")]
         public Thickness Padding
@@ -20,11 +27,5 @@ namespace Phlet.Core.Controls
             get { return GetValue<Thickness>(PaddingProperty); }
             set { SetValue(PaddingProperty, value); }
         }
-    }
-
-    public class PLayout<T> : PLayout where T : PControl
-    {
-        [XForms("Children")]
-        public PControlCollection<T> Children { get; } = new PControlCollection<T>();
     }
 }

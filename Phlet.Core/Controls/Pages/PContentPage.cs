@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Phlet.Core.Controls
 {
-    public class PContentPage
+    [XForms("Xamarin.Forms", "ContentPage")]
+    public class PContentPage : PPage
     {
     }
 }

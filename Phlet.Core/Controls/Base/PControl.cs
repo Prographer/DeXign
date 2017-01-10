@@ -3,12 +3,9 @@ using System.Windows;
 
 namespace Phlet.Core.Controls
 {
-    [XForms("View")]
-    public class PControl : PObject
+    [XForms("Xamarin.Forms", "View")]
+    public class PControl : PVisual
     {
-        public static readonly DependencyProperty NameProperty =
-            DependencyHelper.Register();
-
         public static readonly DependencyProperty VerticalOptionsProperty =
             DependencyHelper.Register();
 
@@ -17,20 +14,7 @@ namespace Phlet.Core.Controls
 
         public static readonly DependencyProperty MarginProperty =
             DependencyHelper.Register();
-
-        public static readonly DependencyProperty SpacingProperty =
-            DependencyHelper.Register();
-
-        // for resources
-        public string Id { get; set; }
-
-        [XForms("Name")]
-        public string Name
-        {
-            get { return GetValue<string>(NameProperty); }
-            set { SetValue(NameProperty, value); }
-        }
-
+       
         [XForms("Margin")]
         public Thickness Margin
         {
@@ -39,24 +23,17 @@ namespace Phlet.Core.Controls
         }
 
         [XForms("VerticalOptions")]
-        public LayoutOptions VerticalOptions
+        public LayoutOptions VerticalAlignment
         {
             get { return GetValue<LayoutOptions>(VerticalOptionsProperty); }
             set { SetValue(VerticalOptionsProperty, value); }
         }
 
         [XForms("HorizontalOptions")]
-        public LayoutOptions HorizontalOptions
+        public LayoutOptions HorizontalAlignment
         {
             get { return GetValue<LayoutOptions>(HorizontalOptionsProperty); }
             set { SetValue(HorizontalOptionsProperty, value); }
-        }
-
-        [XForms("Spacing")]
-        public double Spacing
-        {
-            get { return GetValue<double>(SpacingProperty); }
-            set { SetValue(SpacingProperty, value); }
         }
     }
 }

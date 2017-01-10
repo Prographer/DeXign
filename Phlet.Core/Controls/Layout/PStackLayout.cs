@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Phlet.Core.Controls
 {
-    public class PStackLayout
+    [XForms("Xamarin.Forms", "StackLayout")]
+    public class PStackLayout : PLayout<PControl>
     {
     }
 }

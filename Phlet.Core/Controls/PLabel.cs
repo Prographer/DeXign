@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Phlet.Core.Controls
 {
-    public class PLabel
+    public class PLabel : PControl
     {
     }
 }

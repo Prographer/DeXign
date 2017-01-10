@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Phlet.Core.Controls
 {
-    public class PAbsoluteLayout
+    [XForms("Xamarin.Forms", "AbsoluteLayout")]
+    public class PAbsoluteLayout : PLayout<PControl>
     {
     }
 }

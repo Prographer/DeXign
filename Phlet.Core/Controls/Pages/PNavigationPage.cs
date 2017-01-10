@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Phlet.Core.Controls
 {
-    public class PCarouselPage
+    [XForms("Xamarin.Forms", "NavigationPage")]
+    public class PNavigationPage
     {
     }
 }

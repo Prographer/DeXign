@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Phlet.Core.Controls
 {
-    public class PGridLayout
+    [XForms("Xamarin.Forms", "Grid")]
+    public class PGridLayout : PLayout<PControl>
     {
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Phlet.Core.Controls
 {
-    public class PDatePicker
+    public class PDatePicker : PControl
     {
     }
 }
