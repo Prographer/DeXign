@@ -14,11 +14,21 @@ namespace Phlet.Core.Controls
         public static readonly DependencyProperty HorizontalOptionsProperty =
             DependencyHelper.Register();
 
+        public static readonly DependencyProperty MarginProperty =
+            DependencyHelper.Register();
+
         [XForms("Name")]
         public string Name
         {
             get { return GetValue<string>(NameProperty); }
             set { SetValue(NameProperty, value); }
+        }
+
+        [XForms("Margin")]
+        public Thickness Margin
+        {
+            get { return GetValue<Thickness>(MarginProperty); }
+            set { SetValue(MarginProperty, value); }
         }
 
         [XForms("VerticalOptions")]
