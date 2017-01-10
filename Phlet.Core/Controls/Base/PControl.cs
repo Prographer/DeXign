@@ -3,7 +3,8 @@ using System.Windows;
 
 namespace Phlet.Core.Controls
 {
-    public class PControl : DependencyObject
+    [XForms("View")]
+    public class PControl : PObject
     {
         public static readonly DependencyProperty NameProperty =
             DependencyHelper.Register();
@@ -16,6 +17,12 @@ namespace Phlet.Core.Controls
 
         public static readonly DependencyProperty MarginProperty =
             DependencyHelper.Register();
+
+        public static readonly DependencyProperty SpacingProperty =
+            DependencyHelper.Register();
+
+        // for resources
+        public string Id { get; set; }
 
         [XForms("Name")]
         public string Name
@@ -45,13 +52,11 @@ namespace Phlet.Core.Controls
             set { SetValue(HorizontalOptionsProperty, value); }
         }
 
-        public PControl()
+        [XForms("Spacing")]
+        public double Spacing
         {
-        }
-
-        public T GetValue<T>(DependencyProperty dp)
-        {
-            return (T)GetValue(dp);
+            get { return GetValue<double>(SpacingProperty); }
+            set { SetValue(SpacingProperty, value); }
         }
     }
 }

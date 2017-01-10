@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Attributes\XFormsAttribute.cs" />
     <Compile Include="Collections\PControlCollection.cs" />
+    <Compile Include="Controls\Base\PObject.cs" />
     <Compile Include="Controls\Base\PPanel.cs" />
     <Compile Include="Controls\Layout\PAbsoluteLayout.cs" />
     <Compile Include="Controls\Layout\PGridLayout.cs" />
@@ -92,8 +93,6 @@
     <Compile Include="Print\PPFunction.cs" />
     <Compile Include="Print\PPView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Thickness.cs" />
-    <Compile Include="ThicknessTypeConverter.cs" />
     <Compile Include="TypeConverter.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -102,7 +101,6 @@
       <Name>Phlet.Extension</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
