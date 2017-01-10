@@ -44,12 +44,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\XFormsAttribute.cs" />
+    <Compile Include="Collections\PControlCollection.cs" />
+    <Compile Include="Controls\Base\PPanel.cs" />
     <Compile Include="Controls\Layout\PAbsoluteLayout.cs" />
     <Compile Include="Controls\Layout\PGridLayout.cs" />
     <Compile Include="Controls\Base\PContentControl.cs" />
     <Compile Include="Controls\Base\PControl.cs" />
+    <Compile Include="Controls\Base\PLayout.cs" />
     <Compile Include="Controls\Layout\PRelativeLayout.cs" />
-    <Compile Include="Controls\Layout\PScrollView.cs" />
+    <Compile Include="Controls\PScrollView.cs" />
     <Compile Include="Controls\Layout\PStackLayout.cs" />
     <Compile Include="Controls\Pages\PCarouselPage.cs" />
     <Compile Include="Controls\Pages\PContentPage.cs" />
@@ -58,12 +61,12 @@
     <Compile Include="Controls\PButton.cs" />
     <Compile Include="Controls\Picker\PDatePicker.cs" />
     <Compile Include="Controls\PEditor.cs" />
-    <Compile Include="Controls\PEntry.cs" />
+    <Compile Include="Controls\Input\PEntry.cs" />
     <Compile Include="Controls\Cell\PEntryCell.cs" />
     <Compile Include="Controls\PImage.cs" />
     <Compile Include="Controls\Cell\PImageCell.cs" />
     <Compile Include="Controls\PLabel.cs" />
-    <Compile Include="Controls\PListView.cs" />
+    <Compile Include="Controls\ItemsView\PListView.cs" />
     <Compile Include="Controls\PMap.cs" />
     <Compile Include="Controls\Picker\PPicker.cs" />
     <Compile Include="Controls\PProgressBar.cs" />

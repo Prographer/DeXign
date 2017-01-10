@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Phlet.Core.Attributes
+namespace Phlet.Core
 {
     class XFormsAttribute : Attribute
     {

@@ -276,6 +276,7 @@ namespace Phlet.Interop
             DEFAULTTONEAREST = 2
         }
 
+        [StructLayout(LayoutKind.Sequential)]
         public struct Point
         {
             public int X { get; set; }
