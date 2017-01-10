@@ -43,12 +43,15 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\PrintVisibleAttribute.cs" />
+    <Compile Include="Attributes\UIVisibleAttribute.cs" />
     <Compile Include="Attributes\XFormsAttribute.cs" />
     <Compile Include="Collections\PControlCollection.cs" />
     <Compile Include="Controls\Base\PContentControl.cs" />
     <Compile Include="Controls\Base\PObject.cs" />
     <Compile Include="Controls\Base\PPage.cs" />
     <Compile Include="Controls\Base\PVisual.cs" />
+    <Compile Include="Controls\Interface\IFontControl.cs" />
     <Compile Include="Controls\Layout\PAbsoluteLayout.cs" />
     <Compile Include="Controls\Layout\PGridLayout.cs" />
     <Compile Include="Controls\Base\PControl.cs" />
@@ -86,10 +89,11 @@
     <Compile Include="Generator\WPFGenerator.cs" />
     <Compile Include="Generator\XFormsGenerator.cs" />
     <Compile Include="Generator\XMLGenerator.cs" />
-    <Compile Include="LayoutAlignment.cs" />
-    <Compile Include="LayoutExpandFlag.cs" />
+    <Compile Include="FontAttributes.cs" />
     <Compile Include="LayoutOptions.cs" />
-    <Compile Include="LayoutOptionsConverter.cs" />
+    <Compile Include="LayoutExpandFlag.cs" />
+    <Compile Include="LayoutAlignment.cs" />
+    <Compile Include="LayoutAlignmentConverter.cs" />
     <Compile Include="Print\PPComponent.cs" />
     <Compile Include="Print\PPEvent.cs" />
     <Compile Include="Print\PPFunction.cs" />

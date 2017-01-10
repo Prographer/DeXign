@@ -23,16 +23,16 @@ namespace Phlet.Core.Controls
         }
 
         [XForms("VerticalOptions")]
-        public LayoutOptions VerticalAlignment
+        public LayoutAlignment VerticalAlignment
         {
-            get { return GetValue<LayoutOptions>(VerticalOptionsProperty); }
+            get { return GetValue<LayoutAlignment>(VerticalOptionsProperty); }
             set { SetValue(VerticalOptionsProperty, value); }
         }
 
         [XForms("HorizontalOptions")]
-        public LayoutOptions HorizontalAlignment
+        public LayoutAlignment HorizontalAlignment
         {
-            get { return GetValue<LayoutOptions>(HorizontalOptionsProperty); }
+            get { return GetValue<LayoutAlignment>(HorizontalOptionsProperty); }
             set { SetValue(HorizontalOptionsProperty, value); }
         }
     }

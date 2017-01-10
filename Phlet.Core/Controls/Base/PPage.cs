@@ -12,11 +12,11 @@ namespace Phlet.Core.Controls
     [XForms("Xamarin.Forms", "Page")]
     public class PPage : PVisual
     {
-        public static readonly DependencyProperty TitleProperty
-            = DependencyHelper.Register();
+        public static readonly DependencyProperty TitleProperty =
+            DependencyHelper.Register();
 
-        public static readonly DependencyProperty PaddingProperty
-            = DependencyHelper.Register();
+        public static readonly DependencyProperty PaddingProperty =
+            DependencyHelper.Register();
 
         [XForms("Title")]
         public string Title { get; set; }

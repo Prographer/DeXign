@@ -1,13 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Phlet.Extension;
+using System.Windows;
 
 namespace Phlet.Core.Controls
 {
     [XForms("Xamarin.Forms", "ContentPage")]
     public class PContentPage : PPage
     {
+        public static readonly DependencyProperty ContentProperty =
+            DependencyHelper.Register();
+
+        [XForms("Content")]
+        public PControl Content
+        {
+            get { return GetValue<PControl>(ContentProperty); }
+            set { SetValue(ContentProperty, value); }
+        }
     }
 }

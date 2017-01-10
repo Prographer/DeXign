@@ -11,8 +11,8 @@ namespace Phlet.Core.Controls
 {
     public class PLayout : PControl
     {
-        public static readonly DependencyProperty PaddingProperty
-            = DependencyHelper.Register();
+        public static readonly DependencyProperty PaddingProperty =
+            DependencyHelper.Register();
 
         [XForms("Padding")]
         public Thickness Padding

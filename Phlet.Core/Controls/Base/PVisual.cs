@@ -6,44 +6,44 @@ namespace Phlet.Core.Controls
 {
     public class PVisual : PObject
     {
-        public static readonly DependencyProperty AnchorXProperty
-            = DependencyHelper.Register(new PropertyMetadata(0.5d));
+        public static readonly DependencyProperty AnchorXProperty =
+            DependencyHelper.Register(new PropertyMetadata(0.5d));
 
-        public static readonly DependencyProperty AnchorYProperty
-            = DependencyHelper.Register(new PropertyMetadata(0.5d));
-        
-        public static readonly DependencyProperty BackgroundProperty
-            = DependencyHelper.Register(new PropertyMetadata(Brushes.Transparent));
+        public static readonly DependencyProperty AnchorYProperty =
+            DependencyHelper.Register(new PropertyMetadata(0.5d));
 
-        public static readonly DependencyProperty WidthProperty
-            = DependencyHelper.Register(new PropertyMetadata(-1d));
+        public static readonly DependencyProperty BackgroundProperty =
+            DependencyHelper.Register(new PropertyMetadata(Brushes.Transparent));
 
-        public static readonly DependencyProperty HeightProperty
-            = DependencyHelper.Register(new PropertyMetadata(-1d));
+        public static readonly DependencyProperty WidthProperty =
+            DependencyHelper.Register(new PropertyMetadata(-1d));
 
-        public static readonly DependencyProperty MinWidthProperty
-            = DependencyHelper.Register(new PropertyMetadata(-1d));
+        public static readonly DependencyProperty HeightProperty =
+            DependencyHelper.Register(new PropertyMetadata(-1d));
 
-        public static readonly DependencyProperty MinHeightProperty
-            = DependencyHelper.Register(new PropertyMetadata(-1d));
+        public static readonly DependencyProperty MinWidthProperty =
+            DependencyHelper.Register(new PropertyMetadata(-1d));
 
-        public static readonly DependencyProperty OpacityProperty
-            = DependencyHelper.Register(new PropertyMetadata(1.0d));
+        public static readonly DependencyProperty MinHeightProperty =
+            DependencyHelper.Register(new PropertyMetadata(-1d));
 
-        public static readonly DependencyProperty RotationProperty
-            = DependencyHelper.Register();
+        public static readonly DependencyProperty OpacityProperty =
+            DependencyHelper.Register(new PropertyMetadata(1.0d));
 
-        public static readonly DependencyProperty RotationXProperty
-            = DependencyHelper.Register();
+        public static readonly DependencyProperty RotationProperty =
+            DependencyHelper.Register();
 
-        public static readonly DependencyProperty RotationYProperty
-            = DependencyHelper.Register();
+        public static readonly DependencyProperty RotationXProperty =
+            DependencyHelper.Register();
 
-        public static readonly DependencyProperty XProperty
-            = DependencyHelper.Register();
+        public static readonly DependencyProperty RotationYProperty =
+            DependencyHelper.Register();
 
-        public static readonly DependencyProperty YProperty
-            = DependencyHelper.Register();
+        public static readonly DependencyProperty XProperty =
+            DependencyHelper.Register();
+
+        public static readonly DependencyProperty YProperty =
+            DependencyHelper.Register();
 
         [XForms("AnchorX")]
         public double AnchorX
@@ -51,7 +51,7 @@ namespace Phlet.Core.Controls
             get { return GetValue<double>(AnchorXProperty); }
             set { SetValue(AnchorXProperty, value); }
         }
-        
+
         [XForms("AnchorY")]
         public double AnchorY
         {
@@ -120,6 +120,20 @@ namespace Phlet.Core.Controls
         {
             get { return GetValue<double>(RotationYProperty); }
             set { SetValue(RotationYProperty, value); }
+        }
+
+        [XForms("X")]
+        public double X
+        {
+            get { return GetValue<double>(XProperty); }
+            set { SetValue(XProperty, value); }
+        }
+
+        [XForms("Y")]
+        public double Y
+        {
+            get { return GetValue<double>(YProperty); }
+            set { SetValue(YProperty, value); }
         }
     }
 }
