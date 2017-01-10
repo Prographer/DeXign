@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 
-namespace Phlet.Core.Print
+namespace Phlet.Print
 {
-    class PPView : DependencyObject
+    public class PPComponent : PPView
     {
     }
 }

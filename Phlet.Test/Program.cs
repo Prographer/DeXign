@@ -26,6 +26,8 @@ namespace Phlet.Test
                     }
                 }
             };
+
+            var page = new PNavigationPage(content);
         }
     }
 }

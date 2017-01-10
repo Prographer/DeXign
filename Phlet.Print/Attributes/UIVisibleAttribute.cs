@@ -11,18 +11,18 @@ namespace Phlet.Core
         public bool Visible { get; set; } = true;
         public string DisplayName { get; set; }
 
-        public UIVisible(bool visible)
+        public UIVisibleAttribute(bool visible)
         {
             this.Visible = visible;
         }
 
-        public UIVisible(bool visible, string displayName)
+        public UIVisibleAttribute(bool visible, string displayName)
         {
             this.Visible = visible;
             this.DisplayName = displayName;
         }
 
-        public UIVisible(string displayName)
+        public UIVisibleAttribute(string displayName)
         {
             this.DisplayName = displayName;
         }

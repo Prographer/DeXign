@@ -1,13 +1,54 @@
-﻿using System;
+﻿using Phlet.Extension;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media;
 
 namespace Phlet.Core.Controls
 {
     [XForms("Xamarin.Forms", "NavigationPage")]
-    public class PNavigationPage
+    public class PNavigationPage : PPage
     {
+        public static readonly DependencyProperty CurrentPageProperty =
+            DependencyHelper.Register();
+
+        private static readonly DependencyPropertyKey AccentColorPropertyKey =
+            DependencyHelper.RegisterReadonly();
+
+        public static readonly DependencyProperty AccentColorProperty =
+            AccentColorPropertyKey.DependencyProperty;
+
+        public static readonly DependencyProperty BarBackgroundProperty =
+            DependencyHelper.Register();
+        
+        public PPage CurrentPage
+        {
+            get { return GetValue<PPage>(CurrentPageProperty); }
+        }
+
+        [XForms("Tint")]
+        public SolidColorBrush AccentColor
+        {
+            get { return GetValue<SolidColorBrush>(AccentColorProperty); }
+            set { SetValue(AccentColorProperty, value); }
+        }
+
+        [XForms("BarBackgroundColor")]
+        public SolidColorBrush BarBackground
+        {
+            get { return GetValue<SolidColorBrush>(BarBackgroundProperty); }
+            set { SetValue(BarBackgroundProperty, value); }
+        }
+
+        public PNavigationPage()
+        {   
+        }
+
+        public PNavigationPage(PPage root)
+        {
+        }
     }
 }
