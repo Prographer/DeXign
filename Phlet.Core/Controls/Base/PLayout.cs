@@ -22,7 +22,8 @@ namespace Phlet.Core.Controls
         }
     }
 
-    public class PLayout<T> : PLayout where T : PControl
+    public class PLayout<T> : PLayout 
+        where T : PControl
     {
         [XForms("Children")]
         public PControlCollection<T> Children { get; } = new PControlCollection<T>();

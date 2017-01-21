@@ -2,13 +2,17 @@
 
 using Phlet.Core;
 using Phlet.Core.Controls;
+using System.CodeDom;
+using Phlet.Core.Collections;
+using System.Collections;
 
 namespace Phlet.Test
 {
     class Program
     {
         static void Main(string[] args)
-        {
+        {   
+            // Memory
             var content = new PContentPage
             {
                 Title = "Phlet",
@@ -26,8 +30,29 @@ namespace Phlet.Test
                     }
                 }
             };
+            
+            // Generate
+            var codeUnit = new CodeGeneratorUnit<PObject>()
+            {
+                NodeIterating = true,
+                Items =
+                {
+                    content
+                }
+            };
 
-            var page = new PNavigationPage(content);
+            var assemblyInfo = new CodeGeneratorAssemblyInfo();
+            var manifest = new CodeGeneratorManifest();
+
+            var xGenerator = new XFormsGenerator(
+                codeUnit,
+                manifest,
+                assemblyInfo);
+
+            foreach (string code in xGenerator.Generate())
+            {
+                // TODO: 
+            }
         }
     }
 }

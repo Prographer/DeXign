@@ -83,7 +83,14 @@
     <Compile Include="Controls\Picker\PTimerPicker.cs" />
     <Compile Include="Controls\Cell\PViewCell.cs" />
     <Compile Include="Controls\PWebView.cs" />
+    <Compile Include="Extension\ReflectionEx.cs" />
+    <Compile Include="Generator\Base\CodeGeneratorAssemblyInfo.cs" />
+    <Compile Include="Generator\Base\CodeGeneratorUnit.cs" />
+    <Compile Include="Generator\Base\CodeComponent.cs" />
+    <Compile Include="Generator\Base\ComponentType.cs" />
+    <Compile Include="Generator\Base\Generator.cs" />
     <Compile Include="Generator\Base\IGenerator.cs" />
+    <Compile Include="Generator\Base\CodeGeneratorManifest.cs" />
     <Compile Include="Generator\WPFGenerator.cs" />
     <Compile Include="Generator\XFormsGenerator.cs" />
     <Compile Include="Generator\XMLGenerator.cs" />
@@ -105,6 +112,7 @@
       <Name>Phlet.Print</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Phlet.Core
 {
-    class WPFGenerator : IGenerator
+    class WPFGenerator //: IGenerator<>
     {
     }
 }

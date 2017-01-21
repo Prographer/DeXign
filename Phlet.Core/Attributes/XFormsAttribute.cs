@@ -2,7 +2,7 @@
 
 namespace Phlet.Core
 {
-    class XFormsAttribute : Attribute
+    public class XFormsAttribute : Attribute
     {
         public string Namespace { get; set; }
         public string Name { get; set; }

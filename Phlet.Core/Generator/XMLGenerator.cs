@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Phlet.Core
 {
-    class XMLGenerator : IGenerator
+    class XMLGenerator //: IGenerator<>
     {
     }
 }
