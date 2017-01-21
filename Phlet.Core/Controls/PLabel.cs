@@ -5,6 +5,7 @@ using System.Windows.Media;
 
 namespace Phlet.Core.Controls
 {
+    [XForms("Xamarin.Forms", "Label")]
     public class PLabel : PControl, IFontControl
     {
         public static readonly DependencyProperty TextProperty =

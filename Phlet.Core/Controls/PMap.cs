@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Phlet.Core.Controls
 {
+    [XForms("Xamarin.Forms", "Map")]
     public class PMap : PControl
     {
     }

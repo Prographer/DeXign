@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Phlet.Core.Controls
 {
+    [XForms("Xamarin.Forms", "Stepper")]
     public class PStepper : PControl
     {
     }

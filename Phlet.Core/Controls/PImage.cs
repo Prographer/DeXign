@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Phlet.Core.Controls
 {
+    [XForms("Xamarin.Forms", "Image")]
     public class PImage : PControl
     {
     }
