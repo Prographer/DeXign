@@ -45,6 +45,7 @@ namespace Phlet.Test
             var manifest = new CodeGeneratorManifest();
 
             var xGenerator = new XFormsGenerator(
+                XFormsGenerateType.Code,
                 codeUnit,
                 manifest,
                 assemblyInfo);
