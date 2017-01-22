@@ -7,8 +7,8 @@
     <ProjectGuid>{AF4C42D2-80DA-4002-8244-F4F5A4F65BAA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Phlet.Print</RootNamespace>
-    <AssemblyName>Phlet.Print</AssemblyName>
+    <RootNamespace>DeXign.Print</RootNamespace>
+    <AssemblyName>DeXign.Print</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

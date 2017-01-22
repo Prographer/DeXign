@@ -7,8 +7,8 @@
     <ProjectGuid>{1635E6AE-1350-4DD4-B780-11A44979C13A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Phlet.Test</RootNamespace>
-    <AssemblyName>Phlet.Test</AssemblyName>
+    <RootNamespace>DeXign.Test</RootNamespace>
+    <AssemblyName>DeXign.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

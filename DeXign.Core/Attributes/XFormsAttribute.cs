@@ -6,6 +6,7 @@ namespace DeXign.Core
     {
         public string Namespace { get; set; }
         public string Name { get; set; }
+        public string ContentProperty { get; set; }
 
         public XFormsAttribute(string @namespace, string name)
         {

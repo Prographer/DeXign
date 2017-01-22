@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace DeXign.Core.Controls
 {
-    [XForms("Xamarin.Forms", "ContentPage")]
+    [XForms("Xamarin.Forms", "ContentPage", ContentProperty = "Content")]
     public class PContentPage : PPage
     {
         public static readonly DependencyProperty ContentProperty =

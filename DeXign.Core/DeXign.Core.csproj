@@ -7,8 +7,8 @@
     <ProjectGuid>{1673484E-A5CB-47E7-9278-17C9B2BA57C1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Phlet.Core</RootNamespace>
-    <AssemblyName>Phlet.Core</AssemblyName>
+    <RootNamespace>DeXign.Core</RootNamespace>
+    <AssemblyName>DeXign.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

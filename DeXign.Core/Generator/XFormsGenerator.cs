@@ -1,5 +1,5 @@
 ﻿using DeXign.Core.Controls;
-
+using DeXign.Core;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -58,7 +58,7 @@ namespace DeXign.Core
 
                         Console.Write($" ({pi.Name})");
                         Console.ForegroundColor = ConsoleColor.Green;
-
+                        
                         Console.WriteLine($" - {c.ElementType}");
                     }
                 }

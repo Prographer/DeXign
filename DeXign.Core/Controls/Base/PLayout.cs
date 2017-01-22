@@ -22,6 +22,7 @@ namespace DeXign.Core.Controls
         }
     }
 
+    [XForms("Layout", "Xamarin.Forms", ContentProperty = "Children")]
     public class PLayout<T> : PLayout 
         where T : PControl
     {
