@@ -26,6 +26,12 @@ namespace DeXign.Test
                         {
                             HorizontalTextAlignment = TextAlignment.Center,
                             Text = "Welcome to DeXign!"
+                        },
+                        new PLabel
+                        {
+                            HorizontalTextAlignment = TextAlignment.Center,
+                            Text = "Welcome to DeXign!",
+                            Rotation = 2
                         }
                     }
                 }

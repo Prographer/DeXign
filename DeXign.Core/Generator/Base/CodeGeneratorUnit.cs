@@ -64,12 +64,13 @@ namespace DeXign.Core
                             // 배열인 경우
                             if (pi.CanCastingTo<IEnumerable<TElement>>())
                             {
-                                var list = (IEnumerable)pi.GetValue(cc.Parent.Element);
+                                var list = (IEnumerable<TElement>)pi.GetValue(cc.Parent.Element);
 
                                 if (list == null)
                                     continue;
 
-                                foreach (var obj in list)
+                                // 스택 처리 순서와 코드 구성 순서를 맞추기위해 뒤집어야함
+                                foreach (var obj in list.Reverse())
                                 {
                                     var oAttr = obj.GetAttribute<TAttribute>();
                                     var oComponent = new CodeComponent<TAttribute>(obj, oAttr)

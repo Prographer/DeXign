@@ -31,25 +31,37 @@ namespace DeXign.Core
             foreach (var c in components)
             {
                 string space = new string('\t', c.Depth);
-
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.Write($"{space}{c.Attribute.Name}");
-                Console.ForegroundColor = ConsoleColor.Gray;
-
+                
                 if (c.ElementType == ComponentType.Instance)
                 {
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.Write($"{space}{c.Attribute.Name}");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+
                     Console.Write($" ({c.Element.GetType().Name})");
                     Console.ForegroundColor = ConsoleColor.Red;
+
+                    Console.WriteLine($" - {c.ElementType}");
                 }
                 else
                 {
                     var pi = (PropertyInfo)c.Element;
+                    var parent = (PObject)c.Parent.Element;
 
-                    Console.Write($" ({pi.Name})");
-                    Console.ForegroundColor = ConsoleColor.Green;
+                    if (!pi.IsDefaultDependencyProperty(parent) ||
+                        pi.CanCastingTo<IEnumerable<PObject>>() ||
+                        pi.CanCastingTo<PObject>())
+                    {
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.Write($"{space}{c.Attribute.Name}");
+                        Console.ForegroundColor = ConsoleColor.Gray;
+
+                        Console.Write($" ({pi.Name})");
+                        Console.ForegroundColor = ConsoleColor.Green;
+
+                        Console.WriteLine($" - {c.ElementType}");
+                    }
                 }
-                
-                Console.WriteLine($" - {c.ElementType}");
             }
 #endif
 
@@ -63,8 +75,6 @@ namespace DeXign.Core
                     yield return XamlGenerate(components);
                     break;
             }
-
-            yield return "Not Implemented";
         }
 
         private string XamlGenerate(IEnumerable<CodeComponent<XFormsAttribute>> components)
