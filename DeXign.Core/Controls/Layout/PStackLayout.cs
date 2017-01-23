@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DeXign.Core.Controls
 {
-    [XForms("Xamarin.Forms", "StackLayout")]
+    [XForms("Xamarin.Forms", "StackLayout", ContentProperty = "Children")]
     public class PStackLayout : PLayout<PControl>
     {
     }

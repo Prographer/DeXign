@@ -83,6 +83,7 @@
     <Compile Include="Controls\Picker\PTimerPicker.cs" />
     <Compile Include="Controls\Cell\PViewCell.cs" />
     <Compile Include="Controls\PWebView.cs" />
+    <Compile Include="Extension\CodeComponentEx.cs" />
     <Compile Include="Extension\ReflectionEx.cs" />
     <Compile Include="Generator\Base\CodeGeneratorAssemblyInfo.cs" />
     <Compile Include="Generator\Base\CodeGeneratorUnit.cs" />

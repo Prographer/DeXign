@@ -5,18 +5,23 @@ using DeXign.Core.Controls;
 using System.CodeDom;
 using DeXign.Core.Collections;
 using System.Collections;
+using System;
+using System.Diagnostics;
 
 namespace DeXign.Test
 {
     class Program
     {
         static void Main(string[] args)
-        {   
+        {
+            PStackLayout stack;
+
             // Memory
             var content = new PContentPage
             {
+                Name = "rootPage",
                 Title = "DeXign",
-                Content = new PStackLayout
+                Content = (stack = new PStackLayout
                 {
                     VerticalAlignment = LayoutAlignment.Center,
                     HorizontalAlignment = LayoutAlignment.End,
@@ -24,8 +29,9 @@ namespace DeXign.Test
                     {
                         new PLabel
                         {
+                            Name = "lbl1",
                             HorizontalTextAlignment = TextAlignment.Center,
-                            Text = "Welcome to DeXign!"
+                            Text = "Hello World"
                         },
                         new PLabel
                         {
@@ -34,9 +40,12 @@ namespace DeXign.Test
                             Rotation = 2
                         }
                     }
-                }
+                })
             };
             
+            var sw = new Stopwatch();
+            sw.Start();
+
             // Generate
             var codeUnit = new CodeGeneratorUnit<PObject>()
             {
@@ -51,14 +60,17 @@ namespace DeXign.Test
             var manifest = new CodeGeneratorManifest();
 
             var xGenerator = new XFormsGenerator(
-                XFormsGenerateType.Code,
+                XFormsGenerateType.Xaml,
                 codeUnit,
                 manifest,
                 assemblyInfo);
-
+            
             foreach (string code in xGenerator.Generate())
             {
-                // TODO: 
+                sw.Stop();
+
+                Console.WriteLine(code);
+                Console.WriteLine($"Elapsed: {sw.ElapsedMilliseconds}ms");
             }
         }
     }

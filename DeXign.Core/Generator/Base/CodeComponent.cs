@@ -25,6 +25,11 @@ namespace DeXign.Core
         // 노드 깊이 (인덴트에 주로 많이쓸듯)
         public int Depth { get; set; }
 
+        public bool HasChildren
+        {
+            get { return Children != null && Children.Count > 0; }
+        }
+
         public CodeComponent(object element, TAttribute attribute)
         {
             this.Element = element;
