@@ -2,9 +2,73 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:DeXign"
                     xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=Microsoft.Windows.Shell"
+                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                     xmlns:c="clr-namespace:DeXign.Controls">
 
-    <!-- DeXign TabItem Style -->
+    <!-- Tab Style -->
+    <Style TargetType="{x:Type TabControl}">
+        <Setter Property="BorderThickness" Value="0,2,0,0"/>
+        <Setter Property="BorderBrush" Value="#898989"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabControl}">
+                    <Grid x:Name="templateRoot" ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition x:Name="ColumnDefinition0"/>
+                            <ColumnDefinition x:Name="ColumnDefinition1" Width="0"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition x:Name="RowDefinition0" Height="Auto"/>
+                            <RowDefinition x:Name="RowDefinition1" Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TabPanel x:Name="headerPanel" Background="Transparent" Grid.Column="0" IsItemsHost="true" Grid.Row="0" KeyboardNavigation.TabIndex="1"/>
+                        <Border x:Name="contentPanel" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
+                            <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="TabStripPlacement" Value="Bottom">
+                            <Setter Property="Grid.Row" TargetName="headerPanel" Value="1"/>
+                            <Setter Property="Grid.Row" TargetName="contentPanel" Value="0"/>
+                            <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
+                            <Setter Property="Height" TargetName="RowDefinition1" Value="Auto"/>
+                            <Setter Property="Margin" TargetName="headerPanel" Value="2,0,2,2"/>
+                        </Trigger>
+                        <Trigger Property="TabStripPlacement" Value="Left">
+                            <Setter Property="Grid.Row" TargetName="headerPanel" Value="0"/>
+                            <Setter Property="Grid.Row" TargetName="contentPanel" Value="0"/>
+                            <Setter Property="Grid.Column" TargetName="headerPanel" Value="0"/>
+                            <Setter Property="Grid.Column" TargetName="contentPanel" Value="1"/>
+                            <Setter Property="Width" TargetName="ColumnDefinition0" Value="Auto"/>
+                            <Setter Property="Width" TargetName="ColumnDefinition1" Value="*"/>
+                            <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
+                            <Setter Property="Height" TargetName="RowDefinition1" Value="0"/>
+                            <Setter Property="Margin" TargetName="headerPanel" Value="2,2,0,2"/>
+                        </Trigger>
+                        <Trigger Property="TabStripPlacement" Value="Right">
+                            <Setter Property="Grid.Row" TargetName="headerPanel" Value="0"/>
+                            <Setter Property="Grid.Row" TargetName="contentPanel" Value="0"/>
+                            <Setter Property="Grid.Column" TargetName="headerPanel" Value="1"/>
+                            <Setter Property="Grid.Column" TargetName="contentPanel" Value="0"/>
+                            <Setter Property="Width" TargetName="ColumnDefinition0" Value="*"/>
+                            <Setter Property="Width" TargetName="ColumnDefinition1" Value="Auto"/>
+                            <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
+                            <Setter Property="Height" TargetName="RowDefinition1" Value="0"/>
+                            <Setter Property="Margin" TargetName="headerPanel" Value="0,2,2,2"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- TabItem Style -->
     <Style TargetType="{x:Type c:ClosableTabItem}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Foreground" Value="#535353"/>
@@ -93,10 +157,9 @@
     </Style>
     
     <!-- MenuItem Style -->
-    <Style TargetType="{x:Type MenuItem}">
+    <Style TargetType="{x:Type c:MenuItemEx}">
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="shell:WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type MenuItem}">
@@ -110,7 +173,7 @@
 
                             <ContentPresenter x:Name="Icon" Margin="6,0" VerticalAlignment="Center" ContentSource="Icon"/>
                             <ContentPresenter x:Name="HeaderHost" Margin="8,0" Grid.Column="1" VerticalAlignment="Center" Content="{TemplateBinding Header}" RecognizesAccessKey="True" TextOptions.TextFormattingMode="Display" />
-                            <ContentPresenter Grid.Column="2" Content="{TemplateBinding InputGestureText}" VerticalAlignment="Center" Margin="8,0"/>
+                            <ContentPresenter x:Name="PART_ShortCut" Grid.Column="2" Content="{TemplateBinding InputGestureText}" VerticalAlignment="Center" Margin="8,0" Visibility="Collapsed"/>
 
                             <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
                                 <Border x:Name="SubmenuBorder" SnapsToDevicePixels="True" Background="White" BorderThickness="1" BorderBrush="{StaticResource AccentBrush}">
@@ -227,7 +290,7 @@
         <Setter Property="LineBrush1" Value="#4A4A4A"/>
         <Setter Property="LineBrush2" Value="#828282"/>
     </Style>
-    
+
     <!-- Undo/Redo Control Box -->
     <Style TargetType="{x:Type c:ActionControlBox}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>

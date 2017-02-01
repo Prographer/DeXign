@@ -18,28 +18,28 @@
 
     <c:ChromeWindow.MenuContent>
         <Menu>
-            <MenuItem Header="파일(F)" SnapsToDevicePixels="True" Foreground="White">
-                <MenuItem Header="새로 만들기(N)" InputGestureText="Ctrl+N"
+            <c:MenuItemEx Header="파일(F)" SnapsToDevicePixels="True" Foreground="White">
+                <c:MenuItemEx Header="새로 만들기(N)" InputGestureText="Ctrl+N"
                           Command="{x:Static local:DXCommands.NewProjectCommand}"/>
 
-                <MenuItem Header="열기(O)" InputGestureText="Ctrl+O"
+                <c:MenuItemEx Header="열기(O)" InputGestureText="Ctrl+O"
                           Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
 
                 <Separator Style="{StaticResource DexignMenuSeparatorStyle}"/>
 
-                <MenuItem Header="끝내기(X)" InputGestureText="Alt+F4" 
+                <c:MenuItemEx Header="끝내기(X)" InputGestureText="Alt+F4" 
                           Command="{x:Static SystemCommands.CloseWindowCommand}"/>
-            </MenuItem>
-            <MenuItem Header="편집(E)" SnapsToDevicePixels="True" Foreground="White">
-                <MenuItem Header="1"/>
-                <MenuItem Header="2"/>
-                <MenuItem Header="3"/>
-            </MenuItem>
-            <MenuItem Header="빌드(B)" SnapsToDevicePixels="True" Foreground="White">
-                <MenuItem Header="1"/>
-                <MenuItem Header="2"/>
-                <MenuItem Header="3"/>
-            </MenuItem>
+            </c:MenuItemEx>
+            <c:MenuItemEx Header="편집(E)" SnapsToDevicePixels="True" Foreground="White">
+                <c:MenuItemEx Header="1"/>
+                <c:MenuItemEx Header="2"/>
+                <c:MenuItemEx Header="3"/>
+            </c:MenuItemEx>
+            <c:MenuItemEx Header="빌드(B)" SnapsToDevicePixels="True" Foreground="White">
+                <c:MenuItemEx Header="1"/>
+                <c:MenuItemEx Header="2"/>
+                <c:MenuItemEx Header="3"/>
+            </c:MenuItemEx>
         </Menu>
     </c:ChromeWindow.MenuContent>
 
