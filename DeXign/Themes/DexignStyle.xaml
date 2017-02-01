@@ -84,7 +84,8 @@
                     <Border x:Name="border" Background="Transparent" CornerRadius="{TemplateBinding CornerRadius}" BorderThickness="0" Padding="{TemplateBinding Padding}">
                         <Path VerticalAlignment="{TemplateBinding PathVerticalAlignment}" HorizontalAlignment="{TemplateBinding PathHorizontalAlignment}"
                               Width="{TemplateBinding PathWidth}" Height="{TemplateBinding PathHeight}"
-                              Data="{TemplateBinding PathData}" Fill="{TemplateBinding Foreground}" IsHitTestVisible="False"/>
+                              Data="{TemplateBinding PathData}" Fill="{TemplateBinding Foreground}"
+                              Stretch="Fill" IsHitTestVisible="False"/>
                     </Border>
 
                     <ControlTemplate.Triggers>
@@ -185,11 +186,15 @@
                         </Grid.RowDefinitions>
 
                         <!-- Header -->
-                        <Grid Background="{StaticResource HeaderBrush}">
+                        <Grid Background="{StaticResource HeaderBrush}" Panel.ZIndex="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="44"/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
+
+                            <Grid.Effect>
+                                <DropShadowEffect ShadowDepth="0" Opacity="0.4" BlurRadius="8"/>
+                            </Grid.Effect>
                             
                             <!-- Header - Caption Top -->
                             <Grid Grid.Row="0">

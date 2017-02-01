@@ -85,6 +85,7 @@
     <Compile Include="Commands\DXCommands.cs" />
     <Compile Include="Controls\ActionControlBox.cs" />
     <Compile Include="Controls\ChromeWindow.cs" />
+    <Compile Include="Controls\ClosableTabItem.cs" />
     <Compile Include="Controls\ControlBox.cs" />
     <Compile Include="Controls\PathButton.cs" />
     <Compile Include="Controls\Separator.cs" />
