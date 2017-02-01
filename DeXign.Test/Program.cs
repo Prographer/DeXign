@@ -7,6 +7,7 @@ using DeXign.Core.Collections;
 using System.Collections;
 using System;
 using System.Diagnostics;
+using DeXign.Core.Designer;
 
 namespace DeXign.Test
 {
@@ -14,8 +15,20 @@ namespace DeXign.Test
     {
         static void Main(string[] args)
         {
-            Test1();
-            Test2();
+            //Test1();
+            //Test2();
+
+            DesignerTest();
+        }
+
+        private static void DesignerTest()
+        {
+            foreach (var aTuple in DesignerManager.GetElementTypes())
+            {
+                Console.WriteLine(aTuple.Attribute.DisplayName);
+                Console.WriteLine(aTuple.Element.Name);
+                Console.WriteLine();
+            }
         }
 
         private static void Test2()

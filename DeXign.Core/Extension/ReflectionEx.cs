@@ -9,10 +9,7 @@ namespace DeXign.Core
         public static TAttribute GetAttribute<TAttribute>(this object obj)
              where TAttribute : Attribute
         {
-            Type type = obj.GetType();
-            TAttribute attr = type.GetCustomAttribute<TAttribute>();
-
-            return attr;
+            return obj.GetType().GetAttribute<TAttribute>();
         }
 
         public static bool HasAttribute<TAttribute>(this object obj)
@@ -33,6 +30,20 @@ namespace DeXign.Core
             where TAttribute : Attribute
         {
             return pi.GetAttribute<TAttribute>() != null;
+        }
+
+        public static TAttribute GetAttribute<TAttribute>(this Type type)
+             where TAttribute : Attribute
+        {
+            TAttribute attr = type.GetCustomAttribute<TAttribute>();
+
+            return attr;
+        }
+
+        public static bool HasAttribute<TAttribute>(this Type type)
+            where TAttribute : Attribute
+        {
+            return type.GetAttribute<TAttribute>() != null;
         }
 
         public static bool CanCastingTo<T>(this PropertyInfo pi)

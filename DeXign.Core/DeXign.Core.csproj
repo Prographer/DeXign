@@ -85,6 +85,8 @@
     <Compile Include="Controls\Picker\PTimerPicker.cs" />
     <Compile Include="Controls\Cell\PViewCell.cs" />
     <Compile Include="Controls\PWebView.cs" />
+    <Compile Include="Designer\AttributeTuple.cs" />
+    <Compile Include="Designer\DesignerManager.cs" />
     <Compile Include="Extension\CodeComponentEx.cs" />
     <Compile Include="Extension\LayoutExtension.cs" />
     <Compile Include="Extension\ReflectionEx.cs" />
