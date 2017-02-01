@@ -2,10 +2,13 @@
 
 using System;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Interop;
 
 using DeXign.Interop;
 using DeXign.Extension;
+
+using WinSystemCommands = System.Windows.SystemCommands;
 
 using Monitor = DeXign.Interop.NativeMethods.Monitor;
 using MINMAXINFO = DeXign.Interop.NativeMethods.MINMAXINFO;
@@ -52,7 +55,47 @@ namespace DeXign.Controls
         public ChromeWindow()
         {
             this.Style = FindResource("ChromeWindowStyle") as Style;
+
+            // Command Bindings
+
+            this.CommandBindings.Add(
+                new CommandBinding(
+                    WinSystemCommands.MinimizeWindowCommand, WindowMinimize_Execute));
+
+            this.CommandBindings.Add(
+                new CommandBinding(
+                    WinSystemCommands.MaximizeWindowCommand, WindowMaximize_Execute));
+
+            this.CommandBindings.Add(
+                new CommandBinding(
+                    WinSystemCommands.RestoreWindowCommand, WindowRestore_Execute));
+
+            this.CommandBindings.Add(
+                new CommandBinding(
+                    WinSystemCommands.CloseWindowCommand, WindowClose_Execute));
         }
+
+        #region [ Commands ]
+        private void WindowClose_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            WinSystemCommands.CloseWindow(this);
+        }
+
+        private void WindowMaximize_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            WinSystemCommands.MaximizeWindow(this);
+        }
+
+        private void WindowRestore_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            WinSystemCommands.RestoreWindow(this);
+        }
+        
+        private void WindowMinimize_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            WinSystemCommands.MinimizeWindow(this);
+        }
+        #endregion
 
         protected override void OnSourceInitialized(EventArgs e)
         {

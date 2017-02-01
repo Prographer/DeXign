@@ -18,10 +18,6 @@
                         <AdornerDecorator>
                             <ContentPresenter Content="{TemplateBinding Content}"/>
                         </AdornerDecorator>
-
-                        <Grid Height="{Binding CaptionHeight, RelativeSource={RelativeSource TemplatedParent}}" Background="White" VerticalAlignment="Top">
-                            <TextBlock Text="{TemplateBinding Title}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0" Foreground="Black"/>
-                        </Grid>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

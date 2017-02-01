@@ -7,7 +7,11 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/Resources/Colors.xaml"/>
+                <ResourceDictionary Source="Themes/Resources/Paths.xaml"/>
+                
                 <ResourceDictionary Source="Themes/ChromeWindowStyle.xaml"/>
+                <ResourceDictionary Source="Themes/DexignStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

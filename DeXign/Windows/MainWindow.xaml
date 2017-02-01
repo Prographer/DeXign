@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:DeXign"
         xmlns:c="clr-namespace:DeXign.Controls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid Margin="0,30,0,0">
-        <Button Content="Hello DeXign" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-    </Grid>
+        Style="{StaticResource DexignWindowStyle}"
+        WindowStartupLocation="CenterScreen"
+        Title="DX" Height="350" Width="525">
+
+    <Grid/>
 </c:ChromeWindow>
