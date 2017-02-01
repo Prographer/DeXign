@@ -64,7 +64,36 @@
 
         <TabControl Grid.Column="2">
             <c:ClosableTabItem Header="Test1">
-                <Grid/>
+                <Grid>
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Path Stretch="Uniform" Data="{StaticResource AndroidPath}" Fill="DarkSalmon" Width="8" Height="8" Margin="0,0,16,0"/>
+                            <Path Stretch="Uniform" Data="{StaticResource iOSPath}" Fill="DarkSalmon" Width="8" Height="8"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,16,0,0">
+                            <Path Stretch="Uniform" Data="{StaticResource AndroidPath}" Fill="DarkSalmon" Width="16" Height="16" Margin="0,0,16,0"/>
+                            <Path Stretch="Uniform" Data="{StaticResource iOSPath}" Fill="DarkSalmon" Width="16" Height="16"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,16,0,0">
+                            <Path Stretch="Uniform" Data="{StaticResource AndroidPath}" Fill="DarkSalmon" Width="32" Height="32" Margin="0,0,16,0"/>
+                            <Path Stretch="Uniform" Data="{StaticResource iOSPath}" Fill="DarkSalmon" Width="32" Height="32"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,16,0,0">
+                            <Path Stretch="Uniform" Data="{StaticResource AndroidPath}" Fill="DarkSalmon" Width="64" Height="64" Margin="0,0,16,0"/>
+                            <Path Stretch="Uniform" Data="{StaticResource iOSPath}" Fill="DarkSalmon" Width="64" Height="64"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,16,0,0">
+                            <Path Stretch="Uniform" Data="{StaticResource AndroidPath}" Fill="DarkSalmon" Width="128" Height="128" Margin="0,0,16,0"/>
+                            <Path Stretch="Uniform" Data="{StaticResource iOSPath}" Fill="DarkSalmon" Width="128" Height="128"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Vector" HorizontalAlignment="Center" Foreground="Black" FontSize="32" Margin="0,64,0,0"/>
+                    </StackPanel>
+                </Grid>
             </c:ClosableTabItem>
             <c:ClosableTabItem Header="Test2">
                 <Grid>
