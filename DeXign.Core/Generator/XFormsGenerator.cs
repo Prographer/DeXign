@@ -87,7 +87,15 @@ namespace DeXign.Core
         private string XamlGenerate(IEnumerable<CodeComponent<XFormsAttribute>> components)
         {
             var items = components.ToArray();
-            var root = items[0];
+            CodeComponent<XFormsAttribute> root = items[0];
+            string pageName = null;
+
+            if (root.Element is PPage)
+                pageName = (root.Element as PPage).GetPageName();
+
+            // 루트페이지는 항상 이름(파일, 클래스 이름)이 설정되어있어야 함
+            if (pageName == null)
+                throw new ArgumentException();
 
             var doc = new XmlDocument();
             var dec = doc.CreateXmlDeclaration("1.0", "utf-8", null);
@@ -96,6 +104,9 @@ namespace DeXign.Core
             XmlElement rootElement = doc.CreateElement(root.Attribute.Name);
             rootElement.SetAttribute("xmlns", XMLNS);
             rootElement.SetAttribute("xmlns:x", XMLNSX);
+            rootElement.SetAttribute("xmlns:local", $"clr-namespace:{this.Manifest.NamespaceName}");
+            rootElement.SetAttribute("Class", XMLNSX, $"{this.Manifest.NamespaceName}.{pageName}");
+
             SetXamlName(rootElement, root);
 
             var comQueue = new Queue<CodeComponent<XFormsAttribute>>(new[] { root });
@@ -176,6 +187,11 @@ namespace DeXign.Core
                     return Encoding.UTF8.GetString(ms.ToArray());
                 }
             }
+        }
+
+        private string XamlCodeGenerate()
+        {
+            throw new NotImplementedException();
         }
 
         private string CodeGenerate(IEnumerable<CodeComponent<XFormsAttribute>> components)

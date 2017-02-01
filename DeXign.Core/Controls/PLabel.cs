@@ -5,6 +5,7 @@ using System.Windows.Media;
 
 namespace DeXign.Core.Controls
 {
+    [DesignElement(DisplayName = "텍스트")]
     [XForms("Xamarin.Forms", "Label")]
     public class PLabel : PControl, IFontControl
     {

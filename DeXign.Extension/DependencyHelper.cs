@@ -95,6 +95,40 @@ namespace DeXign.Extension
             return RegisterReadonly(propName, ownerType, typeMetadata);
         }
 
+        public static DependencyProperty Register<T>(
+            PropertyMetadata metadata, 
+            ValidateValueCallback validateValueCallback = null,
+            [CallerMemberName]string dpPropName = "")
+        {
+            // 소유자 정보
+            Type ownerType = GetDeclaringType(2);
+
+            if (!Regex.IsMatch(dpPropName, NameRulePattern))
+                throw new DependencyPropertyException("종속성 속성 명명규칙에 어긋납니다.");
+
+            // 대상 속성
+            string propName = Regex.Match(dpPropName, NamePattern).Value;
+
+            return DependencyProperty.Register(propName, typeof(T), ownerType, metadata, validateValueCallback);
+        }
+
+        public static DependencyProperty RegisterAttached<T>(
+            PropertyMetadata metadata,
+            ValidateValueCallback validateValueCallback = null,
+            [CallerMemberName]string dpPropName = "")
+        {
+            // 소유자 정보
+            Type ownerType = GetDeclaringType(2);
+
+            if (!Regex.IsMatch(dpPropName, NameRulePattern))
+                throw new DependencyPropertyException("종속성 속성 명명규칙에 어긋납니다.");
+
+            // 대상 속성
+            string propName = Regex.Match(dpPropName, NamePattern).Value;
+
+            return DependencyProperty.RegisterAttached(propName, typeof(T), ownerType, metadata, validateValueCallback);
+        }
+
         private static Type GetDeclaringType(int depth)
         {
             var st = new StackTrace();

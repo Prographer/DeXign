@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace DeXign.Core.Controls
 {
+    [DesignElement(DisplayName = "웹 뷰")]
     [XForms("Xamarin.Forms", "WebView")]
     public class PWebView : PControl
     {

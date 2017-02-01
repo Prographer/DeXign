@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace DeXign.Core.Controls
 {
+    [DesignElement(DisplayName = "버튼")]
     [XForms("Xamarin.Forms", "Button")]
     public class PButton : PControl
     {
