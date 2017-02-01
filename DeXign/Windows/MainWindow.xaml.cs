@@ -24,6 +24,28 @@ namespace DeXign
         public MainWindow()
         {
             InitializeComponent();
+            InitializeCommands();
+        }
+
+        private void InitializeCommands()
+        {
+            this.CommandBindings.Add(
+                new CommandBinding(
+                    DXCommands.OpenProjectCommand, OpenProject_Execute));
+
+            this.CommandBindings.Add(
+                new CommandBinding(
+                    DXCommands.NewProjectCommand, NewProject_Execute));
+        }
+
+        private void NewProject_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBox.Show("새로 만들기!");
+        }
+
+        private void OpenProject_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBox.Show("열기!");
         }
     }
 }

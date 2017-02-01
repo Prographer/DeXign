@@ -13,6 +13,7 @@ using WinSystemCommands = System.Windows.SystemCommands;
 using Monitor = DeXign.Interop.NativeMethods.Monitor;
 using MINMAXINFO = DeXign.Interop.NativeMethods.MINMAXINFO;
 using MONITORINFO = DeXign.Interop.NativeMethods.MONITORINFO;
+using System.Windows.Controls;
 
 namespace DeXign.Controls
 {
@@ -30,6 +31,9 @@ namespace DeXign.Controls
 
         public static readonly DependencyProperty HandleProperty =
             HandlePropertyKey.DependencyProperty;
+
+        public static readonly DependencyProperty MenuContentProperty =
+            DependencyHelper.Register();
         #endregion
 
         #region [ Property ]
@@ -43,6 +47,12 @@ namespace DeXign.Controls
         {
             get { return (int)GetValue(CaptionHeightProperty); }
             set { SetValue(CaptionHeightProperty, value); }
+        }
+
+        public Menu MenuContent
+        {
+            get { return (Menu)GetValue(MenuContentProperty); }
+            set { SetValue(MenuContentProperty, value); }
         }
 
         public IntPtr Handle
@@ -114,13 +124,6 @@ namespace DeXign.Controls
 
             if (this.Content != null)
                 WindowChrome.SetIsHitTestVisibleInChrome(this.Content as IInputElement, true);
-        }
-
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-
-            // TODO:s
         }
         #endregion
 

@@ -3,6 +3,75 @@
                     xmlns:local="clr-namespace:DeXign"
                     xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=Microsoft.Windows.Shell"
                     xmlns:c="clr-namespace:DeXign.Controls">
+
+    <!-- DeXign Menu Separator -->
+    <Style x:Key="DexignMenuSeparatorStyle" TargetType="{x:Type Separator}">
+        <Setter Property="Background" Value="#D7D7D7"/>
+        <Setter Property="BorderBrush" Value="#D7D7D7"/>
+        <Setter Property="MinHeight" Value="1"/>
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Separator}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Margin="4,0"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!-- DeXign Menu Style -->
+    <Style TargetType="{x:Type Menu}">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    
+    <!-- DeXign MenuItem Style -->
+    <Style TargetType="{x:Type MenuItem}">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="shell:WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type MenuItem}">
+                    <Border x:Name="Border" BorderThickness="1">
+                        <Grid Height="22">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="Icon" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut" />
+                            </Grid.ColumnDefinitions>
+
+                            <ContentPresenter x:Name="Icon" Margin="6,0" VerticalAlignment="Center" ContentSource="Icon"/>
+                            <ContentPresenter x:Name="HeaderHost" Margin="8,0" Grid.Column="1" VerticalAlignment="Center" Content="{TemplateBinding Header}" RecognizesAccessKey="True" TextOptions.TextFormattingMode="Display" />
+                            <ContentPresenter Grid.Column="2" Content="{TemplateBinding InputGestureText}" VerticalAlignment="Center" Margin="8,0"/>
+
+                            <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
+                                <Border x:Name="SubmenuBorder" SnapsToDevicePixels="True" Background="White" BorderThickness="1" BorderBrush="{StaticResource AccentBrush}">
+                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Icon" Value="{x:Null}">
+                            <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="IsHighlighted" Value="true">
+                            <Setter Property="Background" TargetName="Border" Value="{StaticResource AccentBrush_50}"/>
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                        <Trigger Property="IsHighlighted" Value="false">
+                            <Setter Property="Foreground" Value="{StaticResource AccentBrush_50}"/>
+                        </Trigger>
+                        <Trigger SourceName="Popup" Property="AllowsTransparency" Value="True">
+                            <Setter TargetName="SubmenuBorder" Property="Padding" Value="3" />
+                            <Setter Property="Foreground" Value="Black"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     
     <!-- Path Button Style -->
     <Style TargetType="{x:Type c:PathButton}">
@@ -12,7 +81,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type c:PathButton}">
-                    <Border x:Name="border" Background="Transparent" BorderThickness="0" Padding="{TemplateBinding Padding}">
+                    <Border x:Name="border" Background="Transparent" CornerRadius="{TemplateBinding CornerRadius}" BorderThickness="0" Padding="{TemplateBinding Padding}">
                         <Path VerticalAlignment="{TemplateBinding PathVerticalAlignment}" HorizontalAlignment="{TemplateBinding PathHorizontalAlignment}"
                               Width="{TemplateBinding PathWidth}" Height="{TemplateBinding PathHeight}"
                               Data="{TemplateBinding PathData}" Fill="{TemplateBinding Foreground}" IsHitTestVisible="False"/>
@@ -21,11 +90,31 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
                             <!-- 20% -->
-                            <Setter TargetName="border" Property="Background" Value="#44FFFFFF"/>
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation To="#44FFFFFF" Duration="0:0:0.3" Storyboard.TargetName="border" Storyboard.TargetProperty="Background.(SolidColorBrush.Color)">
+                                            <ColorAnimation.EasingFunction>
+                                                <CircleEase EasingMode="EaseOut"/>
+                                            </ColorAnimation.EasingFunction>
+                                        </ColorAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation To="Transparent" Duration="0:0:0.2" Storyboard.TargetName="border" Storyboard.TargetProperty="Background.(SolidColorBrush.Color)">
+                                            <ColorAnimation.EasingFunction>
+                                                <CircleEase EasingMode="EaseOut"/>
+                                            </ColorAnimation.EasingFunction>
+                                        </ColorAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <!-- 40% -->
-                            <Setter TargetName="border" Property="Background" Value="#66FFFFFF"/>
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource AccentBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -40,10 +129,15 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type c:ControlBox}">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
+                        <!-- Minimize Button -->
                         <c:PathButton x:Name="btnMinimize" PathData="{StaticResource MinimizePath}" Command="{x:Static SystemCommands.MinimizeWindowCommand}" 
                                       Width="28" PathWidth="14" PathHeight="1" PathVerticalAlignment="Bottom" Foreground="White" Padding="7"/>
+                        
+                        <!-- Maximize/Restore Button -->
                         <c:PathButton x:Name="btnMaximize" PathData="{StaticResource MaximizePath}" Command="{x:Static SystemCommands.MaximizeWindowCommand}" 
                                       Width="28" PathWidth="14" PathHeight="14" Foreground="White"/>
+
+                        <!-- Close Button -->
                         <c:PathButton x:Name="btnClose" PathData="{StaticResource ClosePath}" Command="{x:Static SystemCommands.CloseWindowCommand}" 
                                       Width="28" PathWidth="14" PathHeight="14" Foreground="White"/>
                     </StackPanel>
@@ -54,6 +148,24 @@
                             <Setter TargetName="btnMaximize" Property="PathData" Value="{StaticResource MaximizedPath}"/>
                         </DataTrigger>
                     </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!-- Undo/Redo Control Box -->
+    <Style TargetType="{x:Type c:ActionControlBox}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Width" Value="88"/>
+        <Setter Property="Height" Value="36"/>
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type c:ActionControlBox}">
+                    <UniformGrid Columns="2">
+                        <c:PathButton PathData="{StaticResource ArrowBack}" CornerRadius="18" Foreground="White" PathWidth="18" PathHeight="18"/>
+                        <c:PathButton PathData="{StaticResource ArrowNext}" CornerRadius="18" Foreground="White" PathWidth="18" PathHeight="18"/>
+                    </UniformGrid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -81,18 +193,37 @@
                             
                             <!-- Header - Caption Top -->
                             <Grid Grid.Row="0">
-                                <TextBlock Text="{TemplateBinding Title}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="12,0" Foreground="{StaticResource AccentBrush}"/>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
                                 
+                                <!-- Title -->
+                                <TextBlock Grid.Column="0" Text="{TemplateBinding Title}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="12,0" Foreground="{StaticResource AccentBrush}"/>
+                                
+                                <!-- Window Menu -->
+                                <ContentPresenter Grid.Column="1" Margin="12,0,0,0" Content="{TemplateBinding MenuContent}" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+
                                 <!-- Window Control Box -->
-                                <c:ControlBox shell:WindowChrome.IsHitTestVisibleInChrome="True" HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="0,0,7,0"/>
+                                <c:ControlBox Grid.Column="2" shell:WindowChrome.IsHitTestVisibleInChrome="True" HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="7,0"/>
                             </Grid>
 
-                            <c:Seperator Grid.Row="1" Height="2" Margin="0,-1,0,1" SnapsToDevicePixels="True" VerticalAlignment="Top" Style="{DynamicResource DexignSeperatorStyle}"/>
+                            <c:Separator Grid.Row="1" Height="2" Margin="0,-1,0,1" SnapsToDevicePixels="True" VerticalAlignment="Top" Style="{DynamicResource DexignSeparatorStyle}"/>
+
+                            <!-- Header - Work area -->
+                            <Grid Grid.Row="1">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                    <c:ActionControlBox VerticalAlignment="Center" Margin="12,0"/>
+
+                                    <c:Separator Width="2" Height="31" Style="{DynamicResource DexignSeparatorStyle}" Margin="4,0"/>
+                                </StackPanel>
+                            </Grid>
                         </Grid>
 
                         <!-- Content -->
                         <AdornerDecorator Grid.Row="1">
-                            <ContentPresenter Content="{TemplateBinding Content}"/>
+                            <ContentPresenter Content="{TemplateBinding Content}" SnapsToDevicePixels="True"/>
                         </AdornerDecorator>
                     </Grid>
 
@@ -105,7 +236,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="DexignSeperatorStyle" TargetType="{x:Type c:Seperator}">
+    <Style x:Key="DexignSeparatorStyle" TargetType="{x:Type c:Separator}">
         <Setter Property="LineBrush1" Value="#4A4A4A"/>
         <Setter Property="LineBrush2" Value="#828282"/>
     </Style>

@@ -82,10 +82,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Commands\DXCommands.cs" />
+    <Compile Include="Controls\ActionControlBox.cs" />
     <Compile Include="Controls\ChromeWindow.cs" />
     <Compile Include="Controls\ControlBox.cs" />
     <Compile Include="Controls\PathButton.cs" />
-    <Compile Include="Controls\Seperator.cs" />
+    <Compile Include="Controls\Separator.cs" />
     <Compile Include="Interop\ExternDll.cs" />
     <Compile Include="Interop\NativeMethods.cs" />
     <Compile Include="Interop\UnsafeNativeMethods.cs" />

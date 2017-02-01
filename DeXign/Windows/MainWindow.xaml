@@ -8,7 +8,58 @@
         mc:Ignorable="d"
         Style="{StaticResource DexignWindowStyle}"
         WindowStartupLocation="CenterScreen"
-        Title="DX" Height="350" Width="525">
+        Title="DX" Height="700" Width="1000">
 
-    <Grid/>
+    <c:ChromeWindow.InputBindings>
+        <KeyBinding Key="N" Modifiers="Ctrl" Command="{x:Static local:DXCommands.NewProjectCommand}"/>
+        <KeyBinding Key="O" Modifiers="Ctrl" Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+    </c:ChromeWindow.InputBindings>
+    
+    <c:ChromeWindow.MenuContent>
+        <Menu>
+            <MenuItem Header="파일(F)" SnapsToDevicePixels="True" Foreground="White">
+                <MenuItem Header="새로 만들기(N)" InputGestureText="Ctrl+N"
+                          Command="{x:Static local:DXCommands.NewProjectCommand}"/>
+                
+                <MenuItem Header="열기(O)" InputGestureText="Ctrl+O"
+                          Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+                
+                <Separator Style="{StaticResource DexignMenuSeparatorStyle}"/>
+                
+                <MenuItem Header="끝내기(X)" InputGestureText="Alt+F4" 
+                          Command="{x:Static SystemCommands.CloseWindowCommand}"/>
+            </MenuItem>
+            <MenuItem Header="편집(E)" SnapsToDevicePixels="True" Foreground="White">
+                <MenuItem Header="1"/>
+                <MenuItem Header="2"/>
+                <MenuItem Header="3"/>
+            </MenuItem>
+            <MenuItem Header="빌드(B)" SnapsToDevicePixels="True" Foreground="White">
+                <MenuItem Header="1"/>
+                <MenuItem Header="2"/>
+                <MenuItem Header="3"/>
+            </MenuItem>
+        </Menu>
+    </c:ChromeWindow.MenuContent>
+
+    <Grid>
+        <Menu>
+            <MenuItem Header="파일(F)" SnapsToDevicePixels="True" Foreground="White">
+                <MenuItem Header="새로 만들기"/>
+                <MenuItem Header="열기"/>
+                <Separator/>
+                <MenuItem Header="끝내기"/>
+            </MenuItem>
+            <MenuItem Header="편집(E)" SnapsToDevicePixels="True" Foreground="White">
+                <MenuItem Header="1"/>
+                <MenuItem Header="2"/>
+                <MenuItem Header="3"/>
+            </MenuItem>
+            <MenuItem Header="빌드(B)" SnapsToDevicePixels="True" Foreground="White">
+                <MenuItem Header="1"/>
+                <MenuItem Header="2"/>
+                <MenuItem Header="3"/>
+            </MenuItem>
+        </Menu>
+    </Grid>
 </c:ChromeWindow>

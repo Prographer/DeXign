@@ -7,6 +7,9 @@ namespace DeXign.Controls
 {
     public class PathButton : Button
     {
+        public static readonly DependencyProperty CornerRadiusProperty =
+            DependencyHelper.Register();
+
         public static readonly DependencyProperty PathDataProperty =
             DependencyHelper.Register();
 
@@ -21,6 +24,12 @@ namespace DeXign.Controls
 
         public static readonly DependencyProperty PathHorizontalAlignmentProperty =
             DependencyHelper.Register();
+
+        public CornerRadius CornerRadius
+        {
+            get { return (CornerRadius)GetValue(CornerRadiusProperty); }
+            set { SetValue(CornerRadiusProperty, value); }
+        }
 
         public StreamGeometry PathData
         {
