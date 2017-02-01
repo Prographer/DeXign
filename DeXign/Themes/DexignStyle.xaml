@@ -4,6 +4,73 @@
                     xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=Microsoft.Windows.Shell"
                     xmlns:c="clr-namespace:DeXign.Controls">
 
+    <!-- DeXign TabItem Style -->
+    <Style TargetType="{x:Type c:ClosableTabItem}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Foreground" Value="#535353"/>
+        <Setter Property="Padding" Value="15,0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="Height" Value="42"/>
+        <Setter Property="FontSize" Value="15"/>
+
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect ShadowDepth="0" Opacity="0.4" BlurRadius="8"/>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <Grid x:Name="templateRoot" SnapsToDevicePixels="true" Background="#D8D8D8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <ContentPresenter x:Name="contentPresenter" Content="{TemplateBinding Header}"  Focusable="False" HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+
+                        <c:PathButton x:Name="btnClose" Visibility="Hidden" Grid.Column="1" Command="{x:Static c:ClosableTabItem.CloseCommand}" PathData="{StaticResource ClosePathSmall}" Foreground="White" Width="12" Height="12" PathWidth="12" PathHeight="12" Margin="0,0,15,0"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="templateRoot" Property="Background" Value="#BDBDBD"/>
+                            <Setter TargetName="btnClose" Property="Visibility" Value="Visible"/>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Opacity" TargetName="contentPresenter" Value="0.56"/>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                            </MultiDataTrigger.Conditions>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Panel.ZIndex" Value="1"/>
+                            <Setter TargetName="templateRoot" Property="Background" Value="#898989"/>
+                            <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                            <Setter TargetName="btnClose" Property="Visibility" Value="Visible"/>
+                        </MultiDataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- DeXign Menu Separator -->
     <Style x:Key="DexignMenuSeparatorStyle" TargetType="{x:Type Separator}">
         <Setter Property="Background" Value="#D7D7D7"/>
@@ -19,13 +86,13 @@
         </Setter>
     </Style>
     
-    <!-- DeXign Menu Style -->
+    <!-- Menu Style -->
     <Style TargetType="{x:Type Menu}">
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="Background" Value="Transparent"/>
     </Style>
     
-    <!-- DeXign MenuItem Style -->
+    <!-- MenuItem Style -->
     <Style TargetType="{x:Type MenuItem}">
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="shell:WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
@@ -75,6 +142,7 @@
     
     <!-- Path Button Style -->
     <Style TargetType="{x:Type c:PathButton}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="PathHorizontalAlignment" Value="Center"/>
         <Setter Property="PathVerticalAlignment" Value="Center"/>
 
@@ -123,7 +191,7 @@
         </Setter>
     </Style>
     
-    <!-- DeXign Window Control Box Style -->
+    <!-- Window Control Box Style -->
     <Style TargetType="{x:Type c:ControlBox}">
         <Setter Property="Height" Value="28"/>
         <Setter Property="Template">
@@ -152,6 +220,12 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <!-- DeXign Separator Style -->
+    <Style x:Key="DexignSeparatorStyle" TargetType="{x:Type c:Separator}">
+        <Setter Property="LineBrush1" Value="#4A4A4A"/>
+        <Setter Property="LineBrush2" Value="#828282"/>
     </Style>
     
     <!-- Undo/Redo Control Box -->
@@ -195,7 +269,7 @@
                             <Grid.Effect>
                                 <DropShadowEffect ShadowDepth="0" Opacity="0.4" BlurRadius="8"/>
                             </Grid.Effect>
-                            
+
                             <!-- Header - Caption Top -->
                             <Grid Grid.Row="0">
                                 <Grid.ColumnDefinitions>
@@ -203,10 +277,10 @@
                                     <ColumnDefinition Width="1*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                
+
                                 <!-- Title -->
                                 <TextBlock Grid.Column="0" Text="{TemplateBinding Title}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="12,0" Foreground="{StaticResource AccentBrush}"/>
-                                
+
                                 <!-- Window Menu -->
                                 <ContentPresenter Grid.Column="1" Margin="12,0,0,0" Content="{TemplateBinding MenuContent}" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
 
@@ -234,15 +308,10 @@
 
                     <!-- Triggers -->
                     <ControlTemplate.Triggers>
-                        
+
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
-
-    <Style x:Key="DexignSeparatorStyle" TargetType="{x:Type c:Separator}">
-        <Setter Property="LineBrush1" Value="#4A4A4A"/>
-        <Setter Property="LineBrush2" Value="#828282"/>
     </Style>
 </ResourceDictionary>
