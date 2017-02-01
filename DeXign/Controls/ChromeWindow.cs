@@ -122,8 +122,8 @@ namespace DeXign.Controls
         {
             base.OnVisualChildrenChanged(visualAdded, visualRemoved);
 
-            if (this.Content != null)
-                WindowChrome.SetIsHitTestVisibleInChrome(this.Content as IInputElement, true);
+            //if (this.Content != null)
+                //WindowChrome.SetIsHitTestVisibleInChrome(this.Content as IInputElement, true);
         }
         #endregion
 

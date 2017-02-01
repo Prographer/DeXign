@@ -95,6 +95,7 @@
     <Compile Include="Controls\ChromeWindow.cs" />
     <Compile Include="Controls\ClosableTabItem.cs" />
     <Compile Include="Controls\ControlBox.cs" />
+    <Compile Include="Controls\HeaderLayout.cs" />
     <Compile Include="Controls\MenuItemEx.cs" />
     <Compile Include="Controls\PathButton.cs" />
     <Compile Include="Controls\Separator.cs" />

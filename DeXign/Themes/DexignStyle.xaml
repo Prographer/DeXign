@@ -93,7 +93,7 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <ContentPresenter x:Name="contentPresenter" Content="{TemplateBinding Header}"  Focusable="False" HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                        <TextBlock x:Name="contentBlock" Text="{TemplateBinding Header}" TextTrimming="CharacterEllipsis" Focusable="False" HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
 
                         <c:PathButton x:Name="btnClose" Visibility="Hidden" Grid.Column="1" Command="{x:Static c:ClosableTabItem.CloseCommand}" PathData="{StaticResource ClosePathSmall}" Foreground="White" Width="12" Height="12" PathWidth="12" PathHeight="12" Margin="0,0,15,0"/>
                     </Grid>
@@ -111,7 +111,7 @@
                                 <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
                                 <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
                             </MultiDataTrigger.Conditions>
-                            <Setter Property="Opacity" TargetName="contentPresenter" Value="0.56"/>
+                            <Setter Property="Opacity" TargetName="contentBlock" Value="0.56"/>
                         </MultiDataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
@@ -213,7 +213,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type c:PathButton}">
                     <Border x:Name="border" Background="Transparent" CornerRadius="{TemplateBinding CornerRadius}" BorderThickness="0" Padding="{TemplateBinding Padding}">
-                        <Path VerticalAlignment="{TemplateBinding PathVerticalAlignment}" HorizontalAlignment="{TemplateBinding PathHorizontalAlignment}"
+                        <Path SnapsToDevicePixels="True" VerticalAlignment="{TemplateBinding PathVerticalAlignment}" HorizontalAlignment="{TemplateBinding PathHorizontalAlignment}"
                               Width="{TemplateBinding PathWidth}" Height="{TemplateBinding PathHeight}"
                               Data="{TemplateBinding PathData}" Fill="{TemplateBinding Foreground}"
                               Stretch="Fill" IsHitTestVisible="False"/>
@@ -291,7 +291,7 @@
         <Setter Property="LineBrush2" Value="#828282"/>
     </Style>
 
-    <!-- Undo/Redo Control Box -->
+    <!-- Undo/Redo Control Box Style -->
     <Style TargetType="{x:Type c:ActionControlBox}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Width" Value="88"/>
@@ -304,6 +304,25 @@
                         <c:PathButton PathData="{StaticResource ArrowBack}" CornerRadius="18" Foreground="White" PathWidth="18" PathHeight="18"/>
                         <c:PathButton PathData="{StaticResource ArrowNext}" CornerRadius="18" Foreground="White" PathWidth="18" PathHeight="18"/>
                     </UniformGrid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!-- HeaderLayout Style -->
+    <Style TargetType="{x:Type c:HeaderLayout}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type c:HeaderLayout}">
+                    <Grid Background="{TemplateBinding Background}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+
+                        <ContentPresenter Grid.Row="0" Content="{TemplateBinding Header}"/>
+                        <ContentPresenter Grid.Row="1" Content="{TemplateBinding Content}"/>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
