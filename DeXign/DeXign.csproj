@@ -91,6 +91,7 @@
     <Compile Include="Controls\MenuItemEx.cs" />
     <Compile Include="Controls\PathButton.cs" />
     <Compile Include="Controls\Separator.cs" />
+    <Compile Include="Controls\Toolbox.cs" />
     <Compile Include="MVVM\Converter\BaseValueConverter.cs" />
     <Compile Include="Interop\ExternDll.cs" />
     <Compile Include="Interop\NativeMethods.cs" />
