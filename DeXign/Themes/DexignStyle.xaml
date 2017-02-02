@@ -208,6 +208,7 @@
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="PathHorizontalAlignment" Value="Center"/>
         <Setter Property="PathVerticalAlignment" Value="Center"/>
+        <Setter Property="shell:WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -367,7 +368,7 @@
                                 <ContentPresenter Grid.Column="1" Margin="12,0,0,0" Content="{TemplateBinding Menu}" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
 
                                 <!-- Window Control Box -->
-                                <c:ControlBox Grid.Column="2" shell:WindowChrome.IsHitTestVisibleInChrome="True" HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="7,0"/>
+                                <c:ControlBox Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="7,0"/>
                             </Grid>
 
                             <c:Separator Grid.Row="1" Height="2" Margin="0,-1,0,1" SnapsToDevicePixels="True" VerticalAlignment="Top" Style="{DynamicResource DexignSeparatorStyle}"/>

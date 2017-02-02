@@ -80,8 +80,6 @@ namespace DeXign.Controls
             };
 
             WindowChrome.SetWindowChrome(this, chrome);
-
-            this.WindowStyle = WindowStyle.SingleBorderWindow;
         }
 
         private void InitializeCommands()
