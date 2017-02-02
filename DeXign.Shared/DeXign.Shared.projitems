@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>c4caee28-2ccd-4280-85d0-8f408db4e256</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>DeXign.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Microsoft.Windows.Shell\Standard\ComGuids.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Microsoft.Windows.Shell\Standard\Debug.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Microsoft.Windows.Shell\Standard\DoubleUtil.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Microsoft.Windows.Shell\Standard\DpiHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Microsoft.Windows.Shell\Standard\ErrorCodes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Microsoft.Windows.Shell\Standard\MessageWindow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Microsoft.Windows.Shell\Standard\NativeMethods.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Microsoft.Windows.Shell\Standard\NtDll.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Microsoft.Windows.Shell\Standard\ShellProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Microsoft.Windows.Shell\Standard\StreamHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Microsoft.Windows.Shell\Standard\Utilities.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Microsoft.Windows.Shell\Standard\Utilities.Windows.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Microsoft.Windows.Shell\Standard\Utilities.Wpf.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Microsoft.Windows.Shell\Standard\Verify.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Microsoft.Windows.Shell\SystemCommands.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Microsoft.Windows.Shell\SystemParameters2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Microsoft.Windows.Shell\WindowChrome.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Microsoft.Windows.Shell\WindowChromeWorker.cs" />
+  </ItemGroup>
+</Project>

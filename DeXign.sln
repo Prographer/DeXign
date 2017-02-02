@@ -13,7 +13,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeXign.Test", "DeXign.Test\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeXign.Print", "DeXign.Print\DeXign.Print.csproj", "{AF4C42D2-80DA-4002-8244-F4F5A4F65BAA}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DeXign.Shared", "DeXign.Shared\DeXign.Shared.shproj", "{C4CAEE28-2CCD-4280-85D0-8F408DB4E256}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		DeXign.Shared\DeXign.Shared.projitems*{80216f96-ee7f-4e28-99b9-dc250c266c7d}*SharedItemsImports = 4
+		DeXign.Shared\DeXign.Shared.projitems*{c4caee28-2ccd-4280-85d0-8f408db4e256}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU

@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:DeXign"
-                    xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=Microsoft.Windows.Shell"
+                    xmlns:shell="clr-namespace:Microsoft.Windows.Shell"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                     xmlns:c="clr-namespace:DeXign.Controls">
 
@@ -329,7 +329,7 @@
     </Style>
     
     <!-- DeXign Default Window Style -->
-    <Style x:Key="DexignWindowStyle" TargetType="{x:Type c:ChromeWindow}" BasedOn="{StaticResource ChromeWindowStyle}">
+    <Style x:Key="DexignWindowStyle" TargetType="{x:Type c:ChromeWindow}">
         <Setter Property="CaptionHeight" Value="44"/>
 
         <Setter Property="Template">
@@ -364,7 +364,7 @@
                                 <TextBlock Grid.Column="0" Text="{TemplateBinding Title}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="12,0" Foreground="{StaticResource AccentBrush}"/>
 
                                 <!-- Window Menu -->
-                                <ContentPresenter Grid.Column="1" Margin="12,0,0,0" Content="{TemplateBinding MenuContent}" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                                <ContentPresenter Grid.Column="1" Margin="12,0,0,0" Content="{TemplateBinding Menu}" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
 
                                 <!-- Window Control Box -->
                                 <c:ControlBox Grid.Column="2" shell:WindowChrome.IsHitTestVisibleInChrome="True" HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="7,0"/>

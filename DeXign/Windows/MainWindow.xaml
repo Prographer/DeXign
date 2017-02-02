@@ -11,12 +11,13 @@
         MinWidth="600" MinHeight="400"
         Width="1000" Height="700"
         Title="DX">
+    
     <c:ChromeWindow.InputBindings>
-        <KeyBinding Key="N" Modifiers="Ctrl" Command="{x:Static local:DXCommands.NewProjectCommand}"/>
-        <KeyBinding Key="O" Modifiers="Ctrl" Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="N" Command="{x:Static local:DXCommands.NewProjectCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="O" Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
     </c:ChromeWindow.InputBindings>
 
-    <c:ChromeWindow.MenuContent>
+    <c:ChromeWindow.Menu>
         <Menu>
             <c:MenuItemEx Header="파일(F)" SnapsToDevicePixels="True" Foreground="White">
                 <c:MenuItemEx Header="새로 만들기(N)" InputGestureText="Ctrl+N"
@@ -41,7 +42,7 @@
                 <c:MenuItemEx Header="3"/>
             </c:MenuItemEx>
         </Menu>
-    </c:ChromeWindow.MenuContent>
+    </c:ChromeWindow.Menu>
 
     <Grid Background="#BBBBBB">
         <Grid.ColumnDefinitions>
