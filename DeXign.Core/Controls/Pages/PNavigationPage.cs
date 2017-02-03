@@ -16,7 +16,7 @@ namespace DeXign.Core.Controls
             DependencyHelper.Register();
 
         private static readonly DependencyPropertyKey AccentColorPropertyKey =
-            DependencyHelper.RegisterReadonly();
+            DependencyHelper.RegisterReadOnly();
 
         public static readonly DependencyProperty AccentColorProperty =
             AccentColorPropertyKey.DependencyProperty;

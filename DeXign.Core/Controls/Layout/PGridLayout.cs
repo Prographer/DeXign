@@ -15,12 +15,12 @@ namespace DeXign.Core.Controls
             DependencyHelper.Register();
 
         public static readonly DependencyPropertyKey ColumnDefinitionsPropertyKey =
-            DependencyHelper.RegisterReadonly(
+            DependencyHelper.RegisterReadOnly(
                 new FrameworkPropertyMetadata(
                     new PDefinitionCollection<PColumnDefinition>()));
 
         public static readonly DependencyPropertyKey RowDefinitionsPropertyKey =
-            DependencyHelper.RegisterReadonly(
+            DependencyHelper.RegisterReadOnly(
                 new FrameworkPropertyMetadata(
                     new PDefinitionCollection<PRowDefinition>()));
 

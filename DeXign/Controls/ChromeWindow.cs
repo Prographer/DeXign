@@ -26,7 +26,7 @@ namespace DeXign.Controls
             DependencyHelper.Register(new PropertyMetadata(30));
 
         private static readonly DependencyPropertyKey HandlePropertyKey =
-            DependencyHelper.RegisterReadonly();
+            DependencyHelper.RegisterReadOnly();
 
         public static readonly DependencyProperty HandleProperty =
             HandlePropertyKey.DependencyProperty;
