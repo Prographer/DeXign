@@ -1,9 +1,9 @@
-﻿using Microsoft.Windows.Shell;
-
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Controls;
+using Microsoft.Windows.Shell;
 
 using DeXign.Interop;
 using DeXign.Extension;
@@ -13,7 +13,6 @@ using WinSystemCommands = System.Windows.SystemCommands;
 using Monitor = DeXign.Interop.NativeMethods.Monitor;
 using MINMAXINFO = DeXign.Interop.NativeMethods.MINMAXINFO;
 using MONITORINFO = DeXign.Interop.NativeMethods.MONITORINFO;
-using System.Windows.Controls;
 
 namespace DeXign.Controls
 {
@@ -32,7 +31,7 @@ namespace DeXign.Controls
         public static readonly DependencyProperty HandleProperty =
             HandlePropertyKey.DependencyProperty;
 
-        public static readonly DependencyProperty MenuContentProperty =
+        public static readonly DependencyProperty MenuProperty =
             DependencyHelper.Register();
         #endregion
 
@@ -49,10 +48,10 @@ namespace DeXign.Controls
             set { SetValue(CaptionHeightProperty, value); }
         }
 
-        public Menu MenuContent
+        public Menu Menu
         {
-            get { return (Menu)GetValue(MenuContentProperty); }
-            set { SetValue(MenuContentProperty, value); }
+            get { return (Menu)GetValue(MenuProperty); }
+            set { SetValue(MenuProperty, value); }
         }
 
         public IntPtr Handle
@@ -64,10 +63,27 @@ namespace DeXign.Controls
         #region [ Constructor ]
         public ChromeWindow()
         {
-            this.Style = FindResource("ChromeWindowStyle") as Style;
+            InitializeWindow();
+            InitializeCommands();
+        }
 
-            // Command Bindings
+        private void InitializeWindow()
+        {
+            var chrome = new WindowChrome()
+            {
+                ResizeBorderThickness = SystemParameters.WindowResizeBorderThickness,
+                CaptionHeight = this.CaptionHeight,
+                CornerRadius = new CornerRadius(0),
+                GlassFrameThickness = new Thickness(1),
+                UseAeroCaptionButtons = false,
+                UseNoneWindowStyle = false
+            };
 
+            WindowChrome.SetWindowChrome(this, chrome);
+        }
+
+        private void InitializeCommands()
+        {
             this.CommandBindings.Add(
                 new CommandBinding(
                     WinSystemCommands.MinimizeWindowCommand, WindowMinimize_Execute));
@@ -116,14 +132,6 @@ namespace DeXign.Controls
 
             SetValue(HandlePropertyKey, helper.Handle);
             hwndSource.AddHook(WndProc);
-        }
-        
-        protected override void OnVisualChildrenChanged(DependencyObject visualAdded, DependencyObject visualRemoved)
-        {
-            base.OnVisualChildrenChanged(visualAdded, visualRemoved);
-
-            //if (this.Content != null)
-                //WindowChrome.SetIsHitTestVisibleInChrome(this.Content as IInputElement, true);
         }
         #endregion
 
