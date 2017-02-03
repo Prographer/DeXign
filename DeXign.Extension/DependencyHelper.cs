@@ -8,9 +8,9 @@ using System.ComponentModel;
 
 namespace DeXign.Extension
 {
-    public class DependencyPropertyException : Exception
+    public class DependencyHelperException : Exception
     {
-        public DependencyPropertyException(string message) : base(message)
+        public DependencyHelperException(string message) : base(message)
         {
         }
     }
@@ -41,7 +41,7 @@ namespace DeXign.Extension
             PropertyInfo property = ownerType.GetProperty(propName);
 
             if (property == null)
-                throw new DependencyPropertyException($"'{propName}'속성을 찾을 수 없습니다.");
+                throw new DependencyHelperException($"'{propName}'속성을 찾을 수 없습니다.");
 
             if (typeMetadata == null && validateValueCallback == null)
                 return DependencyProperty.Register(propName, property.PropertyType, ownerType);
@@ -62,7 +62,7 @@ namespace DeXign.Extension
             PropertyInfo property = ownerType.GetProperty(propName);
 
             if (property == null)
-                throw new DependencyPropertyException($"'{propName}'속성을 찾을 수 없습니다.");
+                throw new DependencyHelperException($"'{propName}'속성을 찾을 수 없습니다.");
 
             if (typeMetadata == null && validateValueCallback == null)
                 return DependencyProperty.RegisterReadOnly(propName, property.PropertyType, ownerType, typeMetadata);
@@ -80,7 +80,7 @@ namespace DeXign.Extension
             PropertyInfo property = ownerType.GetProperty(propName);
 
             if (property == null)
-                throw new DependencyPropertyException($"'{propName}'속성을 찾을 수 없습니다.");
+                throw new DependencyHelperException($"'{propName}'속성을 찾을 수 없습니다.");
 
             if (typeMetadata == null && validateValueCallback == null)
                 return DependencyProperty.RegisterAttached(propName, property.PropertyType, ownerType, typeMetadata);
@@ -98,7 +98,7 @@ namespace DeXign.Extension
             PropertyInfo property = ownerType.GetProperty(propName);
 
             if (property == null)
-                throw new DependencyPropertyException($"'{propName}'속성을 찾을 수 없습니다.");
+                throw new DependencyHelperException($"'{propName}'속성을 찾을 수 없습니다.");
 
             if (typeMetadata == null && validateValueCallback == null)
                 return DependencyProperty.RegisterAttachedReadOnly(propName, property.PropertyType, ownerType, typeMetadata);
@@ -120,7 +120,7 @@ namespace DeXign.Extension
             Type ownerType = GetDeclaringType(2);
 
             if (!Regex.IsMatch(dpPropName, NameRulePattern))
-                throw new DependencyPropertyException("종속성 속성 명명규칙에 어긋납니다.");
+                throw new DependencyHelperException("종속성 속성 명명규칙에 어긋납니다.");
 
             // 대상 속성
             string propName = Regex.Match(dpPropName, NamePattern).Value;
@@ -137,7 +137,7 @@ namespace DeXign.Extension
             Type ownerType = GetDeclaringType(2);
 
             if (!Regex.IsMatch(dpPropName, NameRuleKeyPattern))
-                throw new DependencyPropertyException("종속성 읽기 전용 속성 명명규칙에 어긋납니다.");
+                throw new DependencyHelperException("종속성 읽기 전용 속성 명명규칙에 어긋납니다.");
 
             // 대상 속성
             string propName = Regex.Match(dpPropName, NameKeyPattern).Value;
@@ -154,7 +154,7 @@ namespace DeXign.Extension
             Type ownerType = GetDeclaringType(2);
 
             if (!Regex.IsMatch(dpPropName, NameRulePattern))
-                throw new DependencyPropertyException("종속성 속성 명명규칙에 어긋납니다.");
+                throw new DependencyHelperException("종속성 속성 명명규칙에 어긋납니다.");
 
             // 대상 속성
             string propName = Regex.Match(dpPropName, NamePattern).Value;
@@ -171,7 +171,7 @@ namespace DeXign.Extension
             Type ownerType = GetDeclaringType(2);
 
             if (!Regex.IsMatch(dpPropName, NameRulePattern))
-                throw new DependencyPropertyException("종속성 속성 명명규칙에 어긋납니다.");
+                throw new DependencyHelperException("종속성 속성 명명규칙에 어긋납니다.");
 
             // 대상 속성
             string propName = Regex.Match(dpPropName, NamePattern).Value;
@@ -188,7 +188,7 @@ namespace DeXign.Extension
             Type ownerType = GetDeclaringType(2);
 
             if (!Regex.IsMatch(dpPropName, NameRulePattern))
-                throw new DependencyPropertyException("종속성 속성 명명규칙에 어긋납니다.");
+                throw new DependencyHelperException("종속성 속성 명명규칙에 어긋납니다.");
 
             // 대상 속성
             string propName = Regex.Match(dpPropName, NamePattern).Value;
@@ -205,7 +205,7 @@ namespace DeXign.Extension
             Type ownerType = GetDeclaringType(2);
 
             if (!Regex.IsMatch(dpPropName, NameRulePattern))
-                throw new DependencyPropertyException("종속성 속성 명명규칙에 어긋납니다.");
+                throw new DependencyHelperException("종속성 속성 명명규칙에 어긋납니다.");
 
             // 대상 속성
             string propName = Regex.Match(dpPropName, NamePattern).Value;
@@ -222,7 +222,7 @@ namespace DeXign.Extension
             Type ownerType = GetDeclaringType(2);
 
             if (!Regex.IsMatch(dpPropName, NameRulePattern))
-                throw new DependencyPropertyException("종속성 속성 명명규칙에 어긋납니다.");
+                throw new DependencyHelperException("종속성 속성 명명규칙에 어긋납니다.");
 
             // 대상 속성
             string propName = Regex.Match(dpPropName, NamePattern).Value;
@@ -239,7 +239,7 @@ namespace DeXign.Extension
             Type ownerType = GetDeclaringType(2);
 
             if (!Regex.IsMatch(dpPropName, NameRulePattern))
-                throw new DependencyPropertyException("종속성 속성 명명규칙에 어긋납니다.");
+                throw new DependencyHelperException("종속성 속성 명명규칙에 어긋납니다.");
 
             // 대상 속성
             string propName = Regex.Match(dpPropName, NamePattern).Value;
