@@ -1,22 +1,40 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using WPFExtension;
 
 namespace DeXign.Controls
 {
     internal class ToolBox : ListView
     {
         private ObservableCollection<ToolBoxItem> items;
+        private CollectionView collectionView;
+
+        public static readonly DependencyProperty FilterKeywordProperty =
+            DependencyHelper.Register(
+                new FrameworkPropertyMetadata(FilterKeywordChanged));
+
+        private static void FilterKeywordChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            (d as ToolBox).Filter();
+        }
+
+        public string FilterKeyword
+        {
+            get { return (string)GetValue(FilterKeywordProperty); }
+            set { SetValue(FilterKeywordProperty, value); }
+        }
 
         public ToolBox()
         {
             items = new ObservableCollection<ToolBoxItem>();
             this.ItemsSource = items;
-
+            
             InitializeGrouping();
         }
 
@@ -30,13 +48,32 @@ namespace DeXign.Controls
             items.Remove(item);
         }
 
+        public void Filter()
+        {
+            collectionView.Refresh();
+        }
+
         internal void InitializeGrouping()
         {
-            var view = (CollectionView)CollectionViewSource.GetDefaultView(this.ItemsSource);
+            collectionView = (CollectionView)CollectionViewSource.GetDefaultView(this.ItemsSource);
 
-            if (view.GroupDescriptions?.Count == 0)
-                view.GroupDescriptions.Add(
+            if (collectionView.GroupDescriptions?.Count == 0)
+                collectionView.GroupDescriptions.Add(
                     new PropertyGroupDescription("Category"));
+
+            collectionView.Filter = Filter;
+        }
+
+        private bool Filter(object obj)
+        {
+            if (obj is ToolBoxItem)
+            {
+                var item = obj as ToolBoxItem;
+
+                return HangulLib.Hangul.Contains(item.Title, FilterKeyword);
+            }
+
+            return false;
         }
 
         public override void OnApplyTemplate()

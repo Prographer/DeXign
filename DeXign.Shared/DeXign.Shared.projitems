@@ -9,6 +9,9 @@
     <Import_RootNamespace>DeXign.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)HangulLib\Data\ComplexChar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HangulLib\Data\HangulDataset.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HangulLib\Hangul.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Microsoft.Windows.Shell\Standard\ComGuids.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Microsoft.Windows.Shell\Standard\Debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Microsoft.Windows.Shell\Standard\DoubleUtil.cs" />

@@ -386,6 +386,65 @@
     <!-- #endregion -->
     
     <!-- #region Controls Style -->
+    <Style x:Key="SearchBarStyle" TargetType="{x:Type c:HintTextBox}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="BorderBrush" Value="#C0C0C0"/>
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
+        <Setter Property="AllowDrop" Value="true"/>
+        <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type c:HintTextBox}">
+                    <Border x:Name="border" Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Path Data="{StaticResource Path.Search}" Stretch="Uniform" Fill="DimGray" Width="12" Height="12" VerticalAlignment="Center" Margin="4,0"/>
+
+                            <ScrollViewer x:Name="PART_ContentHost" Grid.Column="1" VerticalAlignment="Center" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" Foreground="{TemplateBinding Foreground}"/>
+                            <TextBlock x:Name="textHint" Grid.Column="1" VerticalAlignment="Center" Text="{TemplateBinding TextHint}" Focusable="false" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" Foreground="{TemplateBinding Foreground}" Opacity="0.56" Margin="6,0" IsHitTestVisible="False" Visibility="Collapsed"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=IsKeyboardFocused, RelativeSource={RelativeSource Self}}" Value="False"/>
+                                <Condition Binding="{Binding Path=Text, RelativeSource={RelativeSource Self}}" Value=""/>
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter TargetName="textHint" Property="Visibility" Value="Visible"/>
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Brush.Accent}"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="true">
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsInactiveSelectionHighlightEnabled" Value="true"/>
+                    <Condition Property="IsSelectionActive" Value="false"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+    
     <Style TargetType="{x:Type c:PathButton}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="PathHorizontalAlignment" Value="Center"/>
