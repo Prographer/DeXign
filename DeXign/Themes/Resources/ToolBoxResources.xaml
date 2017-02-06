@@ -1,0 +1,70 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="clr-namespace:DeXign.Core.Designer;assembly=DeXign.Core"
+                    xmlns:c="clr-namespace:DeXign.Core.Controls;assembly=DeXign.Core">
+
+    <Style x:Key="ToolBoxItemIconPathStyle" TargetType="{x:Type Path}">
+        <Setter Property="Fill" Value="Black"/>
+        <Setter Property="Margin" Value="8"/>
+        <Setter Property="Stretch" Value="Uniform"/>
+    </Style>
+
+    <!-- #region Layouts -->
+    <d:DesignerResource x:Key="{x:Type c:PGridLayout}" ToolTip="툴팁입니다.">
+        <Path Style="{StaticResource ToolBoxItemIconPathStyle}" Data="{StaticResource Path.iOS}"/>
+    </d:DesignerResource>
+
+    <d:DesignerResource x:Key="{x:Type c:PScrollView}">
+        <d:DesignerResource.ToolTip>
+            <ToolTip>
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Path Style="{StaticResource ToolBoxItemIconPathStyle}" Data="{StaticResource Path.iOS}" Width="32" Height="32" VerticalAlignment="Center" HorizontalAlignment="Center" />
+
+                    <TextBlock Grid.Column="1" Text="Hello Content ToolTip!" VerticalAlignment="Center" Margin="8,0"/>
+                </Grid>
+            </ToolTip>
+        </d:DesignerResource.ToolTip>
+        <Path Style="{StaticResource ToolBoxItemIconPathStyle}" Data="{StaticResource Path.iOS}"/>
+    </d:DesignerResource>
+
+    <d:DesignerResource x:Key="{x:Type c:PStackLayout}">
+        <Path Style="{StaticResource ToolBoxItemIconPathStyle}" Data="{StaticResource Path.iOS}"/>
+    </d:DesignerResource>
+    <!-- #endregion -->
+
+    <!-- #region Controls -->
+    <d:DesignerResource x:Key="{x:Type c:PLabel}">
+        <Path Style="{StaticResource ToolBoxItemIconPathStyle}" Data="{StaticResource Path.Android}"/>
+    </d:DesignerResource>
+
+    <d:DesignerResource x:Key="{x:Type c:PBoxView}">
+        <Path Style="{StaticResource ToolBoxItemIconPathStyle}" Data="{StaticResource Path.Android}"/>
+    </d:DesignerResource>
+
+    <d:DesignerResource x:Key="{x:Type c:PButton}">
+        <Path Style="{StaticResource ToolBoxItemIconPathStyle}" Data="{StaticResource Path.Android}"/>
+    </d:DesignerResource>
+
+    <d:DesignerResource x:Key="{x:Type c:PImage}">
+        <Path Style="{StaticResource ToolBoxItemIconPathStyle}" Data="{StaticResource Path.Android}"/>
+    </d:DesignerResource>
+
+    <d:DesignerResource x:Key="{x:Type c:PProgressBar}">
+        <Path Style="{StaticResource ToolBoxItemIconPathStyle}" Data="{StaticResource Path.Android}"/>
+    </d:DesignerResource>
+
+    <d:DesignerResource x:Key="{x:Type c:PWebView}">
+        <Path Style="{StaticResource ToolBoxItemIconPathStyle}" Data="{StaticResource Path.Android}"/>
+    </d:DesignerResource>
+
+    <d:DesignerResource x:Key="{x:Type c:PSlider}">
+        <Path Style="{StaticResource ToolBoxItemIconPathStyle}" Data="{StaticResource Path.Android}"/>
+    </d:DesignerResource>
+    <!-- #endregion -->
+    
+</ResourceDictionary>

@@ -2,9 +2,11 @@
 using DeXign.Extension;
 using System;
 using System.Windows;
+using WPFExtension;
 
 namespace DeXign.Core.Controls
 {
+    [DesignElement(Category = Constants.Designer.Layout, DisplayName = "그리드")]
     [XForms("Xamarin.Forms", "Grid")]
     public class PGridLayout : PLayout<PControl>
     {

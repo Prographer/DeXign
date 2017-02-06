@@ -1,6 +1,7 @@
 ﻿using DeXign.Controls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DeXign.Core.Designer;
 
 namespace DeXign
 {
@@ -25,6 +27,18 @@ namespace DeXign
         {
             InitializeComponent();
             InitializeCommands();
+            InitializeLayouts();
+        }
+
+        private void InitializeLayouts()
+        {
+            // ToolBox
+            foreach (var element in DesignerManager.GetElementTypes())
+            {
+                var resource = (DesignerResource)TryFindResource(element.Element);
+                
+                toolBox.AddItem(new ToolBoxItem(element, resource));
+            }
         }
 
         private void InitializeCommands()
@@ -46,6 +60,19 @@ namespace DeXign
         private void OpenProject_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             MessageBox.Show("열기!");
+        }
+
+        public enum SexType { Male, Female };
+
+        public class User
+        {
+            public string Name { get; set; }
+
+            public int Age { get; set; }
+
+            public string Mail { get; set; }
+
+            public string Sex { get; set; }
         }
     }
 }

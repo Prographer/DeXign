@@ -7,7 +7,7 @@ using Microsoft.Windows.Shell;
 
 using DeXign.Interop;
 using DeXign.Extension;
-
+using WPFExtension;
 using WinSystemCommands = System.Windows.SystemCommands;
 
 using Monitor = DeXign.Interop.NativeMethods.Monitor;

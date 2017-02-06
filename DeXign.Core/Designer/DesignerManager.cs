@@ -8,12 +8,12 @@ namespace DeXign.Core.Designer
 {
     public static class DesignerManager
     {
-        public static IEnumerable<AttributeTuple<DesignElement, Type>> GetElementTypes()
+        public static IEnumerable<AttributeTuple<DesignElementAttribute, Type>> GetElementTypes()
         {
             return Assembly.GetAssembly(typeof(PObject))
                 .GetTypes()
-                .Where(t => t.HasAttribute<DesignElement>())
-                .Select(t => new AttributeTuple<DesignElement, Type>(t.GetAttribute<DesignElement>(), t));
+                .Where(t => t.HasAttribute<DesignElementAttribute>())
+                .Select(t => new AttributeTuple<DesignElementAttribute, Type>(t.GetAttribute<DesignElementAttribute>(), t));
         }
     }
 }

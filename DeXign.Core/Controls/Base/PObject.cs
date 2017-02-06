@@ -1,11 +1,13 @@
 ﻿using DeXign.Extension;
 using System.Windows;
+using WPFExtension;
 
 namespace DeXign.Core.Controls
 {
     public class PObject : DependencyObject
     {
         public static readonly DependencyProperty NameProperty =
+            
             DependencyHelper.Register();
 
         // for resources

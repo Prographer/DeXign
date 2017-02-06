@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DeXign.Core.Controls
 {
-    [DesignElement(DisplayName = "진행바")]
+    [DesignElement(Category = Constants.Designer.Control, DisplayName = "진행바")]
     [XForms("Xamarin.Forms", "ProgressBar")]
     public class PProgressBar : PControl
     {

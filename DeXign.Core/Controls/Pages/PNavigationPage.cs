@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using WPFExtension;
 
 namespace DeXign.Core.Controls
 {
@@ -15,7 +16,7 @@ namespace DeXign.Core.Controls
         public static readonly DependencyProperty CurrentPageProperty =
             DependencyHelper.Register();
 
-        private static readonly DependencyPropertyKey AccentColorPropertyKey =
+        public static readonly DependencyPropertyKey AccentColorPropertyKey =
             DependencyHelper.RegisterReadOnly();
 
         public static readonly DependencyProperty AccentColorProperty =

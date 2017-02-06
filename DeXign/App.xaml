@@ -1,14 +1,14 @@
 ﻿<Application x:Class="DeXign.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:shell="http://schemas.microsoft.com/winfx/2006/xaml/presentation/shell"
-             xmlns:local="clr-namespace:DeXign"
              StartupUri="Windows/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/Resources/Colors.xaml"/>
                 <ResourceDictionary Source="Themes/Resources/Paths.xaml"/>
+                
+                <ResourceDictionary Source="Themes/Resources/ToolBoxResources.xaml"/>
                 
                 <ResourceDictionary Source="Themes/DexignStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>

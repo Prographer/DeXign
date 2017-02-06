@@ -6,13 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using WPFExtension;
 
 namespace DeXign.Core.Controls
 {
     [XForms("Xamarin.Forms", "Page")]
     public class PPage : PVisual
     {
-        public static readonly DependencyProperty TitleProperty =
+        private static readonly DependencyProperty TitleProperty =
             DependencyHelper.Register();
 
         public static readonly DependencyProperty PaddingProperty =

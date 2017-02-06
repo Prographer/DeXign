@@ -56,6 +56,10 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFExtension, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WPFExtension.1.0.1\lib\net45\WPFExtension.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -71,6 +75,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Resources\Paths.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Resources\ToolBoxResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -91,11 +99,12 @@
     <Compile Include="Controls\MenuItemEx.cs" />
     <Compile Include="Controls\PathButton.cs" />
     <Compile Include="Controls\Separator.cs" />
-    <Compile Include="Controls\Toolbox.cs" />
+    <Compile Include="Controls\ToolBox.cs" />
     <Compile Include="MVVM\Converter\BaseValueConverter.cs" />
     <Compile Include="Interop\ExternDll.cs" />
     <Compile Include="Interop\NativeMethods.cs" />
     <Compile Include="Interop\UnsafeNativeMethods.cs" />
+    <Compile Include="MVVM\ToolBoxItem.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

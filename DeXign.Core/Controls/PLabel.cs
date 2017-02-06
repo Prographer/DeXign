@@ -2,10 +2,11 @@
 
 using System.Windows;
 using System.Windows.Media;
+using WPFExtension;
 
 namespace DeXign.Core.Controls
 {
-    [DesignElement(DisplayName = "텍스트")]
+    [DesignElement(Category = Constants.Designer.Control, DisplayName = "텍스트")]
     [XForms("Xamarin.Forms", "Label")]
     public class PLabel : PControl, IFontControl
     {

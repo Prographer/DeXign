@@ -1,5 +1,6 @@
 ﻿using DeXign.Extension;
 using System.Windows;
+using WPFExtension;
 
 namespace DeXign.Core.Controls
 {

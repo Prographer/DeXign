@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DeXign.Core.Controls
 {
-    [DesignElement(DisplayName = "슬라이더")]
+    [DesignElement(Category = Constants.Designer.Control, DisplayName = "슬라이더")]
     [XForms("Xamarin.Forms", "Slider")]
     public class PSlider : PControl
     {

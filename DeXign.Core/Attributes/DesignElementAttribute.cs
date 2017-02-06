@@ -2,14 +2,12 @@
 
 namespace DeXign.Core
 {
-    public class DesignElement : Attribute
+    public class DesignElementAttribute : Attribute
     {
         public bool Visible { get; set; } = true;
 
         public string DisplayName { get; set; }
 
-        public DesignElement()
-        {
-        }
+        public string Category { get; set; }
     }
 }

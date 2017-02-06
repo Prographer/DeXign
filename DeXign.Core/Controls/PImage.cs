@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DeXign.Core.Controls
 {
-    [DesignElement(DisplayName = "이미지")]
+    [DesignElement(Category = Constants.Designer.Control, DisplayName = "이미지")]
     [XForms("Xamarin.Forms", "Image")]
     public class PImage : PControl
     {
