@@ -17,7 +17,7 @@
     <d:DesignerResource x:Key="{x:Type c:PScrollView}">
         <d:DesignerResource.ToolTip>
             <ToolTip>
-                <Grid >
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition/>

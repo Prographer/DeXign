@@ -1,5 +1,4 @@
-﻿using DeXign.Extension;
-using System.Windows;
+﻿using System.Windows;
 using WPFExtension;
 
 namespace DeXign.Core.Controls
@@ -7,12 +6,12 @@ namespace DeXign.Core.Controls
     public class PObject : DependencyObject
     {
         public static readonly DependencyProperty NameProperty =
-            
             DependencyHelper.Register();
 
         // for resources
         public string Id { get; set; }
 
+        [DesignElement(DisplayName = "이름")]
         public string Name
         {
             get { return GetValue<string>(NameProperty); }

@@ -2,9 +2,9 @@
 using System.Reflection;
 using System.Windows;
 
-namespace DeXign.Core
+namespace DeXign.Extension
 {
-    internal static class ReflectionEx
+    public static class ReflectionEx
     {
         public static TAttribute GetAttribute<TAttribute>(this object obj)
              where TAttribute : Attribute

@@ -9,8 +9,10 @@
                 <ResourceDictionary Source="Themes/Resources/Paths.xaml"/>
                 
                 <ResourceDictionary Source="Themes/Resources/ToolBoxResources.xaml"/>
+                <ResourceDictionary Source="Themes/Resources/PropertyGridResources.xaml"/>
                 
                 <ResourceDictionary Source="Themes/DexignStyle.xaml"/>
+                <ResourceDictionary Source="Themes/DesignerStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

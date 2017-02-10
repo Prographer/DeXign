@@ -95,7 +95,6 @@
     <Compile Include="Designer\DesignerResource.cs" />
     <Compile Include="Extension\CodeComponentEx.cs" />
     <Compile Include="Extension\LayoutExtension.cs" />
-    <Compile Include="Extension\ReflectionEx.cs" />
     <Compile Include="Generator\Base\CodeGeneratorAssemblyInfo.cs" />
     <Compile Include="Generator\Base\CodeGeneratorUnit.cs" />
     <Compile Include="Generator\Base\CodeComponent.cs" />

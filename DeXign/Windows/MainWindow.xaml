@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DeXign"
         xmlns:c="clr-namespace:DeXign.Controls"
+        xmlns:dc="clr-namespace:DeXign.Designer.Controls"
+        xmlns:l="clr-namespace:DeXign.Designer.Layer"
         x:Class="DeXign.MainWindow"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
@@ -101,13 +103,29 @@
                 </Grid>
             </c:ClosableTabItem>
             <c:ClosableTabItem Header="Test2">
+                <Grid>
+                    <ScrollViewer>
+                        <AdornerDecorator>
+                            <dc:Storyboard Background="Transparent">
+                                <dc:Storyboard.RenderTransform>
+                                    <ScaleTransform ScaleX="{Binding Value, ElementName=slider}" ScaleY="{Binding Value, ElementName=slider}"/>
+                                </dc:Storyboard.RenderTransform>
+
+                                <TextBlock Text="Hello DeXign Deisgner" TextAlignment="Center" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5" local:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Canvas.Left="24" Canvas.Top="20" Background="Crimson"/>
+                                <Grid Height="81" Width="187" local:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="DarkSlateBlue" Canvas.Left="164" Canvas.Top="67">
+                                </Grid>
+                            </dc:Storyboard>
+                        </AdornerDecorator>
+                    </ScrollViewer>
+                    <Slider x:Name="slider" VerticalAlignment="Bottom" Margin="10" Maximum="8" Minimum="0.25" Value="1"/>
+                </Grid>
             </c:ClosableTabItem>
         </TabControl>
 
         <GridSplitter Grid.Column="3" Background="#C0C0C0" Width="2" HorizontalAlignment="Center"/>
 
         <c:HeaderLayout Grid.Column="4" Header="속성" Style="{StaticResource DeXignHeaderLayoutStyle}">
-            <Label Content="HeaderLayout2 - Content" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
         </c:HeaderLayout>
     </Grid>
 </c:ChromeWindow>

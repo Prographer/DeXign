@@ -46,6 +46,7 @@ namespace DeXign.Core.Controls
         public static readonly DependencyProperty YProperty =
             DependencyHelper.Register();
 
+        [DesignElement(Category = Constants.Property.Transform, DisplayName = "기준점 X")]
         [XForms("AnchorX")]
         public double AnchorX
         {
@@ -53,6 +54,7 @@ namespace DeXign.Core.Controls
             set { SetValue(AnchorXProperty, value); }
         }
 
+        [DesignElement(Category = Constants.Property.Transform, DisplayName = "기준점 Y")]
         [XForms("AnchorY")]
         public double AnchorY
         {
@@ -60,6 +62,7 @@ namespace DeXign.Core.Controls
             set { SetValue(AnchorYProperty, value); }
         }
 
+        [DesignElement(Category = Constants.Property.Design, DisplayName = "배경색")]
         [XForms("BackgroundColor")]
         public SolidColorBrush Background
         {
@@ -67,6 +70,7 @@ namespace DeXign.Core.Controls
             set { SetValue(BackgroundProperty, value); }
         }
 
+        [DesignElement(Category = Constants.Property.Design, DisplayName = "가로 크기")]
         [XForms("WidthRequest")]
         public double Width
         {
@@ -74,6 +78,7 @@ namespace DeXign.Core.Controls
             set { SetValue(WidthProperty, value); }
         }
 
+        [DesignElement(Category = Constants.Property.Design, DisplayName = "세로 크기")]
         [XForms("HeightRequest")]
         public double Height
         {
@@ -81,6 +86,7 @@ namespace DeXign.Core.Controls
             set { SetValue(HeightProperty, value); }
         }
 
+        [DesignElement(Category = Constants.Property.Design, DisplayName = "세로 최소 크기")]
         [XForms("MinimumHeightRequest")]
         public double MinHeight
         {
@@ -88,6 +94,7 @@ namespace DeXign.Core.Controls
             set { SetValue(MinHeightProperty, value); }
         }
 
+        [DesignElement(Category = Constants.Property.Design, DisplayName = "가로 최소 크기")]
         [XForms("MinimumWidthRequest")]
         public double MinWidth
         {
@@ -95,6 +102,7 @@ namespace DeXign.Core.Controls
             set { SetValue(MinWidthProperty, value); }
         }
 
+        [DesignElement(Category = Constants.Property.Design, DisplayName = "투명도")]
         [XForms("Opacity")]
         public double Opacity
         {
@@ -102,6 +110,7 @@ namespace DeXign.Core.Controls
             set { SetValue(OpacityProperty, value); }
         }
 
+        [DesignElement(Category = Constants.Property.Transform, DisplayName = "회전")]
         [XForms("Rotation")]
         public double Rotation
         {
@@ -109,6 +118,7 @@ namespace DeXign.Core.Controls
             set { SetValue(RotationProperty, value); }
         }
 
+        [DesignElement(Category = Constants.Property.Transform, DisplayName = "3차원 가로 회전")]
         [XForms("RotationX")]
         public double RotationX
         {
@@ -116,6 +126,7 @@ namespace DeXign.Core.Controls
             set { SetValue(RotationXProperty, value); }
         }
 
+        [DesignElement(Category = Constants.Property.Transform, DisplayName = "3차원 세로 회전")]
         [XForms("RotationY")]
         public double RotationY
         {

@@ -15,6 +15,7 @@ namespace DeXign.Core.Controls
         public static readonly DependencyProperty PaddingProperty =
             DependencyHelper.Register();
 
+        [DesignElement(Category = Constants.Property.Blank, DisplayName = "안쪽 여백")]
         [XForms("Padding")]
         public Thickness Padding
         {
@@ -23,7 +24,7 @@ namespace DeXign.Core.Controls
         }
     }
 
-    [XForms("Layout", "Xamarin.Forms", ContentProperty = "Children")]
+    [XForms("Blank", "Xamarin.Forms", ContentProperty = "Children")]
     public class PLayout<T> : PLayout 
         where T : PControl
     {

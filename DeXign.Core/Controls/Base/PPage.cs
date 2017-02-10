@@ -19,9 +19,11 @@ namespace DeXign.Core.Controls
         public static readonly DependencyProperty PaddingProperty =
             DependencyHelper.Register();
 
+        [DesignElement(Category = Constants.Property.Layout, DisplayName = "제목")]
         [XForms("Title")]
         public string Title { get; set; }
 
+        [DesignElement(Category = Constants.Property.Blank, DisplayName = "안쪽 여백")]
         [XForms("Padding")]
         public Thickness Padding
         {

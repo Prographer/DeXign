@@ -1,19 +1,8 @@
 ﻿using DeXign.Controls;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using DeXign.Core.Controls;
 using DeXign.Core.Designer;
 
 namespace DeXign
@@ -62,17 +51,10 @@ namespace DeXign
             MessageBox.Show("열기!");
         }
 
-        public enum SexType { Male, Female };
-
-        public class User
+        const double ScaleRate = 1.1;
+        private void Canvas_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            public string Name { get; set; }
-
-            public int Age { get; set; }
-
-            public string Mail { get; set; }
-
-            public string Sex { get; set; }
+      
         }
     }
 }

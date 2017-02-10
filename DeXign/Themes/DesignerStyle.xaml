@@ -1,0 +1,28 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:dc="clr-namespace:DeXign.Designer.Controls">
+    <Style TargetType="{x:Type dc:Storyboard}">
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="Background" Value="White"/>
+        <Style.Triggers>
+            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource AncestorType=Storyboard}}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type dc:ResizeThumb}">
+        <Setter Property="Width" Value="5"/>
+        <Setter Property="Height" Value="5"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Stroke" Value="Red"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type dc:ResizeThumb}">
+                    <Rectangle Fill="{TemplateBinding Background}" StrokeThickness="1" Stroke="{TemplateBinding Stroke}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

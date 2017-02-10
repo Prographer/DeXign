@@ -31,6 +31,7 @@ namespace DeXign.Core.Controls
         public static readonly DependencyProperty FontSizeProperty =
             DependencyHelper.Register(new PropertyMetadata(12d));
 
+        [DesignElement(Category = Constants.Property.Design, DisplayName = "텍스트")]
         [XForms("Text")]
         public string Text
         {
@@ -38,6 +39,7 @@ namespace DeXign.Core.Controls
             set { SetValue(TextProperty, value); }
         }
 
+        [DesignElement(Category = Constants.Property.Layout, DisplayName = "텍스트 세로 정렬")]
         [XForms("VerticalTextAlignment")]
         public TextAlignment VerticalTextAlignment
         {
@@ -45,6 +47,7 @@ namespace DeXign.Core.Controls
             set { SetValue(VerticalTextAlignmentProperty, value); }
         }
 
+        [DesignElement(Category = Constants.Property.Layout, DisplayName = "텍스트 가로 정렬")]
         [XForms("HorizontalTextAlignment")]
         public TextAlignment HorizontalTextAlignment
         {
@@ -61,12 +64,14 @@ namespace DeXign.Core.Controls
             }
         }
 
+        [DesignElement(Category = Constants.Property.Design, DisplayName = "폰트")]
         public FontFamily FontFamily
         {
             get { return GetValue<FontFamily>(FontFamilyProperty); }
             set { SetValue(FontFamilyProperty, value); }
         }
 
+        [DesignElement(Category = Constants.Property.Design, DisplayName = "텍스트 색상")]
         [XForms("TextColor")]
         public Brush Foreground
         {

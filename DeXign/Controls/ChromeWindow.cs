@@ -54,10 +54,8 @@ namespace DeXign.Controls
             set { SetValue(MenuProperty, value); }
         }
 
-        public IntPtr Handle
-        {
-            get { return (IntPtr)GetValue(HandlePropertyKey.DependencyProperty); }
-        }
+        public IntPtr Handle => (IntPtr)GetValue(HandlePropertyKey.DependencyProperty);
+
         #endregion
 
         #region [ Constructor ]

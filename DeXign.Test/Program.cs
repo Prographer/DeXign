@@ -15,7 +15,8 @@ namespace DeXign.Test
     {
         static void Main(string[] args)
         {
-            DesignerTest();
+            Test1();
+            //DesignerTest();
         }
 
         private static void DesignerTest()

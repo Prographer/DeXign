@@ -7,6 +7,7 @@ using System.Xml;
 using System.Linq;
 using System.IO;
 using System.Text;
+using DeXign.Extension;
 
 namespace DeXign.Core
 {

@@ -34,12 +34,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="KStringExtension, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\KString.2.0.2\lib\portable-net4+sl5+wp71+win8\KStringExtension.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -66,6 +71,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Themes\DesignerStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\DexignStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -75,6 +84,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Resources\Paths.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Resources\PropertyGridResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -95,16 +108,34 @@
     <Compile Include="Controls\ChromeWindow.cs" />
     <Compile Include="Controls\ClosableTabItem.cs" />
     <Compile Include="Controls\ControlBox.cs" />
+    <Compile Include="Controls\FilterListView.cs" />
     <Compile Include="Controls\HeaderLayout.cs" />
     <Compile Include="Controls\HintTextBox.cs" />
     <Compile Include="Controls\MenuItemEx.cs" />
     <Compile Include="Controls\PathButton.cs" />
+    <Compile Include="Designer\Attribute\ExportRendererAttribute.cs" />
+    <Compile Include="Designer\Controls\Layer\ControlLayer.cs" />
+    <Compile Include="Designer\Controls\Layer\GuideLayer.cs" />
+    <Compile Include="Designer\Controls\ResizeThumb.cs" />
     <Compile Include="Controls\Separator.cs" />
     <Compile Include="Controls\ToolBox.cs" />
+    <Compile Include="Designer\Controls\Layer\SelectionLayer.cs" />
+    <Compile Include="Designer\Controls\Storyboard.cs" />
+    <Compile Include="Controls\ZoomPanel.cs" />
+    <Compile Include="Designer\Controls\Layer\StoryboardLayer.cs" />
+    <Compile Include="Designer\DesignMode.cs" />
+    <Compile Include="Designer\Interfaces\IDropHost.cs" />
+    <Compile Include="Designer\Interfaces\IRenderer.cs" />
+    <Compile Include="Designer\Renderer\LayerRenderer.cs" />
+    <Compile Include="Designer\Renderer\ScreenRenderer.cs" />
+    <Compile Include="Designer\GroupSelector.cs" />
+    <Compile Include="MVVM\AttachedAdorner.cs" />
     <Compile Include="MVVM\Converter\BaseValueConverter.cs" />
     <Compile Include="Interop\ExternDll.cs" />
     <Compile Include="Interop\NativeMethods.cs" />
     <Compile Include="Interop\UnsafeNativeMethods.cs" />
+    <Compile Include="MVVM\Converter\RadiusConverter.cs" />
+    <Compile Include="MVVM\Converter\ReciprocalConverter.cs" />
     <Compile Include="MVVM\ToolBoxItem.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

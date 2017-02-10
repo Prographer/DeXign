@@ -29,28 +29,29 @@ namespace DeXign.Core.Controls
         public static readonly DependencyProperty ColumnProperty =
             DependencyHelper.RegisterAttached<int>(
                     new FrameworkPropertyMetadata(
-                        0, new PropertyChangedCallback(OnCellAttachedPropertyChanged)));
+                        0, OnCellAttachedPropertyChanged));
 
         public static readonly DependencyProperty RowProperty =
             DependencyHelper.RegisterAttached<int>(
                     new FrameworkPropertyMetadata(
-                        0, new PropertyChangedCallback(OnCellAttachedPropertyChanged)));
+                        0, OnCellAttachedPropertyChanged));
 
         public static readonly DependencyProperty ColumnSpanProperty =
             DependencyHelper.RegisterAttached<int>(
                     new FrameworkPropertyMetadata(
-                        1, new PropertyChangedCallback(OnCellAttachedPropertyChanged)));
+                        1, OnCellAttachedPropertyChanged));
 
         public static readonly DependencyProperty RowSpanProperty =
             DependencyHelper.RegisterAttached<int>(
                     new FrameworkPropertyMetadata(
-                        1, new PropertyChangedCallback(OnCellAttachedPropertyChanged)));
+                        1, OnCellAttachedPropertyChanged));
 
         private static void OnCellAttachedPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             // TODO: Update
         }
 
+        [DesignElement(Category = Constants.Property.Blank, DisplayName = "가로축 공백")]
         [XForms("ColumnSpacing")]
         public double ColumnSpacing
         {
@@ -58,6 +59,7 @@ namespace DeXign.Core.Controls
             set { SetValue(ColumnSpacingProperty, value); }
         }
 
+        [DesignElement(Category = Constants.Property.Blank, DisplayName = "세로축 공백")]
         [XForms("RowSpacing")]
         public double RowSpacing
         {
