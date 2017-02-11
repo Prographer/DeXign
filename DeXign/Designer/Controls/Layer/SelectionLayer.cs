@@ -535,7 +535,7 @@ namespace DeXign.Designer.Layer
 
             textBound.Inflate(2 / ScaleX, 2 / ScaleX);
             
-            bool hOverflow = textBound.Height >= lineHeight;
+            bool hOverflow = textBound.Width >= lineHeight;
 
             if (hOverflow)
                 dc.PushTransform(isRight
