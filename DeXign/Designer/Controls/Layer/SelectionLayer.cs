@@ -423,14 +423,15 @@ namespace DeXign.Designer.Layer
         {
             var pen = new Pen(SelectionBrush, 1d / ScaleX);
 
-            double top = -22 / ScaleX;
+            double top = -23 / ScaleX;
             double hTop = top + 5 / ScaleX;
             double lineHeight = 15d / ScaleX;
+            double lineWidth = RenderSize.Width - 1d / ScaleX;
 
             if (isBottom)
             {
-                top = RenderSize.Height + 7 / ScaleX;
-                hTop = top + 10 / ScaleX;
+                top = RenderSize.Height + 7d / ScaleX;
+                hTop = top + 10d / ScaleX;
             }
 
             // Left Vertical Line
@@ -440,13 +441,13 @@ namespace DeXign.Designer.Layer
 
             // Right Vertical Line
             dc.DrawLine(pen,
-                new Point(RenderSize.Width, top),
-                new Point(RenderSize.Width, top + lineHeight));
+                new Point(lineWidth, top),
+                new Point(lineWidth, top + lineHeight));
 
             // Horizontal Line
             dc.DrawLine(pen,
                 new Point(0, hTop),
-                new Point(RenderSize.Width, hTop));
+                new Point(lineWidth, hTop));
 
             // Value Box
             string value = RenderSize.Width.ToString("#.##");
@@ -460,47 +461,58 @@ namespace DeXign.Designer.Layer
                 SelectionBrush);
 
             var textPosition = new Point(
-                RenderSize.Width / 2 - formattedText.Width / 2,
+                lineWidth / 2 - formattedText.Width / 2,
                 hTop - formattedText.Height / 2);
 
             var textBound = new Rect(
                 textPosition,
                 new Size(formattedText.Width, formattedText.Height));
-
+            
             textBound.Inflate(2 / ScaleX, 2 / ScaleX);
+            
+            bool wOverflow = textBound.Width >= lineWidth;
+
+            if (wOverflow)
+                dc.PushTransform(isBottom
+                    ? new TranslateTransform(0, 15d / ScaleX)
+                    : new TranslateTransform(0, -15d / ScaleX));
 
             dc.DrawRectangle(Brushes.White, null, textBound);
             dc.DrawText(formattedText, textPosition);
+
+            if (wOverflow)
+                dc.Pop();
         }
 
         private void DrawGuideLineHeight(DrawingContext dc, bool isRight)
         {
             var pen = new Pen(SelectionBrush, 1d / ScaleX);
 
-            double left = -22 / ScaleX;
+            double left = -23 / ScaleX;
             double vLeft = left + 5 / ScaleX;
-            double lineHeight = 15d / ScaleX;
+            double lineWidth = 15d / ScaleX;
+            double lineHeight = RenderSize.Height - 1d / ScaleX;
 
             if (isRight)
             {
-                left = RenderSize.Width + 7 / ScaleX;
-                vLeft = left + 10 / ScaleX;
+                left = RenderSize.Width + 7d / ScaleX;
+                vLeft = left + 10d / ScaleX;
             }
 
             // Top Horizontal Line
             dc.DrawLine(pen,
                 new Point(left, 0),
-                new Point(left + lineHeight, 0));
+                new Point(left + lineWidth, 0));
 
             // Bottom Horizontal Line
             dc.DrawLine(pen,
-                new Point(left, RenderSize.Height),
-                new Point(left + lineHeight, RenderSize.Height));
+                new Point(left, lineHeight),
+                new Point(left + lineWidth, lineHeight));
 
             // Vertical Line
             dc.DrawLine(pen,
                 new Point(vLeft, 0),
-                new Point(vLeft, RenderSize.Height));
+                new Point(vLeft, lineHeight));
 
             // Value Box
             string value = this.RenderSize.Height.ToString("#.##");
@@ -515,13 +527,20 @@ namespace DeXign.Designer.Layer
 
             var textPosition = new Point(
                 vLeft - formattedText.Width / 2,
-                RenderSize.Height / 2 - formattedText.Height / 2);
+                lineHeight / 2 - formattedText.Height / 2);
 
             var textBound = new Rect(
                 textPosition,
                 new Size(formattedText.Width, formattedText.Height));
 
             textBound.Inflate(2 / ScaleX, 2 / ScaleX);
+            
+            bool hOverflow = textBound.Height >= lineHeight;
+
+            if (hOverflow)
+                dc.PushTransform(isRight
+                    ? new TranslateTransform(15d / ScaleX, 0)
+                    : new TranslateTransform(-15d / ScaleX, 0));
 
             dc.PushTransform(
                 new RotateTransform(90,
@@ -532,6 +551,9 @@ namespace DeXign.Designer.Layer
             dc.DrawText(formattedText, textPosition);
 
             dc.Pop();
+
+            if (hOverflow)
+                dc.Pop();
         }
         #endregion
     }

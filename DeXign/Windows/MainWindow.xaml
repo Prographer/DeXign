@@ -106,14 +106,18 @@
                 <Grid>
                     <ScrollViewer>
                         <AdornerDecorator>
-                            <dc:Storyboard Background="Transparent">
+                            <dc:Storyboard Background="DarkKhaki">
                                 <dc:Storyboard.RenderTransform>
                                     <ScaleTransform ScaleX="{Binding Value, ElementName=slider}" ScaleY="{Binding Value, ElementName=slider}"/>
                                 </dc:Storyboard.RenderTransform>
 
-                                <TextBlock Text="Hello DeXign Deisgner" TextAlignment="Center" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5" local:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Canvas.Left="24" Canvas.Top="20" Background="Crimson"/>
                                 <Grid Height="81" Width="187" local:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="DarkSlateBlue" Canvas.Left="164" Canvas.Top="67">
+                                    <TextBlock Text="Hello DeXign Deisgner" Margin="10,30,10,31" Width="167" TextAlignment="Center" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5" local:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Canvas.Left="24" Canvas.Top="20" Background="Crimson" />
                                 </Grid>
+
+                                <StackPanel Height="81" Width="188" local:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="DarkSlateBlue" Canvas.Left="384" Canvas.Top="67">
+                                    <TextBlock Text="Hello DeXign Deisgner" TextAlignment="Center" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" local:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Canvas.Left="24" Canvas.Top="20" Background="Crimson" HorizontalAlignment="Left" Width="188" />
+                                </StackPanel>
                             </dc:Storyboard>
                         </AdornerDecorator>
                     </ScrollViewer>
