@@ -273,7 +273,6 @@ namespace DeXign.Designer.Layer
                     this.DesignMode = DesignMode.Trigger;
                     break;
             }
-            Console.WriteLine(DesignMode.ToString());
         }
 
         private void Target_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

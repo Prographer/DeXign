@@ -55,6 +55,9 @@ namespace DeXign.Designer
 
         public static void UnselectAll(string group = "default", params FrameworkElement[] ignorElements)
         {
+            if (!groups.ContainsKey(group))
+                return;
+
             foreach (var item in GetSelectedItems(group).Except(ignorElements).ToArray())
                 Select(item, false, group);
         }

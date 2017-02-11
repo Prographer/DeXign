@@ -4,6 +4,7 @@ using System.Windows.Media;
 using System.Windows.Shell;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using DeXign.Extension;
 using WPFExtension;
 
 namespace DeXign.Designer.Controls
@@ -27,6 +28,7 @@ namespace DeXign.Designer.Controls
         private Vector beginSize;
         private Vector beginPosition;
         private Thickness beginThickness;
+        private Rect beginBound;
         private Vector positionLimit;
 
         public ResizeThumb(FrameworkElement target)
@@ -39,9 +41,18 @@ namespace DeXign.Designer.Controls
         
         private void OnDragDelta(object sender, DragDeltaEventArgs e)
         {
+            Vector scale = GetScale();
+
+            double deltaX = e.HorizontalChange * scale.X;
+            double deltaY = e.VerticalChange * scale.Y;
+
             if (Target.Parent is Canvas)
             {
-                OnCanvasDragDelta(e);
+                OnCanvasDragDelta(deltaX, deltaY);
+            }
+            else if (Target.Parent is Panel)
+            {
+                OnPanelDragDelta(deltaX, deltaY);
             }
             else
             {
@@ -60,7 +71,12 @@ namespace DeXign.Designer.Controls
                     Canvas.GetLeft(Target),
                     Canvas.GetTop(Target));
             else
+            {
+                var position = Target.TranslatePoint(new Point(0, 0), (UIElement)Target.Parent);
+
                 beginThickness = Target.Margin;
+                beginBound = new Rect(position, (Size)beginSize);
+            }
 
             positionLimit = new Vector(
                 beginPosition.X + beginSize.X - Target.MinWidth,
@@ -77,89 +93,243 @@ namespace DeXign.Designer.Controls
             return new Vector(1, 1);
         }
 
-        protected virtual void OnCanvasDragDelta(DragDeltaEventArgs e)
+        private void OnPanelDragDelta(double deltaX, double deltaY)
         {
-            Vector scale = GetScale();
+            bool marginLeft = 
+                Target.HorizontalAlignment == HorizontalAlignment.Left ||
+                Target.HorizontalAlignment == HorizontalAlignment.Stretch;
 
-            double deltaX = e.HorizontalChange * scale.X;
-            double deltaY = e.VerticalChange * scale.Y;
+            bool marginRight =
+                Target.HorizontalAlignment == HorizontalAlignment.Right ||
+                Target.HorizontalAlignment == HorizontalAlignment.Stretch;
 
-            bool sizingWidth = false;
-            bool sizingHeight = false;
-            bool sizingX = false;
-            bool sizingY = false;
+            bool marginTop =
+                Target.VerticalAlignment == VerticalAlignment.Top ||
+                Target.VerticalAlignment == VerticalAlignment.Stretch;
 
+            bool marginBottom =
+                Target.VerticalAlignment == VerticalAlignment.Bottom ||
+                Target.VerticalAlignment == VerticalAlignment.Stretch;
+
+            bool hasSizingLeft =
+                ResizeDirection == ResizeGripDirection.Left ||
+                ResizeDirection == ResizeGripDirection.BottomLeft ||
+                ResizeDirection == ResizeGripDirection.TopLeft;
+
+            bool hasSizingRight =
+                ResizeDirection == ResizeGripDirection.Right ||
+                ResizeDirection == ResizeGripDirection.BottomRight ||
+                ResizeDirection == ResizeGripDirection.TopRight;
+
+            bool hasSizingTop =
+                ResizeDirection == ResizeGripDirection.Top ||
+                ResizeDirection == ResizeGripDirection.TopLeft ||
+                ResizeDirection == ResizeGripDirection.TopRight;
+
+            bool hasSizingBottom =
+                ResizeDirection == ResizeGripDirection.Bottom ||
+                ResizeDirection == ResizeGripDirection.BottomLeft ||
+                ResizeDirection == ResizeGripDirection.BottomRight;
+
+            Thickness margin = Target.Margin;
+            var parentPanel = (Panel)Target.Parent;
+            var position = Target.TranslatePoint(new Point(0, 0), parentPanel);
+
+            if (hasSizingTop)
+            {
+                // Center, Bottom
+                if (!marginTop)
+                    SizingHeight(-deltaY);
+
+                // Stretch
+                if (marginTop & marginBottom)
+                {
+                    margin.Bottom = parentPanel.RenderSize.Height - position.Y - Target.RenderSize.Height;
+                    margin.Top += deltaY;
+                }
+
+                // Top
+                if (marginTop & !marginBottom)
+                {
+                    double sizedHeight = SizingHeight(-deltaY);
+
+                    margin.Top = beginBound.Bottom - sizedHeight;
+                }
+            }
+
+            if (hasSizingBottom)
+            {
+                // Center, Top
+                if (!marginBottom)
+                    SizingHeight(deltaY);
+
+                // Stretch
+                if (marginTop & marginBottom)
+                {
+                    margin.Top = position.Y;
+                    margin.Bottom -= deltaY;
+                }
+
+                // Bottom
+                if (marginBottom & !marginTop)
+                {
+                    double sizedHeight = SizingHeight(deltaY);
+
+                    margin.Bottom = parentPanel.RenderSize.Height - position.Y - sizedHeight;
+                }
+            }
+
+            if (hasSizingLeft)
+            {
+                // Center, Right
+                if (!marginLeft)
+                    SizingWidth(-deltaX);
+
+                // Stretch
+                if (marginLeft & marginRight)
+                {
+                    margin.Right = parentPanel.RenderSize.Width - position.X - Target.RenderSize.Width;
+                    margin.Left += deltaX;
+                }
+
+                // Left
+                if (marginLeft & !marginRight)
+                {
+                    double sizedWidth = SizingWidth(-deltaX);
+
+                    margin.Left = beginBound.Right - sizedWidth;
+                }
+            }
+
+            if (hasSizingRight)
+            {
+                // Center, Left
+                if (!marginRight)
+                    SizingWidth(deltaX);
+
+                // Stretch
+                if (marginLeft & marginRight)
+                {
+                    margin.Left = position.X;
+                    margin.Right -= deltaX;
+                }
+
+                // Right
+                if (marginRight & !marginLeft)
+                {
+                    double sizedWidth = SizingWidth(deltaX);
+
+                    margin.Right = parentPanel.RenderSize.Width - position.X - sizedWidth;
+                }
+            }
+            
+            Target.Margin = margin;
+        }
+
+        protected virtual void OnCanvasDragDelta(double deltaX, double deltaY)
+        {
             switch (ResizeDirection)
             {
-                case ResizeGripDirection.BottomRight:
-                    sizingWidth = true;
-                    sizingHeight = true;
-                    break;
-
-                case ResizeGripDirection.Bottom:
-                    sizingHeight = true;
-                    break;
-
-                case ResizeGripDirection.BottomLeft:
-                    deltaX *= -1;
-
-                    sizingWidth = true;
-                    sizingHeight = true;
-                    sizingX = true;
-                    break;
-
+                #region < Resize Horizontal >
                 case ResizeGripDirection.Left:
-                    deltaX *= -1;
-
-                    sizingWidth = true;
-                    sizingX = true;
+                    SizingWidth(-deltaX);
+                    SizingX(-deltaX);
                     break;
 
                 case ResizeGripDirection.Right:
-                    sizingWidth = true;
+                    SizingWidth(deltaX);
                     break;
+                #endregion
 
-                case ResizeGripDirection.TopRight:
-                    deltaY *= -1;
-
-                    sizingWidth = true;
-                    sizingHeight = true;
-                    sizingY = true;
-                    break;
-
+                #region < Resize Vertical >
                 case ResizeGripDirection.Top:
-                    deltaY *= -1;
+                    SizingHeight(-deltaY);
+                    SizingY(-deltaY);
+                    break;
 
-                    sizingHeight = true;
-                    sizingY = true;
+                case ResizeGripDirection.Bottom:
+                    SizingHeight(deltaY);
+                    break;
+                #endregion
+
+                #region < Resize NEWS >
+                case ResizeGripDirection.BottomRight:
+                    SizingWidth(deltaX);
+                    SizingHeight(deltaY);
                     break;
 
                 case ResizeGripDirection.TopLeft:
-                    deltaX *= -1;
-                    deltaY *= -1;
-
-                    sizingWidth = true;
-                    sizingHeight = true;
-                    sizingX = true;
-                    sizingY = true;
+                    SizingWidth(-deltaX);
+                    SizingHeight(-deltaY);
+                    SizingX(-deltaX);
+                    SizingY(-deltaY);
                     break;
+                #endregion
+
+                #region < Resize WNSE >
+                case ResizeGripDirection.BottomLeft:
+                    SizingWidth(-deltaX);
+                    SizingHeight(deltaY);
+                    SizingX(-deltaX);
+                    break;
+
+                case ResizeGripDirection.TopRight:
+                    SizingWidth(deltaX);
+                    SizingHeight(-deltaY);
+                    SizingY(-deltaY);
+                    break;
+                #endregion
             }
+        }
 
-            if (sizingWidth)
-                Target.Width = Math.Max(Target.MinWidth, Target.ActualWidth + deltaX);
+        private double SizingWidth(double deltaX)
+        {
+            return Target.Width = Math.Max(Target.MinWidth, Target.ActualWidth + deltaX);
+        }
 
-            if (sizingHeight)
-                Target.Height = Math.Max(Target.MinHeight, Target.ActualHeight + deltaY);
+        private double SizingHeight(double deltaY)
+        {
+            return Target.Height = Math.Max(Target.MinHeight, Target.ActualHeight + deltaY);
+        }
 
-            if (sizingX)
+        private double SizingX(double deltaX, bool isCanvas = true)
+        {
+            if (isCanvas)
+            {
+                double x;
+
                 Canvas.SetLeft(
                     Target,
-                    Math.Min(Canvas.GetLeft(Target) - deltaX, positionLimit.X));
+                    x = Math.Min(Canvas.GetLeft(Target) - deltaX, positionLimit.X));
 
-            if (sizingY)
+                return x;
+            }
+            else
+            {
+                // TODO: Grid, StackaPanel, ScrollViewer
+            }
+
+            return -1;
+        }
+
+        private double SizingY(double deltaY, bool isCanvas = true)
+        {
+            if (isCanvas)
+            {
+                double x;
+
                 Canvas.SetTop(
                     Target,
-                    Math.Min(Canvas.GetTop(Target) - deltaY, positionLimit.Y));
+                    x = Math.Min(Canvas.GetTop(Target) - deltaY, positionLimit.Y));
+
+                return x;
+            }
+            else
+            {
+                // TODO: Grid, StackaPanel, ScrollViewer
+            }
+
+            return -1;
         }
     }
 }

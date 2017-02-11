@@ -20,7 +20,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type dc:ResizeThumb}">
-                    <Rectangle Fill="{TemplateBinding Background}" StrokeThickness="1" Stroke="{TemplateBinding Stroke}"/>
+                    <Rectangle x:Name="rect" Fill="{TemplateBinding Background}" StrokeThickness="1" Stroke="{TemplateBinding Stroke}"/>
+                     <ControlTemplate.Triggers>
+                         <Trigger Property="IsDragging" Value="True">
+                             <Setter TargetName="rect" Property="Fill" Value="{Binding Stroke, RelativeSource={RelativeSource AncestorType={x:Type dc:ResizeThumb}}}"/>
+                         </Trigger>
+                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
