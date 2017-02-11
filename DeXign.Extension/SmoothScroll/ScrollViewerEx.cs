@@ -29,7 +29,7 @@ namespace DeXign.Extension
                 {
                     ScrollViewer target = null;
 
-                    target = ui.FindChildrens<ScrollViewer>().FirstOrDefault();
+                    target = ui.FindVisualChildrens<ScrollViewer>().FirstOrDefault();
 
                     if (target != null)
                     {

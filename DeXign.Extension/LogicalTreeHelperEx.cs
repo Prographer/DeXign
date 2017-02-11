@@ -5,39 +5,34 @@ using System.Windows.Media;
 
 namespace DeXign.Extension
 {
-    public static class VisualTreeHelperEx
+    public static class LogicalTreeHelperEx
     {
-        public static IEnumerable<T> FindVisualParents<T>(this Visual element, bool findAll = true) where T : Visual
+        public static IEnumerable<T> FindLogicalParents<T>(this Visual element, bool findAll = true) where T : Visual
         {
             return Finds<T>(element, ParentSetter, findAll);
         }
 
         private static void ParentSetter(DependencyObject visual, Queue<DependencyObject> visualQueue)
         {
-            var parent = VisualTreeHelper.GetParent(visual);
+            var parent = LogicalTreeHelper.GetParent(visual);
 
             if (parent != null)
                 visualQueue.Enqueue(parent);
         }
 
-        public static IEnumerable<T> FindVisualChildrens<T>(this Visual element, bool findAll = true) where T : Visual
+        public static IEnumerable<T> FindLogicalChildrens<T>(this Visual element, bool findAll = true) where T : Visual
         {
             return Finds<T>(element, ChildrenSetter, findAll);
         }
 
         private static void ChildrenSetter(DependencyObject visual, Queue<DependencyObject> visualQueue)
         {
-            int count = VisualTreeHelper.GetChildrenCount(visual);
-
-            for (int i = 0; i < count; i++)
-            {
-                visualQueue.Enqueue(
-                    VisualTreeHelper.GetChild(visual, i));
-            }
+            foreach (DependencyObject child in LogicalTreeHelper.GetChildren(visual))
+                visualQueue.Enqueue(child);
         }
 
         private static IEnumerable<T> Finds<T>(
-            this Visual element, 
+            this Visual element,
             Action<DependencyObject, Queue<DependencyObject>> elementSetter,
             bool findAll = true) where T : Visual
         {

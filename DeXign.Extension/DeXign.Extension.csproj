@@ -47,6 +47,7 @@
     <Compile Include="BindingEx.cs" />
     <Compile Include="DoubleEx.cs" />
     <Compile Include="Hardware.cs" />
+    <Compile Include="LogicalTreeHelperEx.cs" />
     <Compile Include="MarshalEx.cs" />
     <Compile Include="TypeSwitch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

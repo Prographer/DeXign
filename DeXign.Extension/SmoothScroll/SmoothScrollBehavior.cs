@@ -56,12 +56,12 @@ namespace DeXign.Extension
 
         public SmoothScrollBehavior(UIElement parent, ScrollViewer target)
         {
-            int c = target.FindChildrens<ScrollBar>().Count();
+            int c = target.FindVisualChildrens<ScrollBar>().Count();
 
             this.Parent = parent;
             this.Viewer = target;
-            this.ScrollBar = Viewer.FindChildrens<ScrollBar>().FirstOrDefault();
-            this.ContentPresenter = Viewer.FindChildrens<ScrollContentPresenter>().FirstOrDefault();
+            this.ScrollBar = Viewer.FindVisualChildrens<ScrollBar>().FirstOrDefault();
+            this.ContentPresenter = Viewer.FindVisualChildrens<ScrollContentPresenter>().FirstOrDefault();
             
             this.Viewer.PreviewMouseWheel += Viewer_PreviewMouseWheel;
             this.ScrollBar.PreviewMouseDown += ScrollBar_PreviewMouseDown;
@@ -137,7 +137,7 @@ namespace DeXign.Extension
         {
             Visual source = e.OriginalSource as Visual;
             
-            if (source.FindParents<Thumb>(false).Count() > 0)
+            if (source.FindVisualParents<Thumb>(false).Count() > 0)
             {
                 if (isHold = Mouse.Capture(ScrollBar as IInputElement))
                 {
@@ -153,7 +153,7 @@ namespace DeXign.Extension
             {
                 RepeatButtonHolder holder = null;
                 RepeatButton repeatButton = source
-                    .FindParents<RepeatButton>(false)
+                    .FindVisualParents<RepeatButton>(false)
                     .FirstOrDefault();
 
                 var pos = Mouse.GetPosition(ScrollBar.Track);

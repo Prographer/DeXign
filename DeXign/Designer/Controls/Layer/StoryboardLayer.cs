@@ -17,7 +17,7 @@ namespace DeXign.Designer.Layer
         public StoryboardLayer(UIElement adornedElement) : base(adornedElement)
         {
             this.Parent = adornedElement
-                .FindParents<Storyboard>()
+                .FindLogicalParents<Storyboard>()
                 .FirstOrDefault();
 
             this.ParentScale = Parent?.RenderTransform as ScaleTransform;

@@ -50,13 +50,9 @@ namespace DeXign.Designer.Controls
             {
                 OnCanvasDragDelta(deltaX, deltaY);
             }
-            else if (Target.Parent is Panel)
+            else 
             {
                 OnPanelDragDelta(deltaX, deltaY);
-            }
-            else
-            {
-                // TODO
             }
         }
 
@@ -132,8 +128,8 @@ namespace DeXign.Designer.Controls
                 ResizeDirection == ResizeGripDirection.BottomRight;
 
             Thickness margin = Target.Margin;
-            var parentPanel = (Panel)Target.Parent;
-            var position = Target.TranslatePoint(new Point(0, 0), parentPanel);
+            var targetParent = (FrameworkElement)Target.Parent;
+            var position = Target.TranslatePoint(new Point(0, 0), targetParent);
 
             if (hasSizingTop)
             {
@@ -144,7 +140,7 @@ namespace DeXign.Designer.Controls
                 // Stretch
                 if (marginTop & marginBottom)
                 {
-                    margin.Bottom = parentPanel.RenderSize.Height - position.Y - Target.RenderSize.Height;
+                    margin.Bottom = targetParent.RenderSize.Height - position.Y - Target.RenderSize.Height;
                     margin.Top += deltaY;
                 }
 
@@ -175,7 +171,7 @@ namespace DeXign.Designer.Controls
                 {
                     double sizedHeight = SizingHeight(deltaY);
 
-                    margin.Bottom = parentPanel.RenderSize.Height - position.Y - sizedHeight;
+                    margin.Bottom = targetParent.RenderSize.Height - position.Y - sizedHeight;
                 }
             }
 
@@ -188,7 +184,7 @@ namespace DeXign.Designer.Controls
                 // Stretch
                 if (marginLeft & marginRight)
                 {
-                    margin.Right = parentPanel.RenderSize.Width - position.X - Target.RenderSize.Width;
+                    margin.Right = targetParent.RenderSize.Width - position.X - Target.RenderSize.Width;
                     margin.Left += deltaX;
                 }
 
@@ -219,7 +215,7 @@ namespace DeXign.Designer.Controls
                 {
                     double sizedWidth = SizingWidth(deltaX);
 
-                    margin.Right = parentPanel.RenderSize.Width - position.X - sizedWidth;
+                    margin.Right = targetParent.RenderSize.Width - position.X - sizedWidth;
                 }
             }
             

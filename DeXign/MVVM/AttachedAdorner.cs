@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using DeXign.Designer.Controls;
+using DeXign.Extension;
 using WPFExtension;
 
 namespace DeXign
@@ -48,10 +51,10 @@ namespace DeXign
         #region [ AdornerLayer ]
         private static void SetLayerZOrder(FrameworkElement element, int index)
         {
-            var adornerLayer = AdornerLayer.GetAdornerLayer(element);
+            var adornerLayer = GetAdornerLayer(element);
             Adorner adorner = GetAdorner(element);
 
-            if (adornerLayer != null && adorner != null)
+            if (adornerLayer != null && adorner != null && adornerLayer.Equals(adorner.Parent))
                 setZOrderMethodInfo.Invoke(adornerLayer, new object[] { adorner, index });
         }
 
@@ -65,13 +68,22 @@ namespace DeXign
 
                 if (adorner != null && adorner.Parent == null)
                 {
-                    var adornerLayer = AdornerLayer.GetAdornerLayer(frameworkElement);
+                    var adornerLayer = GetAdornerLayer(frameworkElement);
                     adornerLayer.Add(adorner);
 
                     SetAdorner(frameworkElement, adorner);
                     SetLayerZOrder(frameworkElement, GetAdornerIndex(frameworkElement));
                 }
             }
+        }
+
+        private static AdornerLayer GetAdornerLayer(FrameworkElement element)
+        {
+            var decorator = element
+                .FindLogicalParents<AdornerDecorator>()
+                .FirstOrDefault();
+
+            return decorator?.AdornerLayer;
         }
         #endregion
 

@@ -44,7 +44,7 @@ namespace DeXign.Designer.Controls
                 {
                     var layer = item as SelectionLayer;
                     var prevLayer = layer.AdornedElement
-                        .FindParents<FrameworkElement>()
+                        .FindVisualParents<FrameworkElement>()
                         .Select(AttachedAdorner.GetAdorner)
                         .Skip(1)
                         .FirstOrDefault(adorner=> adorner != null && adorner is SelectionLayer);
