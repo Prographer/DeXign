@@ -55,7 +55,7 @@ namespace DeXign.Designer.Layer
         {
             foreach (FrameworkElement element in visualChildren)
                 element.Arrange(
-                    new Rect(0, 0, AdornedElement.DesiredSize.Width, AdornedElement.DesiredSize.Height));
+                    new Rect(0, 0, AdornedElement.RenderSize.Width, AdornedElement.RenderSize.Height));
 
             return finalSize;
         }
