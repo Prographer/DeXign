@@ -72,7 +72,7 @@ namespace DragHelper
 
             dragDatas[element] = new DragData(element, relativeTarget);
 
-            element.PreviewMouseLeftButtonDown += Element_PreviewMouseLeftButtonDown;
+            element.PreviewMouseLeftButtonDown += Element_MouseLeftButtonDown;
             element.PreviewMouseLeftButtonUp += Element_PreviewMouseLeftButtonUp;
             element.PreviewMouseMove += Element_PreviewMouseMove;
 
@@ -86,7 +86,7 @@ namespace DragHelper
 
             dragDatas.Remove(element);
 
-            element.MouseLeftButtonDown -= Element_PreviewMouseLeftButtonDown;
+            element.MouseLeftButtonDown -= Element_MouseLeftButtonDown;
             element.PreviewMouseLeftButtonUp -= Element_PreviewMouseLeftButtonUp;
             element.PreviewMouseMove -= Element_PreviewMouseMove;
 
@@ -124,7 +124,7 @@ namespace DragHelper
         #endregion
 
         #region [ Event ]
-        private static void Element_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private static void Element_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var item = dragDatas[sender as IInputElement];
 
