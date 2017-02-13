@@ -380,7 +380,7 @@
     </Style>
 
     <!-- #region ToolBox Style -->
-    <Style x:Key="DeXignToolBoxItemStyle" TargetType="{x:Type ListViewItem}">
+    <Style TargetType="{x:Type c:ToolBoxItemView}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{StaticResource Brush.ToolBox.Item.Border}"/>
         <Setter Property="Template">
@@ -426,7 +426,7 @@
     
     <Style TargetType="{x:Type c:ToolBox}">
         <Setter Property="Background" Value="#DFDFDF"/>
-        <Setter Property="ItemContainerStyle" Value="{StaticResource DeXignToolBoxItemStyle}"/>
+        <!--<Setter Property="ItemContainerStyle" Value="{StaticResource DeXignToolBoxItemStyle}"/>-->
         <Setter Property="ItemsPanel" Value="{StaticResource DeXignToolBoxItemsPanelTemplate}"/>
         <Setter Property="Template">
             <Setter.Value>

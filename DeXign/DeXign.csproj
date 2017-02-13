@@ -117,6 +117,7 @@
     <Compile Include="Controls\PropertyGrid\PropertyGrid.cs" />
     <Compile Include="Controls\PropertyGrid\PropertyGridItem.cs" />
     <Compile Include="Controls\StrokePath.cs" />
+    <Compile Include="Controls\ToolBox\ToolBoxItemView.cs" />
     <Compile Include="Editor\Attribute\ExportRendererAttribute.cs" />
     <Compile Include="Editor\Controls\EventTriggerButton.cs" />
     <Compile Include="Editor\Controls\Layer\ControlLayer.cs" />
@@ -143,7 +144,7 @@
     <Compile Include="Interop\UnsafeNativeMethods.cs" />
     <Compile Include="MVVM\Converter\RadiusConverter.cs" />
     <Compile Include="MVVM\Converter\ReciprocalConverter.cs" />
-    <Compile Include="Controls\ToolBox\ToolBoxItem.cs" />
+    <Compile Include="Controls\ToolBox\ToolBoxItemModel.cs" />
     <Compile Include="Themes\Resources\ResourceManager.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

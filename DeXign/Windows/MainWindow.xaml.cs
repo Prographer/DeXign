@@ -25,7 +25,9 @@ namespace DeXign
             {
                 var resource = ResourceManager.GetDesignerResource(element.Element);
                 
-                toolBox.AddItem(new ToolBoxItem(element, resource));
+                toolBox.AddItem(
+                    new ToolBoxItemView(
+                        new ToolBoxItemModel(element, resource)));
             }
         }
 

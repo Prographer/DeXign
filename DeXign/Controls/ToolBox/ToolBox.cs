@@ -1,9 +1,8 @@
-﻿using System;
-using System.ComponentModel;
-using System.Windows;
+﻿using System.ComponentModel;
 using System.Windows.Controls;
 using Moda.KString;
 using DeXign.Resources;
+using System.Windows.Input;
 
 namespace DeXign.Controls
 {
@@ -14,9 +13,19 @@ namespace DeXign.Controls
             AddGroupProperty("Category");
         }
 
+        private void OnDragEnd(object sender, DragHelper.DragEventArgs e)
+        {
+            // TODO: End Drag
+        }
+
+        private void OnDrag(object sender, DragHelper.DragEventArgs e)
+        {
+            // TODO: Drag
+        }
+
         protected override bool OnFilter(object item)
         {
-            return (item as ToolBoxItem).Title.KContains(FilterKeyword);
+            return (item as ToolBoxItemView).Model.Title.KContains(FilterKeyword);
         }
 
         public override void OnApplyTemplate()

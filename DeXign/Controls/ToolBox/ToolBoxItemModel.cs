@@ -2,9 +2,9 @@
 using DeXign.Core;
 using DeXign.Core.Designer;
 
-namespace DeXign
+namespace DeXign.Controls
 {
-    internal class ToolBoxItem
+    internal class ToolBoxItemModel
     {
         internal AttributeTuple<DesignElementAttribute, Type> Metadata { get; }
         internal DesignerResource Resource { get; }
@@ -17,7 +17,7 @@ namespace DeXign
 
         public string Category => Metadata.Attribute.Category;
 
-        public ToolBoxItem(AttributeTuple<DesignElementAttribute, Type> data, DesignerResource resource)
+        public ToolBoxItemModel(AttributeTuple<DesignElementAttribute, Type> data, DesignerResource resource)
         {
             this.Metadata = data;
             this.Resource = resource;
