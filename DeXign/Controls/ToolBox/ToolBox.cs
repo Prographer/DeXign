@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using Moda.KString;
+using DeXign.Resources;
 
 namespace DeXign.Controls
 {
@@ -27,7 +28,7 @@ namespace DeXign.Controls
 
             this.GroupStyle.Add(new GroupStyle()
             {
-                ContainerStyle = FindResource("DeXignGroupItemStyle") as Style
+                ContainerStyle = ResourceManager.GetStyle("DeXignGroupItemStyle")
             });
         }
     }

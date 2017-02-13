@@ -1,4 +1,4 @@
-﻿namespace DeXign.Designer.Interfaces
+﻿namespace DeXign.Editor.Interfaces
 {
     interface IDropHost
     {

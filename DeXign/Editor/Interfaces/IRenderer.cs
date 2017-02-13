@@ -1,6 +1,6 @@
 ﻿using DeXign.Core.Controls;
 
-namespace DeXign.Designer.Interfaces
+namespace DeXign.Editor.Interfaces
 {
     interface IRenderer<T> 
         where T : PObject

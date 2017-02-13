@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows;
 using DeXign.Core.Controls;
-using DeXign.Designer.Layer;
+using DeXign.Editor.Layer;
 
-namespace DeXign.Designer.Renderer
+namespace DeXign.Editor.Renderer
 {
     class LayerRenderer<TModel, TElement> : SelectionLayer
         where TModel : PObject

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DeXign.Designer
+namespace DeXign.Editor
 {
     class ExportRendererAttribute : Attribute
     {

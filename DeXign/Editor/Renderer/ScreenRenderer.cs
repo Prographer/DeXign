@@ -2,14 +2,14 @@
 using System.Windows;
 using System.Windows.Controls;
 using DeXign.Core.Controls;
-using DeXign.Designer;
-using DeXign.Designer.Interfaces;
-using DeXign.Designer.Renderer;
 using DeXign.Extension;
+using DeXign.Editor;
+using DeXign.Editor.Interfaces;
+using DeXign.Editor.Renderer;
 
 [assembly: ExportRenderer(typeof(PContentPage), typeof(ContentControl), typeof(ScreenRenderer))]
 
-namespace DeXign.Designer.Renderer
+namespace DeXign.Editor.Renderer
 {
     class ScreenRenderer : LayerRenderer<PContentPage, ContentControl>, IDropHost
     {

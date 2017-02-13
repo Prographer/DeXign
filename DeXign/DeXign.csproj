@@ -38,6 +38,7 @@
       <HintPath>..\packages\KString.2.0.2\lib\portable-net4+sl5+wp71+win8\KStringExtension.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Expression.Drawing, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
       <Private>True</Private>
@@ -113,30 +114,36 @@
     <Compile Include="Controls\HintTextBox.cs" />
     <Compile Include="Controls\MenuItemEx.cs" />
     <Compile Include="Controls\PathButton.cs" />
-    <Compile Include="Designer\Attribute\ExportRendererAttribute.cs" />
-    <Compile Include="Designer\Controls\Layer\ControlLayer.cs" />
-    <Compile Include="Designer\Controls\Layer\GuideLayer.cs" />
-    <Compile Include="Designer\Controls\ResizeThumb.cs" />
+    <Compile Include="Controls\PropertyGrid\PropertyGrid.cs" />
+    <Compile Include="Controls\PropertyGrid\PropertyGridItem.cs" />
+    <Compile Include="Controls\StrokePath.cs" />
+    <Compile Include="Editor\Attribute\ExportRendererAttribute.cs" />
+    <Compile Include="Editor\Controls\EventTriggerButton.cs" />
+    <Compile Include="Editor\Controls\Layer\ControlLayer.cs" />
+    <Compile Include="Editor\Controls\Layer\GuideLayer.cs" />
+    <Compile Include="Editor\Controls\MarginClip.cs" />
+    <Compile Include="Editor\Controls\ResizeThumb.cs" />
     <Compile Include="Controls\Separator.cs" />
-    <Compile Include="Controls\ToolBox.cs" />
-    <Compile Include="Designer\Controls\Layer\SelectionLayer.cs" />
-    <Compile Include="Designer\Controls\Storyboard.cs" />
+    <Compile Include="Controls\ToolBox\ToolBox.cs" />
+    <Compile Include="Editor\Controls\Layer\SelectionLayer.cs" />
+    <Compile Include="Editor\Controls\Storyboard.cs" />
     <Compile Include="Controls\ZoomPanel.cs" />
-    <Compile Include="Designer\Controls\Layer\StoryboardLayer.cs" />
-    <Compile Include="Designer\DesignMode.cs" />
-    <Compile Include="Designer\Interfaces\IDropHost.cs" />
-    <Compile Include="Designer\Interfaces\IRenderer.cs" />
-    <Compile Include="Designer\Renderer\LayerRenderer.cs" />
-    <Compile Include="Designer\Renderer\ScreenRenderer.cs" />
-    <Compile Include="Designer\GroupSelector.cs" />
-    <Compile Include="MVVM\AttachedAdorner.cs" />
+    <Compile Include="Editor\Controls\Layer\StoryboardLayer.cs" />
+    <Compile Include="Editor\DesignMode.cs" />
+    <Compile Include="Editor\Interfaces\IDropHost.cs" />
+    <Compile Include="Editor\Interfaces\IRenderer.cs" />
+    <Compile Include="Editor\Renderer\LayerRenderer.cs" />
+    <Compile Include="Editor\Renderer\ScreenRenderer.cs" />
+    <Compile Include="Editor\GroupSelector.cs" />
+    <Compile Include="Editor\Controls\Layer\AttachedAdorner.cs" />
     <Compile Include="MVVM\Converter\BaseValueConverter.cs" />
     <Compile Include="Interop\ExternDll.cs" />
     <Compile Include="Interop\NativeMethods.cs" />
     <Compile Include="Interop\UnsafeNativeMethods.cs" />
     <Compile Include="MVVM\Converter\RadiusConverter.cs" />
     <Compile Include="MVVM\Converter\ReciprocalConverter.cs" />
-    <Compile Include="MVVM\ToolBoxItem.cs" />
+    <Compile Include="Controls\ToolBox\ToolBoxItem.cs" />
+    <Compile Include="Themes\Resources\ResourceManager.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -186,7 +193,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MVVM\Behavior\" />
-    <Folder Include="Windows\Pages\" />
   </ItemGroup>
   <Import Project="..\DeXign.Shared\DeXign.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

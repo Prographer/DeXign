@@ -7,7 +7,7 @@ using System.Windows.Controls.Primitives;
 using DeXign.Extension;
 using WPFExtension;
 
-namespace DeXign.Designer.Controls
+namespace DeXign.Editor.Controls
 {
     class ResizeThumb : Thumb
     {

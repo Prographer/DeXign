@@ -8,6 +8,7 @@ using System.Collections;
 using System;
 using System.Diagnostics;
 using DeXign.Core.Designer;
+using DeXign.Extension;
 
 namespace DeXign.Test
 {
@@ -49,22 +50,22 @@ namespace DeXign.Test
                     {
                         new PColumnDefinition()
                         {
-                            Width = new PGridLength(160, GridUnitType.Absolute)
+                            Width = new PGridLength(160, PGridUnitType.Absolute)
                         },
                         new PColumnDefinition()
                         {
-                            Width = new PGridLength(1, GridUnitType.Star)
+                            Width = new PGridLength(1, PGridUnitType.Star)
                         }
                     },
                     RowDefinitions =
                     {
                         new PRowDefinition()
                         {
-                            Height = new PGridLength(1, GridUnitType.Star)
+                            Height = new PGridLength(1, PGridUnitType.Star)
                         },
                         new PRowDefinition()
                         {
-                            Height = new PGridLength(1, GridUnitType.Star)
+                            Height = new PGridLength(1, PGridUnitType.Star)
                         }
                     },
 

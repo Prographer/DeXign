@@ -1,4 +1,4 @@
-﻿namespace DeXign.Designer
+﻿namespace DeXign.Editor
 {
     enum DesignMode
     {

@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- Colors -->
+    <Color x:Key="Color.LemonGrass">#9B9A90</Color>
+    
     <Color x:Key="Color.Accent">#FFB800</Color>
     <Color x:Key="Color.Accent.50">#4DFFB800</Color>
     <Color x:Key="Color.DarkAccent">#898989</Color>
@@ -23,6 +25,8 @@
     <Color x:Key="Color.ToolBox.Item.Border">#DBDBDB</Color>
 
     <!-- Brushes -->
+    <SolidColorBrush x:Key="Brush.LemonGrass" Color="{StaticResource Color.LemonGrass}"/>
+    
     <SolidColorBrush x:Key="Brush.Accent" Color="{StaticResource Color.Accent}"/>
     <SolidColorBrush x:Key="Brush.Accent.50" Color="{StaticResource Color.Accent.50}"/>
     <SolidColorBrush x:Key="Brush.DarkAccent" Color="{StaticResource Color.DarkAccent}"/>

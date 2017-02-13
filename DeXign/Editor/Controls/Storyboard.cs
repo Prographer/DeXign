@@ -2,11 +2,10 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using DeXign.Designer.Layer;
+using DeXign.Editor.Layer;
 using DeXign.Extension;
 
-namespace DeXign.Designer.Controls
+namespace DeXign.Editor.Controls
 {
     // TODO: 스토리 보드 구현해야함 할게 짱 많네
     class Storyboard : Canvas

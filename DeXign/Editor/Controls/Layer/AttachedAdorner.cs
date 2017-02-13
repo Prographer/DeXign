@@ -4,11 +4,10 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using DeXign.Designer.Controls;
 using DeXign.Extension;
 using WPFExtension;
 
-namespace DeXign
+namespace DeXign.Editor.Layer
 {
     public static class AttachedAdorner
     {

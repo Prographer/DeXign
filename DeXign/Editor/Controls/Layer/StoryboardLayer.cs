@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Media;
-using DeXign.Designer.Controls;
+using DeXign.Editor.Controls;
 using DeXign.Extension;
 
-namespace DeXign.Designer.Layer
+namespace DeXign.Editor.Layer
 {
     class StoryboardLayer : ControlLayer
     {

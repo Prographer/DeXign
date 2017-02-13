@@ -1,9 +1,8 @@
 ﻿using DeXign.Controls;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Input;
-using DeXign.Core.Controls;
 using DeXign.Core.Designer;
+using DeXign.Resources;
 
 namespace DeXign
 {
@@ -24,7 +23,7 @@ namespace DeXign
             // ToolBox
             foreach (var element in DesignerManager.GetElementTypes())
             {
-                var resource = (DesignerResource)TryFindResource(element.Element);
+                var resource = ResourceManager.GetDesignerResource(element.Element);
                 
                 toolBox.AddItem(new ToolBoxItem(element, resource));
             }

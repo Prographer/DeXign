@@ -3,7 +3,7 @@
 namespace DeXign.Core
 {
     [XForms("GridUnitType")]
-    public enum GridUnitType
+    public enum PGridUnitType
     {
         Absolute,
         Star,
@@ -15,42 +15,42 @@ namespace DeXign.Core
     {
         public static PGridLength Auto
         {
-            get { return new PGridLength(1, GridUnitType.Auto); }
+            get { return new PGridLength(1, PGridUnitType.Auto); }
         }
 
         public static PGridLength Star
         {
-            get { return new PGridLength(1, GridUnitType.Star); }
+            get { return new PGridLength(1, PGridUnitType.Star); }
         }
 
         public double Value { get; }
 
-        public GridUnitType GridUnitType { get; }
+        public PGridUnitType GridUnitType { get; }
 
         public bool IsAbsolute
         {
-            get { return GridUnitType == GridUnitType.Absolute; }
+            get { return GridUnitType == PGridUnitType.Absolute; }
         }
 
         public bool IsAuto
         {
-            get { return GridUnitType == GridUnitType.Auto; }
+            get { return GridUnitType == PGridUnitType.Auto; }
         }
 
         public bool IsStar
         {
-            get { return GridUnitType == GridUnitType.Star; }
+            get { return GridUnitType == PGridUnitType.Star; }
         }
 
-        public PGridLength(double value) : this(value, GridUnitType.Absolute)
+        public PGridLength(double value) : this(value, PGridUnitType.Absolute)
         {
         }
 
-        public PGridLength(double value, GridUnitType type)
+        public PGridLength(double value, PGridUnitType type)
         {
             if (value < 0 || double.IsNaN(value))
                 throw new ArgumentException("value is less than 0 or is not a number", "value");
-            if ((int)type < (int)GridUnitType.Absolute || (int)type > (int)GridUnitType.Auto)
+            if ((int)type < (int)PGridUnitType.Absolute || (int)type > (int)PGridUnitType.Auto)
                 throw new ArgumentException("type is not a valid GridUnitType", "type");
 
             Value = value;

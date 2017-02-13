@@ -3,7 +3,7 @@ using System.Windows;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DeXign.Designer
+namespace DeXign.Editor
 {
     public class SelectionChangedEventArgs : RoutedEventArgs
     {

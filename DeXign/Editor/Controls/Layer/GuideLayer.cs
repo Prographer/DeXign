@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 
-namespace DeXign.Designer.Layer
+namespace DeXign.Editor.Layer
 {
     class GuideLayer : StoryboardLayer, IEnumerable<StoryboardLayer>
     {

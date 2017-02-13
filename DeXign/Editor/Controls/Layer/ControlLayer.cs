@@ -9,7 +9,7 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using WPFExtension;
 
-namespace DeXign.Designer.Layer
+namespace DeXign.Editor.Layer
 {
     [ContentProperty("Children")]
     public class ControlLayer : Adorner
