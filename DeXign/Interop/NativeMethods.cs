@@ -5,7 +5,7 @@ using win = System.Windows;
 
 namespace DeXign.Interop
 {
-    public static class NativeMethods
+    internal static class NativeMethods
     {
         public enum WM : uint
         {

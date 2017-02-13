@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace DeXign.Interop
 {
-    public static class UnsafeNativeMethods
+    internal static class UnsafeNativeMethods
     {
         #region [ User32 ]
         [DllImport(ExternDll.User32)]
