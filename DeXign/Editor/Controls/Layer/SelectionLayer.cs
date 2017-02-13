@@ -794,16 +794,16 @@ namespace DeXign.Editor.Layer
             }
 
             // Value Box Render
-            if (marginLeft)
+            if (marginLeft && valueLeft != "0")
                 DrawValueBox(dc, formattedTextLeft, textPositionLeft, textBoundLeft, Brushes.White);
 
-            if (marginRight)
+            if (marginRight && valueRight != "0")
                 DrawValueBox(dc, formattedTextRight, textPositionRight, textBoundRight, Brushes.White);
 
-            if (marginTop)
+            if (marginTop && valueTop != "0")
                 DrawValueBox(dc, formattedTextTop, textPositionTop, textBoundTop, Brushes.White, 90);
 
-            if (marginBottom)
+            if (marginBottom && valueBottom != "0")
                 DrawValueBox(dc, formattedTextBottom, textPositionBottom, textBoundBottom, Brushes.White, 90);
         }
 
