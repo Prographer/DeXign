@@ -111,7 +111,7 @@
                                     <ScaleTransform ScaleX="{Binding Value, ElementName=slider}" ScaleY="{Binding Value, ElementName=slider}"/>
                                 </dc:Storyboard.RenderTransform>
 
-                                <UniformGrid Rows="4" Height="112" Width="186" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="DarkSlateBlue" Canvas.Left="38" Canvas.Top="37">
+                                <!--<UniformGrid Rows="4" Height="112" Width="186" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="DarkSlateBlue" Canvas.Left="38" Canvas.Top="37">
                                     <TextBlock Text="Stretch" TextAlignment="Center" TextTrimming="CharacterEllipsis" HorizontalAlignment="Stretch" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="Crimson"  Margin="10,0"/>
                                     <TextBlock Text="Center" TextAlignment="Center" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="Crimson" />
                                     <TextBlock Text="Left" TextAlignment="Center" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="Crimson" Margin="0,4" Width="49" />
@@ -125,7 +125,7 @@
                                 </UniformGrid>
                                 <Grid Height="112" Width="186" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="DarkSlateBlue" Canvas.Left="38" Canvas.Top="208">
                                     <Rectangle Fill="Crimson" Width="20" HorizontalAlignment="Left" Margin="18,19,0,73" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}"/>
-                                </Grid>
+                                </Grid>-->
                             </dc:Storyboard>
                         </AdornerDecorator>
                     </ScrollViewer>

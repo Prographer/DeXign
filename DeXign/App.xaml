@@ -5,11 +5,11 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Themes/Resources/Colors.xaml"/>
-                <ResourceDictionary Source="Themes/Resources/Paths.xaml"/>
+                <ResourceDictionary Source="Resources/Colors.xaml"/>
+                <ResourceDictionary Source="Resources/Paths.xaml"/>
                 
-                <ResourceDictionary Source="Themes/Resources/ToolBoxResources.xaml"/>
-                <ResourceDictionary Source="Themes/Resources/PropertyGridResources.xaml"/>
+                <ResourceDictionary Source="Resources/ToolBoxResources.xaml"/>
+                <ResourceDictionary Source="Resources/PropertyGridResources.xaml"/>
                 
                 <ResourceDictionary Source="Themes/DexignStyle.xaml"/>
                 <ResourceDictionary Source="Themes/DesignerStyle.xaml"/>

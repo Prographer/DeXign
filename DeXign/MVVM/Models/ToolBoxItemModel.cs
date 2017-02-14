@@ -2,7 +2,7 @@
 using DeXign.Core;
 using DeXign.Core.Designer;
 
-namespace DeXign.Controls
+namespace DeXign.Models
 {
     internal class ToolBoxItemModel
     {

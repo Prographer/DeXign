@@ -80,19 +80,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Resources\Colors.xaml">
+    <Page Include="Resources\Colors.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Resources\Paths.xaml">
+    <Page Include="Resources\Paths.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Resources\PropertyGridResources.xaml">
+    <Page Include="Resources\PropertyGridResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Resources\ToolBoxResources.xaml">
+    <Page Include="Resources\ToolBoxResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -144,8 +144,9 @@
     <Compile Include="Interop\UnsafeNativeMethods.cs" />
     <Compile Include="MVVM\Converter\RadiusConverter.cs" />
     <Compile Include="MVVM\Converter\ReciprocalConverter.cs" />
-    <Compile Include="Controls\ToolBox\ToolBoxItemModel.cs" />
-    <Compile Include="Themes\Resources\ResourceManager.cs" />
+    <Compile Include="MVVM\Models\ResolutionItemModel.cs" />
+    <Compile Include="MVVM\Models\ToolBoxItemModel.cs" />
+    <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -195,6 +196,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MVVM\Behavior\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\GridLayoutTooltip.png" />
+    <Resource Include="Resources\Images\ScrollViewTooltip.png" />
+    <Resource Include="Resources\Images\StackLayoutTooltip.png" />
   </ItemGroup>
   <Import Project="..\DeXign.Shared\DeXign.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

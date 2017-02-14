@@ -4,11 +4,13 @@ using System;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 
+using DeXign.Models;
+
 namespace DeXign.Controls
 {
     class ToolBoxItemView : ListViewItem
     {
-        public ToolBoxItemModel Model { get { return (ToolBoxItemModel)DataContext; } }
+        public ToolBoxItemModel Model => (ToolBoxItemModel)DataContext;
 
         public string Category => Model.Category;
 

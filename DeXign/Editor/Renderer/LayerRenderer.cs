@@ -17,9 +17,17 @@ namespace DeXign.Editor.Renderer
             if (!(adornedElement is TElement))
                 throw new ArgumentException();
 
-            Model = Activator.CreateInstance<TModel>();
-
+            this.Model = Activator.CreateInstance<TModel>();
             this.Element = (TElement)adornedElement;
+
+            OnElementAttached(this.Element);
+        }
+
+        public LayerRenderer(TElement adornedElement, TModel model) : base(adornedElement)
+        {
+            this.Model = model;
+            this.Element = adornedElement;
+
             OnElementAttached(this.Element);
         }
 

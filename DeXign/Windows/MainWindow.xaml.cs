@@ -1,8 +1,10 @@
-﻿using DeXign.Controls;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
-using DeXign.Core.Designer;
+
+using DeXign.Models;
+using DeXign.Controls;
 using DeXign.Resources;
+using DeXign.Core.Designer;
 
 namespace DeXign
 {

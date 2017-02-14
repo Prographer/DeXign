@@ -33,6 +33,9 @@ namespace DeXign.Controls
 
         public static readonly DependencyProperty MenuProperty =
             DependencyHelper.Register();
+
+        public static readonly DependencyProperty SubMenuProperty =
+            DependencyHelper.Register();
         #endregion
 
         #region [ Property ]
@@ -52,6 +55,12 @@ namespace DeXign.Controls
         {
             get { return (Menu)GetValue(MenuProperty); }
             set { SetValue(MenuProperty, value); }
+        }
+
+        public object SubMenu
+        {
+            get { return GetValue(SubMenuProperty); }
+            set { SetValue(SubMenuProperty, value); }
         }
 
         public IntPtr Handle => (IntPtr)GetValue(HandlePropertyKey.DependencyProperty);

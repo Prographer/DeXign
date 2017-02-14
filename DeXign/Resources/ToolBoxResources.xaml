@@ -10,7 +10,21 @@
     </Style>
 
     <!-- #region Layouts -->
-    <d:DesignerResource x:Key="{x:Type c:PGridLayout}" ToolTip="툴팁입니다.">
+    <d:DesignerResource x:Key="{x:Type c:PGridLayout}">
+        <d:DesignerResource.ToolTip>
+            <ToolTip>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Image Source="/DeXign;component/Resources/Images/GridLayoutTooltip.png" Width="66" Height="128" Margin="4,0" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                    <TextBlock Grid.Column="1" Text="그리드에 대한 설명 주저리 주저리" VerticalAlignment="Center" Margin="8,0"/>
+                </Grid>
+            </ToolTip>
+        </d:DesignerResource.ToolTip>
         <Path Style="{StaticResource ToolBoxItemIconPathStyle}" Data="{StaticResource Path.iOS}"/>
     </d:DesignerResource>
 
@@ -23,9 +37,9 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Path Style="{StaticResource ToolBoxItemIconPathStyle}" Data="{StaticResource Path.iOS}" Width="32" Height="32" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <Image Source="/DeXign;component/Resources/Images/ScrollViewTooltip.png" Width="66" Height="128" Margin="4,0" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-                    <TextBlock Grid.Column="1" Text="Hello Content ToolTip!" VerticalAlignment="Center" Margin="8,0"/>
+                    <TextBlock Grid.Column="1" Text="스크롤에 대한 설명 주저리 주저리" VerticalAlignment="Center" Margin="8,0"/>
                 </Grid>
             </ToolTip>
         </d:DesignerResource.ToolTip>
@@ -33,6 +47,20 @@
     </d:DesignerResource>
 
     <d:DesignerResource x:Key="{x:Type c:PStackLayout}">
+        <d:DesignerResource.ToolTip>
+            <ToolTip>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Image Source="/DeXign;component/Resources/Images/StackLayoutTooltip.png" Width="66" Height="128" Margin="4,0" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                    <TextBlock Grid.Column="1" Text="스택에 대한 설명 주저리 주저리" VerticalAlignment="Center" Margin="8,0"/>
+                </Grid>
+            </ToolTip>
+        </d:DesignerResource.ToolTip>
         <Path Style="{StaticResource ToolBoxItemIconPathStyle}" Data="{StaticResource Path.iOS}"/>
     </d:DesignerResource>
     <!-- #endregion -->
