@@ -7,13 +7,14 @@
         xmlns:c="clr-namespace:DeXign.Controls"
         xmlns:dc="clr-namespace:DeXign.Editor.Controls"
         xmlns:l="clr-namespace:DeXign.Editor.Layer"
+        xmlns:m="clr-namespace:DeXign.Models"
         x:Class="DeXign.MainWindow"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         MinWidth="600" MinHeight="400"
         Width="1280" Height="800"
         Title="DX">
-
+    
     <c:ChromeWindow.Style>
         <StaticResource ResourceKey="DexignWindowStyle"/>
     </c:ChromeWindow.Style>
@@ -63,7 +64,7 @@
             <DockPanel>
                 <c:HintTextBox x:Name="toolBoxSearchBar" DockPanel.Dock="Top" Style="{DynamicResource SearchBarStyle}" TextHint="도구 검색"/>
                 <c:ToolBox x:Name="toolBox" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                           FilterKeyword="{Binding ElementName=toolBoxSearchBar, Path=Text, UpdateSourceTrigger=PropertyChanged}"/>
+                           FilterKeyword="{Binding Text, ElementName=toolBoxSearchBar, UpdateSourceTrigger=PropertyChanged}"/>
             </DockPanel>
         </c:HeaderLayout>
 

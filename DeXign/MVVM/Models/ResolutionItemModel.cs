@@ -1,14 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Markup;
 
 namespace DeXign.Models
 {
-    class ResolutionItemModel
+    class ResolutionItemModel : MarkupExtension
     {
         public int Width { get; set; }
+
         public int Height { get; set; }
+
+        public string Inch { get; set; }
+
+        public string Title => $"{Width} x {Height}";
+
+        public string SubTitle { get; set; }
+
+        public override string ToString()
+        {
+            return Title;
+        }
+
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            return this;
+        }
     }
 }
