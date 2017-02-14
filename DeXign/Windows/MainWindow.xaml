@@ -51,6 +51,20 @@
         </Menu>
     </c:ChromeWindow.Menu>
 
+    <c:ChromeWindow.SubMenu>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+            <ComboBox Margin="10" VerticalAlignment="Center" HorizontalAlignment="Left" SelectedIndex="0" ItemTemplate="{DynamicResource ResolutionItemTemplate}" Style="{DynamicResource ResolutionComboBoxStyle}">
+                <m:ResolutionItemModel Width="480" Height="800" Inch="4''" SubTitle="WVGA @ 120% 배율"/>
+                <m:ResolutionItemModel Width="768" Height="1280" Inch="4.5''" SubTitle="WXGA @ 200% 배율"/>
+                <m:ResolutionItemModel Width="720" Height="1280" Inch="4.7''" SubTitle="720p @ 180% 배율"/>
+                <m:ResolutionItemModel Width="540" Height="960" Inch="5''" SubTitle="qHD  @ 120% 배율"/>
+                <m:ResolutionItemModel Width="1080" Height="1920" Inch="5.5''" SubTitle="1080p @ 240% 배율"/>
+                <m:ResolutionItemModel Width="720" Height="7280" Inch="6''" SubTitle="720p @ 140% 배율"/>
+                <m:ResolutionItemModel Width="1080" Height="1920" Inch="6''" SubTitle="1080p @ 220% 배율"/>
+            </ComboBox>
+        </StackPanel>
+    </c:ChromeWindow.SubMenu>
+
     <Grid Background="{StaticResource Brush.ContentBackground}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="210"/>
