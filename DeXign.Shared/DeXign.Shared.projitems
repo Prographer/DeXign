@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DragHelper\DragCapture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DragHelper\DragData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DragHelper\DragEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)KStringExtension\KStringExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Microsoft.Windows.Shell\Standard\ComGuids.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Microsoft.Windows.Shell\Standard\Debug.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Microsoft.Windows.Shell\Standard\DoubleUtil.cs" />
