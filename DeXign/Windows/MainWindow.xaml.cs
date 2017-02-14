@@ -18,6 +18,7 @@ namespace DeXign
         // TODO: Just Test Code
         ResourceDictionary androidStyle;
         ResourceDictionary iosStyle;
+        ResourceDictionary windowStyle;
 
         public MainWindow()
         {
@@ -40,6 +41,11 @@ namespace DeXign
             iosStyle = new ResourceDictionary()
             {
                 Source = new Uri("/DeXign;component/Themes/Platforms/iOSStyle.xaml", UriKind.RelativeOrAbsolute)
+            };
+
+            windowStyle = new ResourceDictionary()
+            {
+                Source = new Uri("/DeXign;component/Themes/Platforms/WindowStyle.xaml", UriKind.RelativeOrAbsolute)
             };
         }
 
@@ -82,6 +88,10 @@ namespace DeXign
 
                 case "iOS":
                     storyboard.Resources = iosStyle;
+                    break;
+
+                case "Window":
+                    storyboard.Resources = windowStyle;
                     break;
             }
         }
