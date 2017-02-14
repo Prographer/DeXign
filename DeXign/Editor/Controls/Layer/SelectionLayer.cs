@@ -38,10 +38,18 @@ namespace DeXign.Editor.Layer
         public static readonly DependencyProperty DisplayHeightRightProperty =
             DependencyHelper.Register(
                 new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender));
-
+        
         public static readonly DependencyProperty SelectionBrushProperty =
             DependencyHelper.Register(
                 new FrameworkPropertyMetadata(Brushes.Black, FrameworkPropertyMetadataOptions.AffectsRender));
+
+        public static readonly DependencyProperty FrameBrushProperty =
+            DependencyHelper.Register(
+                new FrameworkPropertyMetadata(Brushes.Blue, FrameworkPropertyMetadataOptions.AffectsRender));
+
+        public static readonly DependencyProperty FrameThicknessProperty =
+            DependencyHelper.Register(
+                new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty DesignModeProperty =
             DependencyHelper.Register(
@@ -97,6 +105,18 @@ namespace DeXign.Editor.Layer
             set { SetValue(SelectionBrushProperty, value); }
         }
 
+        public Brush FrameBrush
+        {
+            get { return (Brush)GetValue(FrameBrushProperty); }
+            set { SetValue(FrameBrushProperty, value); }
+        }
+
+        public double FrameThickness
+        {
+            get { return (double)GetValue(FrameThicknessProperty); }
+            set { SetValue(FrameThicknessProperty, value); }
+        }
+
         public DesignMode DesignMode
         {
             get { return (DesignMode)GetValue(DesignModeProperty); }
@@ -122,6 +142,7 @@ namespace DeXign.Editor.Layer
             InitializeSelector();
 
             SelectionBrush = ResourceManager.GetBrush("Accent");
+            FrameBrush = ResourceManager.GetBrush("Accent");
 
             // 스냅라인 등록
             Parent.GuideLayer.Add(this);
@@ -133,8 +154,6 @@ namespace DeXign.Editor.Layer
         {
             this.AddSelectedHandler(OnSelected);
             this.AddUnselectedHandler(OnUnselected);
-
-            AdornedElement.MouseLeftButtonDown += Target_MouseLeftButtonDown;
         }
 
         private void InitializeComponents()
@@ -373,8 +392,8 @@ namespace DeXign.Editor.Layer
                     break;
             }
         }
-
-        private void Target_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             // Keyboard Focus
             Keyboard.Focus(Parent);
@@ -520,6 +539,9 @@ namespace DeXign.Editor.Layer
 
         protected virtual void OnDesignModeChanged()
         {
+            if (DesignMode != DesignMode.None)
+                AnimateFrameThickness(0, 150);
+
             UpdateParentState();
             UpdateMarginClips();
             UpdateFrame();

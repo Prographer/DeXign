@@ -119,6 +119,7 @@
     <Compile Include="Editor\Controls\EventTriggerButton.cs" />
     <Compile Include="Editor\Controls\Layer\ControlLayer.cs" />
     <Compile Include="Editor\Controls\Layer\GuideLayer.cs" />
+    <Compile Include="Editor\Controls\Layer\SelectionLayerAnimation.cs" />
     <Compile Include="Editor\Controls\Layer\SelectionLayerRender.cs" />
     <Compile Include="Editor\Controls\MarginClip.cs" />
     <Compile Include="Editor\Controls\ResizeThumb.cs" />

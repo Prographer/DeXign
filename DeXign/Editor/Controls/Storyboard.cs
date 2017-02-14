@@ -35,7 +35,7 @@ namespace DeXign.Editor.Controls
         {
             var items = GroupSelector.GetSelectedItems();
 
-            if (items.Count() == 1)
+            if (items?.Count() == 1)
             {
                 object item = items.First();
 
@@ -54,7 +54,7 @@ namespace DeXign.Editor.Controls
                         GroupSelector.UnselectAll();
                 }
             }
-            else if (items.Count() > 1)
+            else if (items?.Count() > 1)
             {
                 GroupSelector.UnselectAll();
             }

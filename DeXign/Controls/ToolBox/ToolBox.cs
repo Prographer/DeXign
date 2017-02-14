@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Windows.Controls;
+
 using Moda.KString;
+
 using DeXign.Resources;
-using System.Windows.Input;
 
 namespace DeXign.Controls
 {

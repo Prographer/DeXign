@@ -50,19 +50,35 @@ namespace DeXign.Editor.Layer
             return arrangeSize;
         }
 
+        protected void BeginGuidelineSet(DrawingContext dc)
+        {
+            var guidelines = new GuidelineSet();
+            
+            guidelines.GuidelinesX.Add(1 / ScaleX / 2);
+            guidelines.GuidelinesX.Add(1 / ScaleX / 2);
+            guidelines.GuidelinesY.Add(1 / ScaleY / 2);
+            guidelines.GuidelinesY.Add(1 / ScaleY / 2);
+
+            dc.PushGuidelineSet(guidelines);
+        }
+
+        protected void EndGuidelineSet(DrawingContext dc)
+        {
+            dc.Pop();
+
+        }
+
         protected override void OnRender(DrawingContext dc)
         {
+            DrawClickArea(dc);
+            DrawFrame(dc);
+
+            BeginGuidelineSet(dc);
+
+            OnDispatchRender(dc);
+            
             if (DesignMode == DesignMode.Size)
             {
-                var guidelines = new GuidelineSet();
-
-                guidelines.GuidelinesX.Add(1 / ScaleX / 2);
-                guidelines.GuidelinesX.Add(1 / ScaleX / 2);
-                guidelines.GuidelinesY.Add(1 / ScaleY / 2);
-                guidelines.GuidelinesY.Add(1 / ScaleY / 2);
-
-                dc.PushGuidelineSet(guidelines);
-
                 if (DisplayMargin)
                     DrawGuidLineMargin(dc);
 
@@ -77,13 +93,37 @@ namespace DeXign.Editor.Layer
 
                 if (DisplayHeightRight)
                     DrawGuideLineHeight(dc, true);
-
-                dc.Pop();
             }
-            else if (DesignMode == DesignMode.Trigger)
-            {
 
-            }
+            EndGuidelineSet(dc);
+        }
+
+        private void DrawClickArea(DrawingContext dc)
+        {
+            dc.DrawRectangle(
+                Brushes.Transparent,
+                null,
+                new Rect(new Point(0, 0), RenderSize));
+        }
+
+        private void DrawFrame(DrawingContext dc)
+        {
+            dc.PushOpacity(0.75);
+
+            var scaledThickness = new Vector(
+                FrameThickness / ScaleX,
+                FrameThickness / ScaleX);
+
+            dc.DrawRectangle(
+                null, CreatePen(FrameBrush, FrameThickness),
+                new Rect(
+                    (Point)Vector.Divide(scaledThickness, 2),
+                    (Size)Vector.Subtract((Vector)RenderSize, scaledThickness)));
+            dc.Pop();
+        }
+
+        protected virtual void OnDispatchRender(DrawingContext dc)
+        {
         }
 
         private void DrawGuidLineMargin(DrawingContext dc)
@@ -107,12 +147,11 @@ namespace DeXign.Editor.Layer
             var parentRect = GetParentRenderBound();
             var parentMargin = GetParentRenderMargin();
 
-            var framePen = new Pen(ResourceManager.GetBrush("LemonGrass"), 1d / ScaleX);
-            var solidPen = new Pen(SelectionBrush, 1d / ScaleX);
-            var dashedPen = new Pen(SelectionBrush, 1d / ScaleX)
-            {
-                DashStyle = new DashStyle(new double[] { 4, 4 }, 0)
-            };
+            var framePen = CreatePen(ResourceManager.GetBrush("LemonGrass"), 1);
+            var solidPen = CreatePen(SelectionBrush, 1d);
+            var dashedPen = CreatePen(SelectionBrush, 1d);
+
+            dashedPen.DashStyle = new DashStyle(new double[] { 4, 4 }, 0);
 
             double hCenter = RenderSize.Height / 2;
             double wCenter = RenderSize.Width / 2;
@@ -239,7 +278,7 @@ namespace DeXign.Editor.Layer
 
         private void DrawGuideLineWidth(DrawingContext dc, bool isBottom)
         {
-            var pen = new Pen(SelectionBrush, 1d / ScaleX);
+            var pen = CreatePen(SelectionBrush, 1d);
 
             double top = -23 / ScaleX;
             double hTop = top + 5 / ScaleX;
@@ -294,7 +333,7 @@ namespace DeXign.Editor.Layer
 
         private void DrawGuideLineHeight(DrawingContext dc, bool isRight)
         {
-            var pen = new Pen(SelectionBrush, 1d / ScaleX);
+            var pen = CreatePen(SelectionBrush, 1d);
 
             double left = -23 / ScaleX;
             double vLeft = left + 5 / ScaleX;
@@ -376,6 +415,11 @@ namespace DeXign.Editor.Layer
                 new Typeface(fontName),
                 size / ScaleX,
                 brush);
+        }
+
+        protected Pen CreatePen(Brush brush, double width)
+        {
+            return new Pen(brush, width / ScaleX);
         }
 
         protected Rect GetParentRenderBound()
