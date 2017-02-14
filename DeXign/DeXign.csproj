@@ -93,6 +93,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\Platforms\iOSStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Platforms\AndroidStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Platforms\WindowStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -143,8 +155,10 @@
     <Compile Include="MVVM\Converter\RadiusConverter.cs" />
     <Compile Include="MVVM\Converter\ReciprocalConverter.cs" />
     <Compile Include="MVVM\Models\ResolutionItemModel.cs" />
+    <Compile Include="MVVM\Models\Ticker.cs" />
     <Compile Include="MVVM\Models\ToolBoxItemModel.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
+    <Compile Include="Themes\ThemeKeyStore.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

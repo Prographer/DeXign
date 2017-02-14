@@ -9,13 +9,14 @@
         xmlns:l="clr-namespace:DeXign.Editor.Layer"
         xmlns:r="clr-namespace:DeXign.Editor.Renderer"
         xmlns:m="clr-namespace:DeXign.Models"
+        xmlns:t="clr-namespace:DeXign.Theme"
         x:Class="DeXign.MainWindow"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         MinWidth="600" MinHeight="400"
         Width="1280" Height="800"
         Title="DX">
-    
+
     <c:ChromeWindow.Style>
         <StaticResource ResourceKey="DexignWindowStyle"/>
     </c:ChromeWindow.Style>
@@ -63,6 +64,21 @@
                 <m:ResolutionItemModel Width="720" Height="7280" Inch="6''" SubTitle="720p @ 140% 배율"/>
                 <m:ResolutionItemModel Width="1080" Height="1920" Inch="6''" SubTitle="1080p @ 220% 배율"/>
             </ComboBox>
+
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Orientation="Horizontal" Margin="8,0">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource PathRadioButtonStyle}">
+                        <Setter Property="Padding" Value="7"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Width" Value="32"/>
+                        <Setter Property="Height" Value="32"/>
+                    </Style>
+                </StackPanel.Resources>
+                
+                <RadioButton Content="{StaticResource Path.Android}" IsChecked="True" Command="{x:Static local:DXCommands.PlatformCommand}" CommandParameter="Android"/>
+                <RadioButton Content="{StaticResource Path.iOS}" Command="{x:Static local:DXCommands.PlatformCommand}" CommandParameter="iOS"/>
+                <RadioButton Content="{StaticResource Path.Window}" Command="{x:Static local:DXCommands.PlatformCommand}" CommandParameter="Window"/>
+            </StackPanel>
         </StackPanel>
     </c:ChromeWindow.SubMenu>
 
@@ -87,7 +103,7 @@
 
         <TabControl Grid.Column="2">
             <c:ClosableTabItem Header="Test1">
-                <Grid>
+                <Grid Background="Gray">
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Path Stretch="Uniform" Data="{StaticResource Path.Android}" Fill="DarkSalmon" Width="8" Height="8" Margin="0,0,16,0"/>
@@ -122,24 +138,15 @@
                 <Grid>
                     <ScrollViewer>
                         <AdornerDecorator>
-                            <dc:Storyboard Background="Transparent">
+                            <dc:Storyboard x:Name="storyboard" Background="Transparent">
                                 <dc:Storyboard.RenderTransform>
                                     <ScaleTransform ScaleX="{Binding Value, ElementName=slider}" ScaleY="{Binding Value, ElementName=slider}"/>
                                 </dc:Storyboard.RenderTransform>
 
-                                <ContentControl Width="200" Height="200" l:AttachedAdorner.AdornerType="{x:Type r:ScreenRenderer}" Background="Crimson" Canvas.Left="36" Canvas.Top="26">
-                                    <ContentControl.Template>
-                                        <ControlTemplate TargetType="{x:Type ContentControl}">
-                                            <Grid Background="{TemplateBinding Background}">
-                                                <ContentPresenter/>
-                                            </Grid>
-                                        </ControlTemplate>
-                                    </ContentControl.Template>
-
-                                    <Grid l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="AliceBlue">
-                                        <Button Content="asd" Margin="50" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}"/>
-                                    </Grid>
+                                <ContentControl Width="270" Height="480" l:AttachedAdorner.AdornerType="{x:Type r:ScreenRenderer}" Canvas.Left="170" Canvas.Top="80" Style="{DynamicResource {x:Static t:ThemeKeyStore.Screen}}">
+                                    <Label Content="Hello DeXign Studio!" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                                 </ContentControl>
+
                                 <!--<UniformGrid Rows="4" Height="112" Width="186" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="DarkSlateBlue" Canvas.Left="38" Canvas.Top="37">
                                     <TextBlock Text="Stretch" TextAlignment="Center" TextTrimming="CharacterEllipsis" HorizontalAlignment="Stretch" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="Crimson"  Margin="10,0"/>
                                     <TextBlock Text="Center" TextAlignment="Center" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="Crimson" />

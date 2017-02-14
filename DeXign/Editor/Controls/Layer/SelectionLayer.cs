@@ -13,6 +13,7 @@ using DeXign.Resources;
 using DeXign.Editor.Controls;
 
 using WPFExtension;
+using System.ComponentModel;
 
 namespace DeXign.Editor.Layer
 {
@@ -138,6 +139,11 @@ namespace DeXign.Editor.Layer
         #region [ Constructor ]
         public SelectionLayer(UIElement adornedElement) : base(adornedElement)
         {
+            if (DesignerProperties.GetIsInDesignMode(this))
+            {
+                this.Visibility = Visibility.Collapsed;
+            }
+
             InitializeComponents();
             InitializeSelector();
 
@@ -164,7 +170,7 @@ namespace DeXign.Editor.Layer
             var scale = new ScaleTransform(
                 ParentScale.ScaleX,
                 ParentScale.ScaleY);
-
+            
             #region < Frame >
             Add(frame = new Rectangle()
             {
