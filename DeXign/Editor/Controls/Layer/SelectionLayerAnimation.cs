@@ -23,7 +23,7 @@ namespace DeXign.Editor.Layer
             AnimateFrameThickness(0, 250);
         }
 
-        protected void AnimateFrameThickness(double thickness, double duration = 300)
+        protected void AnimateFrameThickness(double thickness, double duration = 300, Action completed = null)
         {
             var thicknessAnim = new DoubleAnimation(
                 thickness,

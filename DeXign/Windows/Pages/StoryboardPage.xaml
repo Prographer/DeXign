@@ -21,9 +21,9 @@
                     </dc:Storyboard.RenderTransform>
 
                     <ContentControl Width="270" Height="480" l:AttachedAdorner.AdornerType="{x:Type r:ScreenRenderer}" Canvas.Left="170" Canvas.Top="80" Style="{DynamicResource {x:Static t:ThemeKeyStore.Screen}}">
-                        <StackPanel l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" VerticalAlignment="Center">
-                            <Label Content="Hello DeXign Studio!" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                            <Button Content="Click Me!" Margin="0,16,0,0" Padding="4" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        <StackPanel l:AttachedAdorner.AdornerType="{x:Type l:DropSelectionLayer}" VerticalAlignment="Center">
+                            <Label Content="Hello DeXign Studio!" l:AttachedAdorner.AdornerType="{x:Type l:DropSelectionLayer}" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <Button Content="Click Me!" Margin="0,16,0,0" Padding="4" l:AttachedAdorner.AdornerType="{x:Type l:DropSelectionLayer}" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                         </StackPanel>
                     </ContentControl>
 

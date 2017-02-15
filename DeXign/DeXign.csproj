@@ -70,6 +70,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\LinkTextBlock.cs" />
+    <Compile Include="Editor\Controls\Layer\DropSelectionLayer.cs" />
     <Compile Include="MVVM\Commands\ActionCommand.cs" />
     <Compile Include="MVVM\Converter\NullObjectToVisibilityConverter.cs" />
     <Compile Include="MVVM\Models\Base\BaseNotifyModel.cs" />

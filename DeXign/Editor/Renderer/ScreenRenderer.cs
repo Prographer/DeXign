@@ -13,7 +13,7 @@ using DeXign.Core.Controls;
 
 namespace DeXign.Editor.Renderer
 {
-    class ScreenRenderer : LayerRenderer<PContentPage, ContentControl>, IDropHost
+    class ScreenRenderer : LayerRenderer<PContentPage, ContentControl>
     {
         public ScreenRenderer(UIElement adornedElement) : base(adornedElement)
         {
@@ -24,8 +24,6 @@ namespace DeXign.Editor.Renderer
 
         protected override void OnElementAttached(ContentControl element)
         {
-            element.AllowDrop = true;
-            element.PreviewDrop += ElementOnPreviewDrop;
         }
 
         protected override void OnDispatchRender(DrawingContext dc)
@@ -65,19 +63,9 @@ namespace DeXign.Editor.Renderer
                 new Point(-7 / ScaleX, RenderSize.Height - 1 / ScaleX));
         }
 
-        private void ElementOnPreviewDrop(object sender, DragEventArgs dragEventArgs)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool CanDrop(object item)
+        public override bool CanDrop(object item)
         {
             return true;
-        }
-
-        public void Drop(object item)
-        {
-            throw new NotImplementedException();
         }
     }
 }

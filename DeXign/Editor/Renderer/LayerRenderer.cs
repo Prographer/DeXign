@@ -2,10 +2,14 @@
 using System.Windows;
 using DeXign.Core.Controls;
 using DeXign.Editor.Layer;
+using DeXign.Editor.Interfaces;
+using DeXign.Core.Designer;
+using DeXign.Core;
+using System.Windows.Media;
 
 namespace DeXign.Editor.Renderer
 {
-    class LayerRenderer<TModel, TElement> : SelectionLayer
+    class LayerRenderer<TModel, TElement> : DropSelectionLayer
         where TModel : PObject
         where TElement : FrameworkElement
     {
@@ -16,7 +20,7 @@ namespace DeXign.Editor.Renderer
         {
             if (!(adornedElement is TElement))
                 throw new ArgumentException();
-
+            
             this.Model = Activator.CreateInstance<TModel>();
             this.Element = (TElement)adornedElement;
 

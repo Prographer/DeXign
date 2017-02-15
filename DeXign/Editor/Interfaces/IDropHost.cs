@@ -3,6 +3,6 @@
     interface IDropHost
     {
         bool CanDrop(object item);
-        void Drop(object item);
+        void OnDrop(object item);
     }
 }
