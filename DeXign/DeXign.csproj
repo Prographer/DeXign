@@ -69,6 +69,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\LinkTextBlock.cs" />
     <Compile Include="MVVM\Commands\ActionCommand.cs" />
     <Compile Include="MVVM\Converter\NullObjectToVisibilityConverter.cs" />
     <Compile Include="MVVM\Models\Base\BaseNotifyModel.cs" />
@@ -78,6 +79,9 @@
     <Compile Include="MVVM\Models\StoryboardModel.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="Themes\ThemeManager.cs" />
+    <Compile Include="Windows\Pages\WelcomePage.xaml.cs">
+      <DependentUpon>WelcomePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Pages\StoryboardPage.xaml.cs">
       <DependentUpon>StoryboardPage.xaml</DependentUpon>
     </Compile>
@@ -176,6 +180,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\Pages\WelcomePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\Pages\StoryboardPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

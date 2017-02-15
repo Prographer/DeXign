@@ -7,6 +7,7 @@
         xmlns:c="clr-namespace:DeXign.Controls"
         xmlns:m="clr-namespace:DeXign.Models"
         xmlns:cvt="clr-namespace:DeXign.Converter"
+        xmlns:p="clr-namespace:DeXign.Windows.Pages"
         x:Class="DeXign.MainWindow"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
@@ -99,37 +100,12 @@
         <GridSplitter Grid.Column="1" Background="#C0C0C0" Width="2" HorizontalAlignment="Center"/>
 
         <TabControl x:Name="tabControl" Grid.Column="2" SelectionChanged="tabControl_SelectionChanged">
-            <c:ClosableTabItem Header="Test1">
-                <Grid Background="Gray">
-                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Path Stretch="Uniform" Data="{StaticResource Path.Android}" Fill="DarkSalmon" Width="8" Height="8" Margin="0,0,16,0"/>
-                            <Path Stretch="Uniform" Data="{StaticResource Path.iOS}" Fill="DarkSalmon" Width="8" Height="8"/>
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,16,0,0">
-                            <Path Stretch="Uniform" Data="{StaticResource Path.Android}" Fill="DarkSalmon" Width="16" Height="16" Margin="0,0,16,0"/>
-                            <Path Stretch="Uniform" Data="{StaticResource Path.iOS}" Fill="DarkSalmon" Width="16" Height="16"/>
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,16,0,0">
-                            <Path Stretch="Uniform" Data="{StaticResource Path.Android}" Fill="DarkSalmon" Width="32" Height="32" Margin="0,0,16,0"/>
-                            <Path Stretch="Uniform" Data="{StaticResource Path.iOS}" Fill="DarkSalmon" Width="32" Height="32"/>
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,16,0,0">
-                            <Path Stretch="Uniform" Data="{StaticResource Path.Android}" Fill="DarkSalmon" Width="64" Height="64" Margin="0,0,16,0"/>
-                            <Path Stretch="Uniform" Data="{StaticResource Path.iOS}" Fill="DarkSalmon" Width="64" Height="64"/>
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,16,0,0">
-                            <Path Stretch="Uniform" Data="{StaticResource Path.Android}" Fill="DarkSalmon" Width="128" Height="128" Margin="0,0,16,0"/>
-                            <Path Stretch="Uniform" Data="{StaticResource Path.iOS}" Fill="DarkSalmon" Width="128" Height="128"/>
-                        </StackPanel>
-
-                        <TextBlock Text="Vector" HorizontalAlignment="Center" Foreground="Black" FontSize="32" Margin="0,64,0,0"/>
-                    </StackPanel>
-                </Grid>
+            <c:ClosableTabItem Header="Welcome">
+                <Frame>
+                    <Frame.Content>
+                        <p:WelcomePage/>
+                    </Frame.Content>
+                </Frame>
             </c:ClosableTabItem>
         </TabControl>
 

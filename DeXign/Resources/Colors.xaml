@@ -6,7 +6,7 @@
     
     <Color x:Key="Color.Accent">#FFB800</Color>
     <Color x:Key="Color.Accent.50">#4DFFB800</Color>
-    <Color x:Key="Color.DarkAccent">#898989</Color>
+    <Color x:Key="Color.DarkAccent">#717171</Color>
     <Color x:Key="Color.ContentBackground">#BBBBBB</Color>
 
     <Color x:Key="Color.HeaderLayout.Foreground">#7A7A7A</Color>
