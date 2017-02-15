@@ -480,6 +480,7 @@ namespace DeXign.Editor.Layer
         #region [ Invalidated ]
         private void ClipChanged(object sender, EventArgs e)
         {
+            var margin = AdornedElement.Margin;
             var parentMargin = GetParentRenderMargin();
             var renderSize = new Size(ActualWidth, ActualHeight);
 
@@ -491,23 +492,27 @@ namespace DeXign.Editor.Layer
             {
                 AdornedElement.HorizontalAlignment = HorizontalAlignment.Stretch;
                 renderSize.Width = double.NaN;
+                margin.Left = parentMargin.Left;
+                margin.Right = parentMargin.Right;
             }
 
             if (clipData.Left && !clipData.Right)
             {
                 AdornedElement.HorizontalAlignment = HorizontalAlignment.Left;
-                parentMargin.Right = 0;
+                margin.Left = parentMargin.Left;
             }
 
             if (!clipData.Left && clipData.Right)
             {
                 AdornedElement.HorizontalAlignment = HorizontalAlignment.Right;
-                parentMargin.Left = 0;
+                margin.Right = parentMargin.Right;
             }
 
             if (!clipData.Left && !clipData.Right)
             {
                 AdornedElement.HorizontalAlignment = HorizontalAlignment.Center;
+                margin.Left = parentMargin.Left;
+                margin.Right = parentMargin.Right;
             }
             #endregion
 
@@ -516,18 +521,20 @@ namespace DeXign.Editor.Layer
             {
                 AdornedElement.VerticalAlignment = VerticalAlignment.Stretch;
                 renderSize.Height = double.NaN;
+                margin.Top = parentMargin.Top;
+                margin.Bottom = parentMargin.Bottom;
             }
 
             if (clipData.Top && !clipData.Bottom)
             {
                 AdornedElement.VerticalAlignment = VerticalAlignment.Top;
-                parentMargin.Bottom = 0;
+                margin.Top = parentMargin.Top;
             }
 
             if (!clipData.Top && clipData.Bottom)
             {
                 AdornedElement.VerticalAlignment = VerticalAlignment.Bottom;
-                parentMargin.Top = 0;
+                margin.Bottom = parentMargin.Bottom;
             }
 
             if (!clipData.Top && !clipData.Bottom)
@@ -536,7 +543,7 @@ namespace DeXign.Editor.Layer
             }
             #endregion
 
-            AdornedElement.Margin = parentMargin;
+            AdornedElement.Margin = margin;
             AdornedElement.Width = renderSize.Width;
             AdornedElement.Height = renderSize.Height;
 
@@ -576,7 +583,20 @@ namespace DeXign.Editor.Layer
         {
             DisplayMargin = !(AdornedElement.Parent is Canvas);
 
-            clipGrid.Visibility = BoolToVisibility(DisplayMargin && DesignMode == DesignMode.Size);
+            clipGrid.Visibility = (DisplayMargin && DesignMode == DesignMode.Size).ToVisibility();
+
+            if (AdornedElement.Parent is StackPanel)
+            {
+                var stackPanel = (StackPanel)AdornedElement.Parent;
+
+                // Horizontal
+                clipData.TopVisible = (stackPanel.Orientation == Orientation.Horizontal);
+                clipData.BottomVisible = (stackPanel.Orientation == Orientation.Horizontal);
+
+                // Vertical
+                clipData.LeftVisible = (stackPanel.Orientation == Orientation.Vertical);
+                clipData.RightVisible = (stackPanel.Orientation == Orientation.Vertical);
+            }
         }
 
         private void UpdateMarginClips()
@@ -629,6 +649,30 @@ namespace DeXign.Editor.Layer
         {
             get { return BottomClip.IsChecked.Value; }
             set { BottomClip.IsChecked = value; }
+        }
+        
+        public bool LeftVisible
+        {
+            get { return LeftClip.Visibility == Visibility.Visible; }
+            set { LeftClip.Visibility = value.ToVisibility(); }
+        }
+
+        public bool RightVisible
+        {
+            get { return RightClip.Visibility == Visibility.Visible; }
+            set { RightClip.Visibility = value.ToVisibility(); }
+        }
+
+        public bool TopVisible
+        {
+            get { return TopClip.Visibility == Visibility.Visible; }
+            set { TopClip.Visibility = value.ToVisibility(); }
+        }
+
+        public bool BottomVisible
+        {
+            get { return BottomClip.Visibility == Visibility.Visible; }
+            set { BottomClip.Visibility = value.ToVisibility(); }
         }
     }
 }

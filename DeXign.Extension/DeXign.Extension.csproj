@@ -45,10 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BindingEx.cs" />
+    <Compile Include="BoolEx.cs" />
     <Compile Include="DoubleEx.cs" />
     <Compile Include="Hardware.cs" />
     <Compile Include="LogicalTreeHelperEx.cs" />
     <Compile Include="MarshalEx.cs" />
+    <Compile Include="StringEx.cs" />
     <Compile Include="TypeSwitch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReflectionEx.cs" />

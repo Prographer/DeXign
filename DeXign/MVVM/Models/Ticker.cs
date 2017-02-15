@@ -1,18 +1,15 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows.Threading;
 
 namespace DeXign.Models
 {
-    public class Ticker : INotifyPropertyChanged
+    public class Ticker : BaseNotifyModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public DateTime Now => DateTime.Now;
 
         DispatcherTimer timer;
 
-        public Ticker()
+        public Ticker() : base()
         {
             timer = new DispatcherTimer()
             {
@@ -25,7 +22,7 @@ namespace DeXign.Models
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Now)));
+            RaisePropertyChanged(nameof(Now));
         }
     }
 }

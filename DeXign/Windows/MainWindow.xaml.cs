@@ -5,48 +5,24 @@ using DeXign.Models;
 using DeXign.Controls;
 using DeXign.Resources;
 using DeXign.Core.Designer;
-using System;
 using System.Windows.Controls;
+using System;
+using DeXign.Windows.Pages;
 
 namespace DeXign
 {
-    /// <summary>
-    /// MainWindow.xaml에 대한 상호 작용 논리
-    /// </summary>
-    public partial class MainWindow : ChromeWindow
+    public partial class MainWindow : ChromeWindow, IViewModel<MainModel>
     {
-        // TODO: Just Test Code
-        ResourceDictionary androidStyle;
-        ResourceDictionary iosStyle;
-        ResourceDictionary windowStyle;
-
+        public MainModel Model { get; set; }
+        
         public MainWindow()
         {
-            InitializeResources();
             InitializeComponent();
             InitializeCommands();
             InitializeLayouts();
 
-            storyboard.Resources = androidStyle;
-        }
-
-        private void InitializeResources()
-        {
-            // TODO: Just Test Code
-            androidStyle = new ResourceDictionary()
-            {
-                Source = new Uri("/DeXign;component/Themes/Platforms/AndroidStyle.xaml", UriKind.RelativeOrAbsolute)
-            };
-
-            iosStyle = new ResourceDictionary()
-            {
-                Source = new Uri("/DeXign;component/Themes/Platforms/iOSStyle.xaml", UriKind.RelativeOrAbsolute)
-            };
-
-            windowStyle = new ResourceDictionary()
-            {
-                Source = new Uri("/DeXign;component/Themes/Platforms/WindowStyle.xaml", UriKind.RelativeOrAbsolute)
-            };
+            Model = new MainModel();
+            this.DataContext = Model;
         }
 
         private void InitializeLayouts()
@@ -71,39 +47,41 @@ namespace DeXign
             this.CommandBindings.Add(
                 new CommandBinding(
                     DXCommands.NewProjectCommand, NewProject_Execute));
-
-            this.CommandBindings.Add(
-                new CommandBinding(
-                    DXCommands.PlatformCommand, PlatformChanged));
         }
-
-        private void PlatformChanged(object sender, ExecutedRoutedEventArgs e)
-        {
-            // TODO: Just Test Code
-            switch ((string)e.Parameter)
-            {
-                case "Android":
-                    storyboard.Resources = androidStyle;
-                    break;
-
-                case "iOS":
-                    storyboard.Resources = iosStyle;
-                    break;
-
-                case "Window":
-                    storyboard.Resources = windowStyle;
-                    break;
-            }
-        }
-
+        
         private void NewProject_Execute(object sender, ExecutedRoutedEventArgs e)
         {
-            MessageBox.Show("새로 만들기!");
+            CreateStoryboardPage();
         }
 
         private void OpenProject_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             MessageBox.Show("열기!");
+        }
+
+        public void CreateStoryboardPage()
+        {
+            var page = new StoryboardPage();
+
+            tabControl.Items.Add(
+                new ClosableTabItem()
+                {
+                    Header = "App1",
+                    IsSelected = true,
+                    Content = new Frame()
+                    {
+                        Content = page
+                    },
+                    Tag = page.Model
+                });
+        }
+
+        private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = (ClosableTabItem)tabControl.SelectedItem;
+            var itemModel = (StoryboardModel)item?.Tag;
+
+            Model.StoryboardPage = (StoryboardPage)itemModel?.ViewModel;
         }
     }
 }

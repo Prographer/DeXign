@@ -162,21 +162,25 @@ namespace DeXign.Editor.Layer
             // Draw Margin Guide Line
             dc.PushOpacity(0.5);
             {
-                dc.DrawLine(marginLeft ? solidPen : dashedPen,
-                    new Point(parentRect.X, hCenter),
-                    new Point(-1, hCenter));
+                if (clipData.LeftVisible)
+                    dc.DrawLine(marginLeft ? solidPen : dashedPen,
+                        new Point(parentRect.X, hCenter),
+                        new Point(-1, hCenter));
 
-                dc.DrawLine(marginRight ? solidPen : dashedPen,
-                    new Point(RenderSize.Width, hCenter),
-                    new Point(parentRect.Right, hCenter));
+                if (clipData.RightVisible)
+                    dc.DrawLine(marginRight ? solidPen : dashedPen,
+                        new Point(RenderSize.Width, hCenter),
+                        new Point(parentRect.Right, hCenter));
 
-                dc.DrawLine(marginTop ? solidPen : dashedPen,
-                    new Point(wCenter, parentRect.Y),
-                    new Point(wCenter, -1));
+                if (clipData.TopVisible)
+                    dc.DrawLine(marginTop ? solidPen : dashedPen,
+                        new Point(wCenter, parentRect.Y),
+                        new Point(wCenter, -1));
 
-                dc.DrawLine(marginBottom ? solidPen : dashedPen,
-                    new Point(wCenter, RenderSize.Height),
-                    new Point(wCenter, parentRect.Bottom));
+                if (clipData.BottomVisible)
+                    dc.DrawLine(marginBottom ? solidPen : dashedPen,
+                        new Point(wCenter, RenderSize.Height),
+                        new Point(wCenter, parentRect.Bottom));
             }
             dc.Pop();
 
@@ -446,11 +450,6 @@ namespace DeXign.Editor.Layer
         protected void Inflate(ref Rect rect, double x, double y)
         {
             rect.Inflate(x / ScaleX, y / ScaleY);
-        }
-
-        private Visibility BoolToVisibility(bool value)
-        {
-            return value ? Visibility.Visible : Visibility.Collapsed;
         }
         #endregion
     }

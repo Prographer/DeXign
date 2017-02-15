@@ -5,11 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DeXign"
         xmlns:c="clr-namespace:DeXign.Controls"
-        xmlns:dc="clr-namespace:DeXign.Editor.Controls"
-        xmlns:l="clr-namespace:DeXign.Editor.Layer"
-        xmlns:r="clr-namespace:DeXign.Editor.Renderer"
         xmlns:m="clr-namespace:DeXign.Models"
-        xmlns:t="clr-namespace:DeXign.Theme"
+        xmlns:cvt="clr-namespace:DeXign.Converter"
         x:Class="DeXign.MainWindow"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
@@ -54,7 +51,7 @@
     </c:ChromeWindow.Menu>
 
     <c:ChromeWindow.SubMenu>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Visibility="{Binding StoryboardPage, Converter={cvt:NullObjectToVisibilityConverter}}">
             <ComboBox Margin="10" VerticalAlignment="Center" HorizontalAlignment="Left" SelectedIndex="0" ItemTemplate="{DynamicResource ResolutionItemTemplate}" Style="{DynamicResource ResolutionComboBoxStyle}">
                 <m:ResolutionItemModel Width="480" Height="800" Inch="4''" SubTitle="WVGA @ 120% 배율"/>
                 <m:ResolutionItemModel Width="768" Height="1280" Inch="4.5''" SubTitle="WXGA @ 200% 배율"/>
@@ -74,10 +71,10 @@
                         <Setter Property="Height" Value="32"/>
                     </Style>
                 </StackPanel.Resources>
-                
-                <RadioButton Content="{StaticResource Path.Android}" IsChecked="True" Command="{x:Static local:DXCommands.PlatformCommand}" CommandParameter="Android"/>
-                <RadioButton Content="{StaticResource Path.iOS}" Command="{x:Static local:DXCommands.PlatformCommand}" CommandParameter="iOS"/>
-                <RadioButton Content="{StaticResource Path.Window}" Command="{x:Static local:DXCommands.PlatformCommand}" CommandParameter="Window"/>
+
+                <RadioButton Content="{StaticResource Path.Android}" IsChecked="True" Command="{Binding StoryboardPage.Model.PlatformCommand}" CommandParameter="Android"/>
+                <RadioButton Content="{StaticResource Path.iOS}" Command="{Binding StoryboardPage.Model.PlatformCommand}" CommandParameter="iOS"/>
+                <RadioButton Content="{StaticResource Path.Window}" Command="{Binding StoryboardPage.Model.PlatformCommand}" CommandParameter="Window"/>
             </StackPanel>
         </StackPanel>
     </c:ChromeWindow.SubMenu>
@@ -92,7 +89,7 @@
         </Grid.ColumnDefinitions>
 
         <c:HeaderLayout Grid.Column="0" Header="도구 상자" Style="{StaticResource DeXignHeaderLayoutStyle}">
-            <DockPanel>
+            <DockPanel Visibility="{Binding StoryboardPage, Converter={cvt:NullObjectToVisibilityConverter}}">
                 <c:HintTextBox x:Name="toolBoxSearchBar" DockPanel.Dock="Top" Style="{DynamicResource SearchBarStyle}" TextHint="도구 검색"/>
                 <c:ToolBox x:Name="toolBox" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                            FilterKeyword="{Binding Text, ElementName=toolBoxSearchBar, UpdateSourceTrigger=PropertyChanged}"/>
@@ -101,7 +98,7 @@
 
         <GridSplitter Grid.Column="1" Background="#C0C0C0" Width="2" HorizontalAlignment="Center"/>
 
-        <TabControl Grid.Column="2">
+        <TabControl x:Name="tabControl" Grid.Column="2" SelectionChanged="tabControl_SelectionChanged">
             <c:ClosableTabItem Header="Test1">
                 <Grid Background="Gray">
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center">
@@ -134,49 +131,12 @@
                     </StackPanel>
                 </Grid>
             </c:ClosableTabItem>
-            <c:ClosableTabItem Header="Test2">
-                <Grid>
-                    <ScrollViewer>
-                        <AdornerDecorator>
-                            <dc:Storyboard x:Name="storyboard" Background="Transparent">
-                                <dc:Storyboard.RenderTransform>
-                                    <ScaleTransform ScaleX="{Binding Value, ElementName=slider}" ScaleY="{Binding Value, ElementName=slider}"/>
-                                </dc:Storyboard.RenderTransform>
-
-                                <ContentControl Width="270" Height="480" l:AttachedAdorner.AdornerType="{x:Type r:ScreenRenderer}" Canvas.Left="170" Canvas.Top="80" Style="{DynamicResource {x:Static t:ThemeKeyStore.Screen}}">
-                                    <StackPanel l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" VerticalAlignment="Center">
-                                        <Label Content="Hello DeXign Studio!" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                        <Button Content="Click Me!" Margin="0,16,0,0" Padding="4" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                    </StackPanel>
-                                </ContentControl>
-
-                                <!--<UniformGrid Rows="4" Height="112" Width="186" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="DarkSlateBlue" Canvas.Left="38" Canvas.Top="37">
-                                    <TextBlock Text="Stretch" TextAlignment="Center" TextTrimming="CharacterEllipsis" HorizontalAlignment="Stretch" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="Crimson"  Margin="10,0"/>
-                                    <TextBlock Text="Center" TextAlignment="Center" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="Crimson" />
-                                    <TextBlock Text="Left" TextAlignment="Center" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="Crimson" Margin="0,4" Width="49" />
-                                    <TextBlock Text="Right" TextAlignment="Center" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="Crimson" />
-                                </UniformGrid>
-                                <UniformGrid Columns="4" Height="112" Width="186" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="DarkSlateBlue" Canvas.Left="300" Canvas.Top="37">
-                                    <TextBlock Text="Stretch" TextWrapping="Wrap" TextAlignment="Center" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="Crimson" />
-                                    <TextBlock Text="Center" TextWrapping="Wrap" TextAlignment="Center" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="Crimson" />
-                                    <TextBlock Text="Top" TextWrapping="Wrap" TextAlignment="Center" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="Crimson" />
-                                    <TextBlock Text="Bottom" TextWrapping="Wrap" TextAlignment="Center" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="Crimson" />
-                                </UniformGrid>
-                                <Grid Height="112" Width="186" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="DarkSlateBlue" Canvas.Left="38" Canvas.Top="208">
-                                    <Rectangle Fill="Crimson" Width="20" HorizontalAlignment="Left" Margin="18,19,0,73" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}"/>
-                                </Grid>-->
-                            </dc:Storyboard>
-                        </AdornerDecorator>
-                    </ScrollViewer>
-                    <Slider x:Name="slider" VerticalAlignment="Bottom" Margin="10" Maximum="8" Minimum="0.25" Value="1"/>
-                </Grid>
-            </c:ClosableTabItem>
         </TabControl>
 
         <GridSplitter Grid.Column="3" Background="#C0C0C0" Width="2" HorizontalAlignment="Center"/>
 
         <c:HeaderLayout Grid.Column="4" Header="속성" Style="{StaticResource DeXignHeaderLayoutStyle}">
-            <c:PropertyGrid/>
+            <c:PropertyGrid Visibility="{Binding StoryboardPage, Converter={cvt:NullObjectToVisibilityConverter}}"/>
         </c:HeaderLayout>
     </Grid>
 </c:ChromeWindow>
