@@ -23,10 +23,10 @@ namespace DeXign.Core.Controls
             DependencyHelper.Register(new PropertyMetadata(-1d));
 
         public static readonly DependencyProperty MinWidthProperty =
-            DependencyHelper.Register(new PropertyMetadata(-1d));
+            DependencyHelper.Register(new PropertyMetadata(0d));
 
         public static readonly DependencyProperty MinHeightProperty =
-            DependencyHelper.Register(new PropertyMetadata(-1d));
+            DependencyHelper.Register(new PropertyMetadata(0d));
 
         public static readonly DependencyProperty OpacityProperty =
             DependencyHelper.Register(new PropertyMetadata(1.0d));

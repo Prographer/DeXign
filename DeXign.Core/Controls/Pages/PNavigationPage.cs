@@ -16,7 +16,7 @@ namespace DeXign.Core.Controls
         public static readonly DependencyProperty CurrentPageProperty =
             DependencyHelper.Register();
 
-        public static readonly DependencyPropertyKey AccentColorPropertyKey =
+        private static readonly DependencyPropertyKey AccentColorPropertyKey =
             DependencyHelper.RegisterReadOnly();
 
         public static readonly DependencyProperty AccentColorProperty =

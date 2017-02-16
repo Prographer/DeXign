@@ -7,7 +7,7 @@ namespace DeXign.Core
     [XForms("LayoutOptions")]
     public struct LayoutAlignment
     {
-        int flags;
+        internal int flags;
 
         public static readonly LayoutAlignment Start = new LayoutAlignment(LayoutOptions.Start, false);
         public static readonly LayoutAlignment Center = new LayoutAlignment(LayoutOptions.Center, false);
@@ -46,6 +46,20 @@ namespace DeXign.Core
                 return (LayoutAlignment)obj == this;
 
             return false;
+        }
+
+        public override string ToString()
+        {
+            if (flags == Start.flags) return nameof(Start);
+            if (flags == Center.flags) return nameof(Center);
+            if (flags == End.flags) return nameof(End);
+            if (flags == Fill.flags) return nameof(Fill);
+            if (flags == StartAndExpand.flags) return nameof(StartAndExpand);
+            if (flags == CenterAndExpand.flags) return nameof(CenterAndExpand);
+            if (flags == EndAndExpand.flags) return nameof(EndAndExpand);
+            if (flags == FillAndExpand.flags) return nameof(FillAndExpand);
+
+            return null;
         }
 
         public static bool operator ==(LayoutAlignment l1, LayoutAlignment l2)

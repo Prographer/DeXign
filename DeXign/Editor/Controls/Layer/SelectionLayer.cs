@@ -14,10 +14,12 @@ using DeXign.Editor.Controls;
 
 using WPFExtension;
 using System.ComponentModel;
+using DeXign.Windows.Pages;
+using System.Linq;
 
 namespace DeXign.Editor.Layer
 {
-    partial class SelectionLayer : StoryboardLayer
+    public partial class SelectionLayer : StoryboardLayer
     {
         #region [ Dependency Property ]
         public static readonly DependencyProperty DisplayMarginProperty =
@@ -160,12 +162,14 @@ namespace DeXign.Editor.Layer
         {
             this.AddSelectedHandler(OnSelected);
             this.AddUnselectedHandler(OnUnselected);
+
+            GroupSelector.Select(this, true);
         }
 
         private void InitializeComponents()
         {
-            AdornedElement.MinWidth = 5;
-            AdornedElement.MinHeight = 5;
+            AdornedElement.SetDesignMinWidth(5);
+            AdornedElement.SetDesignMinHeight(5);
 
             var scale = new ScaleTransform(
                 ParentScale.ScaleX,
@@ -365,6 +369,8 @@ namespace DeXign.Editor.Layer
             
             foreach (ResizeThumb thumb in resizeGrid.Children)
             {
+                thumb.DragDelta += (s, e) => DragEvent();
+
                 // SelectionBrush -> thumb Stroke
                 BindingEx.SetBinding(
                     this, SelectionBrushProperty,
@@ -380,6 +386,11 @@ namespace DeXign.Editor.Layer
             foreach (MarginClip clip in clipGrid.Children)
                 ToggleButton.IsCheckedProperty.AddValueChanged(clip, ClipChanged);
             #endregion
+        }
+
+        private void DragEvent()
+        {
+            Parent.FindLogicalParents<StoryboardPage>().FirstOrDefault().PresentXamlCode();
         }
         #endregion
 
@@ -500,19 +511,21 @@ namespace DeXign.Editor.Layer
             {
                 AdornedElement.HorizontalAlignment = HorizontalAlignment.Left;
                 margin.Left = parentMargin.Left;
+                margin.Right = 0;
             }
 
             if (!clipData.Left && clipData.Right)
             {
                 AdornedElement.HorizontalAlignment = HorizontalAlignment.Right;
+                margin.Left = 0;
                 margin.Right = parentMargin.Right;
             }
 
             if (!clipData.Left && !clipData.Right)
             {
                 AdornedElement.HorizontalAlignment = HorizontalAlignment.Center;
-                margin.Left = parentMargin.Left;
-                margin.Right = parentMargin.Right;
+                margin.Left = 0;
+                margin.Right = 0;
             }
             #endregion
 
@@ -529,17 +542,21 @@ namespace DeXign.Editor.Layer
             {
                 AdornedElement.VerticalAlignment = VerticalAlignment.Top;
                 margin.Top = parentMargin.Top;
+                margin.Bottom = 0;
             }
 
             if (!clipData.Top && clipData.Bottom)
             {
                 AdornedElement.VerticalAlignment = VerticalAlignment.Bottom;
+                margin.Top = 0;
                 margin.Bottom = parentMargin.Bottom;
             }
 
             if (!clipData.Top && !clipData.Bottom)
             {
                 AdornedElement.VerticalAlignment = VerticalAlignment.Center;
+                margin.Top = 0;
+                margin.Bottom = 0;
             }
             #endregion
 

@@ -4,10 +4,11 @@ using System.Windows.Media;
 using System.Windows.Controls;
 
 using DeXign.Editor;
-using DeXign.Editor.Interfaces;
 using DeXign.Editor.Renderer;
 using DeXign.Extension;
 using DeXign.Core.Controls;
+using DeXign.Core;
+using DeXign.Core.Designer;
 
 [assembly: ExportRenderer(typeof(PContentPage), typeof(ContentControl), typeof(ScreenRenderer))]
 
@@ -24,6 +25,7 @@ namespace DeXign.Editor.Renderer
 
         protected override void OnElementAttached(ContentControl element)
         {
+            base.OnElementAttached(element);
         }
 
         protected override void OnDispatchRender(DrawingContext dc)
@@ -63,9 +65,14 @@ namespace DeXign.Editor.Renderer
                 new Point(-7 / ScaleX, RenderSize.Height - 1 / ScaleX));
         }
 
-        public override bool CanDrop(object item)
+        public override bool CanDrop(AttributeTuple<DesignElementAttribute, Type> item)
         {
-            return true;
+            return item != null;
+        }
+
+        protected override string OnLoadPlatformStyleName()
+        {
+            return Theme.ThemeKeyStore.Screen;
         }
     }
 }

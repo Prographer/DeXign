@@ -76,7 +76,7 @@ namespace DeXign.Editor.Layer
             }
         }
 
-        private static AdornerLayer GetAdornerLayer(FrameworkElement element)
+        public static AdornerLayer GetAdornerLayer(FrameworkElement element)
         {
             var decorator = element
                 .FindLogicalParents<AdornerDecorator>()

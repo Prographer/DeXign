@@ -1,6 +1,6 @@
 ﻿namespace DeXign.Editor
 {
-    enum DesignMode
+    public enum DesignMode
     {
         None,
         Size,

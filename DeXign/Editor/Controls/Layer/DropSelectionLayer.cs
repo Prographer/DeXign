@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace DeXign.Editor.Layer
 {
-    class DropSelectionLayer : SelectionLayer, IDropHost
+    public class DropSelectionLayer : SelectionLayer, IDropHost<AttributeTuple<DesignElementAttribute, Type>>
     {
         private bool dragCanceled = false;
         private Brush frameBrushBackup;
@@ -19,9 +19,8 @@ namespace DeXign.Editor.Layer
 
         protected override void OnPreviewDragEnter(DragEventArgs e)
         {
-            dragCanceled = !this.CanDrop(
-                e.Data.GetData(
-                    typeof(AttributeTuple<DesignElementAttribute, Type>)));
+            object data = e.Data.GetData(typeof(AttributeTuple<DesignElementAttribute, Type>));
+            dragCanceled = !this.CanDrop((AttributeTuple<DesignElementAttribute, Type>)data);
 
             ShowFrame(!dragCanceled);
         }
@@ -45,23 +44,38 @@ namespace DeXign.Editor.Layer
             HideFrame();
         }
 
+        protected override void OnDragOver(DragEventArgs e)
+        {
+            base.OnDragOver(e);
+            e.Effects = DragDropEffects.All;
+        }
+
         protected override void OnDrop(DragEventArgs e)
         {
             HideFrame();
 
             if (!dragCanceled)
             {
-                OnDrop(e.Data.GetData(typeof(AttributeTuple<DesignElementAttribute, Type>)));
+                object data = e.Data.GetData(typeof(AttributeTuple<DesignElementAttribute, Type>));
+
+                OnDrop((AttributeTuple<DesignElementAttribute, Type>)data);
             }
         }
 
-        public virtual bool CanDrop(object item)
+        public virtual bool CanDrop(AttributeTuple<DesignElementAttribute, Type> item)
         {
             return false;
         }
-
-        public virtual void OnDrop(object item)
+        
+        public virtual void OnDrop(AttributeTuple<DesignElementAttribute, Type> item)
         {
+            OnCreatedChild(
+                Parent.GenerateToElement(this.AdornedElement, item));
+        }
+
+        public virtual void OnCreatedChild(FrameworkElement child)
+        {
+
         }
     }
 }

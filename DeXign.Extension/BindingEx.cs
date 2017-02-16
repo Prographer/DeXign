@@ -20,5 +20,21 @@ namespace DeXign.Extension
                     Converter = converter
                 });
         }
+
+        public static void SetBinding(
+            DependencyObject source, string path,
+            DependencyObject target, DependencyProperty targetProperty,
+            BindingMode mode = BindingMode.TwoWay,
+            IValueConverter converter = null)
+        {
+            BindingOperations.SetBinding(
+                target, targetProperty,
+                new Binding(path)
+                {
+                    Source = source,
+                    Mode = mode,
+                    Converter = converter
+                });
+        }
     }
 }

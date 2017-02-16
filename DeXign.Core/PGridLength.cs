@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 
 namespace DeXign.Core
 {
@@ -79,7 +80,26 @@ namespace DeXign.Core
 
         public override string ToString()
         {
-            return string.Format("{0}.{1}", Value, GridUnitType);
+            switch (GridUnitType)
+            {
+                case PGridUnitType.Absolute:
+                    return Value.ToString();
+
+                case PGridUnitType.Star:
+                    return $"{Value}*";
+
+                case PGridUnitType.Auto:
+                    return "Auto";
+            }
+
+            return null;
+        }
+
+        public static implicit operator GridLength(PGridLength gridLength)
+        {
+            return new GridLength(
+                gridLength.Value, 
+                (GridUnitType)gridLength.GridUnitType);
         }
     }
 }

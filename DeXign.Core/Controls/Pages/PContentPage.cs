@@ -1,10 +1,12 @@
 ﻿using DeXign.Extension;
 using System.Windows;
+using System.Windows.Markup;
 using WPFExtension;
 
 namespace DeXign.Core.Controls
 {
-    [XForms("Xamarin.Forms", "ContentPage", ContentProperty = "Content")]
+    [ContentProperty("Content")]
+    [XForms("Xamarin.Forms", "ContentPage")]
     public class PContentPage : PPage
     {
         public static readonly DependencyProperty ContentProperty =

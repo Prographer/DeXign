@@ -16,7 +16,7 @@ namespace DeXign.Test
     {
         static void Main(string[] args)
         {
-            Test1();
+            Test2();
             //DesignerTest();
         }
 
@@ -86,7 +86,7 @@ namespace DeXign.Test
                     }
                 })
             };
-
+            
             PGridLayout.SetColumn(lbl1, 1);
 
             PGridLayout.SetColumn(lbl2, 0);

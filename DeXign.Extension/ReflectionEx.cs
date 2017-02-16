@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Reflection;
 using System.Windows;
 
@@ -51,18 +52,24 @@ namespace DeXign.Extension
             return typeof(T).IsAssignableFrom(pi.PropertyType);
         }
 
+        public static DependencyProperty FindDependencyProperty(this DependencyObject obj, string propertyName)
+        {
+            return obj
+                .GetType()
+                .GetProperty(propertyName)?
+                .GetDependencyProperty();
+        }
+
         public static DependencyProperty GetDependencyProperty(this PropertyInfo pi)
         {
             // DependencyProperty
             var dpField = pi.DeclaringType.GetField($"{pi.Name}Property");
             
             if (dpField != null)
-            {
                 return dpField.GetValue(null) as DependencyProperty;
-            }
 
             // DependencyPropertyKey (ReadOnly)
-            var dpKeyField = pi.DeclaringType.GetField($"{pi.Name}PropertyKey", BindingFlags.NonPublic);
+            var dpKeyField = pi.DeclaringType.GetField($"{pi.Name}PropertyKey", BindingFlags.NonPublic | BindingFlags.Static);
 
             if (dpKeyField != null)
             {
@@ -82,8 +89,15 @@ namespace DeXign.Extension
             {
                 var v = pi.GetValue(parent);
                 var v2 = dp.DefaultMetadata.DefaultValue;
+                
+                if (v != null && pi.CanCastingTo<IList>())
+                {
+                    var lst = (IList)v;
 
-                return v.Equals(v2);
+                    return lst.Count == 0;
+                }
+
+                return object.Equals(v, v2);
             }
 
             return false;

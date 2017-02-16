@@ -75,8 +75,8 @@ namespace DeXign.Editor.Controls
             }
 
             positionLimit = new Vector(
-                beginPosition.X + beginSize.X - Target.MinWidth,
-                beginPosition.Y + beginSize.Y - Target.MinHeight);
+                beginPosition.X + beginSize.X - Target.GetDesignMinWidth(),
+                beginPosition.Y + beginSize.Y - Target.GetDesignMinHeight());
         }
 
         protected virtual Vector GetScale()
@@ -280,12 +280,16 @@ namespace DeXign.Editor.Controls
 
         private double SizingWidth(double deltaX)
         {
-            return Target.Width = Math.Max(Target.MinWidth, Target.ActualWidth + deltaX);
+            return Target.Width = Math.Max(
+                Target.GetDesignMinWidth(), 
+                Target.ActualWidth + deltaX);
         }
 
         private double SizingHeight(double deltaY)
         {
-            return Target.Height = Math.Max(Target.MinHeight, Target.ActualHeight + deltaY);
+            return Target.Height = Math.Max(
+                Target.GetDesignMinHeight(), 
+                Target.ActualHeight + deltaY);
         }
 
         private double SizingX(double deltaX, bool isCanvas = true)

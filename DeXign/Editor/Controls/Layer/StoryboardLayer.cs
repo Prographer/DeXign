@@ -6,7 +6,7 @@ using DeXign.Extension;
 
 namespace DeXign.Editor.Layer
 {
-    class StoryboardLayer : ControlLayer
+    public class StoryboardLayer : ControlLayer
     {
         internal new Storyboard Parent;
         internal ScaleTransform ParentScale;

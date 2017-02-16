@@ -11,6 +11,10 @@ namespace DeXign.Interop
 
         [DllImport(ExternDll.User32)]
         public static extern bool GetMonitorInfo(IntPtr hMonitor, ref NativeMethods.MONITORINFO lpmi);
+
+        [DllImport(ExternDll.User32)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetCursorPos(out NativeMethods.Point lpPoint);
         #endregion
 
         #region [ Kernel32 ]

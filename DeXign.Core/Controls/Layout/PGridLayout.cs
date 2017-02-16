@@ -2,10 +2,12 @@
 using DeXign.Extension;
 using System;
 using System.Windows;
+using System.Windows.Markup;
 using WPFExtension;
 
 namespace DeXign.Core.Controls
 {
+    [ContentProperty("Children")]
     [DesignElement(Category = Constants.Designer.Layout, DisplayName = "그리드")]
     [XForms("Xamarin.Forms", "Grid")]
     public class PGridLayout : PLayout<PControl>
@@ -16,15 +18,11 @@ namespace DeXign.Core.Controls
         public static readonly DependencyProperty RowSpacingProperty =
             DependencyHelper.Register();
 
-        public static readonly DependencyPropertyKey ColumnDefinitionsPropertyKey =
-            DependencyHelper.RegisterReadOnly(
-                new FrameworkPropertyMetadata(
-                    new PDefinitionCollection<PColumnDefinition>()));
+        private static readonly DependencyPropertyKey ColumnDefinitionsPropertyKey =
+            DependencyHelper.RegisterReadOnly();
 
-        public static readonly DependencyPropertyKey RowDefinitionsPropertyKey =
-            DependencyHelper.RegisterReadOnly(
-                new FrameworkPropertyMetadata(
-                    new PDefinitionCollection<PRowDefinition>()));
+        private static readonly DependencyPropertyKey RowDefinitionsPropertyKey =
+            DependencyHelper.RegisterReadOnly();
 
         public static readonly DependencyProperty ColumnProperty =
             DependencyHelper.RegisterAttached<int>(
@@ -149,6 +147,17 @@ namespace DeXign.Core.Controls
                 throw new ArgumentNullException("element");
 
             return (int)control.GetValue(RowSpanProperty);
+        }
+
+        public PGridLayout()
+        {
+            SetValue(
+                ColumnDefinitionsPropertyKey, 
+                new PDefinitionCollection<PColumnDefinition>());
+
+            SetValue(
+                RowDefinitionsPropertyKey,
+                new PDefinitionCollection<PRowDefinition>());
         }
     }
 }

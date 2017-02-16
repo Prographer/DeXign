@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Markup;
 using WPFExtension;
 
 namespace DeXign.Core.Controls
@@ -24,7 +25,8 @@ namespace DeXign.Core.Controls
         }
     }
 
-    [XForms("Blank", "Xamarin.Forms", ContentProperty = "Children")]
+    [ContentProperty("Children")]
+    [XForms("Blank", "Xamarin.Forms")]
     public class PLayout<T> : PLayout 
         where T : PControl
     {

@@ -32,4 +32,8 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="{x:Static local:ThemeKeyStore.BoxView}" TargetType="{x:Type Rectangle}">
+        <Setter Property="Fill" Value="BlueViolet"/>
+    </Style>
 </ResourceDictionary>

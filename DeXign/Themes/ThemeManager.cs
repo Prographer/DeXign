@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 
-namespace DeXign.Themes
+namespace DeXign.Theme
 {
     public static class ThemeManager
     {

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Reflection;
+using System.Windows.Markup;
 
 namespace DeXign.Core
 {
@@ -12,7 +13,13 @@ namespace DeXign.Core
 
         public static CodeComponent<XFormsAttribute> GetContentComponent(this CodeComponent<XFormsAttribute> component)
         {
-            string contentProperty = component.Attribute.ContentProperty;
+            string contentProperty = "";
+            var contentAttr = component.Element
+                .GetType()
+                .GetCustomAttribute<ContentPropertyAttribute>();
+
+            if (contentAttr != null)
+                contentProperty = contentAttr.Name;
 
             if (component.Children != null && !string.IsNullOrEmpty(contentProperty))
             {

@@ -1,6 +1,8 @@
-﻿namespace DeXign.Core
+﻿using System;
+
+namespace DeXign.Core
 {
-    public interface IDefinition
+    public interface IDefinition : IConvertible
     {
     }
 }

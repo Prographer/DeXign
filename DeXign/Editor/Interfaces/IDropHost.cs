@@ -1,8 +1,8 @@
 ﻿namespace DeXign.Editor.Interfaces
 {
-    interface IDropHost
+    interface IDropHost<T>
     {
-        bool CanDrop(object item);
-        void OnDrop(object item);
+        bool CanDrop(T item);
+        void OnDrop(T item);
     }
 }

@@ -13,6 +13,11 @@
       Title="StoryboardPage">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
         <ScrollViewer>
             <AdornerDecorator>
                 <dc:Storyboard x:Name="storyboard" Background="Transparent">
@@ -20,31 +25,20 @@
                         <ScaleTransform ScaleX="{Binding Value, ElementName=slider}" ScaleY="{Binding Value, ElementName=slider}"/>
                     </dc:Storyboard.RenderTransform>
 
-                    <ContentControl Width="270" Height="480" l:AttachedAdorner.AdornerType="{x:Type r:ScreenRenderer}" Canvas.Left="170" Canvas.Top="80" Style="{DynamicResource {x:Static t:ThemeKeyStore.Screen}}">
-                        <StackPanel l:AttachedAdorner.AdornerType="{x:Type l:DropSelectionLayer}" VerticalAlignment="Center">
+                    <ContentControl x:Name="screen" Width="270" Height="480" l:AttachedAdorner.AdornerType="{x:Type r:ScreenRenderer}" Canvas.Left="170" Canvas.Top="80" Style="{DynamicResource {x:Static t:ThemeKeyStore.Screen}}">
+                        <!--<StackPanel l:AttachedAdorner.AdornerType="{x:Type l:DropSelectionLayer}" VerticalAlignment="Center">
                             <Label Content="Hello DeXign Studio!" l:AttachedAdorner.AdornerType="{x:Type l:DropSelectionLayer}" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                             <Button Content="Click Me!" Margin="0,16,0,0" Padding="4" l:AttachedAdorner.AdornerType="{x:Type l:DropSelectionLayer}" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                        </StackPanel>
+                        </StackPanel>-->
                     </ContentControl>
-
-                    <!--<UniformGrid Rows="4" Height="112" Width="186" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="DarkSlateBlue" Canvas.Left="38" Canvas.Top="37">
-                                    <TextBlock Text="Stretch" TextAlignment="Center" TextTrimming="CharacterEllipsis" HorizontalAlignment="Stretch" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="Crimson"  Margin="10,0"/>
-                                    <TextBlock Text="Center" TextAlignment="Center" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="Crimson" />
-                                    <TextBlock Text="Left" TextAlignment="Center" TextTrimming="CharacterEllipsis" HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="Crimson" Margin="0,4" Width="49" />
-                                    <TextBlock Text="Right" TextAlignment="Center" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="Crimson" />
-                                </UniformGrid>
-                                <UniformGrid Columns="4" Height="112" Width="186" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="DarkSlateBlue" Canvas.Left="300" Canvas.Top="37">
-                                    <TextBlock Text="Stretch" TextWrapping="Wrap" TextAlignment="Center" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="Crimson" />
-                                    <TextBlock Text="Center" TextWrapping="Wrap" TextAlignment="Center" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="Crimson" />
-                                    <TextBlock Text="Top" TextWrapping="Wrap" TextAlignment="Center" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="Crimson" />
-                                    <TextBlock Text="Bottom" TextWrapping="Wrap" TextAlignment="Center" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="Crimson" />
-                                </UniformGrid>
-                                <Grid Height="112" Width="186" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}" Background="DarkSlateBlue" Canvas.Left="38" Canvas.Top="208">
-                                    <Rectangle Fill="Crimson" Width="20" HorizontalAlignment="Left" Margin="18,19,0,73" l:AttachedAdorner.AdornerType="{x:Type l:SelectionLayer}"/>
-                                </Grid>-->
                 </dc:Storyboard>
             </AdornerDecorator>
         </ScrollViewer>
         <Slider x:Name="slider" VerticalAlignment="Bottom" Margin="10" Maximum="8" Minimum="0.25" Value="1"/>
+
+        <GridSplitter Grid.Row="1" Height="5" Background="Gray" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        <TextBox x:Name="code" Grid.Row="2"/>
+
+        <TextBlock Text="Debug" Foreground="Red" FontSize="24" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="2" Margin="16"/>
     </Grid>
 </Page>

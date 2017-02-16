@@ -2,7 +2,12 @@
 
 namespace DeXign.Editor
 {
-    class ExportRendererAttribute : Attribute
+    // Example
+    //
+    // [assembly: ExportRenderer(typeof(<PObject>), typeof(<FrameworkElement>), typeof(<LayerRenderer<PObject, FrameworkElement>>))]
+
+    [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
+    public class ExportRendererAttribute : Attribute
     {
         public Type ModelType { get; set; }    // PObject ~
         public Type ViewType { get; set; }     // WPF Object ~

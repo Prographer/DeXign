@@ -70,6 +70,11 @@ namespace DeXign.Editor
             return false;
         }
 
+        public static int GetSelectedItemCount(string group = "default")
+        {
+            return GetSelectedItems(group).Count();
+        }
+
         public static IEnumerable<FrameworkElement> GetSelectedItems(string group = "default")
         {
             if (groups.ContainsKey("default"))

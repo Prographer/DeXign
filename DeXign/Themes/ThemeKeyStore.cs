@@ -2,6 +2,7 @@
 {
     static class ThemeKeyStore
     {
-        public static readonly string Screen = "Theme_ScreenStyle";
+        public static readonly string Screen = $"Theme_{nameof(Screen)}Style";
+        public static readonly string BoxView = $"Theme_{nameof(BoxView)}Style";
     }
 }

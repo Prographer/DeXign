@@ -1,13 +1,19 @@
 ﻿using DeXign.Core.Controls;
+using System.Windows;
 
 namespace DeXign.Editor.Interfaces
 {
-    interface IRenderer<T> 
-        where T : PObject
+    public interface IRenderer
     {
-        T Model { get; }
+        FrameworkElement Element { get; }
+        PObject Model { get; set; }
+    }
 
-        void AttachModel(T model);
-        void DettachModel();
+    public interface IRenderer<TModel, TElement> : IRenderer
+        where TModel : PObject
+        where TElement : FrameworkElement
+    {
+        new TElement Element { get; }
+        new TModel Model { get; set; }
     }
 }

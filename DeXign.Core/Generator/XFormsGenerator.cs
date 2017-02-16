@@ -35,44 +35,6 @@ namespace DeXign.Core
 
         protected override IEnumerable<string> OnGenerate(IEnumerable<CodeComponent<XFormsAttribute>> components)
         {
-#if DEBUG
-            foreach (var c in components)
-            {
-                string space = new string('\t', c.Depth);
-                
-                if (c.ElementType == ComponentType.Instance)
-                {
-                    Console.ForegroundColor = ConsoleColor.Cyan;
-                    Console.Write($"{space}{c.Attribute.Name}");
-                    Console.ForegroundColor = ConsoleColor.Gray;
-
-                    Console.Write($" ({c.Element.GetType().Name})");
-                    Console.ForegroundColor = ConsoleColor.Red;
-
-                    Console.WriteLine($" - {c.ElementType}");
-                }
-                else
-                {
-                    var pi = (PropertyInfo)c.Element;
-                    var parent = (PObject)c.Parent.Element;
-
-                    if (!pi.IsDefaultDependencyProperty(parent) ||
-                        pi.CanCastingTo<IEnumerable<PObject>>() ||
-                        pi.CanCastingTo<PObject>())
-                    {
-                        Console.ForegroundColor = ConsoleColor.Cyan;
-                        Console.Write($"{space}{c.Attribute.Name}");
-                        Console.ForegroundColor = ConsoleColor.Gray;
-
-                        Console.Write($" ({pi.Name})");
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        
-                        Console.WriteLine($" - {c.ElementType}");
-                    }
-                }
-            }
-#endif
-
             switch (GenerateType)
             {
                 case XFormsGenerateType.Code:
@@ -130,15 +92,39 @@ namespace DeXign.Core
                             continue;
 
                         var pi = child.Element as PropertyInfo;
-
+                        
                         if (pi.IsDefaultDependencyProperty(child.Parent.Element as PObject))
                             continue;
 
                         object value = pi.GetValue(child.Parent.Element);
-                        
-                        xml.SetAttribute(
-                            child.Attribute.Name, 
-                            ValueToXamlInline(value));
+
+                        if (pi.CanCastingTo<IEnumerable<PObject>>())
+                        {
+                            var lstXml = doc.CreateElement(
+                                $"{child.Parent.Attribute.Name}.{child.Attribute.Name}");
+
+                            xml.AppendChild(lstXml);
+
+                            if (child.HasChildren)
+                            {
+                                foreach (var item in child.Children?.Reverse())
+                                {
+                                    var childXml = doc.CreateElement(item.Attribute.Name);
+                                    lstXml.AppendChild(childXml);
+
+                                    SetXamlName(childXml, item);
+
+                                    comQueue.Enqueue(item);
+                                    xmlQueue.Enqueue(childXml);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            xml.SetAttribute(
+                                child.Attribute.Name,
+                                ValueToXamlInline(value));
+                        }
                     }
 
                     // Content
@@ -148,15 +134,18 @@ namespace DeXign.Core
 
                         if (pi.CanCastingTo<IEnumerable<PObject>>())
                         {
-                            foreach (var item in content.Children.Reverse())
+                            if (content.HasChildren)
                             {
-                                var contentXml = doc.CreateElement(item.Attribute.Name);
-                                xml.AppendChild(contentXml);
+                                foreach (var item in content.Children?.Reverse())
+                                {
+                                    var contentXml = doc.CreateElement(item.Attribute.Name);
+                                    xml.AppendChild(contentXml);
 
-                                SetXamlName(contentXml, item);
+                                    SetXamlName(contentXml, item);
 
-                                comQueue.Enqueue(item);
-                                xmlQueue.Enqueue(contentXml);
+                                    comQueue.Enqueue(item);
+                                    xmlQueue.Enqueue(contentXml);
+                                }
                             }
                         }
                         else if (pi.CanCastingTo<PObject>())
@@ -213,6 +202,9 @@ namespace DeXign.Core
 
         private string ValueToXamlInline(object value)
         {
+            if (value == null)
+                return "";
+
             if (value.HasAttribute<XFormsAttribute>())
             {
                 var attr = value.GetAttribute<XFormsAttribute>();
