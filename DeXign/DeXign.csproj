@@ -72,10 +72,10 @@
     <Compile Include="Controls\LinkTextBlock.cs" />
     <Compile Include="Editor\Controls\Layer\DropSelectionLayer.cs" />
     <Compile Include="Editor\DesignTime.cs" />
-    <Compile Include="Editor\Renderer\ButtonRenderer.cs" />
-    <Compile Include="Editor\Renderer\GridRenderer.cs" />
-    <Compile Include="Editor\Renderer\LabelRenderer.cs" />
-    <Compile Include="Editor\Renderer\BoxViewRenderer.cs" />
+    <Compile Include="Editor\Renderer\Controls\ButtonRenderer.cs" />
+    <Compile Include="Editor\Renderer\Layouts\GridRenderer.cs" />
+    <Compile Include="Editor\Renderer\Controls\LabelRenderer.cs" />
+    <Compile Include="Editor\Renderer\Controls\BoxViewRenderer.cs" />
     <Compile Include="Editor\Renderer\RendererManager.cs" />
     <Compile Include="MVVM\Commands\ActionCommand.cs" />
     <Compile Include="MVVM\Converter\NullObjectToVisibilityConverter.cs" />
@@ -170,7 +170,7 @@
     <Compile Include="Editor\Interfaces\IDropHost.cs" />
     <Compile Include="Editor\Interfaces\IRenderer.cs" />
     <Compile Include="Editor\Renderer\LayerRenderer.cs" />
-    <Compile Include="Editor\Renderer\ScreenRenderer.cs" />
+    <Compile Include="Editor\Renderer\Layouts\ScreenRenderer.cs" />
     <Compile Include="Editor\GroupSelector.cs" />
     <Compile Include="Editor\Controls\Layer\AttachedAdorner.cs" />
     <Compile Include="MVVM\Converter\BaseValueConverter.cs" />
