@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:DeXign.Theme">
+                    xmlns:local="clr-namespace:DeXign.Theme"
+                    xmlns:r="clr-namespace:DeXign.Editor.Renderer">
+    
     <Style x:Key="{x:Static local:ThemeKeyStore.Screen}" TargetType="{x:Type ContentControl}">
         <Setter Property="Background" Value="White"/>
         <Setter Property="Template">
@@ -26,6 +28,7 @@
                             </StackPanel>
                         </Grid>
 
+                        <Rectangle Fill="White" IsHitTestVisible="False"/>
                         <Rectangle Fill="{TemplateBinding Background}" IsHitTestVisible="False"/>
                         <ContentPresenter/>
                     </Grid>
@@ -36,5 +39,10 @@
 
     <Style x:Key="{x:Static local:ThemeKeyStore.BoxView}" TargetType="{x:Type Rectangle}">
         <Setter Property="Fill" Value="BlueViolet"/>
+    </Style>
+
+    <Style x:Key="{x:Static local:ThemeKeyStore.Button}" TargetType="{x:Type r:RadiusButton}" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="8,6"/>
     </Style>
 </ResourceDictionary>

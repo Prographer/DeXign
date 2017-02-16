@@ -1,8 +1,9 @@
-﻿using DeXign.Core.Controls;
+﻿using DeXign.Theme;
 using DeXign.Editor;
 using DeXign.Editor.Renderer;
 using DeXign.Extension;
-using DeXign.Theme;
+using DeXign.Core.Controls;
+
 using System.Windows;
 using System.Windows.Shapes;
 

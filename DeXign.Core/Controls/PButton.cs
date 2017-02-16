@@ -1,11 +1,9 @@
 ﻿using System.Windows;
-using System.Windows.Markup;
 using System.Windows.Media;
 using WPFExtension;
 
 namespace DeXign.Core.Controls
 {
-    [ContentProperty("Text")]
     [DesignElement(Category = Constants.Designer.Control, DisplayName = "버튼")]
     [XForms("Xamarin.Forms", "Button")]
     public class PButton : PControl

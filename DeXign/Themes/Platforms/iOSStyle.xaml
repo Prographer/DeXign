@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:DeXign.Theme">
+                    xmlns:local="clr-namespace:DeXign.Theme"
+                    xmlns:r="clr-namespace:DeXign.Editor.Renderer">
+    
     <Style x:Key="{x:Static local:ThemeKeyStore.Screen}" TargetType="{x:Type ContentControl}">
         <Setter Property="Background" Value="White"/>
         <Setter Property="Template">
@@ -28,6 +30,7 @@
                             <Ellipse Grid.Column="1" Grid.Row="2" Height="30" Width="30" Fill="Transparent" Stroke="White" Opacity="0.56" StrokeThickness="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Grid>
 
+                        <Rectangle Fill="#47000000" IsHitTestVisible="False"/>
                         <Rectangle Fill="{TemplateBinding Background}" IsHitTestVisible="False"/>
                         <ContentPresenter/>
                     </Grid>
@@ -38,5 +41,10 @@
 
     <Style x:Key="{x:Static local:ThemeKeyStore.BoxView}" TargetType="{x:Type Rectangle}">
         <Setter Property="Fill" Value="BlueViolet"/>
+    </Style>
+
+    <Style x:Key="{x:Static local:ThemeKeyStore.Button}" TargetType="{x:Type r:RadiusButton}" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="8,6"/>
     </Style>
 </ResourceDictionary>

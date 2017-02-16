@@ -20,7 +20,7 @@
         </Grid.RowDefinitions>
         <ScrollViewer>
             <AdornerDecorator>
-                <dc:Storyboard x:Name="storyboard" Background="Transparent">
+                <dc:Storyboard x:Name="storyboard">
                     <dc:Storyboard.RenderTransform>
                         <ScaleTransform ScaleX="{Binding Value, ElementName=slider}" ScaleY="{Binding Value, ElementName=slider}"/>
                     </dc:Storyboard.RenderTransform>

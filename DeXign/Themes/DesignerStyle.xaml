@@ -2,9 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ec="clr-namespace:DeXign.Editor.Controls"
                     xmlns:c="clr-namespace:DeXign.Controls">
+
     <Style TargetType="{x:Type ec:Storyboard}">
         <Setter Property="Focusable" Value="True"/>
-        <Setter Property="Background" Value="White"/>
+        <Setter Property="Background" Value="Transparent"/>
         <Style.Triggers>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
                 <Setter Property="FocusManager.FocusedElement" Value="{Binding RelativeSource={RelativeSource AncestorType=Storyboard}}" />

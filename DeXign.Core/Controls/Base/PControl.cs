@@ -8,10 +8,12 @@ namespace DeXign.Core.Controls
     public class PControl : PVisual
     {
         public static readonly DependencyProperty VerticalAlignmentProperty =
-            DependencyHelper.Register();
+            DependencyHelper.Register(
+                new PropertyMetadata(LayoutAlignment.Fill));
 
         public static readonly DependencyProperty HorizontalAlignmentProperty =
-            DependencyHelper.Register();
+            DependencyHelper.Register(
+                new PropertyMetadata(LayoutAlignment.Fill));
 
         public static readonly DependencyProperty MarginProperty =
             DependencyHelper.Register();

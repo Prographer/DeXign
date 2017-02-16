@@ -78,6 +78,7 @@
     <Compile Include="Editor\Renderer\Controls\BoxViewRenderer.cs" />
     <Compile Include="Editor\Renderer\RendererManager.cs" />
     <Compile Include="MVVM\Commands\ActionCommand.cs" />
+    <Compile Include="MVVM\Converter\DoubleToCornerRadiusConverter.cs" />
     <Compile Include="MVVM\Converter\NullObjectToVisibilityConverter.cs" />
     <Compile Include="MVVM\Models\Base\BaseNotifyModel.cs" />
     <Compile Include="MVVM\Models\Base\IModel.cs" />

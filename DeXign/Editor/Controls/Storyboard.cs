@@ -14,6 +14,7 @@ using System.Collections;
 using DeXign.Core.Controls;
 using DeXign.Editor.Interfaces;
 using System.Reflection;
+using DeXign.Models;
 
 namespace DeXign.Editor.Controls
 {
@@ -161,6 +162,10 @@ namespace DeXign.Editor.Controls
         {
             //var childRenderer = (IRenderer)AttachedAdorner.GetAdorner(element);
             //var parentRenderer = AttachedAdorner.GetAdorner(parent);
+            
+            if (parent.DataContext == null ||
+                (parent.DataContext != null && !(parent.DataContext is PObject)))
+                return;
 
             // Remove On PObject Parent
             ElementParentContentCore(

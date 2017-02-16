@@ -4,25 +4,45 @@ using DeXign.Extension;
 using DeXign.Core.Controls;
 using System.Windows.Controls;
 using System.Windows;
+using DeXign.Theme;
+using WPFExtension;
 
-[assembly: ExportRenderer(typeof(PButton), typeof(Button), typeof(ButtonRenderer))]
+[assembly: ExportRenderer(typeof(PButton), typeof(RadiusButton), typeof(ButtonRenderer))]
 
 namespace DeXign.Editor.Renderer
 {
-    public class ButtonRenderer : LayerRenderer<PButton, Button>
+    public class RadiusButton : Button
+    {
+        public static readonly DependencyProperty BorderRadiusProperty =
+            DependencyHelper.Register(
+                new PropertyMetadata(5d));
+
+        public double BorderRadius
+        {
+            get { return (double)GetValue(BorderRadiusProperty); }
+            set { SetValue(BorderRadiusProperty, value); }
+        }
+    }
+    
+    public class ButtonRenderer : LayerRenderer<PButton, RadiusButton>
     {
         public ButtonRenderer(UIElement adornedElement) : base(adornedElement)
         {
         }
 
-        protected override void OnElementAttached(Button element)
+        protected override string OnLoadPlatformStyleName()
+        {
+            return ThemeKeyStore.Button;
+        }
+
+        protected override void OnElementAttached(RadiusButton element)
         {
             base.OnElementAttached(element);
 
             // Binding
             BindingEx.SetBinding(
-                element, Button.ContentProperty,
-                Model, PButton.TextProperty);
+                Model, PButton.TextProperty,
+                element, Button.ContentProperty);
 
             BindingEx.SetBinding(
                 element, Button.ForegroundProperty,

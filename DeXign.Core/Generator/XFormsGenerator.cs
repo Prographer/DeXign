@@ -121,9 +121,18 @@ namespace DeXign.Core
                         }
                         else
                         {
-                            xml.SetAttribute(
-                                child.Attribute.Name,
-                                ValueToXamlInline(value));
+                            bool isContinue = false;
+
+                            // Null Reference
+                            isContinue |= (value == null);
+
+                            // Auto Size Pass
+                            isContinue |= (value is double && double.IsNaN((double)value));
+                            
+                            if (!isContinue)
+                                xml.SetAttribute(
+                                    child.Attribute.Name,
+                                    ValueToXamlInline(value));
                         }
                     }
 
@@ -200,7 +209,7 @@ namespace DeXign.Core
         private string ValueToXamlInline(object value)
         {
             if (value == null)
-                return "";
+                return "{x:Null}";
 
             if (value.HasAttribute<XFormsAttribute>())
             {
