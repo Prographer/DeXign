@@ -27,7 +27,7 @@ namespace DeXign.Core
         public XFormsGenerator(
             XFormsGenerateType generateType,
             CodeGeneratorUnit<PObject> cgUnit,
-            CodeGeneratorManifest cgManifest, 
+            CodeGeneratorManifest cgManifest,
             CodeGeneratorAssemblyInfo cgAssmInfo) : base(cgUnit, cgManifest, cgAssmInfo)
         {
             this.GenerateType = generateType;
@@ -62,7 +62,7 @@ namespace DeXign.Core
 
             var doc = new XmlDocument();
             var dec = doc.CreateXmlDeclaration("1.0", "utf-8", null);
-            
+
             // 노드
             XmlElement rootElement = doc.CreateElement(root.Attribute.Name);
             rootElement.SetAttribute("xmlns", XMLNS);
@@ -92,7 +92,7 @@ namespace DeXign.Core
                             continue;
 
                         var pi = child.Element as PropertyInfo;
-                        
+
                         if (pi.IsDefaultDependencyProperty(child.Parent.Element as PObject))
                             continue;
 
@@ -128,24 +128,21 @@ namespace DeXign.Core
                     }
 
                     // Content
-                    if (content != null)
+                    if (content != null && content.HasChildren)
                     {
                         var pi = content.Element as PropertyInfo;
 
                         if (pi.CanCastingTo<IEnumerable<PObject>>())
                         {
-                            if (content.HasChildren)
+                            foreach (var item in content.Children?.Reverse())
                             {
-                                foreach (var item in content.Children?.Reverse())
-                                {
-                                    var contentXml = doc.CreateElement(item.Attribute.Name);
-                                    xml.AppendChild(contentXml);
+                                var contentXml = doc.CreateElement(item.Attribute.Name);
+                                xml.AppendChild(contentXml);
 
-                                    SetXamlName(contentXml, item);
+                                SetXamlName(contentXml, item);
 
-                                    comQueue.Enqueue(item);
-                                    xmlQueue.Enqueue(contentXml);
-                                }
+                                comQueue.Enqueue(item);
+                                xmlQueue.Enqueue(contentXml);
                             }
                         }
                         else if (pi.CanCastingTo<PObject>())
@@ -208,7 +205,7 @@ namespace DeXign.Core
             if (value.HasAttribute<XFormsAttribute>())
             {
                 var attr = value.GetAttribute<XFormsAttribute>();
-                
+
                 return value.ToString();
             }
 
