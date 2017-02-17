@@ -7,7 +7,7 @@ namespace DeXign.Converter
     {
         public override double Convert(FrameworkElement value, object parameter)
         {
-            return Math.Min(value.ActualWidth, value.ActualHeight) / 2f;
+            return 5;// Math.Min(value.RenderSize.Width, value.RenderSize.Height) / 2f;
         }
 
         public override FrameworkElement ConvertBack(double value, object parameter)

@@ -7,6 +7,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Colors.xaml"/>
                 <ResourceDictionary Source="Resources/Paths.xaml"/>
+                <ResourceDictionary Source="Resources/Converters.xaml"/>
                 
                 <ResourceDictionary Source="Resources/ToolBoxResources.xaml"/>
                 <ResourceDictionary Source="Resources/PropertyGridResources.xaml"/>

@@ -16,12 +16,18 @@ using WPFExtension;
 using System.ComponentModel;
 using DeXign.Windows.Pages;
 using System.Linq;
+using DragHelper;
+using DeXign.Input;
 
 namespace DeXign.Editor.Layer
 {
     public partial class SelectionLayer : StoryboardLayer
     {
         #region [ Dependency Property ]
+        public static readonly DependencyProperty IsDraggingProperty =
+            DependencyHelper.Register(
+                new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender));
+
         public static readonly DependencyProperty DisplayMarginProperty =
             DependencyHelper.Register(
                 new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender));
@@ -67,6 +73,12 @@ namespace DeXign.Editor.Layer
         #endregion
 
         #region [ Property ]
+        public bool IsDragging
+        {
+            get { return (bool)GetValue(IsDraggingProperty); }
+            set { SetValue(IsDraggingProperty, value); }
+        }
+
         public new FrameworkElement AdornedElement
         {
             get { return (FrameworkElement)base.AdornedElement; }
@@ -131,20 +143,21 @@ namespace DeXign.Editor.Layer
         const double Blank = 6;
         const double ValueBoxBlank = 2;
 
+        MoveThumb moveThumb;
         Rectangle frame;
         EventTriggerButton triggerButton;
         Grid resizeGrid;
         Grid clipGrid;
-        MarginClipHolder clipData;
+
+        internal MarginClipHolder ClipData;
+        internal bool CancelNextInvert;
         #endregion
 
         #region [ Constructor ]
         public SelectionLayer(UIElement adornedElement) : base(adornedElement)
         {
             if (DesignerProperties.GetIsInDesignMode(this))
-            {
                 this.Visibility = Visibility.Collapsed;
-            }
 
             InitializeComponents();
             InitializeSelector();
@@ -157,7 +170,7 @@ namespace DeXign.Editor.Layer
             
             UpdateParentState();
         }
-
+        
         private void InitializeSelector()
         {
             this.AddSelectedHandler(OnSelected);
@@ -174,8 +187,12 @@ namespace DeXign.Editor.Layer
             var scale = new ScaleTransform(
                 ParentScale.ScaleX,
                 ParentScale.ScaleY);
-            
-            #region < Frame >
+
+            #region < Add Move Thumb >
+            Add(moveThumb = new MoveThumb(this));
+            #endregion
+
+            #region < Add Frame >
             Add(frame = new Rectangle()
             {
                 Visibility = Visibility.Collapsed,
@@ -185,15 +202,15 @@ namespace DeXign.Editor.Layer
             });
             #endregion
 
-            #region < Margin Clips >
-            clipData = new MarginClipHolder();
+            #region < Add Margin Clips >
+            ClipData = new MarginClipHolder();
 
             Add(clipGrid = new Grid()
             {
                 Visibility = Visibility.Collapsed,
                 Children =
                 {
-                    (clipData.LeftClip = new MarginClip
+                    (ClipData.LeftClip = new MarginClip
                     {
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Center,
@@ -206,13 +223,13 @@ namespace DeXign.Editor.Layer
                             }
                         }
                     }),
-                    (clipData.TopClip = new MarginClip
+                    (ClipData.TopClip = new MarginClip
                     {
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Center,
                         LayoutTransform = scale
                     }),
-                    (clipData.RightClip = new MarginClip
+                    (ClipData.RightClip = new MarginClip
                     {
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Center,
@@ -225,7 +242,7 @@ namespace DeXign.Editor.Layer
                             }
                         }
                     }),
-                    (clipData.BottomClip = new MarginClip
+                    (ClipData.BottomClip = new MarginClip
                     {
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Center,
@@ -235,13 +252,13 @@ namespace DeXign.Editor.Layer
             });
             #endregion
 
-            #region < Grips >
+            #region < Add Grips >
             Add(resizeGrid = new Grid()
             {
                 Visibility = Visibility.Collapsed,
                 Children =
                 {
-                    new ResizeThumb(AdornedElement)
+                    new ResizeThumb(this)
                     {
                         ResizeDirection = ResizeGripDirection.TopLeft,
                         Cursor = Cursors.SizeNWSE,
@@ -251,7 +268,7 @@ namespace DeXign.Editor.Layer
                         RenderTransform = scale,
                         RenderTransformOrigin = new Point(1, 1)
                     },
-                    new ResizeThumb(AdornedElement)
+                    new ResizeThumb(this)
                     {
                         ResizeDirection = ResizeGripDirection.Top,
                         Cursor = Cursors.SizeNS,
@@ -261,7 +278,7 @@ namespace DeXign.Editor.Layer
                         RenderTransform = scale,
                         RenderTransformOrigin = new Point(0.5, 1)
                     },
-                    new ResizeThumb(AdornedElement)
+                    new ResizeThumb(this)
                     {
                         ResizeDirection = ResizeGripDirection.TopRight,
                         Cursor = Cursors.SizeNESW,
@@ -271,7 +288,7 @@ namespace DeXign.Editor.Layer
                         RenderTransform = scale,
                         RenderTransformOrigin = new Point(0, 1)
                     },
-                    new ResizeThumb(AdornedElement)
+                    new ResizeThumb(this)
                     {
                         ResizeDirection = ResizeGripDirection.Left,
                         Cursor = Cursors.SizeWE,
@@ -281,7 +298,7 @@ namespace DeXign.Editor.Layer
                         RenderTransform = scale,
                         RenderTransformOrigin = new Point(1, 0.5)
                     },
-                    new ResizeThumb(AdornedElement)
+                    new ResizeThumb(this)
                     {
                         ResizeDirection = ResizeGripDirection.Right,
                         Cursor = Cursors.SizeWE,
@@ -291,7 +308,7 @@ namespace DeXign.Editor.Layer
                         RenderTransform = scale,
                         RenderTransformOrigin = new Point(0, 0.5)
                     },
-                    new ResizeThumb(AdornedElement)
+                    new ResizeThumb(this)
                     {
                         ResizeDirection = ResizeGripDirection.BottomLeft,
                         Cursor = Cursors.SizeNESW,
@@ -301,7 +318,7 @@ namespace DeXign.Editor.Layer
                         RenderTransform = scale,
                         RenderTransformOrigin = new Point(1, 0)
                     },
-                    new ResizeThumb(AdornedElement)
+                    new ResizeThumb(this)
                     {
                         ResizeDirection = ResizeGripDirection.Bottom,
                         Cursor = Cursors.SizeNS,
@@ -311,7 +328,7 @@ namespace DeXign.Editor.Layer
                         RenderTransform = scale,
                         RenderTransformOrigin = new Point(0.5, 0)
                     },
-                    new ResizeThumb(AdornedElement)
+                    new ResizeThumb(this)
                     {
                         ResizeDirection = ResizeGripDirection.BottomRight,
                         Cursor = Cursors.SizeNWSE,
@@ -324,7 +341,7 @@ namespace DeXign.Editor.Layer
             });
             #endregion
 
-            #region < Event Trigger Button >
+            #region < Add Event Trigger Button >
             Add(triggerButton = new EventTriggerButton(this)
             {
                 Visibility = Visibility.Collapsed,
@@ -390,7 +407,10 @@ namespace DeXign.Editor.Layer
 
         private void DragEvent()
         {
-            Parent.FindLogicalParents<StoryboardPage>().FirstOrDefault().PresentXamlCode();
+            Parent
+                .FindLogicalParents<StoryboardPage>()
+                .FirstOrDefault()
+                .PresentXamlCode();
         }
         #endregion
 
@@ -409,9 +429,29 @@ namespace DeXign.Editor.Layer
                     break;
             }
         }
-        
-        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+
+        protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
         {
+            // 선택되지 않은 경우 드래그 방지
+            if (DesignMode == DesignMode.None)
+                e.Handled = true;
+
+            base.OnPreviewMouseLeftButtonDown(e);
+        }
+        
+        protected override void OnPreviewMouseLeftButtonUp(MouseButtonEventArgs e)
+        {
+            base.OnPreviewMouseLeftButtonUp(e);
+
+            if (CancelNextInvert)
+            {
+                CancelNextInvert = false;
+                return;
+            }
+            
+            if (MoveThumbHitTest(e.GetPosition(this)))
+                return;
+
             // Keyboard Focus
             Keyboard.Focus(Parent);
 
@@ -426,6 +466,16 @@ namespace DeXign.Editor.Layer
             e.Handled = true;
         }
 
+        private bool MoveThumbHitTest(Point position)
+        {
+            HitTestResult hitResults = VisualTreeHelper.HitTest(this, position);
+
+            return (
+                hitResults != null && 
+                hitResults.VisualHit != null &&
+                (hitResults.VisualHit as FrameworkElement).TemplatedParent != moveThumb);
+        }
+
         private void OnSelected(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
         {
             this.DesignMode = DesignMode.Size;
@@ -435,6 +485,10 @@ namespace DeXign.Editor.Layer
         {
             this.DesignMode = DesignMode.None;
         }
+        #endregion
+
+        #region [ Movement ]
+
         #endregion
 
         #region [ Guide Line Status ]
@@ -498,65 +552,58 @@ namespace DeXign.Editor.Layer
             parentMargin.Left *= -1;
             parentMargin.Top *= -1;
 
+            AdornedElement.VerticalAlignment = ClipData.VerticalAlignment;
+            AdornedElement.HorizontalAlignment = ClipData.HorizontalAlignment;
+
             #region < Horizontal >
-            if (clipData.Left && clipData.Right)
+            switch (AdornedElement.HorizontalAlignment)
             {
-                AdornedElement.HorizontalAlignment = HorizontalAlignment.Stretch;
-                renderSize.Width = double.NaN;
-                margin.Left = parentMargin.Left;
-                margin.Right = parentMargin.Right;
-            }
+                case HorizontalAlignment.Stretch:
+                    renderSize.Width = double.NaN;
+                    margin.Left = parentMargin.Left;
+                    margin.Right = parentMargin.Right;
+                    break;
 
-            if (clipData.Left && !clipData.Right)
-            {
-                AdornedElement.HorizontalAlignment = HorizontalAlignment.Left;
-                margin.Left = parentMargin.Left;
-                margin.Right = 0;
-            }
+                case HorizontalAlignment.Left:
+                    margin.Left = parentMargin.Left;
+                    margin.Right = 0;
+                    break;
 
-            if (!clipData.Left && clipData.Right)
-            {
-                AdornedElement.HorizontalAlignment = HorizontalAlignment.Right;
-                margin.Left = 0;
-                margin.Right = parentMargin.Right;
-            }
+                case HorizontalAlignment.Right:
+                    margin.Left = 0;
+                    margin.Right = parentMargin.Right;
+                    break;
 
-            if (!clipData.Left && !clipData.Right)
-            {
-                AdornedElement.HorizontalAlignment = HorizontalAlignment.Center;
-                margin.Left = 0;
-                margin.Right = 0;
+                case HorizontalAlignment.Center:
+                    margin.Left = 0;
+                    margin.Right = 0;
+                    break;
             }
             #endregion
 
             #region < Vertical >
-            if (clipData.Top && clipData.Bottom)
+            switch (AdornedElement.VerticalAlignment)
             {
-                AdornedElement.VerticalAlignment = VerticalAlignment.Stretch;
-                renderSize.Height = double.NaN;
-                margin.Top = parentMargin.Top;
-                margin.Bottom = parentMargin.Bottom;
-            }
+                case VerticalAlignment.Stretch:
+                    renderSize.Height = double.NaN;
+                    margin.Top = parentMargin.Top;
+                    margin.Bottom = parentMargin.Bottom;
+                    break;
 
-            if (clipData.Top && !clipData.Bottom)
-            {
-                AdornedElement.VerticalAlignment = VerticalAlignment.Top;
-                margin.Top = parentMargin.Top;
-                margin.Bottom = 0;
-            }
+                case VerticalAlignment.Top:
+                    margin.Top = parentMargin.Top;
+                    margin.Bottom = 0;
+                    break;
 
-            if (!clipData.Top && clipData.Bottom)
-            {
-                AdornedElement.VerticalAlignment = VerticalAlignment.Bottom;
-                margin.Top = 0;
-                margin.Bottom = parentMargin.Bottom;
-            }
+                case VerticalAlignment.Bottom:
+                    margin.Top = 0;
+                    margin.Bottom = parentMargin.Bottom;
+                    break;
 
-            if (!clipData.Top && !clipData.Bottom)
-            {
-                AdornedElement.VerticalAlignment = VerticalAlignment.Center;
-                margin.Top = 0;
-                margin.Bottom = 0;
+                case VerticalAlignment.Center:
+                    margin.Top = 0;
+                    margin.Bottom = 0;
+                    break;
             }
             #endregion
 
@@ -607,32 +654,19 @@ namespace DeXign.Editor.Layer
                 var stackPanel = (StackPanel)AdornedElement.Parent;
 
                 // Horizontal
-                clipData.TopVisible = (stackPanel.Orientation == Orientation.Horizontal);
-                clipData.BottomVisible = (stackPanel.Orientation == Orientation.Horizontal);
+                ClipData.TopVisible = (stackPanel.Orientation == Orientation.Horizontal);
+                ClipData.BottomVisible = (stackPanel.Orientation == Orientation.Horizontal);
 
                 // Vertical
-                clipData.LeftVisible = (stackPanel.Orientation == Orientation.Vertical);
-                clipData.RightVisible = (stackPanel.Orientation == Orientation.Vertical);
+                ClipData.LeftVisible = (stackPanel.Orientation == Orientation.Vertical);
+                ClipData.RightVisible = (stackPanel.Orientation == Orientation.Vertical);
             }
         }
 
         private void UpdateMarginClips()
         {
-            clipData.Left =
-                AdornedElement.HorizontalAlignment == HorizontalAlignment.Left ||
-                AdornedElement.HorizontalAlignment == HorizontalAlignment.Stretch;
-
-            clipData.Right =
-                AdornedElement.HorizontalAlignment == HorizontalAlignment.Right ||
-                AdornedElement.HorizontalAlignment == HorizontalAlignment.Stretch;
-
-            clipData.Top =
-                AdornedElement.VerticalAlignment == VerticalAlignment.Top ||
-                AdornedElement.VerticalAlignment == VerticalAlignment.Stretch;
-
-            clipData.Bottom =
-                AdornedElement.VerticalAlignment == VerticalAlignment.Bottom ||
-                AdornedElement.VerticalAlignment == VerticalAlignment.Stretch;
+            ClipData.HorizontalAlignment = AdornedElement.HorizontalAlignment;
+            ClipData.VerticalAlignment = AdornedElement.VerticalAlignment;
         }
         #endregion
     }
@@ -643,6 +677,90 @@ namespace DeXign.Editor.Layer
         public MarginClip TopClip;
         public MarginClip RightClip;
         public MarginClip BottomClip;
+
+        public HorizontalAlignment HorizontalAlignment
+        {
+            get
+            {
+                if (Left && Right)
+                    return HorizontalAlignment.Stretch;
+
+                if (!Left && Right)
+                    return HorizontalAlignment.Right;
+
+                if (Left && !Right)
+                    return HorizontalAlignment.Left;
+
+                return HorizontalAlignment.Center;
+            }
+            set
+            {
+                switch (value)
+                {
+                    case HorizontalAlignment.Stretch:
+                        Left = true;
+                        Right = true;
+                        break;
+
+                    case HorizontalAlignment.Right:
+                        Left = false;
+                        Right = true;
+                        break;
+
+                    case HorizontalAlignment.Left:
+                        Left = true;
+                        Right = false;
+                        break;
+
+                    case HorizontalAlignment.Center:
+                        Left = false;
+                        Right = false;
+                        break;
+                }
+            }
+        }
+
+        public VerticalAlignment VerticalAlignment
+        {
+            get
+            {
+                if (Top && Bottom)
+                    return VerticalAlignment.Stretch;
+
+                if (!Top && Bottom)
+                    return VerticalAlignment.Bottom;
+
+                if (Top && !Bottom)
+                    return VerticalAlignment.Top;
+
+                return VerticalAlignment.Center;
+            }
+            set
+            {
+                switch (value)
+                {
+                    case VerticalAlignment.Stretch:
+                        Top = true;
+                        Bottom = true;
+                        break;
+
+                    case VerticalAlignment.Bottom:
+                        Top = false;
+                        Bottom = true;
+                        break;
+
+                    case VerticalAlignment.Top:
+                        Top = true;
+                        Bottom = false;
+                        break;
+
+                    case VerticalAlignment.Center:
+                        Top = false;
+                        Bottom = false;
+                        break;
+                }
+            }
+        }
 
         public bool Left
         {

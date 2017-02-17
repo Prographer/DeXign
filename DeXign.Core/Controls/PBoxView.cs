@@ -1,4 +1,6 @@
-﻿using System.Windows.Media;
+﻿using System.Windows;
+using System.Windows.Media;
+using WPFExtension;
 
 namespace DeXign.Core.Controls
 {
@@ -6,8 +8,15 @@ namespace DeXign.Core.Controls
     [XForms("Xamarin.Forms", "BoxView")]
     public class PBoxView : PControl
     {
-        public PBoxView()
+        public static readonly DependencyProperty FillProperty =
+            DependencyHelper.Register(
+                new PropertyMetadata(Brushes.Transparent));
+
+        [XForms("Color")]
+        public Brush Fill
         {
+            get { return GetValue<Brush>(FillProperty); }
+            set { SetValue(FillProperty, value); }
         }
     }
 }

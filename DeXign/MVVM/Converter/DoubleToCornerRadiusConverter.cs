@@ -2,7 +2,7 @@
 
 namespace DeXign.Converter
 {
-    class DoubleToCornerRadiusConverter : BaseValueConverter<double, CornerRadius>
+    public class DoubleToCornerRadiusConverter : BaseValueConverter<double, CornerRadius>
     {
         public override CornerRadius Convert(double value, object parameter)
         {

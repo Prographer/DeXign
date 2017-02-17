@@ -72,7 +72,7 @@ namespace DragHelper
 
             dragDatas[element] = new DragData(element, relativeTarget);
 
-            element.PreviewMouseLeftButtonDown += Element_MouseLeftButtonDown;
+            element.MouseLeftButtonDown += Element_MouseLeftButtonDown;
             element.PreviewMouseLeftButtonUp += Element_PreviewMouseLeftButtonUp;
             element.PreviewMouseMove += Element_PreviewMouseMove;
 

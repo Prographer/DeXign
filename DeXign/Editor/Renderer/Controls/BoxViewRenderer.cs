@@ -34,7 +34,7 @@ namespace DeXign.Editor.Renderer
 
             BindingEx.SetBinding(
                 element, Rectangle.FillProperty,
-                Model, PBoxView.BackgroundProperty);
+                Model, PBoxView.FillProperty);
         }
     }
 }

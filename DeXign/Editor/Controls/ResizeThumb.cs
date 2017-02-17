@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using DeXign.Extension;
 using WPFExtension;
+using DeXign.Editor.Layer;
 
 namespace DeXign.Editor.Controls
 {
@@ -24,6 +25,7 @@ namespace DeXign.Editor.Controls
         public ResizeGripDirection ResizeDirection { get; set; }
 
         public FrameworkElement Target { get; set; }
+        public SelectionLayer Layer { get; set; }
 
         private Vector beginSize;
         private Vector beginPosition;
@@ -31,9 +33,10 @@ namespace DeXign.Editor.Controls
         private Rect beginBound;
         private Vector positionLimit;
 
-        public ResizeThumb(FrameworkElement target)
+        public ResizeThumb(SelectionLayer layer)
         {
-            this.Target = target;
+            this.Layer = layer;
+            this.Target = layer.AdornedElement;
             
             this.DragDelta += OnDragDelta;
             this.DragStarted += OnDragStated;
@@ -45,6 +48,9 @@ namespace DeXign.Editor.Controls
 
             double deltaX = e.HorizontalChange * scale.X;
             double deltaY = e.VerticalChange * scale.Y;
+
+            // Cancel Design Mode
+            Layer.CancelNextInvert = true;
 
             if (Target.Parent is Canvas)
             {
@@ -91,22 +97,6 @@ namespace DeXign.Editor.Controls
 
         private void OnPanelDragDelta(double deltaX, double deltaY)
         {
-            bool marginLeft = 
-                Target.HorizontalAlignment == HorizontalAlignment.Left ||
-                Target.HorizontalAlignment == HorizontalAlignment.Stretch;
-
-            bool marginRight =
-                Target.HorizontalAlignment == HorizontalAlignment.Right ||
-                Target.HorizontalAlignment == HorizontalAlignment.Stretch;
-
-            bool marginTop =
-                Target.VerticalAlignment == VerticalAlignment.Top ||
-                Target.VerticalAlignment == VerticalAlignment.Stretch;
-
-            bool marginBottom =
-                Target.VerticalAlignment == VerticalAlignment.Bottom ||
-                Target.VerticalAlignment == VerticalAlignment.Stretch;
-
             bool hasSizingLeft =
                 ResizeDirection == ResizeGripDirection.Left ||
                 ResizeDirection == ResizeGripDirection.BottomLeft ||
@@ -133,89 +123,89 @@ namespace DeXign.Editor.Controls
 
             if (hasSizingTop)
             {
-                // Center, Bottom
-                if (!marginTop)
-                    SizingHeight(-deltaY);
-
-                // Stretch
-                if (marginTop & marginBottom)
+                switch (Layer.ClipData.VerticalAlignment)
                 {
-                    margin.Bottom = targetParent.RenderSize.Height - position.Y - Target.RenderSize.Height;
-                    margin.Top += deltaY;
-                }
+                    case VerticalAlignment.Center:
+                    case VerticalAlignment.Bottom:
+                        SizingHeight(-deltaY);
+                        break;
 
-                // Top
-                if (marginTop & !marginBottom)
-                {
-                    double sizedHeight = SizingHeight(-deltaY);
+                    case VerticalAlignment.Stretch:
+                        margin.Bottom = targetParent.RenderSize.Height - position.Y - Target.RenderSize.Height;
+                        margin.Top = Math.Min(
+                            margin.Top + deltaY, 
+                            beginBound.Bottom - Target.GetDesignMinHeight());
+                        break;
 
-                    margin.Top = beginBound.Bottom - sizedHeight;
+                    case VerticalAlignment.Top:
+                        double sizedHeight = SizingHeight(-deltaY);
+                        margin.Top = beginBound.Bottom - sizedHeight;
+                        break;
                 }
             }
 
             if (hasSizingBottom)
             {
-                // Center, Top
-                if (!marginBottom)
-                    SizingHeight(deltaY);
-
-                // Stretch
-                if (marginTop & marginBottom)
+                switch (Layer.ClipData.VerticalAlignment)
                 {
-                    margin.Top = position.Y;
-                    margin.Bottom -= deltaY;
-                }
+                    case VerticalAlignment.Center:
+                    case VerticalAlignment.Top:
+                        SizingHeight(deltaY);
+                        break;
 
-                // Bottom
-                if (marginBottom & !marginTop)
-                {
-                    double sizedHeight = SizingHeight(deltaY);
+                    case VerticalAlignment.Stretch:
+                        margin.Top = position.Y;
+                        margin.Bottom -= deltaY;
+                        break;
 
-                    margin.Bottom = targetParent.RenderSize.Height - position.Y - sizedHeight;
+                    case VerticalAlignment.Bottom:
+                        double sizedHeight = SizingHeight(deltaY);
+                        margin.Bottom = targetParent.RenderSize.Height - position.Y - sizedHeight;
+                        break;
                 }
             }
 
             if (hasSizingLeft)
             {
-                // Center, Right
-                if (!marginLeft)
-                    SizingWidth(-deltaX);
-
-                // Stretch
-                if (marginLeft & marginRight)
+                switch (Layer.ClipData.HorizontalAlignment)
                 {
-                    margin.Right = targetParent.RenderSize.Width - position.X - Target.RenderSize.Width;
-                    margin.Left += deltaX;
-                }
+                    case HorizontalAlignment.Center:
+                    case HorizontalAlignment.Right:
+                        SizingWidth(-deltaX);
+                        break;
 
-                // Left
-                if (marginLeft & !marginRight)
-                {
-                    double sizedWidth = SizingWidth(-deltaX);
+                    case HorizontalAlignment.Stretch:
+                        margin.Right = targetParent.RenderSize.Width - position.X - Target.RenderSize.Width;
+                        margin.Left = Math.Min(
+                            margin.Left + deltaX,
+                            beginBound.Right - Target.GetDesignMinWidth());
+                        break;
 
-                    margin.Left = beginBound.Right - sizedWidth;
+                    case HorizontalAlignment.Left:
+                        double sizedWidth = SizingWidth(-deltaX);
+                        margin.Left = beginBound.Right - sizedWidth;
+                        break;
                 }
             }
 
             if (hasSizingRight)
             {
-                // Center, Left
-                if (!marginRight)
-                    SizingWidth(deltaX);
-
-                // Stretch
-                if (marginLeft & marginRight)
+                switch (Layer.ClipData.HorizontalAlignment)
                 {
-                    margin.Left = position.X;
-                    margin.Right -= deltaX;
-                }
+                    case HorizontalAlignment.Center:
+                    case HorizontalAlignment.Left:
+                        SizingWidth(deltaX);
+                        break;
 
-                // Right
-                if (marginRight & !marginLeft)
-                {
-                    double sizedWidth = SizingWidth(deltaX);
+                    case HorizontalAlignment.Stretch:
+                        margin.Left = position.X;
+                        margin.Right -= deltaX;
+                        break;
 
-                    margin.Right = targetParent.RenderSize.Width - position.X - sizedWidth;
+                    case HorizontalAlignment.Right:
+                        double sizedWidth = SizingWidth(deltaX);
+                        margin.Right = targetParent.RenderSize.Width - position.X - sizedWidth;
+                        break;
                 }
             }
             

@@ -3,6 +3,7 @@ using System.Windows.Media;
 
 using DeXign.Core.Designer;
 using System;
+using System.Windows.Data;
 
 namespace DeXign.Resources
 {
@@ -21,6 +22,11 @@ namespace DeXign.Resources
         public static Brush GetBrush(string brushName, ResourceDictionary resources = null)
         {
             return GetResource<Brush>($"Brush.{brushName}", resources);
+        }
+
+        public static IValueConverter GetConverter(string name, ResourceDictionary resources = null)
+        {
+            return GetResource<IValueConverter>($"Converter.{name}", resources);
         }
 
         public static Style GetStyle(string styleName, ResourceDictionary resources = null)

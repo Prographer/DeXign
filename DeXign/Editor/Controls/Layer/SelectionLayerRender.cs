@@ -24,25 +24,25 @@ namespace DeXign.Editor.Layer
             // * Vritual Parent Bound Arrange *
 
             Rect parentRect = GetParentRenderBound();
-            double virtualWidth = clipData.LeftClip.RenderSize.Height / ScaleX;
-            double virtualHeight = clipData.LeftClip.RenderSize.Height / ScaleX;
+            double virtualWidth = ClipData.LeftClip.RenderSize.Height / ScaleX;
+            double virtualHeight = ClipData.LeftClip.RenderSize.Height / ScaleX;
 
-            clipData.LeftClip.Arrange(
+            ClipData.LeftClip.Arrange(
                 new Rect(
                     parentRect.X - virtualWidth / 2, 0,
                     virtualWidth, RenderSize.Height));
 
-            clipData.RightClip.Arrange(
+            ClipData.RightClip.Arrange(
                 new Rect(
                     parentRect.Right - virtualWidth / 2, 0,
                     virtualWidth, RenderSize.Height));
 
-            clipData.TopClip.Arrange(
+            ClipData.TopClip.Arrange(
                 new Rect(
                     0, parentRect.Y - virtualHeight / 2,
                     RenderSize.Width, virtualHeight));
 
-            clipData.BottomClip.Arrange(
+            ClipData.BottomClip.Arrange(
                 new Rect(
                     0, parentRect.Bottom - virtualHeight / 2,
                     RenderSize.Width, virtualHeight));
@@ -162,22 +162,22 @@ namespace DeXign.Editor.Layer
             // Draw Margin Guide Line
             dc.PushOpacity(0.5);
             {
-                if (clipData.LeftVisible)
+                if (ClipData.LeftVisible)
                     dc.DrawLine(marginLeft ? solidPen : dashedPen,
                         new Point(parentRect.X, hCenter),
                         new Point(-1, hCenter));
 
-                if (clipData.RightVisible)
+                if (ClipData.RightVisible)
                     dc.DrawLine(marginRight ? solidPen : dashedPen,
                         new Point(RenderSize.Width, hCenter),
                         new Point(parentRect.Right, hCenter));
 
-                if (clipData.TopVisible)
+                if (ClipData.TopVisible)
                     dc.DrawLine(marginTop ? solidPen : dashedPen,
                         new Point(wCenter, parentRect.Y),
                         new Point(wCenter, -1));
 
-                if (clipData.BottomVisible)
+                if (ClipData.BottomVisible)
                     dc.DrawLine(marginBottom ? solidPen : dashedPen,
                         new Point(wCenter, RenderSize.Height),
                         new Point(wCenter, parentRect.Bottom));
@@ -426,7 +426,7 @@ namespace DeXign.Editor.Layer
             return new Pen(brush, width / ScaleX);
         }
 
-        protected Rect GetParentRenderBound()
+        internal Rect GetParentRenderBound()
         {
             var parentElement = AdornedElement.Parent as FrameworkElement;
             var position = parentElement.TranslatePoint(new Point(), AdornedElement);
@@ -436,7 +436,7 @@ namespace DeXign.Editor.Layer
                 parentElement.RenderSize);
         }
 
-        protected Thickness GetParentRenderMargin()
+        internal Thickness GetParentRenderMargin()
         {
             var rect = GetParentRenderBound();
 

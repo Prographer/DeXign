@@ -70,7 +70,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\LinkTextBlock.cs" />
+    <Compile Include="Controls\RectangleEx.cs" />
     <Compile Include="Editor\Controls\Layer\DropSelectionLayer.cs" />
+    <Compile Include="Editor\Controls\MoveThumb.cs" />
     <Compile Include="Editor\DesignTime.cs" />
     <Compile Include="Editor\Renderer\Controls\ButtonRenderer.cs" />
     <Compile Include="Editor\Renderer\Layouts\GridRenderer.cs" />
@@ -79,6 +81,8 @@
     <Compile Include="Editor\Renderer\RendererManager.cs" />
     <Compile Include="MVVM\Commands\ActionCommand.cs" />
     <Compile Include="MVVM\Converter\DoubleToCornerRadiusConverter.cs" />
+    <Compile Include="MVVM\Converter\HorizontalToLayoutAlignmentConverter.cs" />
+    <Compile Include="MVVM\Converter\VerticalToLayoutAlignmentConverter.cs" />
     <Compile Include="MVVM\Converter\NullObjectToVisibilityConverter.cs" />
     <Compile Include="MVVM\Models\Base\BaseNotifyModel.cs" />
     <Compile Include="MVVM\Models\Base\IModel.cs" />
@@ -94,6 +98,10 @@
     <Compile Include="Windows\Pages\StoryboardPage.xaml.cs">
       <DependentUpon>StoryboardPage.xaml</DependentUpon>
     </Compile>
+    <Page Include="Resources\Converters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\DesignerStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

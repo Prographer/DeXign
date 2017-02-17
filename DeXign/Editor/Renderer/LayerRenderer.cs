@@ -6,9 +6,12 @@ using DeXign.Editor.Layer;
 using DeXign.Editor.Interfaces;
 using DeXign.Extension;
 using DeXign.Core.Controls;
+using DeXign.Converter;
 
 using WPFExtension;
 using System.Windows.Controls;
+using DeXign.Resources;
+using System.Windows.Data;
 
 namespace DeXign.Editor.Renderer
 {
@@ -31,7 +34,7 @@ namespace DeXign.Editor.Renderer
 
         public TModel Model { get; set; }
         #endregion
-
+        
         public LayerRenderer(UIElement adornedElement) : base(adornedElement)
         {
             if (!(adornedElement is TElement))
@@ -71,11 +74,13 @@ namespace DeXign.Editor.Renderer
 
         protected virtual void OnElementAttached(TElement element)
         {
+            var visual = element as FrameworkElement;
+
             // Default Binding
-            if (Model is PVisual && element is FrameworkElement)
+            #region < PVisual >
+            if (Model is PVisual)
             {
                 var model = Model as PVisual;
-                var visual = element as FrameworkElement;
 
                 // RenderTransformOrigin Binding
                 FrameworkElement.RenderTransformOriginProperty.AddValueChanged(
@@ -139,6 +144,28 @@ namespace DeXign.Editor.Renderer
                 // TODO: RotationX
                 // TODO: RotationY
             }
+            #endregion
+
+            #region < PControl >
+            if (Model is PControl)
+            {
+                var model = Model as PControl;
+
+                BindingEx.SetBinding(
+                    visual, FrameworkElement.MarginProperty,
+                    model, PControl.MarginProperty);
+
+                BindingEx.SetBinding(
+                    visual, FrameworkElement.VerticalAlignmentProperty,
+                    model, PControl.VerticalAlignmentProperty,
+                    converter: ResourceManager.GetConverter("VerticalToLayoutAlignment"));
+
+                BindingEx.SetBinding(
+                    visual, FrameworkElement.HorizontalAlignmentProperty,
+                    model, PControl.HorizontalAlignmentProperty,
+                    converter: ResourceManager.GetConverter("HorizontalToLayoutAlignment"));
+            }
+            #endregion
         }
     }
 }
