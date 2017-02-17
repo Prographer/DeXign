@@ -170,8 +170,8 @@ namespace DeXign.Editor.Controls
             // Remove On PObject Parent
             ElementParentContentCore(
                 (DependencyObject)parent.DataContext,
-                pi => pi.SetValue(parent.DataContext, element.DataContext), // Single Content
-                list => list.Add(element.DataContext));                     // List Content
+                pi => pi.SetValue(parent.DataContext, null), // Single Content
+                list => list.Remove(element.DataContext));   // List Content
 
             // Remove On WPF Parent
             ElementParentContentCore(
