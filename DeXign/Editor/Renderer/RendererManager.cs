@@ -66,7 +66,6 @@ namespace DeXign.Editor.Renderer
             view.DataContext = model;
             view.AddAdorner((Adorner)renderer);
             view.SetRenderer(renderer);
-            //AttachedAdorner.SetAdornerType(view, rendererAttr.RendererType);
 
             return view;
         }

@@ -39,14 +39,7 @@ namespace DeXign.Editor
                 
                 groups[group].Remove(obj);
 
-                try
-                {
-                    obj.RaiseEvent(new SelectionChangedEventArgs(UnselectedEvent));
-                }
-                catch (Exception ex)
-                {
-
-                }
+                obj.RaiseEvent(new SelectionChangedEventArgs(UnselectedEvent));
             }
             else
             {

@@ -16,6 +16,7 @@ using DeXign.Editor;
 using System.Reflection;
 using DeXign.Models;
 using System.Collections.Generic;
+using System.Windows.Documents;
 
 namespace DeXign.Editor.Controls
 {
@@ -208,6 +209,14 @@ namespace DeXign.Editor.Controls
                 (parent.DataContext != null && !(parent.DataContext is PObject)))
                 return;
 
+            // Dispose
+            if (childRenderer is IDisposable)
+                ((IDisposable)childRenderer).Dispose();
+
+            // Remove On AdornerLayer
+            element.RemoveAdorner((Adorner)childRenderer);
+            element.SetRenderer(null);
+            
             // Remove On PObject Parent
             ElementParentContentCore(
                 (DependencyObject)parent.DataContext,

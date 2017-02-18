@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Shell;
 using System.Windows.Input;
@@ -6,19 +7,16 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.ComponentModel;
 
 using DeXign.Converter;
 using DeXign.Extension;
 using DeXign.Resources;
+using DeXign.Windows.Pages;
 using DeXign.Editor.Controls;
+using DeXign.Editor.Renderer;
 
 using WPFExtension;
-using System.ComponentModel;
-using DeXign.Windows.Pages;
-using System.Linq;
-using DragHelper;
-using DeXign.Input;
-using DeXign.Editor.Renderer;
 
 namespace DeXign.Editor.Layer
 {
@@ -59,14 +57,7 @@ namespace DeXign.Editor.Layer
 
         public static readonly DependencyProperty DesignModeProperty =
             DependencyHelper.Register(
-                new FrameworkPropertyMetadata(DesignModeChanged));
-
-        private static void DesignModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var layer = d as SelectionLayer;
-
-            layer.OnDesignModeChanged();
-        }
+                new FrameworkPropertyMetadata(DesignMode.None, FrameworkPropertyMetadataOptions.AffectsRender));
         #endregion
 
         #region [ Property ]
@@ -184,11 +175,15 @@ namespace DeXign.Editor.Layer
         {
         }
 
+        // Element.Loaded -> OnLoaded
         protected override void OnLoaded(FrameworkElement adornedElement)
         {
             if (DesignerProperties.GetIsInDesignMode(this))
                 this.Visibility = Visibility.Collapsed;
 
+            // 디자인 모드 변경 이벤트 등록
+            DesignModeProperty.AddValueChanged(this, DesignMode_Changed);
+            
             InitializeComponents();
             InitializeSelector();
 
@@ -196,13 +191,27 @@ namespace DeXign.Editor.Layer
 
             SelectionBrush = ResourceManager.GetBrush("Accent");
             FrameBrush = ResourceManager.GetBrush("Accent");
-
+            
             // 스냅라인 등록
             RootParent.GuideLayer.Add(this);
 
             UpdateParentState();
         }
-        
+
+        protected override void OnDisposed()
+        {
+            // GroupSelector
+            this.RemoveSelectedHandler(OnSelected);
+            this.RemoveUnselectedHandler(OnUnselected);
+
+            // Design Mode
+            DesignModeProperty.RemoveValueChanged(this, DesignMode_Changed);
+
+            // clips
+            foreach (MarginClip clip in clipGrid.Children)
+                ToggleButton.IsCheckedProperty.RemoveValueChanged(clip, ClipChanged);
+        }
+
         private void InitializeSelector()
         {
             this.AddSelectedHandler(OnSelected);
@@ -648,6 +657,11 @@ namespace DeXign.Editor.Layer
             SetSize(renderSize.Width, renderSize.Height);
 
             this.InvalidateVisual();
+        }
+
+        private void DesignMode_Changed(object sender, EventArgs e)
+        {
+            OnDesignModeChanged();
         }
 
         protected virtual void OnDesignModeChanged()

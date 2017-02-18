@@ -3,11 +3,14 @@ using System.Windows;
 using System.Windows.Media;
 using DeXign.Editor.Controls;
 using DeXign.Extension;
+using System;
 
 namespace DeXign.Editor.Layer
 {
-    public class StoryboardLayer : ControlLayer
+    public class StoryboardLayer : ControlLayer, IDisposable
     {
+        bool IsDisposed = false;
+
         internal Storyboard RootParent;
         internal ScaleTransform RootScale;
 
@@ -35,6 +38,18 @@ namespace DeXign.Editor.Layer
         protected virtual void OnLoaded(FrameworkElement adornedElement)
         {
 
+        }
+
+        public void Dispose()
+        {
+            if (!IsDisposed)
+                OnDisposed();
+
+            IsDisposed = true;
+        }
+
+        protected virtual void OnDisposed()
+        {
         }
     }
 }

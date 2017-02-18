@@ -25,6 +25,8 @@ namespace DeXign.Editor.Renderer
         {
             base.OnElementAttached(element);
 
+            SetSize(double.NaN, double.NaN);
+
             BindingEx.SetBinding(
                 Model, PLabel.TextProperty,
                 element, TextBlock.TextProperty);

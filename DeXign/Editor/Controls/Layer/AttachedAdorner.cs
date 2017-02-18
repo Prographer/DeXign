@@ -38,7 +38,7 @@ namespace DeXign.Editor.Layer
                 setZOrderMethodInfo.Invoke(adornerLayer, new object[] { adorner, index });
         }
 
-        public static AdornerLayer GetAdornerLayer(FrameworkElement element)
+        public static AdornerLayer GetAdornerLayer(this FrameworkElement element)
         {
             var decorator = element?
                 .FindLogicalParents<AdornerDecorator>()
@@ -82,6 +82,14 @@ namespace DeXign.Editor.Layer
             }
 
             items.Add(adorner);
+        }
+
+        public static void RemoveAdorner(this FrameworkElement element, Adorner adorner)
+        {
+            var items = element.GetAdorners();
+            
+            items?.Remove(adorner);
+            element.GetAdornerLayer()?.Remove(adorner);
         }
 
         private static void Element_Loaded(object sender, RoutedEventArgs e)

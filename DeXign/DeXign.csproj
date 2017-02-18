@@ -95,6 +95,7 @@
     <Compile Include="MVVM\Models\Base\IModel.cs" />
     <Compile Include="MVVM\Models\Base\IViewModel.cs" />
     <Compile Include="MVVM\Models\MainModel.cs" />
+    <Compile Include="MVVM\Models\PropertyGridItemModel.cs" />
     <Compile Include="MVVM\Models\StoryboardModel.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="Input\Mouse.cs" />
@@ -164,7 +165,7 @@
     <Compile Include="Controls\MenuItemEx.cs" />
     <Compile Include="Controls\PathButton.cs" />
     <Compile Include="Controls\PropertyGrid\PropertyGrid.cs" />
-    <Compile Include="Controls\PropertyGrid\PropertyGridItem.cs" />
+    <Compile Include="Controls\PropertyGrid\PropertyGridItemView.cs" />
     <Compile Include="Controls\SpacingStackPanel.cs" />
     <Compile Include="Controls\StrokePath.cs" />
     <Compile Include="Controls\ToolBox\ToolBoxItemView.cs" />
