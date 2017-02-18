@@ -12,9 +12,10 @@ using DeXign.Editor.Renderer;
 using System.Windows.Markup;
 using System.Collections;
 using DeXign.Core.Controls;
-using DeXign.Editor.Interfaces;
+using DeXign.Editor;
 using System.Reflection;
 using DeXign.Models;
+using System.Collections.Generic;
 
 namespace DeXign.Editor.Controls
 {
@@ -23,16 +24,19 @@ namespace DeXign.Editor.Controls
     {
         public event EventHandler ElementChanged;
 
-        public GuideLayer GuideLayer { get; }
+        public GuideLayer GuideLayer { get; private set; }
+        public StoryboardRenderer Renderer { get; private set; }
+
+        public List<ContentControl> Screens { get; } = new List<ContentControl>();
 
         public Storyboard()
         {
-            GuideLayer = new GuideLayer(this);
+            InitializeLayer();
+            InitializeBindings();
+        }
 
-            AttachedAdorner.SetAdornerType(this, typeof(GuideLayer));
-            AttachedAdorner.SetAdorner(this, GuideLayer);
-            AttachedAdorner.SetAdornerIndex(this, 2);
-
+        private void InitializeBindings()
+        {
             this.InputBindings.Add(
                 new KeyBinding()
                 {
@@ -54,12 +58,49 @@ namespace DeXign.Editor.Controls
                 new CommandBinding(DXCommands.DeleteCommand, Delete_Execute));
         }
 
+        private void InitializeLayer()
+        {
+            GuideLayer = new GuideLayer(this);
+            Renderer = new StoryboardRenderer(this);
+
+            this.AddAdorner(GuideLayer);
+            this.AddAdorner(Renderer);
+
+            GuideLayer.SetAdornerIndex(2);
+            Renderer.SetAdornerIndex(2);
+
+            this.SetRenderer(Renderer);
+        }
+
+        public ContentControl AddNewScreen()
+        {
+            var metadata = DesignerManager
+                .GetElementTypes()
+                .FirstOrDefault(at => at.Element == typeof(PContentPage));
+
+            var control = this.GenerateToElement(this, metadata) as ContentControl;
+
+            control.Margin = new Thickness(0);
+            control.VerticalAlignment = VerticalAlignment.Top;
+            control.HorizontalAlignment = HorizontalAlignment.Left;
+
+            control.Width = 360;
+            control.Height = 615;
+
+            Canvas.SetTop(control, 80);
+            Canvas.SetLeft(control, 80);
+
+            Screens.Add(control);
+
+            return control;
+        }
+
         private void Delete_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             var layers = GroupSelector.GetSelectedItems()
                 .Cast<SelectionLayer>()
                 .ToArray();
-
+            
             if (layers.Length > 0)
             {
                 foreach (var layer in layers)
@@ -88,7 +129,7 @@ namespace DeXign.Editor.Controls
 
             var prevLayer = layer.AdornedElement
                 .FindVisualParents<FrameworkElement>()
-                .Select(AttachedAdorner.GetAdorner)
+                .Select(element => (StoryboardLayer)element.GetRenderer())
                 .Skip(1)
                 .FirstOrDefault(adorner => adorner != null && adorner is SelectionLayer);
 
@@ -126,19 +167,23 @@ namespace DeXign.Editor.Controls
             FrameworkElement parent,
             AttributeTuple<DesignElementAttribute, Type> data)
         {
-            var position = parent.PointFromScreen(SystemMouse.Position);
-
             var rendererAttr = RendererManager.FromModelType(data.Element);
             var visual = RendererManager.CreateVisual(rendererAttr);
-
+            
             if (visual == null)
                 return null;
 
-            // Add On PObject Parent
-            ElementParentContentCore(
-                (DependencyObject)parent.DataContext,
-                pi => pi.SetValue(parent.DataContext, visual.DataContext), // Single Content
-                list => list.Add(visual.DataContext));                     // List Content
+            IRenderer parentRenderer = parent.GetRenderer();
+            IRenderer childRenderer = visual.GetRenderer();
+
+            if (parent.DataContext != null && parent.DataContext is DependencyObject)
+            {
+                // Add On PObject Parent
+                ElementParentContentCore(
+                    (DependencyObject)parent.DataContext,
+                    pi => pi.SetValue(parent.DataContext, visual.DataContext), // Single Content
+                    list => list.Add(visual.DataContext));                     // List Content
+            }
 
             // Add On WPF Parent
             ElementParentContentCore(
@@ -146,12 +191,8 @@ namespace DeXign.Editor.Controls
                 pi => pi.SetValue(parent, visual),  // Single Content
                 list => list.Add(visual));          // List Content
 
-            if (!(parent.DataContext is PPage))
-            {
-                visual.Margin = new Thickness(position.X, position.Y, 0, 0);
-                visual.VerticalAlignment = VerticalAlignment.Top;
-                visual.HorizontalAlignment = HorizontalAlignment.Left;
-            }
+            // Notice child added
+            parentRenderer?.OnAddedChild(childRenderer);
 
             ElementChanged?.Invoke(this, null);
 
@@ -160,9 +201,9 @@ namespace DeXign.Editor.Controls
         
         public void RemoveElement(FrameworkElement parent, FrameworkElement element)
         {
-            //var childRenderer = (IRenderer)AttachedAdorner.GetAdorner(element);
-            //var parentRenderer = AttachedAdorner.GetAdorner(parent);
-            
+            IRenderer parentRenderer = parent.GetRenderer();
+            IRenderer childRenderer = element.GetRenderer();
+
             if (parent.DataContext == null ||
                 (parent.DataContext != null && !(parent.DataContext is PObject)))
                 return;
@@ -178,6 +219,9 @@ namespace DeXign.Editor.Controls
                 parent, 
                 pi => pi.SetValue(parent, null), // Single Content
                 list => list.Remove(element));   // List Content
+
+            // Notice child removed 
+            parentRenderer?.OnRemovedChild(childRenderer);
 
             ElementChanged?.Invoke(this, null);
         }

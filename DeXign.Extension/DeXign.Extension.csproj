@@ -51,6 +51,7 @@
     <Compile Include="LogicalTreeHelperEx.cs" />
     <Compile Include="MarshalEx.cs" />
     <Compile Include="StringEx.cs" />
+    <Compile Include="ThicknessEx.cs" />
     <Compile Include="TypeSwitch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReflectionEx.cs" />

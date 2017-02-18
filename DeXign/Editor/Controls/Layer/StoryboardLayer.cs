@@ -8,19 +8,33 @@ namespace DeXign.Editor.Layer
 {
     public class StoryboardLayer : ControlLayer
     {
-        internal new Storyboard Parent;
-        internal ScaleTransform ParentScale;
+        internal Storyboard RootParent;
+        internal ScaleTransform RootScale;
 
-        internal double ScaleX => ParentScale.ScaleX;
-        internal double ScaleY => ParentScale.ScaleY;
+        internal double ScaleX => RootScale.ScaleX;
+        internal double ScaleY => RootScale.ScaleY;
 
         public StoryboardLayer(UIElement adornedElement) : base(adornedElement)
         {
-            this.Parent = adornedElement
+            ((FrameworkElement)adornedElement).Loaded += Element_Loaded;
+        }
+
+        private void Element_Loaded(object sender, RoutedEventArgs e)
+        {
+            ((FrameworkElement)sender).Loaded -= Element_Loaded;
+
+            this.RootParent = AdornedElement
                 .FindLogicalParents<Storyboard>()
                 .FirstOrDefault();
 
-            this.ParentScale = Parent?.RenderTransform as ScaleTransform;
+            this.RootScale = RootParent?.RenderTransform as ScaleTransform;
+
+            OnLoaded((FrameworkElement)AdornedElement);
+        }
+
+        protected virtual void OnLoaded(FrameworkElement adornedElement)
+        {
+
         }
     }
 }

@@ -8,14 +8,15 @@ using DeXign.Core;
 using DeXign.Core.Designer;
 using System.Collections.Specialized;
 using System.Collections;
+using DeXign.Input;
 
 [assembly: ExportRenderer(typeof(PGridLayout), typeof(Grid), typeof(GridRenderer))]
 
 namespace DeXign.Editor.Renderer
 {
-    class GridRenderer : LayerRenderer<PGridLayout, Grid>
+    class GridRenderer : LayerRenderer<PGridLayout, Grid>, IGridLayout
     {
-        public GridRenderer(UIElement adornedElement) : base(adornedElement)
+        public GridRenderer(Grid adornedElement, PGridLayout model) : base(adornedElement, model)
         {
         }
 
@@ -24,10 +25,7 @@ namespace DeXign.Editor.Renderer
             base.OnElementAttached(element);
 
             if (!IsContentParent())
-            {
-                element.Width = 100;
-                element.Height = 100;
-            }
+                this.SetSize(100, 100);
 
             // Binding
             Model.ColumnDefinitions.CollectionChanged += 
@@ -80,6 +78,18 @@ namespace DeXign.Editor.Renderer
         public override bool CanDrop(AttributeTuple<DesignElementAttribute, Type> item)
         {
             return item != null;
+        }
+
+        public override void OnAddedChild(IRenderer child)
+        {
+            var position = this.PointFromScreen(SystemMouse.Position);
+
+            child.Element.Width = 100;
+            child.Element.Height = 100;
+
+            child.Element.Margin = new Thickness(position.X, position.Y, 0, 0);
+            child.Element.HorizontalAlignment = HorizontalAlignment.Left;
+            child.Element.VerticalAlignment = VerticalAlignment.Top;
         }
     }
 }

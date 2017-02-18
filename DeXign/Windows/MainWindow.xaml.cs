@@ -30,6 +30,9 @@ namespace DeXign
             // ToolBox
             foreach (var element in DesignerManager.GetElementTypes())
             {
+                if (!element.Attribute.Visible)
+                    continue;
+
                 var resource = ResourceManager.GetDesignerResource(element.Element);
                 
                 toolBox.AddItem(

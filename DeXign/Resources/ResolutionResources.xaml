@@ -1,0 +1,24 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:DeXign.Resources"
+                    xmlns:collection="clr-namespace:System.Collections;assembly=mscorlib"
+                    xmlns:m="clr-namespace:DeXign.Models">
+
+    <collection:ArrayList x:Key="AndroidResolutions">
+        <m:ResolutionItemModel TargetPlatform="Android" Width="480" Height="800" Inch="4''" SubTitle="WVGA @ 120% 배율"/>
+        <m:ResolutionItemModel TargetPlatform="Android" Width="768" Height="1280" Inch="4.5''" SubTitle="WXGA @ 200% 배율"/>
+        <m:ResolutionItemModel TargetPlatform="Android" Width="720" Height="1280" Inch="4.7''" SubTitle="720p @ 180% 배율"/>
+        <m:ResolutionItemModel TargetPlatform="Android" Width="540" Height="960" Inch="5''" SubTitle="qHD  @ 120% 배율"/>
+        <m:ResolutionItemModel TargetPlatform="Android" Width="1080" Height="1920" Inch="5.5''" SubTitle="1080p @ 240% 배율"/>
+        <m:ResolutionItemModel TargetPlatform="Android" Width="720" Height="7280" Inch="6''" SubTitle="720p @ 140% 배율"/>
+        <m:ResolutionItemModel TargetPlatform="Android" Width="1080" Height="1920" Inch="6''" SubTitle="1080p @ 220% 배율"/>
+    </collection:ArrayList>
+
+    <collection:ArrayList x:Key="iOSResolutions">
+        <m:ResolutionItemModel TargetPlatform="iOS" Width="480" Height="800" Inch="4''" SubTitle="준비중"/>
+    </collection:ArrayList>
+
+    <collection:ArrayList x:Key="WindowResolutions">
+        <m:ResolutionItemModel TargetPlatform="Window" Width="480" Height="800" Inch="4''" SubTitle="준비중"/>
+    </collection:ArrayList>
+</ResourceDictionary>

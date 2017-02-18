@@ -1,12 +1,15 @@
 ﻿using DeXign.Core.Controls;
 using System.Windows;
 
-namespace DeXign.Editor.Interfaces
+namespace DeXign.Editor
 {
     public interface IRenderer
     {
         FrameworkElement Element { get; }
         PObject Model { get; set; }
+
+        void OnAddedChild(IRenderer child);
+        void OnRemovedChild(IRenderer child);
     }
 
     public interface IRenderer<TModel, TElement> : IRenderer

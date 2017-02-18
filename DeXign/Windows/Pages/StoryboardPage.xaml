@@ -25,16 +25,11 @@
                         <ScaleTransform ScaleX="{Binding Value, ElementName=slider}" ScaleY="{Binding Value, ElementName=slider}"/>
                     </dc:Storyboard.RenderTransform>
 
-                    <ContentControl x:Name="screen" Width="270" Height="480" l:AttachedAdorner.AdornerType="{x:Type r:ScreenRenderer}" Canvas.Left="170" Canvas.Top="80" Style="{DynamicResource {x:Static t:ThemeKeyStore.Screen}}">
-                        <!--<StackPanel l:AttachedAdorner.AdornerType="{x:Type l:DropSelectionLayer}" VerticalAlignment="Center">
-                            <Label Content="Hello DeXign Studio!" l:AttachedAdorner.AdornerType="{x:Type l:DropSelectionLayer}" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                            <Button Content="Click Me!" Margin="0,16,0,0" Padding="4" l:AttachedAdorner.AdornerType="{x:Type l:DropSelectionLayer}" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                        </StackPanel>-->
-                    </ContentControl>
+                    <!--<ContentControl x:Name="screen" Width="270" Height="480" l:AttachedAdorner.AdornerType="{x:Type r:ScreenRenderer}" Canvas.Left="170" Canvas.Top="80"/>-->
                 </dc:Storyboard>
             </AdornerDecorator>
         </ScrollViewer>
-        <Slider x:Name="slider" VerticalAlignment="Bottom" Margin="10" Maximum="8" Minimum="0.25" Value="1"/>
+        <Slider x:Name="slider" VerticalAlignment="Bottom" Margin="10" Maximum="8" Minimum="0.25" Value="0.5"/>
 
         <GridSplitter Grid.Row="1" Height="5" Background="Gray" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
         <TextBox x:Name="code" Grid.Row="2"/>

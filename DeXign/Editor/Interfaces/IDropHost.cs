@@ -1,4 +1,4 @@
-﻿namespace DeXign.Editor.Interfaces
+﻿namespace DeXign.Editor
 {
     interface IDropHost<T>
     {

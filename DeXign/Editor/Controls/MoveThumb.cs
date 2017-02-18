@@ -1,4 +1,6 @@
 ﻿using DeXign.Editor.Layer;
+using DeXign.Editor.Renderer;
+using DeXign.Extension;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,12 +10,6 @@ namespace DeXign.Editor.Controls
 {
     class MoveThumb : Thumb
     {
-        private Vector beginSize;
-        private Vector beginPosition;
-        private Thickness beginThickness;
-        private Rect beginBound;
-        private Vector positionLimit;
-
         public FrameworkElement Target { get; set; }
         public SelectionLayer Layer { get; set; }
 
@@ -34,10 +30,15 @@ namespace DeXign.Editor.Controls
         {
             Layer.CancelNextInvert = true;
 
-            if (Target.Parent is Canvas)
+            if (Layer.Parent is IStoryboard)
             {
-                Canvas.SetTop(Target, Canvas.GetTop(Target) + e.VerticalChange);
-                Canvas.SetLeft(Target, Canvas.GetLeft(Target) + e.HorizontalChange);
+                Canvas.SetTop(
+                    Target, 
+                    Canvas.GetTop(Target) + e.VerticalChange);
+
+                Canvas.SetLeft(
+                    Target,
+                    Canvas.GetLeft(Target) + e.HorizontalChange);
             }
             else
             {
@@ -46,42 +47,62 @@ namespace DeXign.Editor.Controls
 
                 parentMargin.Left *= -1;
                 parentMargin.Top *= -1;
+
+                bool allowVertical = true;
+                bool allowHorizontal = true;
+
+                if (Layer.Parent is IStackLayout)
+                {
+                    var stackRenderer = Layer.Parent as StackLayoutRenderer;
+
+                    allowVertical = 
+                        (stackRenderer.Element.Orientation == Orientation.Horizontal);
+
+                    allowHorizontal = 
+                        (stackRenderer.Element.Orientation == Orientation.Vertical);
+                }
                 
-                switch (Layer.ClipData.VerticalAlignment)
+                if (allowVertical)
                 {
-                    case VerticalAlignment.Top:
-                        margin.Top = parentMargin.Top + e.VerticalChange;
-                        break;
+                    switch (Layer.ClipData.VerticalAlignment)
+                    {
+                        case VerticalAlignment.Top:
+                            margin.Top = parentMargin.Top + e.VerticalChange;
+                            break;
 
-                    case VerticalAlignment.Bottom:
-                        margin.Bottom = parentMargin.Bottom - e.VerticalChange;
-                        break;
+                        case VerticalAlignment.Bottom:
+                            margin.Bottom = parentMargin.Bottom - e.VerticalChange;
+                            break;
 
-                    case VerticalAlignment.Stretch:
-                    case VerticalAlignment.Center:
-                        margin.Top = parentMargin.Top + e.VerticalChange;
-                        margin.Bottom = parentMargin.Bottom - e.VerticalChange;
-                        break;
+                        case VerticalAlignment.Stretch:
+                        case VerticalAlignment.Center:
+                            margin.Top = parentMargin.Top + e.VerticalChange;
+                            margin.Bottom = parentMargin.Bottom - e.VerticalChange;
+                            break;
+                    }
                 }
 
-                switch (Layer.ClipData.HorizontalAlignment)
+                if (allowHorizontal)
                 {
-                    case HorizontalAlignment.Left:
-                        margin.Left = parentMargin.Left + e.HorizontalChange;
-                        break;
+                    switch (Layer.ClipData.HorizontalAlignment)
+                    {
+                        case HorizontalAlignment.Left:
+                            margin.Left = parentMargin.Left + e.HorizontalChange;
+                            break;
 
-                    case HorizontalAlignment.Right:
-                        margin.Right = parentMargin.Right - e.HorizontalChange;
-                        break;
+                        case HorizontalAlignment.Right:
+                            margin.Right = parentMargin.Right - e.HorizontalChange;
+                            break;
 
-                    case HorizontalAlignment.Stretch:
-                    case HorizontalAlignment.Center:
-                        margin.Left = parentMargin.Left + e.HorizontalChange;
-                        margin.Right = parentMargin.Right - e.HorizontalChange;
-                        break;
+                        case HorizontalAlignment.Stretch:
+                        case HorizontalAlignment.Center:
+                            margin.Left = parentMargin.Left + e.HorizontalChange;
+                            margin.Right = parentMargin.Right - e.HorizontalChange;
+                            break;
+                    }
                 }
 
-                Target.Margin = margin;
+                Target.Margin = margin.Clean();
             }
         }
 

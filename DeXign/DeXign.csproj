@@ -71,14 +71,21 @@
     </ApplicationDefinition>
     <Compile Include="Controls\LinkTextBlock.cs" />
     <Compile Include="Controls\RectangleEx.cs" />
+    <Compile Include="Editor\Controls\Layer\AttachedAdorner.cs" />
     <Compile Include="Editor\Controls\Layer\DropSelectionLayer.cs" />
     <Compile Include="Editor\Controls\MoveThumb.cs" />
     <Compile Include="Editor\DesignTime.cs" />
+    <Compile Include="Editor\Interfaces\IContentLayout.cs" />
+    <Compile Include="Editor\Interfaces\IGridLayout.cs" />
+    <Compile Include="Editor\Interfaces\IStackLayout.cs" />
+    <Compile Include="Editor\Interfaces\IStoryboard.cs" />
     <Compile Include="Editor\Renderer\Controls\ButtonRenderer.cs" />
+    <Compile Include="Editor\Renderer\Layouts\StackLayoutRenderer.cs" />
     <Compile Include="Editor\Renderer\Layouts\GridRenderer.cs" />
     <Compile Include="Editor\Renderer\Controls\LabelRenderer.cs" />
     <Compile Include="Editor\Renderer\Controls\BoxViewRenderer.cs" />
     <Compile Include="Editor\Renderer\RendererManager.cs" />
+    <Compile Include="Editor\Renderer\StoryboardRenderer.cs" />
     <Compile Include="MVVM\Commands\ActionCommand.cs" />
     <Compile Include="MVVM\Converter\DoubleToCornerRadiusConverter.cs" />
     <Compile Include="MVVM\Converter\HorizontalToLayoutAlignmentConverter.cs" />
@@ -181,7 +188,6 @@
     <Compile Include="Editor\Renderer\LayerRenderer.cs" />
     <Compile Include="Editor\Renderer\Layouts\ScreenRenderer.cs" />
     <Compile Include="Editor\GroupSelector.cs" />
-    <Compile Include="Editor\Controls\Layer\AttachedAdorner.cs" />
     <Compile Include="MVVM\Converter\BaseValueConverter.cs" />
     <Compile Include="Interop\ExternDll.cs" />
     <Compile Include="Interop\NativeMethods.cs" />

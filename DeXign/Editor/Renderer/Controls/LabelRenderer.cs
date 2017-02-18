@@ -17,7 +17,7 @@ namespace DeXign.Editor.Renderer
 {
     class LabelRenderer : LayerRenderer<PLabel, TextBlock>
     {
-        public LabelRenderer(UIElement adornedElement) : base(adornedElement)
+        public LabelRenderer(TextBlock adornedElement, PLabel model) : base(adornedElement, model)
         {
         }
 

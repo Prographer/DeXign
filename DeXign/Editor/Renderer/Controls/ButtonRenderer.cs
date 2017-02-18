@@ -26,7 +26,7 @@ namespace DeXign.Editor.Renderer
     
     public class ButtonRenderer : LayerRenderer<PButton, RadiusButton>
     {
-        public ButtonRenderer(UIElement adornedElement) : base(adornedElement)
+        public ButtonRenderer(RadiusButton adornedElement, PButton model) : base(adornedElement, model)
         {
         }
 
@@ -38,6 +38,8 @@ namespace DeXign.Editor.Renderer
         protected override void OnElementAttached(RadiusButton element)
         {
             base.OnElementAttached(element);
+
+            SetSize(double.NaN, double.NaN);
 
             // Binding
             BindingEx.SetBinding(

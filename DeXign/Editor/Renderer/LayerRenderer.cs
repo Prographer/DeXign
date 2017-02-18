@@ -3,15 +3,12 @@ using System.Windows;
 using System.Windows.Media;
 
 using DeXign.Editor.Layer;
-using DeXign.Editor.Interfaces;
+using DeXign.Editor;
 using DeXign.Extension;
 using DeXign.Core.Controls;
-using DeXign.Converter;
+using DeXign.Resources;
 
 using WPFExtension;
-using System.Windows.Controls;
-using DeXign.Resources;
-using System.Windows.Data;
 
 namespace DeXign.Editor.Renderer
 {
@@ -35,13 +32,15 @@ namespace DeXign.Editor.Renderer
         public TModel Model { get; set; }
         #endregion
         
-        public LayerRenderer(UIElement adornedElement) : base(adornedElement)
+        public LayerRenderer(TElement adornedElement, TModel model) : base(adornedElement)
         {
-            if (!(adornedElement is TElement))
-                throw new ArgumentException();
-            
-            this.Model = (TModel)AdornedElement.DataContext;
-            this.Element = (TElement)adornedElement;
+            this.Model = model;
+            this.Element = adornedElement;
+        }
+
+        protected override void OnLoaded(FrameworkElement adornedElement)
+        {
+            base.OnLoaded(adornedElement);
 
             // Platform Style
             string styleName = OnLoadPlatformStyleName();
@@ -51,22 +50,14 @@ namespace DeXign.Editor.Renderer
 
             OnElementAttached(this.Element);
         }
-        
-        public LayerRenderer(TElement adornedElement, TModel model) : base(adornedElement)
-        {
-            this.Model = model;
-            this.Element = adornedElement;
-
-            OnElementAttached(this.Element);
-        }
 
         public bool IsContentParent()
         {
             var parent = (FrameworkElement)Element.Parent;
-
+            
             return (parent.DataContext is PPage);
         }
-
+        
         protected virtual string OnLoadPlatformStyleName()
         {
             return null;
@@ -113,8 +104,8 @@ namespace DeXign.Editor.Renderer
                     model, PVisual.MinWidthProperty);
 
                 BindingEx.SetBinding(
-                    visual, FrameworkElement.MinHeightProperty,
-                    model, PVisual.MinHeightProperty);
+                    model, PVisual.MinHeightProperty,
+                    visual, FrameworkElement.MinHeightProperty);
 
                 // Opacity Binding
                 BindingEx.SetBinding(
@@ -166,6 +157,14 @@ namespace DeXign.Editor.Renderer
                     converter: ResourceManager.GetConverter("HorizontalToLayoutAlignment"));
             }
             #endregion
+        }
+
+        public virtual void OnAddedChild(IRenderer child)
+        {
+        }
+
+        public virtual void OnRemovedChild(IRenderer child)
+        {
         }
     }
 }

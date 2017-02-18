@@ -6,6 +6,7 @@ using DeXign.Core.Controls;
 
 using System.Windows;
 using System.Windows.Shapes;
+using System.Windows.Controls;
 
 [assembly: ExportRenderer(typeof(PBoxView), typeof(Rectangle), typeof(BoxViewRenderer))]
 
@@ -13,7 +14,7 @@ namespace DeXign.Editor.Renderer
 {
     class BoxViewRenderer : LayerRenderer<PBoxView, Rectangle>
     {
-        public BoxViewRenderer(UIElement adornedElement) : base(adornedElement)
+        public BoxViewRenderer(Rectangle adornedElement, PBoxView model) : base(adornedElement, model)
         {
         }
 
@@ -26,15 +27,11 @@ namespace DeXign.Editor.Renderer
         {
             base.OnElementAttached(element);
 
-            if (!IsContentParent())
-            {
-                element.Width = 50;
-                element.Height = 50;
-            }
-
             BindingEx.SetBinding(
                 element, Rectangle.FillProperty,
                 Model, PBoxView.FillProperty);
+
+            this.SetSize(40, 40);
         }
     }
 }

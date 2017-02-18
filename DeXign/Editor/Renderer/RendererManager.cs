@@ -6,11 +6,17 @@ using System.Linq;
 using System.Windows;
 using System.Reflection;
 using System.Collections.Generic;
+using DeXign.Editor;
+using System.Windows.Documents;
+using WPFExtension;
 
 namespace DeXign.Editor.Renderer
 {
     public static class RendererManager
     {
+        public static readonly DependencyProperty RendererProperty =
+            DependencyHelper.RegisterAttached<IRenderer>();
+
         public static Assembly Assembly { get; private set; }
 
         public static List<ExportRendererAttribute> Items { get; set; }
@@ -55,11 +61,26 @@ namespace DeXign.Editor.Renderer
 
             var model = (PObject)Activator.CreateInstance(rendererAttr.ModelType);
             var view = (FrameworkElement)Activator.CreateInstance(rendererAttr.ViewType);
-
+            var renderer = (IRenderer)Activator.CreateInstance(rendererAttr.RendererType, view, model);
+            
             view.DataContext = model;
-            AttachedAdorner.SetAdornerType(view, rendererAttr.RendererType);
+            view.AddAdorner((Adorner)renderer);
+            view.SetRenderer(renderer);
+            //AttachedAdorner.SetAdornerType(view, rendererAttr.RendererType);
 
             return view;
         }
+
+        #region [ Extension ]
+        public static void SetRenderer(this DependencyObject element, IRenderer renderer)
+        {
+            element.SetValue(RendererProperty, renderer);
+        }
+
+        public static IRenderer GetRenderer(this DependencyObject element)
+        {
+            return (IRenderer)element.GetValue(RendererProperty);
+        }
+        #endregion
     }
 }

@@ -16,16 +16,17 @@ namespace DeXign.Editor.Renderer
 {
     class ScreenRenderer : LayerRenderer<PContentPage, ContentControl>
     {
-        public ScreenRenderer(UIElement adornedElement) : base(adornedElement)
+        public ScreenRenderer(ContentControl adornedElement, PContentPage model) : base(adornedElement, model)
         {
-            BindingEx.SetBinding(
-                Model, PContentPage.ContentProperty,
-                this, ContentControl.ContentProperty);
         }
 
         protected override void OnElementAttached(ContentControl element)
         {
             base.OnElementAttached(element);
+
+            //BindingEx.SetBinding(
+            //    Model, PContentPage.ContentProperty,
+            //    element, ContentControl.ContentProperty);
         }
 
         protected override void OnDispatchRender(DrawingContext dc)
@@ -73,6 +74,12 @@ namespace DeXign.Editor.Renderer
         protected override string OnLoadPlatformStyleName()
         {
             return Theme.ThemeKeyStore.Screen;
+        }
+
+        public override void OnAddedChild(IRenderer child)
+        {
+            child.Element.VerticalAlignment = VerticalAlignment.Stretch;
+            child.Element.HorizontalAlignment = HorizontalAlignment.Stretch;
         }
     }
 }

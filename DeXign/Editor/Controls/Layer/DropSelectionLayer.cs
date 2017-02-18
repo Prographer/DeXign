@@ -1,6 +1,6 @@
 ﻿using DeXign.Core;
 using DeXign.Core.Designer;
-using DeXign.Editor.Interfaces;
+using DeXign.Editor;
 using System;
 using System.Windows;
 using System.Windows.Media;
@@ -70,7 +70,7 @@ namespace DeXign.Editor.Layer
         public virtual void OnDrop(AttributeTuple<DesignElementAttribute, Type> item)
         {
             OnCreatedChild(
-                Parent.GenerateToElement(this.AdornedElement, item));
+                RootParent.GenerateToElement(this.AdornedElement, item));
         }
 
         public virtual void OnCreatedChild(FrameworkElement child)

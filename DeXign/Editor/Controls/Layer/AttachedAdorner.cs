@@ -6,35 +6,17 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using DeXign.Extension;
 using WPFExtension;
+using System.Collections.Generic;
 
 namespace DeXign.Editor.Layer
 {
     public static class AttachedAdorner
     {
-        #region [ Dependency Property ]
-        private static readonly DependencyProperty AdornerProperty =
-           DependencyHelper.RegisterAttached<Adorner>();
-
-        public static readonly DependencyProperty AdornerTypeProperty =
-           DependencyHelper.RegisterAttached<Type>(
-               new FrameworkPropertyMetadata(default(Type), PropertyChangedCallback));
+        public static readonly DependencyProperty AdornersProperty =
+            DependencyHelper.RegisterAttached<List<Adorner>>();
 
         public static readonly DependencyProperty AdornerIndexProperty =
-           DependencyHelper.RegisterAttached<int>(
-               new FrameworkPropertyMetadata(0, PropertyChangedCallback));
-
-        private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
-        {
-            var frameworkElement = dependencyObject as FrameworkElement;
-            if (frameworkElement != null)
-            {
-                frameworkElement.Loaded += Loaded;
-            }
-            
-            if (dependencyPropertyChangedEventArgs.Property == AdornerIndexProperty)
-                SetLayerZOrder(frameworkElement, (int)dependencyPropertyChangedEventArgs.NewValue);
-        }
-        #endregion
+            DependencyHelper.RegisterAttached<int>();
 
         #region [ Static Local Variable ]
         private static MethodInfo setZOrderMethodInfo;
@@ -48,37 +30,17 @@ namespace DeXign.Editor.Layer
         #endregion
 
         #region [ AdornerLayer ]
-        private static void SetLayerZOrder(FrameworkElement element, int index)
+        private static void SetLayerZOrder(Adorner adorner, int index)
         {
-            var adornerLayer = GetAdornerLayer(element);
-            Adorner adorner = GetAdorner(element);
+            var adornerLayer = GetAdornerLayer((FrameworkElement)adorner.AdornedElement);
 
             if (adornerLayer != null && adorner != null && adornerLayer.Equals(adorner.Parent))
                 setZOrderMethodInfo.Invoke(adornerLayer, new object[] { adorner, index });
         }
 
-        private static void Loaded(object sender, RoutedEventArgs e)
-        {
-            var frameworkElement = sender as FrameworkElement;
-
-            if (frameworkElement != null)
-            {
-                var adorner = GetAdorner(frameworkElement) ?? Activator.CreateInstance(GetAdornerType(frameworkElement), frameworkElement) as Adorner;
-
-                if (adorner != null && adorner.Parent == null)
-                {
-                    var adornerLayer = GetAdornerLayer(frameworkElement);
-                    adornerLayer.Add(adorner);
-
-                    SetAdorner(frameworkElement, adorner);
-                    SetLayerZOrder(frameworkElement, GetAdornerIndex(frameworkElement));
-                }
-            }
-        }
-
         public static AdornerLayer GetAdornerLayer(FrameworkElement element)
         {
-            var decorator = element
+            var decorator = element?
                 .FindLogicalParents<AdornerDecorator>()
                 .FirstOrDefault();
 
@@ -86,35 +48,59 @@ namespace DeXign.Editor.Layer
         }
         #endregion
 
-        #region [ Get/Set Extended Method ]
-        public static void SetAdornerType(DependencyObject element, Type value)
+        #region [ Extension ]
+        private static List<Adorner> GetAdorners(this FrameworkElement element)
         {
-            element.SetValue(AdornerTypeProperty, value);
+            return (List<Adorner>)element.GetValue(AdornersProperty);
         }
 
-        public static Type GetAdornerType(DependencyObject element)
+        public static void SetAdornerIndex(this Adorner adorner, int index)
         {
-            return (Type)element.GetValue(AdornerTypeProperty);
+            var parentLayer = GetAdornerLayer((FrameworkElement)adorner.AdornedElement);
+
+            if (parentLayer != null)
+                SetLayerZOrder(adorner, index);
+
+            adorner.SetValue(AdornerIndexProperty, index);
         }
 
-        public static void SetAdornerIndex(DependencyObject element, int value)
+        public static int GetAdornerIndex(this Adorner adorner)
         {
-            element.SetValue(AdornerIndexProperty, value);
+            return (int)adorner.GetValue(AdornerIndexProperty);
         }
 
-        public static int GetAdornerIndex(DependencyObject element)
+        public static void AddAdorner(this FrameworkElement element, Adorner adorner)
         {
-            return (int)element.GetValue(AdornerIndexProperty);
+            var items = element.GetAdorners();
+
+            if (items == null)
+            {
+                items = new List<Adorner>();
+                element.SetValue(AdornersProperty, items);
+
+                element.Loaded += Element_Loaded;
+            }
+
+            items.Add(adorner);
         }
 
-        public static Adorner GetAdorner(DependencyObject element)
+        private static void Element_Loaded(object sender, RoutedEventArgs e)
         {
-            return (Adorner)element.GetValue(AdornerProperty);
-        }
+            var element = sender as FrameworkElement;
+            var items = element.GetAdorners();
 
-        public static void SetAdorner(DependencyObject element, Adorner adorner)
-        {
-            element.SetValue(AdornerProperty, adorner);
+            element.Loaded -= Element_Loaded;
+
+            if (items == null)
+                return;
+
+            var layer = GetAdornerLayer(element);
+
+            foreach (Adorner item in items)
+            {
+                layer.Add(item);
+                SetLayerZOrder(item, item.GetAdornerIndex());
+            }
         }
         #endregion
     }

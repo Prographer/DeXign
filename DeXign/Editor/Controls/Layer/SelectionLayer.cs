@@ -18,16 +18,13 @@ using DeXign.Windows.Pages;
 using System.Linq;
 using DragHelper;
 using DeXign.Input;
+using DeXign.Editor.Renderer;
 
 namespace DeXign.Editor.Layer
 {
     public partial class SelectionLayer : StoryboardLayer
     {
         #region [ Dependency Property ]
-        public static readonly DependencyProperty IsDraggingProperty =
-            DependencyHelper.Register(
-                new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender));
-
         public static readonly DependencyProperty DisplayMarginProperty =
             DependencyHelper.Register(
                 new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender));
@@ -73,70 +70,99 @@ namespace DeXign.Editor.Layer
         #endregion
 
         #region [ Property ]
-        public bool IsDragging
-        {
-            get { return (bool)GetValue(IsDraggingProperty); }
-            set { SetValue(IsDraggingProperty, value); }
-        }
-
+        /// <summary>
+        /// 렌더러 대상입니다.
+        /// </summary>
         public new FrameworkElement AdornedElement
         {
             get { return (FrameworkElement)base.AdornedElement; }
         }
 
+        /// <summary>
+        /// Margin의 상태를 설정하거나 가져옵니다.
+        /// </summary>
         public bool DisplayMargin
         {
             get { return (bool)GetValue(DisplayMarginProperty); }
             set { SetValue(DisplayMarginProperty, value); }
         }
 
+        /// <summary>
+        /// 윗부분 Width 가이드라인의 상태를 설정하거나 가져옵니다.
+        /// </summary>
         public bool DisplayWidthTop
         {
             get { return (bool)GetValue(DisplayWidthTopProperty); }
             set { SetValue(DisplayWidthTopProperty, value); }
         }
 
+        /// <summary>
+        /// 바닥부분 Width 가이드라인의 상태를 설정하거나 가져옵니다.
+        /// </summary>
         public bool DisplayWidthBottom
         {
             get { return (bool)GetValue(DisplayWidthBottomProperty); }
             set { SetValue(DisplayWidthBottomProperty, value); }
         }
 
+        /// <summary>
+        /// 왼쪽 Height 가이드라인의 상태를 설정하거나 가져옵니다.
+        /// </summary>
         public bool DisplayHeightLeft
         {
             get { return (bool)GetValue(DisplayHeightLeftProperty); }
             set { SetValue(DisplayHeightLeftProperty, value); }
         }
 
+        /// <summary>
+        /// 오른쪽 Height 가이드라인의 상태를 설정하거나 가져옵니다.
+        /// </summary>
         public bool DisplayHeightRight
         {
             get { return (bool)GetValue(DisplayHeightRightProperty); }
             set { SetValue(DisplayHeightRightProperty, value); }
         }
 
+        /// <summary>
+        /// 강조 색상을 설정하거나 가져옵니다.
+        /// </summary>
         public Brush SelectionBrush
         {
             get { return (Brush)GetValue(SelectionBrushProperty); }
             set { SetValue(SelectionBrushProperty, value); }
         }
 
+        /// <summary>
+        /// 렌더러의 프레임 색상을 설정하거나 가져옵니다.
+        /// </summary>
         public Brush FrameBrush
         {
             get { return (Brush)GetValue(FrameBrushProperty); }
             set { SetValue(FrameBrushProperty, value); }
         }
 
+        /// <summary>
+        /// 렌더러의 프레임 두께를 설정하거나 가져옵니다.
+        /// </summary>
         public double FrameThickness
         {
             get { return (double)GetValue(FrameThicknessProperty); }
             set { SetValue(FrameThicknessProperty, value); }
         }
 
+        /// <summary>
+        /// 디자인 모드를 가져오거나 설정할 수 있습니다.
+        /// </summary>
         public DesignMode DesignMode
         {
             get { return (DesignMode)GetValue(DesignModeProperty); }
             set { SetValue(DesignModeProperty, value); }
         }
+
+        /// <summary>
+        /// 부모 레이어 렌더러를 가져옵니다.
+        /// </summary>
+        public new IRenderer Parent { get; private set;}
         #endregion
 
         #region [ Local Variable ]
@@ -156,18 +182,24 @@ namespace DeXign.Editor.Layer
         #region [ Constructor ]
         public SelectionLayer(UIElement adornedElement) : base(adornedElement)
         {
+        }
+
+        protected override void OnLoaded(FrameworkElement adornedElement)
+        {
             if (DesignerProperties.GetIsInDesignMode(this))
                 this.Visibility = Visibility.Collapsed;
 
             InitializeComponents();
             InitializeSelector();
 
+            Parent = AdornedElement.Parent.GetRenderer();
+
             SelectionBrush = ResourceManager.GetBrush("Accent");
             FrameBrush = ResourceManager.GetBrush("Accent");
 
             // 스냅라인 등록
-            Parent.GuideLayer.Add(this);
-            
+            RootParent.GuideLayer.Add(this);
+
             UpdateParentState();
         }
         
@@ -185,8 +217,8 @@ namespace DeXign.Editor.Layer
             AdornedElement.SetDesignMinHeight(5);
 
             var scale = new ScaleTransform(
-                ParentScale.ScaleX,
-                ParentScale.ScaleY);
+                RootScale.ScaleX,
+                RootScale.ScaleY);
 
             #region < Add Move Thumb >
             Add(moveThumb = new MoveThumb(this));
@@ -358,19 +390,19 @@ namespace DeXign.Editor.Layer
 
             // ParentScale X -> scale X
             BindingEx.SetBinding(
-                ParentScale, ScaleTransform.ScaleXProperty,
+                RootScale, ScaleTransform.ScaleXProperty,
                 scale, ScaleTransform.ScaleXProperty,
                 converter: reciprocalConverter);
 
             // ParentScale Y -> scale Y
             BindingEx.SetBinding(
-                ParentScale, ScaleTransform.ScaleYProperty,
+                RootScale, ScaleTransform.ScaleYProperty,
                 scale, ScaleTransform.ScaleYProperty,
                 converter: reciprocalConverter);
 
             // ParentScale X -> frame StrokeThickness
             BindingEx.SetBinding(
-                ParentScale, ScaleTransform.ScaleXProperty,
+                RootScale, ScaleTransform.ScaleXProperty,
                 frame, Shape.StrokeThicknessProperty,
                 converter: reciprocalConverter);
 
@@ -407,7 +439,7 @@ namespace DeXign.Editor.Layer
 
         private void DragEvent()
         {
-            Parent
+            RootParent
                 .FindLogicalParents<StoryboardPage>()
                 .FirstOrDefault()
                 .PresentXamlCode();
@@ -453,7 +485,7 @@ namespace DeXign.Editor.Layer
                 return;
 
             // Keyboard Focus
-            Keyboard.Focus(Parent);
+            Keyboard.Focus(RootParent);
 
             // Design Mode Change
             if (GroupSelector.IsSelected(this))
@@ -545,9 +577,14 @@ namespace DeXign.Editor.Layer
         #region [ Invalidated ]
         private void ClipChanged(object sender, EventArgs e)
         {
+            ApplyClipData();
+        }
+
+        protected void ApplyClipData()
+        {
             var margin = AdornedElement.Margin;
             var parentMargin = GetParentRenderMargin();
-            var renderSize = new Size(ActualWidth, ActualHeight);
+            var renderSize = AdornedElement.RenderSize;
 
             parentMargin.Left *= -1;
             parentMargin.Top *= -1;
@@ -607,9 +644,8 @@ namespace DeXign.Editor.Layer
             }
             #endregion
 
-            AdornedElement.Margin = margin;
-            AdornedElement.Width = renderSize.Width;
-            AdornedElement.Height = renderSize.Height;
+            SetMargin(margin);
+            SetSize(renderSize.Width, renderSize.Height);
 
             this.InvalidateVisual();
         }
@@ -645,11 +681,11 @@ namespace DeXign.Editor.Layer
 
         private void UpdateParentState()
         {
-            DisplayMargin = !(AdornedElement.Parent is Canvas);
+            DisplayMargin = !(this.Parent is IStoryboard);
 
             clipGrid.Visibility = (DisplayMargin && DesignMode == DesignMode.Size).ToVisibility();
 
-            if (AdornedElement.Parent is StackPanel)
+            if (this.Parent is IStackLayout)
             {
                 var stackPanel = (StackPanel)AdornedElement.Parent;
 
@@ -667,6 +703,31 @@ namespace DeXign.Editor.Layer
         {
             ClipData.HorizontalAlignment = AdornedElement.HorizontalAlignment;
             ClipData.VerticalAlignment = AdornedElement.VerticalAlignment;
+        }
+        #endregion
+
+        #region [ Element Dependent ]
+        public void SetSize(double width, double height)
+        {
+            SetWidth(width);
+            SetHeight(height);
+        }
+
+        public void SetMargin(Thickness margin)
+        {
+            AdornedElement.Margin = margin.Clean();
+        }
+
+        public void SetWidth(double width)
+        {
+            if (double.IsNaN(width) || AdornedElement.HorizontalAlignment != HorizontalAlignment.Stretch)
+                AdornedElement.Width = Math.Round(width, 2);
+        }
+
+        public void SetHeight(double height)
+        {
+            if (double.IsNaN(height) || AdornedElement.VerticalAlignment != VerticalAlignment.Stretch)
+                AdornedElement.Height = Math.Round(height, 2);
         }
         #endregion
     }

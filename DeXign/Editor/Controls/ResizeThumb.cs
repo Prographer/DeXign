@@ -52,7 +52,7 @@ namespace DeXign.Editor.Controls
             // Cancel Design Mode
             Layer.CancelNextInvert = true;
 
-            if (Target.Parent is Canvas)
+            if (Layer.Parent is IStoryboard)
             {
                 OnCanvasDragDelta(deltaX, deltaY);
             }
@@ -67,8 +67,8 @@ namespace DeXign.Editor.Controls
             beginSize = new Vector(
                 Target.ActualWidth,
                 Target.ActualHeight);
-
-            if (Target.Parent is Canvas)
+            
+            if (Layer.Parent is IStoryboard)
                 beginPosition = new Vector(
                     Canvas.GetLeft(Target),
                     Canvas.GetTop(Target));
@@ -209,7 +209,7 @@ namespace DeXign.Editor.Controls
                 }
             }
             
-            Target.Margin = margin;
+            Target.Margin = margin.Clean();
         }
 
         protected virtual void OnCanvasDragDelta(double deltaX, double deltaY)
@@ -270,56 +270,46 @@ namespace DeXign.Editor.Controls
 
         private double SizingWidth(double deltaX)
         {
-            return Target.Width = Math.Max(
-                Target.GetDesignMinWidth(), 
+            double width = Math.Max(
+                Target.GetDesignMinWidth(),
                 Target.ActualWidth + deltaX);
+
+            Layer.SetWidth(width);
+
+            return width;
         }
 
         private double SizingHeight(double deltaY)
         {
-            return Target.Height = Math.Max(
-                Target.GetDesignMinHeight(), 
+            double height = Math.Max(
+                Target.GetDesignMinHeight(),
                 Target.ActualHeight + deltaY);
+
+            Layer.SetHeight(height);
+
+            return height;
         }
 
         private double SizingX(double deltaX, bool isCanvas = true)
         {
-            if (isCanvas)
-            {
-                double x;
+            double x;
 
-                Canvas.SetLeft(
-                    Target,
-                    x = Math.Min(Canvas.GetLeft(Target) - deltaX, positionLimit.X));
+            Canvas.SetLeft(
+                Target,
+                x = Math.Min(Canvas.GetLeft(Target) - deltaX, positionLimit.X));
 
-                return x;
-            }
-            else
-            {
-                // TODO: Grid, StackaPanel, ScrollViewer
-            }
-
-            return -1;
+            return x;
         }
 
         private double SizingY(double deltaY, bool isCanvas = true)
         {
-            if (isCanvas)
-            {
-                double x;
+            double x;
 
-                Canvas.SetTop(
-                    Target,
-                    x = Math.Min(Canvas.GetTop(Target) - deltaY, positionLimit.Y));
+            Canvas.SetTop(
+                Target,
+                x = Math.Min(Canvas.GetTop(Target) - deltaY, positionLimit.Y));
 
-                return x;
-            }
-            else
-            {
-                // TODO: Grid, StackaPanel, ScrollViewer
-            }
-
-            return -1;
+            return x;
         }
     }
 }

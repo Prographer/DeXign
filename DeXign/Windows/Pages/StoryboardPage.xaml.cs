@@ -1,5 +1,8 @@
 ﻿using DeXign.Core;
 using DeXign.Core.Controls;
+using DeXign.Core.Designer;
+using DeXign.Editor.Controls;
+using DeXign.Editor.Renderer;
 using DeXign.Extension;
 using DeXign.Models;
 using DeXign.Theme;
@@ -14,7 +17,7 @@ namespace DeXign.Windows.Pages
     public partial class StoryboardPage : Page, IViewModel<StoryboardModel>
     {
         public StoryboardModel Model { get; set; }
-
+        
         public StoryboardPage()
         {
             InitializeComponent();
@@ -25,11 +28,15 @@ namespace DeXign.Windows.Pages
             this.DataContext = Model;
 
             Model.PlatformCommand.OnExecute += PlatformCommand_OnExecute;
-
+            
             // test code
-            screen.DataContext = new PContentPage();
-
             storyboard.ElementChanged += Storyboard_ElementChanged;
+            storyboard.Loaded += Storyboard_Loaded;
+        }
+
+        private void Storyboard_Loaded(object sender, RoutedEventArgs e)
+        {
+            storyboard.AddNewScreen();
         }
 
         private void Storyboard_ElementChanged(object sender, EventArgs e)
@@ -39,6 +46,11 @@ namespace DeXign.Windows.Pages
 
         public void PresentXamlCode()
         {
+            var screen = storyboard.Screens.FirstOrDefault();
+
+            if (screen == null)
+                return;
+
             var content = (PContentPage)screen.DataContext;
             LayoutExtension.SetPageName(content, "MainPage");
 
@@ -47,9 +59,9 @@ namespace DeXign.Windows.Pages
             {
                 NodeIterating = true,
                 Items =
-                    {
-                        content
-                    }
+                {
+                    content
+                }
             };
 
             var assemblyInfo = new CodeGeneratorAssemblyInfo();
