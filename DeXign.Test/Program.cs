@@ -1,12 +1,12 @@
-﻿using System.Windows;
+using System;
+using System.CodeDom;
+using System.Collections;
+using System.Diagnostics;
+using System.Windows;
 
 using DeXign.Core;
-using DeXign.Core.Controls;
-using System.CodeDom;
 using DeXign.Core.Collections;
-using System.Collections;
-using System;
-using System.Diagnostics;
+using DeXign.Core.Controls;
 using DeXign.Core.Designer;
 using DeXign.Extension;
 

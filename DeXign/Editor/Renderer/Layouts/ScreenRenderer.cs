@@ -1,14 +1,14 @@
-﻿using System;
+using System;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Controls;
+using System.Windows.Media;
 
+using DeXign.Core;
+using DeXign.Core.Controls;
+using DeXign.Core.Designer;
 using DeXign.Editor;
 using DeXign.Editor.Renderer;
 using DeXign.Extension;
-using DeXign.Core.Controls;
-using DeXign.Core;
-using DeXign.Core.Designer;
 
 [assembly: ExportRenderer(typeof(PContentPage), typeof(ContentControl), typeof(ScreenRenderer))]
 

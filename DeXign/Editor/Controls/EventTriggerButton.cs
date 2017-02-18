@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+using System.Windows.Controls;
+
 using DeXign.Editor.Layer;
 
 namespace DeXign.Editor.Controls

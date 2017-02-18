@@ -1,3 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography;
+using System.Text;
 // This file contains general utilities to aid in development.
 // Classes here generally shouldn't be exposed publicly since
 // they're not particular to any library functionality.
@@ -5,16 +15,6 @@
 // might be included in multiple assemblies.
 namespace Standard
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-    using System.Runtime.InteropServices;
-    using System.Security.Cryptography;
-    using System.Text;
 
     internal enum SafeCopyFileOptions
     {

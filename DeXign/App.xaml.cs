@@ -1,4 +1,3 @@
-﻿using DeXign.Interop;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -7,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Navigation;
+
+using DeXign.Interop;
 
 namespace DeXign
 {

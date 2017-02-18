@@ -1,4 +1,4 @@
-﻿namespace DeXign.Theme
+namespace DeXign.Theme
 {
     static class ThemeKeyStore
     {

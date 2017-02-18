@@ -1,10 +1,11 @@
-﻿using DeXign.Editor.Layer;
-using DeXign.Editor.Renderer;
-using DeXign.Extension;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+
+using DeXign.Editor.Layer;
+using DeXign.Editor.Renderer;
+using DeXign.Extension;
 
 namespace DeXign.Editor.Controls
 {

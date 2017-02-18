@@ -1,19 +1,18 @@
-﻿namespace Standard
-{
-    using System;
-    using System.ComponentModel;
-    using System.Diagnostics.CodeAnalysis;
-    using System.IO;
-    using System.Runtime.ConstrainedExecution;
-    using System.Runtime.InteropServices;
-    using System.Runtime.InteropServices.ComTypes;
-    using System.Security;
-    using System.Text;
-    using Microsoft.Win32.SafeHandles;
+using System;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Runtime.ConstrainedExecution;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
+using System.Security;
+using System.Text;
 
-    // Some COM interfaces and Win32 structures are already declared in the framework.
-    // Interesting ones to remember in System.Runtime.InteropServices.ComTypes are:
-    using IStream = System.Runtime.InteropServices.ComTypes.IStream;
+using IStream = System.Runtime.InteropServices.ComTypes.IStream;
+
+using Microsoft.Win32.SafeHandles;
+namespace Standard
+{
 
     #region Native Values
 

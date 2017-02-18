@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+
 using WPFExtension;
 
 namespace DeXign.Controls

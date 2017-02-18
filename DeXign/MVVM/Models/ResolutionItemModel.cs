@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Markup;
 
 namespace DeXign.Models

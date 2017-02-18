@@ -1,4 +1,3 @@
-﻿using DeXign.Extension;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+
+using DeXign.Extension;
+
 using WPFExtension;
 
 namespace DeXign.Core.Controls

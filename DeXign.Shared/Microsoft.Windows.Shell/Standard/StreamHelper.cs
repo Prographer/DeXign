@@ -1,3 +1,10 @@
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
+
+using STATSTG = System.Runtime.InteropServices.ComTypes.STATSTG;
 // The ComStream class is used for the contact property types.
 // The types can have unexpected behavior if they're changed by callers,
 // so this provides an immutable stream implementation.
@@ -7,14 +14,6 @@
 
 namespace Standard
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.IO;
-    using System.Runtime.InteropServices;
-    using System.Runtime.InteropServices.ComTypes;
-
-    // disambiguate with System.Runtime.InteropServices.STATSTG
-    using STATSTG = System.Runtime.InteropServices.ComTypes.STATSTG;
 
     // This is adapted from Microsoft KB article 321340
     /// <summary>

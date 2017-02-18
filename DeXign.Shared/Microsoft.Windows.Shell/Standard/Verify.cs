@@ -1,3 +1,9 @@
+using System;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.IO;
+using System.Threading;
 // This file contains general utilities to aid in development.
 // Classes here generally shouldn't be exposed publicly since
 // they're not particular to any library functionality.
@@ -5,12 +11,6 @@
 // might be included in multiple assemblies.
 namespace Standard
 {
-    using System;
-    using System.Diagnostics;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
-    using System.IO;
-    using System.Threading;
 
     /// <summary>
     /// A static class for retail validated assertions.

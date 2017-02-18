@@ -1,4 +1,4 @@
-﻿namespace DeXign.Editor
+namespace DeXign.Editor
 {
     interface IStackLayout
     {

@@ -1,16 +1,17 @@
-﻿/**************************************************************************\
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Windows;
+using System.Windows.Data;
+
+using Standard;
+/**************************************************************************\
     Copyright Microsoft Corporation. All Rights Reserved.
 \**************************************************************************/
 
 namespace Microsoft.Windows.Shell
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Windows;
-    using System.Windows.Data;
-    using Standard;
 
     public enum ResizeGripDirection
     {

@@ -1,12 +1,14 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+
 using DeXign.Extension;
+
 using WPFExtension;
-using System.Collections.Generic;
 
 namespace DeXign.Editor.Layer
 {

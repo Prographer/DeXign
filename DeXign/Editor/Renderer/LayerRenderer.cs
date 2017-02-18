@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Media;
 
-using DeXign.Editor.Layer;
-using DeXign.Editor;
-using DeXign.Extension;
 using DeXign.Core.Controls;
+using DeXign.Editor;
+using DeXign.Editor.Layer;
+using DeXign.Extension;
 using DeXign.Resources;
 
 using WPFExtension;

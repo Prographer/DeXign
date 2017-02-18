@@ -1,12 +1,14 @@
-﻿using System;
+using System;
 using System.Windows;
-using System.Windows.Media;
-using System.Windows.Shell;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using DeXign.Extension;
-using WPFExtension;
+using System.Windows.Media;
+using System.Windows.Shell;
+
 using DeXign.Editor.Layer;
+using DeXign.Extension;
+
+using WPFExtension;
 
 namespace DeXign.Editor.Controls
 {

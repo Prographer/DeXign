@@ -1,22 +1,23 @@
-﻿using System.Linq;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using DeXign.Editor.Layer;
-using DeXign.Extension;
-using DeXign.Core.Designer;
-using DeXign.Core;
-using System;
-using DeXign.Input;
-using DeXign.Editor.Renderer;
-using System.Windows.Markup;
-using System.Collections;
-using DeXign.Core.Controls;
-using DeXign.Editor;
-using System.Reflection;
-using DeXign.Models;
-using System.Collections.Generic;
 using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Markup;
+
+using DeXign.Core;
+using DeXign.Core.Controls;
+using DeXign.Core.Designer;
+using DeXign.Editor;
+using DeXign.Editor.Layer;
+using DeXign.Editor.Renderer;
+using DeXign.Extension;
+using DeXign.Input;
+using DeXign.Models;
 
 namespace DeXign.Editor.Controls
 {

@@ -1,13 +1,14 @@
-﻿using DeXign.Editor.Layer;
-using DeXign.Core.Controls;
-
 using System;
-using System.Linq;
-using System.Windows;
-using System.Reflection;
 using System.Collections.Generic;
-using DeXign.Editor;
+using System.Linq;
+using System.Reflection;
+using System.Windows;
 using System.Windows.Documents;
+
+using DeXign.Core.Controls;
+using DeXign.Editor;
+using DeXign.Editor.Layer;
+
 using WPFExtension;
 
 namespace DeXign.Editor.Renderer

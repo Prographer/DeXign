@@ -1,8 +1,8 @@
-﻿namespace Standard
+using System.Diagnostics.CodeAnalysis;
+using System.Windows;
+using System.Windows.Media;
+namespace Standard
 {
-    using System.Diagnostics.CodeAnalysis;
-    using System.Windows;
-    using System.Windows.Media;
 
     internal static class DpiHelper
     {

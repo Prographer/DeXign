@@ -1,11 +1,12 @@
-﻿
+using System;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Interop;
+
+using Standard;
+
 namespace Microsoft.Windows.Shell
 {
-    using System;
-    using System.Windows;
-    using System.Windows.Input;
-    using System.Windows.Interop;
-    using Standard;
 
     internal static class SystemCommands
     {

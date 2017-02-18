@@ -1,4 +1,4 @@
-﻿namespace DeXign.Converter
+namespace DeXign.Converter
 {
     class ReciprocalConverter : BaseValueConverter<double, double>
     {

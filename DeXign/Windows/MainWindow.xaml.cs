@@ -1,12 +1,12 @@
-﻿using System.Windows;
+using System;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
-using DeXign.Models;
 using DeXign.Controls;
-using DeXign.Resources;
 using DeXign.Core.Designer;
-using System.Windows.Controls;
-using System;
+using DeXign.Models;
+using DeXign.Resources;
 using DeXign.Windows.Pages;
 
 namespace DeXign

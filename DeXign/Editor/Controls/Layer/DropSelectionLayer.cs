@@ -1,9 +1,10 @@
-﻿using DeXign.Core;
-using DeXign.Core.Designer;
-using DeXign.Editor;
 using System;
 using System.Windows;
 using System.Windows.Media;
+
+using DeXign.Core;
+using DeXign.Core.Designer;
+using DeXign.Editor;
 
 namespace DeXign.Editor.Layer
 {

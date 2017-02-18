@@ -1,6 +1,6 @@
-﻿namespace Standard
+using System.Diagnostics.CodeAnalysis;
+namespace Standard
 {
-    using System.Diagnostics.CodeAnalysis;
 
     internal static partial class IID
     {

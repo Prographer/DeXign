@@ -1,5 +1,6 @@
-﻿using DeXign.Interop;
 using System.Windows;
+
+using DeXign.Interop;
 
 namespace DeXign.Input
 {

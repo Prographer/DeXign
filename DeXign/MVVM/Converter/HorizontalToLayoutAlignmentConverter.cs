@@ -1,5 +1,6 @@
-﻿using DeXign.Core;
 using System.Windows;
+
+using DeXign.Core;
 
 namespace DeXign.Converter
 {

@@ -1,7 +1,7 @@
-﻿namespace Standard
+using System;
+using System.Runtime.InteropServices;
+namespace Standard
 {
-    using System;
-    using System.Runtime.InteropServices;
 
     public static class NtDll
     {

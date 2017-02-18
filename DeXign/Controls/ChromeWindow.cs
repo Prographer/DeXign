@@ -1,18 +1,23 @@
-﻿using System;
+using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Controls;
+
+using DeXign.Extension;
+using DeXign.Interop;
+
 using Microsoft.Windows.Shell;
 
-using DeXign.Interop;
-using DeXign.Extension;
-using WPFExtension;
-using WinSystemCommands = System.Windows.SystemCommands;
+using MINMAXINFO = DeXign.Interop.NativeMethods.MINMAXINFO;
 
 using Monitor = DeXign.Interop.NativeMethods.Monitor;
-using MINMAXINFO = DeXign.Interop.NativeMethods.MINMAXINFO;
+
 using MONITORINFO = DeXign.Interop.NativeMethods.MONITORINFO;
+
+using WinSystemCommands = System.Windows.SystemCommands;
+
+using WPFExtension;
 
 namespace DeXign.Controls
 {

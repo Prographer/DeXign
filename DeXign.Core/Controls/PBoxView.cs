@@ -1,5 +1,6 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Media;
+
 using WPFExtension;
 
 namespace DeXign.Core.Controls

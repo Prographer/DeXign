@@ -1,11 +1,11 @@
+using System;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Reflection;
+using System.Runtime.InteropServices;
 namespace Standard
 {
-    using System;
-    using System.ComponentModel;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
-    using System.Reflection;
-    using System.Runtime.InteropServices;
 
     /// <summary>
     /// Wrapper for common Win32 status codes.

@@ -1,4 +1,4 @@
-﻿namespace DeXign.Core
+namespace DeXign.Core
 {
     internal enum LayoutExpandFlag
     {

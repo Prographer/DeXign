@@ -1,4 +1,4 @@
-﻿namespace DeXign.Core.Controls
+namespace DeXign.Core.Controls
 {
     interface IFontControl
     {

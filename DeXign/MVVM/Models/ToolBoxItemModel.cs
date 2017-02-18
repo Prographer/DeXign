@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+
 using DeXign.Core;
 using DeXign.Core.Designer;
 

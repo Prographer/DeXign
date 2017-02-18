@@ -1,12 +1,13 @@
-﻿using DeXign.Core.Controls;
-using DeXign.Core;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Xml;
-using System.Linq;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Xml;
+
+using DeXign.Core;
+using DeXign.Core.Controls;
 using DeXign.Extension;
 
 namespace DeXign.Core

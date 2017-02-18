@@ -1,6 +1,7 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Threading;
+
 using WPFExtension;
 
 namespace DeXign.Core.Designer

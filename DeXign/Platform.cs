@@ -1,4 +1,4 @@
-﻿namespace DeXign
+namespace DeXign
 {
     public enum Platform
     {

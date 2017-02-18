@@ -1,4 +1,4 @@
-﻿namespace DeXign.Interop
+namespace DeXign.Interop
 {
     internal sealed class ExternDll
     {

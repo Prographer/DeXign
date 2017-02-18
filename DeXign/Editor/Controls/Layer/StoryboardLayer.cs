@@ -1,9 +1,10 @@
-﻿using System.Linq;
+using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
+
 using DeXign.Editor.Controls;
 using DeXign.Extension;
-using System;
 
 namespace DeXign.Editor.Layer
 {

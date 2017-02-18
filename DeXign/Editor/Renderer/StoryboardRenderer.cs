@@ -1,6 +1,7 @@
-﻿using System.Windows;
-using DeXign.Editor.Layer;
+using System.Windows;
+
 using DeXign.Core.Controls;
+using DeXign.Editor.Layer;
 
 namespace DeXign.Editor.Renderer
 {

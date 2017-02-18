@@ -1,12 +1,12 @@
-﻿using DeXign.Editor;
-using DeXign.Editor.Renderer;
-using DeXign.Core.Controls;
-
+using System;
 using System.Windows;
 using System.Windows.Controls;
+
 using DeXign.Core;
+using DeXign.Core.Controls;
 using DeXign.Core.Designer;
-using System;
+using DeXign.Editor;
+using DeXign.Editor.Renderer;
 using DeXign.Input;
 
 [assembly: ExportRenderer(typeof(PStackLayout), typeof(StackPanel), typeof(StackLayoutRenderer))]

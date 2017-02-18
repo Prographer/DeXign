@@ -1,7 +1,7 @@
-﻿using DeXign.Core.Controls;
-
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+
+using DeXign.Core.Controls;
 
 namespace DeXign.Core.Collections
 {

@@ -1,6 +1,6 @@
-﻿using System.Windows.Controls;
-using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows.Controls;
 
 namespace DeXign.Core.Collections
 {

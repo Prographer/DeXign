@@ -1,20 +1,20 @@
-﻿using System;
+using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Shell;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.ComponentModel;
+using System.Windows.Shell;
 
 using DeXign.Converter;
+using DeXign.Editor.Controls;
+using DeXign.Editor.Renderer;
 using DeXign.Extension;
 using DeXign.Resources;
 using DeXign.Windows.Pages;
-using DeXign.Editor.Controls;
-using DeXign.Editor.Renderer;
 
 using WPFExtension;
 

@@ -1,13 +1,14 @@
-﻿using DeXign.Core.Controls;
 using System;
-using System.Windows.Controls;
+using System.Collections;
+using System.Collections.Specialized;
 using System.Windows;
+using System.Windows.Controls;
+
+using DeXign.Core;
+using DeXign.Core.Controls;
+using DeXign.Core.Designer;
 using DeXign.Editor;
 using DeXign.Editor.Renderer;
-using DeXign.Core;
-using DeXign.Core.Designer;
-using System.Collections.Specialized;
-using System.Collections;
 using DeXign.Input;
 
 [assembly: ExportRenderer(typeof(PGridLayout), typeof(Grid), typeof(GridRenderer))]

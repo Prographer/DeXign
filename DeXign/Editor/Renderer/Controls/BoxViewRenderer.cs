@@ -1,12 +1,12 @@
-﻿using DeXign.Theme;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Shapes;
+
+using DeXign.Core.Controls;
 using DeXign.Editor;
 using DeXign.Editor.Renderer;
 using DeXign.Extension;
-using DeXign.Core.Controls;
-
-using System.Windows;
-using System.Windows.Shapes;
-using System.Windows.Controls;
+using DeXign.Theme;
 
 [assembly: ExportRenderer(typeof(PBoxView), typeof(Rectangle), typeof(BoxViewRenderer))]
 

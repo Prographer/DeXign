@@ -1,4 +1,4 @@
-﻿using DeXign.Windows.Pages;
+using DeXign.Windows.Pages;
 
 namespace DeXign.Models
 {

@@ -1,7 +1,7 @@
-﻿using System;
+using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
-using System.Globalization;
 
 using DeXign.Resources;
 

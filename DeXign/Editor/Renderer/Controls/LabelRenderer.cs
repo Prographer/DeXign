@@ -1,14 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
+using DeXign.Core.Controls;
 using DeXign.Editor;
 using DeXign.Editor.Renderer;
-using DeXign.Core.Controls;
-using System.Windows;
 using DeXign.Extension;
 
 [assembly: ExportRenderer(typeof(PLabel), typeof(TextBlock), typeof(LabelRenderer))]

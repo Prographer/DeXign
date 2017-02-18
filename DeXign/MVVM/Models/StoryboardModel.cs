@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+
 using DeXign.Commands;
 using DeXign.Windows.Pages;
 

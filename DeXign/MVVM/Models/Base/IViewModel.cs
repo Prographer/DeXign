@@ -1,4 +1,4 @@
-﻿namespace DeXign.Models
+namespace DeXign.Models
 {
     public interface IViewModel<TModel>
         where TModel : IModel

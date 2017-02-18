@@ -1,11 +1,11 @@
-﻿namespace Standard
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Threading;
+namespace Standard
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Runtime.InteropServices;
-    using System.Windows;
-    using System.Windows.Threading;
 
     internal sealed class MessageWindow : DispatcherObject, IDisposable
     {

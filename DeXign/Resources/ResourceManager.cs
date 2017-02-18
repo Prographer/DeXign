@@ -1,9 +1,9 @@
-﻿using System.Windows;
+using System;
+using System.Windows;
+using System.Windows.Data;
 using System.Windows.Media;
 
 using DeXign.Core.Designer;
-using System;
-using System.Windows.Data;
 
 namespace DeXign.Resources
 {

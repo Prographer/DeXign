@@ -1,8 +1,10 @@
-﻿using DeXign.Core.Collections;
-using DeXign.Extension;
 using System;
 using System.Windows;
 using System.Windows.Markup;
+
+using DeXign.Core.Collections;
+using DeXign.Extension;
+
 using WPFExtension;
 
 namespace DeXign.Core.Controls

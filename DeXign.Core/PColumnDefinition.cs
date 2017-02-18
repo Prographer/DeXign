@@ -1,8 +1,10 @@
-﻿using DeXign.Core.Controls;
-using System.Windows;
-using WPFExtension;
-using System.Windows.Controls;
 using System;
+using System.Windows;
+using System.Windows.Controls;
+
+using DeXign.Core.Controls;
+
+using WPFExtension;
 
 namespace DeXign.Core
 {
