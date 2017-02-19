@@ -25,7 +25,7 @@
                 </Grid>
             </ToolTip>
         </d:DesignerResource.ToolTip>
-        <Path Style="{StaticResource ToolBoxItemIconPathStyle}" Data="{StaticResource Path.iOS}"/>
+        <Image Source="Icons/IconGridLayout.png"/>
     </d:DesignerResource>
 
     <d:DesignerResource x:Key="{x:Type c:PScrollView}">
@@ -43,7 +43,7 @@
                 </Grid>
             </ToolTip>
         </d:DesignerResource.ToolTip>
-        <Path Style="{StaticResource ToolBoxItemIconPathStyle}" Data="{StaticResource Path.iOS}"/>
+        <Image Source="Icons/IconScrollViewer.png"/>
     </d:DesignerResource>
 
     <d:DesignerResource x:Key="{x:Type c:PStackLayout}">
@@ -61,37 +61,37 @@
                 </Grid>
             </ToolTip>
         </d:DesignerResource.ToolTip>
-        <Path Style="{StaticResource ToolBoxItemIconPathStyle}" Data="{StaticResource Path.iOS}"/>
+        <Image Source="Icons/IconStackLayout.png"/>
     </d:DesignerResource>
     <!-- #endregion -->
 
     <!-- #region Controls -->
     <d:DesignerResource x:Key="{x:Type c:PLabel}">
-        <Path Style="{StaticResource ToolBoxItemIconPathStyle}" Data="{StaticResource Path.Android}"/>
+        <Image Source="Icons/IconLabel.png"/>
     </d:DesignerResource>
 
     <d:DesignerResource x:Key="{x:Type c:PBoxView}">
-        <Path Style="{StaticResource ToolBoxItemIconPathStyle}" Data="{StaticResource Path.Android}"/>
+        <Image Source="Icons/IconBoxView.png"/>
     </d:DesignerResource>
 
     <d:DesignerResource x:Key="{x:Type c:PButton}">
-        <Path Style="{StaticResource ToolBoxItemIconPathStyle}" Data="{StaticResource Path.Android}"/>
+        <Image Source="Icons/IconButton.png"/>
     </d:DesignerResource>
 
     <d:DesignerResource x:Key="{x:Type c:PImage}">
-        <Path Style="{StaticResource ToolBoxItemIconPathStyle}" Data="{StaticResource Path.Android}"/>
+        <Image Source="Icons/IconImage.png"/>
     </d:DesignerResource>
 
     <d:DesignerResource x:Key="{x:Type c:PProgressBar}">
-        <Path Style="{StaticResource ToolBoxItemIconPathStyle}" Data="{StaticResource Path.Android}"/>
+        <Image Source="Icons/IconProgress.png"/>
     </d:DesignerResource>
 
     <d:DesignerResource x:Key="{x:Type c:PWebView}">
-        <Path Style="{StaticResource ToolBoxItemIconPathStyle}" Data="{StaticResource Path.Android}"/>
+        <Image Source="Icons/IconWebView.png"/>
     </d:DesignerResource>
 
     <d:DesignerResource x:Key="{x:Type c:PSlider}">
-        <Path Style="{StaticResource ToolBoxItemIconPathStyle}" Data="{StaticResource Path.Android}"/>
+        <Image Source="Icons/IconSlider.png"/>
     </d:DesignerResource>
     <!-- #endregion -->
     

@@ -272,6 +272,22 @@
     <Resource Include="Resources\Images\ScrollViewTooltip.png" />
     <Resource Include="Resources\Images\StackLayoutTooltip.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\IconGridLayout.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\IconStackLayout.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\IconBoxView.png" />
+    <Resource Include="Resources\Icons\IconButton.png" />
+    <Resource Include="Resources\Icons\IconImage.png" />
+    <Resource Include="Resources\Icons\IconLabel.png" />
+    <Resource Include="Resources\Icons\IconProgress.png" />
+    <Resource Include="Resources\Icons\IconScrollViewer.png" />
+    <Resource Include="Resources\Icons\IconSlider.png" />
+    <Resource Include="Resources\Icons\IconWebView.png" />
+  </ItemGroup>
   <Import Project="..\DeXign.Shared\DeXign.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
