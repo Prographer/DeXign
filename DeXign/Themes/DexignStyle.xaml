@@ -11,10 +11,11 @@
     <!-- #region Expander Style -->
     <Style x:Key="ExpanderDownHeaderStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Height" Value="36"/>
+        <Setter Property="Padding" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Border Padding="{TemplateBinding Padding}" BorderBrush="#D7D7D7" BorderThickness="0,1,0,0">
+                    <Border Padding="{TemplateBinding Padding}" BorderBrush="#D7D7D7" BorderThickness="0,0,0,1">
                         <Grid SnapsToDevicePixels="False">
                             <Grid.Background>
                                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
@@ -35,15 +36,6 @@
                         <Trigger Property="IsChecked" Value="true">
                             <Setter Property="Data" TargetName="arrow" Value="{StaticResource Path.TriangleDown}"/>
                         </Trigger>
-                        <Trigger Property="IsMouseOver" Value="true">
-
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="true">
-
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="false">
-
-                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -62,7 +54,6 @@
                     <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
                         <DockPanel>
                             <ToggleButton x:Name="HeaderSite" ContentTemplate="{TemplateBinding HeaderTemplate}" ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" Content="{TemplateBinding Header}" DockPanel.Dock="Top" Foreground="{TemplateBinding Foreground}" FontWeight="{TemplateBinding FontWeight}" FocusVisualStyle="{x:Null}" FontStyle="{TemplateBinding FontStyle}" FontStretch="{TemplateBinding FontStretch}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" MinWidth="0" MinHeight="0" Padding="{TemplateBinding Padding}" Style="{StaticResource ExpanderDownHeaderStyle}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                            <c:Separator LineBrush1="#DDDDDD" LineBrush2="#D8D8D8" DockPanel.Dock="Top" Height="2"/>
                             <ContentPresenter x:Name="ExpandSite" DockPanel.Dock="Bottom" Focusable="false" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" Visibility="Collapsed" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </DockPanel>
                     </Border>
@@ -319,62 +310,65 @@
     <!-- #endregion -->
 
     <!-- #region PropertyGrid Style -->
-    <Style x:Key="DeXignPropertyGridItemStyle" TargetType="{x:Type ListViewItem}">
+    <Style TargetType="{x:Type ListViewItem}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{StaticResource Brush.ToolBox.Item.Border}"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListViewItem}">
-                    <Grid Background="Chocolate">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="2.5*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Grid.Column="0" Text="{Binding Title}" HorizontalAlignment="Left" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" FontSize="12"/>
-                        <ContentPresenter Grid.Column="1" Content="{Binding Content}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <!-- Selection Deactivated -->
-                        <Trigger Property="IsSelected" Value="true">
-                            <Setter Property="Background" Value="#11000000" />
-                        </Trigger>
-
-                        <!-- Selection Activated -->
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsSelected" Value="true" />
-                                <Condition Property="Selector.IsSelectionActive" Value="true" />
-                            </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{StaticResource Brush.Accent}" />
-                        </MultiTrigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
     </Style>
-    
+
     <Style TargetType="{x:Type c:PropertyGrid}">
-        <Setter Property="ItemContainerStyle" Value="{StaticResource DeXignPropertyGridItemStyle}"/>
-        <Setter Property="Template">
+        <Setter Property="Background" Value="#BBBBBB"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="ItemContainerStyle">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type c:PropertyGrid}">
-                    <ScrollViewer Focusable="False" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" ex:ScrollViewerEx.SmoothScrollEnabled="True">
-                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                    </ScrollViewer>
-                    <ControlTemplate.Triggers>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsGrouping" Value="True"/>
-                                <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="False"/>
-                            </MultiTrigger.Conditions>
-                            <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
-                        </MultiTrigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                <Border Padding="8" BorderThickness="0,0,0,1" BorderBrush="#D2D2D2">
+                                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <GridViewRowPresenter 
+                                            Columns="{TemplateBinding GridView.ColumnCollection}" 
+                                            Content="{TemplateBinding Content}" 
+                                            Grid.RowSpan="2" 
+                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                    </Grid>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="View">
+            <Setter.Value>
+                <GridView x:Name="gridView">
+                    <GridView.ColumnHeaderContainerStyle>
+                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Style>
+                    </GridView.ColumnHeaderContainerStyle>
+
+                    <c:StarGridViewColumn StarWidth="1">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Title}" ToolTip="{Binding Title}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Stretch" VerticalAlignment="Top" FontSize="12" Foreground="#747474"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </c:StarGridViewColumn>
+                    <c:StarGridViewColumn StarWidth="1.7">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ContentPresenter Content="{Binding Setter}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,8,0"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </c:StarGridViewColumn>
+                </GridView>
             </Setter.Value>
         </Setter>
     </Style>
+    <!-- #endregion -->
 
     <!-- #region ToolBox Style -->
     <Style TargetType="{x:Type c:ToolBoxItemView}">
@@ -422,8 +416,8 @@
     </ItemsPanelTemplate>
     
     <Style TargetType="{x:Type c:ToolBox}">
-        <Setter Property="Background" Value="#DFDFDF"/>
-        <!--<Setter Property="ItemContainerStyle" Value="{StaticResource DeXignToolBoxItemStyle}"/>-->
+        <Setter Property="Background" Value="#BBBBBB"/>
+        <Setter Property="SelectionMode" Value="Single"/>
         <Setter Property="ItemsPanel" Value="{StaticResource DeXignToolBoxItemsPanelTemplate}"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -576,6 +570,21 @@
     <!-- #endregion -->
     
     <!-- #region Controls Style -->
+    <Style TargetType="{x:Type c:LabelEx}">
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type c:LabelEx}">
+                    <Grid>
+                        <TextBlock Text="{TemplateBinding Content}" TextTrimming="CharacterEllipsis"
+                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <Style TargetType="{x:Type c:LinkTextBlock}">
         <Setter Property="Cursor" Value="Hand"/>
         <Style.Triggers>
@@ -743,7 +752,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Expander IsExpanded="True">
+                    <Expander IsExpanded="True" Background="#E6E6E6">
                         <Expander.Header>
                             <TextBlock Text="{Binding Name}" Foreground="#595959" FontSize="12" VerticalAlignment="Center" />
                         </Expander.Header>

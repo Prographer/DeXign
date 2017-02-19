@@ -10,6 +10,14 @@ namespace DeXign.Extension
         public static TAttribute GetAttribute<TAttribute>(this object obj)
              where TAttribute : Attribute
         {
+            if (obj.GetType().IsEnum)
+            {
+                FieldInfo fi = obj.GetType().GetField(obj.ToString());
+                var attr = fi.GetCustomAttribute<TAttribute>();
+
+                return attr;
+            }
+
             return obj.GetType().GetAttribute<TAttribute>();
         }
 

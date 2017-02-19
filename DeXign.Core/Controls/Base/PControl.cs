@@ -11,11 +11,11 @@ namespace DeXign.Core.Controls
     {
         public static readonly DependencyProperty VerticalAlignmentProperty =
             DependencyHelper.Register(
-                new PropertyMetadata(LayoutAlignment.Fill));
+                new PropertyMetadata(PVerticalAlignment.Stretch));
 
         public static readonly DependencyProperty HorizontalAlignmentProperty =
             DependencyHelper.Register(
-                new PropertyMetadata(LayoutAlignment.Fill));
+                new PropertyMetadata(PHorizontalAlignment.Stretch));
 
         public static readonly DependencyProperty MarginProperty =
             DependencyHelper.Register();
@@ -30,17 +30,17 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Layout, DisplayName = "세로 정렬")]
         [XForms("VerticalOptions")]
-        public LayoutAlignment VerticalAlignment
+        public PVerticalAlignment VerticalAlignment
         {
-            get { return GetValue<LayoutAlignment>(VerticalAlignmentProperty); }
+            get { return GetValue<PVerticalAlignment>(VerticalAlignmentProperty); }
             set { SetValue(VerticalAlignmentProperty, value); }
         }
 
         [DesignElement(Category = Constants.Property.Layout, DisplayName = "가로 정렬")]
         [XForms("HorizontalOptions")]
-        public LayoutAlignment HorizontalAlignment
+        public PHorizontalAlignment HorizontalAlignment
         {
-            get { return GetValue<LayoutAlignment>(HorizontalAlignmentProperty); }
+            get { return GetValue<PHorizontalAlignment>(HorizontalAlignmentProperty); }
             set { SetValue(HorizontalAlignmentProperty, value); }
         }
     }

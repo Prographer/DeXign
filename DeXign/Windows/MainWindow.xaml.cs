@@ -8,6 +8,9 @@ using DeXign.Core.Designer;
 using DeXign.Models;
 using DeXign.Resources;
 using DeXign.Windows.Pages;
+using DeXign.Editor;
+using System.Linq;
+using DeXign.Core.Controls;
 
 namespace DeXign
 {
@@ -23,6 +26,17 @@ namespace DeXign
 
             Model = new MainModel();
             this.DataContext = Model;
+            
+            // test
+            GroupSelector.SelectedItemChanged += GroupSelector_SelectedItemChanged;
+        }
+
+        private void GroupSelector_SelectedItemChanged(object sender, EventArgs e)
+        {
+            propertyGrid.SelectedObjects = GroupSelector.GetSelectedItems()
+                .Cast<IRenderer>()
+                .Select(r => (object)r.Model)
+                .ToArray();
         }
 
         private void InitializeLayouts()
@@ -79,7 +93,7 @@ namespace DeXign
                 });
         }
 
-        private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void tabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             var item = (ClosableTabItem)tabControl.SelectedItem;
             var itemModel = (StoryboardModel)item?.Tag;

@@ -14,6 +14,10 @@ namespace DeXign.Editor
 
     public static class GroupSelector
     {
+        #region [ Global Event ]
+        public static event EventHandler SelectedItemChanged;
+        #endregion
+
         #region [ Routed Event ]
         public delegate void SelectorEventHandler(object sender, SelectionChangedEventArgs e);
 
@@ -50,8 +54,11 @@ namespace DeXign.Editor
                     UnselectAll(group);
 
                 groups[group].Add(obj);
+
                 obj.RaiseEvent(new SelectionChangedEventArgs(SelectedEvent));
             }
+
+            SelectedItemChanged?.Invoke(null, null);
         }
 
         public static void UnselectAll(string group = "default", params FrameworkElement[] ignorElements)

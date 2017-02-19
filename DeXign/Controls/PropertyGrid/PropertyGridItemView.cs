@@ -10,9 +10,9 @@ namespace DeXign.Controls
 
         public string Category => Model.Category;
         
-        public PropertyGridItemView(PropertyGridItemView item)
+        public PropertyGridItemView(PropertyGridItemModel model)
         {
-            this.DataContext = item;
+            this.DataContext = model;
         }
     }
 }

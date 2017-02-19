@@ -74,12 +74,12 @@ namespace DeXign.Test
                         (lbl1 = new PLabel
                         {
                             Name = "lbl1",
-                            HorizontalTextAlignment = TextAlignment.Center,
+                            HorizontalTextAlignment = PHorizontalTextAlignment.Center,
                             Text = "Hello World"
                         }),
                         (lbl2 = new PLabel
                         {
-                            HorizontalTextAlignment = TextAlignment.Center,
+                            HorizontalTextAlignment = PHorizontalTextAlignment.Center,
                             Text = "Welcome to DeXign!",
                             Rotation = 2
                         })
@@ -143,12 +143,12 @@ namespace DeXign.Test
                         new PLabel
                         {
                             Name = "lbl1",
-                            HorizontalTextAlignment = TextAlignment.Center,
+                            HorizontalTextAlignment = PHorizontalTextAlignment.Center,
                             Text = "Hello World"
                         },
                         new PLabel
                         {
-                            HorizontalTextAlignment = TextAlignment.Center,
+                            HorizontalTextAlignment = PHorizontalTextAlignment.Center,
                             Text = "Welcome to DeXign!",
                             Rotation = 2
                         }

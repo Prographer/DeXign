@@ -9,6 +9,8 @@ using DeXign.Extension;
 using DeXign.Resources;
 
 using WPFExtension;
+using DeXign.Converter;
+using DeXign.Core;
 
 namespace DeXign.Editor.Renderer
 {
@@ -16,6 +18,9 @@ namespace DeXign.Editor.Renderer
         where TModel : PObject
         where TElement : FrameworkElement
     {
+        static EnumToEnumConverter<HorizontalAlignment, PHorizontalAlignment> hConverter;
+        static EnumToEnumConverter<VerticalAlignment, PVerticalAlignment> vConverter;
+
         #region [ IRenderer Interface ]
         FrameworkElement IRenderer.Element => Element;
 
@@ -32,6 +37,12 @@ namespace DeXign.Editor.Renderer
         public TModel Model { get; set; }
         #endregion
         
+        static LayerRenderer()
+        {
+            hConverter = new EnumToEnumConverter<HorizontalAlignment, PHorizontalAlignment>();
+            vConverter = new EnumToEnumConverter<VerticalAlignment, PVerticalAlignment>();
+        }
+
         public LayerRenderer(TElement adornedElement, TModel model) : base(adornedElement)
         {
             this.Model = model;
@@ -149,12 +160,12 @@ namespace DeXign.Editor.Renderer
                 BindingEx.SetBinding(
                     visual, FrameworkElement.VerticalAlignmentProperty,
                     model, PControl.VerticalAlignmentProperty,
-                    converter: ResourceManager.GetConverter("VerticalToLayoutAlignment"));
+                    converter: vConverter);
 
                 BindingEx.SetBinding(
                     visual, FrameworkElement.HorizontalAlignmentProperty,
                     model, PControl.HorizontalAlignmentProperty,
-                    converter: ResourceManager.GetConverter("HorizontalToLayoutAlignment"));
+                    converter: hConverter);
             }
             #endregion
         }

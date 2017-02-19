@@ -63,7 +63,7 @@ namespace DeXign.Editor.Renderer
             var model = (PObject)Activator.CreateInstance(rendererAttr.ModelType);
             var view = (FrameworkElement)Activator.CreateInstance(rendererAttr.ViewType);
             var renderer = (IRenderer)Activator.CreateInstance(rendererAttr.RendererType, view, model);
-            
+
             view.DataContext = model;
             view.AddAdorner((Adorner)renderer);
             view.SetRenderer(renderer);

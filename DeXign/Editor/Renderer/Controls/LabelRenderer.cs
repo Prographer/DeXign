@@ -10,18 +10,30 @@ using DeXign.Core.Controls;
 using DeXign.Editor;
 using DeXign.Editor.Renderer;
 using DeXign.Extension;
+using DeXign.Controls;
+using DeXign.Core;
+using DeXign.Converter;
 
-[assembly: ExportRenderer(typeof(PLabel), typeof(TextBlock), typeof(LabelRenderer))]
+[assembly: ExportRenderer(typeof(PLabel), typeof(LabelEx), typeof(LabelRenderer))]
 
 namespace DeXign.Editor.Renderer
 {
-    class LabelRenderer : LayerRenderer<PLabel, TextBlock>
+    class LabelRenderer : LayerRenderer<PLabel, LabelEx>
     {
-        public LabelRenderer(TextBlock adornedElement, PLabel model) : base(adornedElement, model)
+        static EnumToEnumConverter<PHorizontalTextAlignment, HorizontalAlignment> hConverter;
+        static EnumToEnumConverter<PVerticalTextAlignment, VerticalAlignment> vConverter;
+
+        static LabelRenderer()
+        {
+            hConverter = new EnumToEnumConverter<PHorizontalTextAlignment, HorizontalAlignment>();
+            vConverter = new EnumToEnumConverter<PVerticalTextAlignment, VerticalAlignment>();
+        }
+
+        public LabelRenderer(LabelEx adornedElement, PLabel model) : base(adornedElement, model)
         {
         }
 
-        protected override void OnElementAttached(TextBlock element)
+        protected override void OnElementAttached(LabelEx element)
         {
             base.OnElementAttached(element);
 
@@ -29,7 +41,17 @@ namespace DeXign.Editor.Renderer
 
             BindingEx.SetBinding(
                 Model, PLabel.TextProperty,
-                element, TextBlock.TextProperty);
+                element, LabelEx.ContentProperty);
+
+            BindingEx.SetBinding(
+                Model, PLabel.HorizontalTextAlignmentProperty,
+                element, LabelEx.HorizontalContentAlignmentProperty,
+                converter: hConverter);
+
+            BindingEx.SetBinding(
+                Model, PLabel.VerticalTextAlignmentProperty,
+                element, LabelEx.VerticalContentAlignmentProperty,
+                converter: vConverter);
 
             Model.Text = "텍스트";
         }

@@ -39,7 +39,7 @@ namespace DeXign.Controls
             if (Command != null)
             {
                 var command = (RoutedCommand)Command;
-
+                
                 if (command != null)
                     command.Execute(CommandParameter, CommandTarget);
                 else

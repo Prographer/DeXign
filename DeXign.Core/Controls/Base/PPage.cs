@@ -15,7 +15,7 @@ namespace DeXign.Core.Controls
     [XForms("Xamarin.Forms", "Page")]
     public class PPage : PVisual
     {
-        private static readonly DependencyProperty TitleProperty =
+        public static readonly DependencyProperty TitleProperty =
             DependencyHelper.Register();
 
         public static readonly DependencyProperty PaddingProperty =
@@ -23,7 +23,11 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Layout, DisplayName = "제목")]
         [XForms("Title")]
-        public string Title { get; set; }
+        public string Title
+        {
+            get { return GetValue<string>(TitleProperty); }
+            set { SetValue(TitleProperty, value); }
+        }
 
         [DesignElement(Category = Constants.Property.Blank, DisplayName = "안쪽 여백")]
         [XForms("Padding")]

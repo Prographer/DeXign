@@ -215,7 +215,7 @@ namespace DeXign.Core
             if (value.HasAttribute<XFormsAttribute>())
             {
                 var attr = value.GetAttribute<XFormsAttribute>();
-
+                
                 return value.ToString();
             }
 

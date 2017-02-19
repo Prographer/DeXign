@@ -2,9 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:cvt="clr-namespace:DeXign.Converter">
 
-    <cvt:HorizontalToLayoutAlignmentConverter x:Key="Converter.HorizontalToLayoutAlignment"/>
-    <cvt:VerticalToLayoutAlignmentConverter x:Key="Converter.VerticalToLayoutAlignment"/>
     <cvt:DoubleToCornerRadiusConverter x:Key="Converter.DoubleToCornerRadius"/>
     <cvt:NullObjectToVisibilityConverter x:Key="Converter.NullObjectToVisibility"/>
     <cvt:RadiusConverter x:Key="Converter.Radius"/>
+    <cvt:GridViewColumnStarConverter x:Key="Converter.GridViewColumnStar"/>
 </ResourceDictionary>

@@ -16,9 +16,9 @@ namespace DeXign.Controls
 
         private Point beginPosition;
 
-        public ToolBoxItemView(ToolBoxItemModel item)
+        public ToolBoxItemView(ToolBoxItemModel model)
         {
-            this.DataContext = item;
+            this.DataContext = model;
         }
         
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

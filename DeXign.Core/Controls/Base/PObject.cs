@@ -12,7 +12,7 @@ namespace DeXign.Core.Controls
         // for resources
         public string Id { get; set; }
 
-        [DesignElement(DisplayName = "이름")]
+        [DesignElement(DisplayName = "이름", Visible = false)]
         public string Name
         {
             get { return GetValue<string>(NameProperty); }

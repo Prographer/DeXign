@@ -69,8 +69,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\LabelEx.cs" />
     <Compile Include="Controls\LinkTextBlock.cs" />
+    <Compile Include="Controls\PropertyGrid\Setters\BaseSetter.cs" />
+    <Compile Include="Controls\PropertyGrid\Setters\Components\DoubleSetter.cs" />
+    <Compile Include="Controls\PropertyGrid\Setters\Components\EnumSetter.cs" />
+    <Compile Include="Controls\PropertyGrid\Setters\Components\StringSetter.cs" />
+    <Compile Include="Controls\PropertyGrid\Setters\Components\ValueBoxSetter.cs" />
+    <Compile Include="Controls\PropertyGrid\Setters\SetterAttribute.cs" />
+    <Compile Include="Controls\PropertyGrid\Setters\SetterManager.cs" />
     <Compile Include="Controls\RectangleEx.cs" />
+    <Compile Include="Controls\StarGridViewColumn.cs" />
     <Compile Include="Editor\Controls\Layer\AttachedAdorner.cs" />
     <Compile Include="Editor\Controls\Layer\DropSelectionLayer.cs" />
     <Compile Include="Editor\Controls\MoveThumb.cs" />
@@ -88,8 +97,8 @@
     <Compile Include="Editor\Renderer\StoryboardRenderer.cs" />
     <Compile Include="MVVM\Commands\ActionCommand.cs" />
     <Compile Include="MVVM\Converter\DoubleToCornerRadiusConverter.cs" />
-    <Compile Include="MVVM\Converter\HorizontalToLayoutAlignmentConverter.cs" />
-    <Compile Include="MVVM\Converter\VerticalToLayoutAlignmentConverter.cs" />
+    <Compile Include="MVVM\Converter\EnumToEnumConvereter.cs" />
+    <Compile Include="MVVM\Converter\GridViewColumnStarConverter.cs" />
     <Compile Include="MVVM\Converter\NullObjectToVisibilityConverter.cs" />
     <Compile Include="MVVM\Models\Base\BaseNotifyModel.cs" />
     <Compile Include="MVVM\Models\Base\IModel.cs" />

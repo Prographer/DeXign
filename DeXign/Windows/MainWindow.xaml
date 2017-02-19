@@ -82,9 +82,9 @@
     <Grid Background="{StaticResource Brush.ContentBackground}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="210"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="2"/>
             <ColumnDefinition MinWidth="128"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="2"/>
             <ColumnDefinition Width="210"/>
         </Grid.ColumnDefinitions>
 
@@ -111,7 +111,11 @@
         <GridSplitter Grid.Column="3" Background="#C0C0C0" Width="2" HorizontalAlignment="Center"/>
 
         <c:HeaderLayout Grid.Column="4" Header="속성" Style="{StaticResource DeXignHeaderLayoutStyle}">
-            <c:PropertyGrid Visibility="{Binding StoryboardPage, Converter={StaticResource Converter.NullObjectToVisibility}}"/>
+            <DockPanel Visibility="{Binding StoryboardPage, Converter={StaticResource Converter.NullObjectToVisibility}}">
+                <c:HintTextBox x:Name="propertyGridSearchBar" DockPanel.Dock="Top" Style="{DynamicResource SearchBarStyle}" TextHint="속성 검색"/>
+                <c:PropertyGrid x:Name="propertyGrid" Visibility="{Binding StoryboardPage, Converter={StaticResource Converter.NullObjectToVisibility}}"
+                                FilterKeyword="{Binding Text, ElementName=propertyGridSearchBar, UpdateSourceTrigger=PropertyChanged}"/>
+            </DockPanel>
         </c:HeaderLayout>
     </Grid>
 </c:ChromeWindow>

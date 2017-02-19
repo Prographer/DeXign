@@ -15,13 +15,13 @@ namespace DeXign.Core.Controls
             DependencyHelper.Register();
 
         public static readonly DependencyProperty VerticalTextAlignmentProperty =
-            DependencyHelper.Register();
+            DependencyHelper.Register(new PropertyMetadata(PVerticalTextAlignment.Top));
 
         public static readonly DependencyProperty HorizontalTextAlignmentProperty =
-            DependencyHelper.Register();
+            DependencyHelper.Register(new PropertyMetadata(PHorizontalTextAlignment.Left));
 
         public static readonly DependencyProperty FontAttributesProperty = 
-            DependencyHelper.Register(new PropertyMetadata(FontAttributes.None));
+            DependencyHelper.Register(new PropertyMetadata(PFontAttributes.None));
 
         public static readonly DependencyProperty FontFamilyProperty =
             DependencyHelper.Register();
@@ -42,17 +42,17 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Layout, DisplayName = "텍스트 세로 정렬")]
         [XForms("VerticalTextAlignment")]
-        public TextAlignment VerticalTextAlignment
+        public PVerticalTextAlignment VerticalTextAlignment
         {
-            get { return GetValue<TextAlignment>(VerticalTextAlignmentProperty); }
+            get { return GetValue<PVerticalTextAlignment>(VerticalTextAlignmentProperty); }
             set { SetValue(VerticalTextAlignmentProperty, value); }
         }
 
         [DesignElement(Category = Constants.Property.Layout, DisplayName = "텍스트 가로 정렬")]
         [XForms("HorizontalTextAlignment")]
-        public TextAlignment HorizontalTextAlignment
+        public PHorizontalTextAlignment HorizontalTextAlignment
         {
-            get { return GetValue<TextAlignment>(HorizontalTextAlignmentProperty); }
+            get { return GetValue<PHorizontalTextAlignment>(HorizontalTextAlignmentProperty); }
             set { SetValue(HorizontalTextAlignmentProperty, value); }
         }
 
@@ -82,9 +82,9 @@ namespace DeXign.Core.Controls
 
         // TODO: Need binding converter (PFontAttributes -> FontWeights or FontStyles)
         [XForms("FontAttributes")]
-        public FontAttributes FontAttributes
+        public PFontAttributes FontAttributes
         {
-            get { return GetValue<FontAttributes>(FontAttributesProperty); }
+            get { return GetValue<PFontAttributes>(FontAttributesProperty); }
             set { SetValue(FontAttributesProperty, value); }
         }
 

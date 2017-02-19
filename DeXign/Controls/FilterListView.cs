@@ -16,7 +16,7 @@ namespace DeXign.Controls
 
         public static readonly DependencyProperty FilterKeywordProperty =
             DependencyHelper.Register(
-                new FrameworkPropertyMetadata(FilterKeywordChanged));
+                new FrameworkPropertyMetadata("", FilterKeywordChanged));
 
         private static void FilterKeywordChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -60,19 +60,19 @@ namespace DeXign.Controls
 
         public void AddGroupProperty(string propertyName)
         {
-            collectionView.GroupDescriptions?.Add(
+            collectionView?.GroupDescriptions?.Add(
                 new PropertyGroupDescription(propertyName));
         }
 
         public void RemoveGroupProperty(string propertyName)
         {
-            collectionView.GroupDescriptions?.Remove(
+            collectionView?.GroupDescriptions?.Remove(
                 new PropertyGroupDescription(propertyName));
         }
 
         public void Filter()
         {
-            collectionView.Refresh();
+            collectionView?.Refresh();
         }
 
         internal void InitializeGrouping()
