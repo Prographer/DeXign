@@ -4,11 +4,16 @@ using System.Windows.Data;
 using System.Windows.Media;
 
 using DeXign.Core.Designer;
+using System.Windows.Media.Imaging;
+using System.Collections.Generic;
 
 namespace DeXign.Resources
 {
     public static class ResourceManager
     {
+        private static Dictionary<string, BitmapImage> imageCache =
+            new Dictionary<string, BitmapImage>();
+
         public static StreamGeometry GetPath(string pathName, ResourceDictionary resources = null)
         {
             return GetResource<StreamGeometry>($"Path.{pathName}", resources);
@@ -47,6 +52,16 @@ namespace DeXign.Resources
         public static DesignerResource GetDesignerResource(string name, ResourceDictionary resources = null)
         {
             return GetResource<DesignerResource>(name, resources);
+        }
+
+        public static BitmapImage GetImageSource(string name)
+        {
+            string path = $"pack://application:,,,/DeXign;component/Resources/{name}";
+
+            if (!imageCache.ContainsKey(path))
+                imageCache[path] = new BitmapImage(new Uri(path));
+
+            return imageCache[path];
         }
 
         public static T GetResource<T>(object name, ResourceDictionary resources = null)

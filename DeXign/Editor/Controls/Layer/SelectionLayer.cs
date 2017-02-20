@@ -183,7 +183,13 @@ namespace DeXign.Editor.Layer
 
             // 디자인 모드 변경 이벤트 등록
             DesignModeProperty.AddValueChanged(this, DesignMode_Changed);
-            
+
+            // Element - VerticalAlignment
+            VerticalAlignmentProperty.AddValueChanged(AdornedElement, AlignmentChanged);
+
+            // Element - HorizontalAlignment
+            HorizontalAlignmentProperty.AddValueChanged(AdornedElement, AlignmentChanged);
+
             InitializeComponents();
             InitializeSelector();
 
@@ -196,6 +202,11 @@ namespace DeXign.Editor.Layer
             RootParent.GuideLayer.Add(this);
 
             UpdateParentState();
+        }
+
+        private void AlignmentChanged(object sender, EventArgs e)
+        {
+            UpdateMarginClips();
         }
 
         protected override void OnDisposed()
@@ -427,8 +438,6 @@ namespace DeXign.Editor.Layer
             
             foreach (ResizeThumb thumb in resizeGrid.Children)
             {
-                thumb.DragDelta += (s, e) => DragEvent();
-
                 // SelectionBrush -> thumb Stroke
                 BindingEx.SetBinding(
                     this, SelectionBrushProperty,
@@ -444,14 +453,6 @@ namespace DeXign.Editor.Layer
             foreach (MarginClip clip in clipGrid.Children)
                 ToggleButton.IsCheckedProperty.AddValueChanged(clip, ClipChanged);
             #endregion
-        }
-
-        private void DragEvent()
-        {
-            RootParent
-                .FindLogicalParents<StoryboardPage>()
-                .FirstOrDefault()
-                .PresentXamlCode();
         }
         #endregion
 

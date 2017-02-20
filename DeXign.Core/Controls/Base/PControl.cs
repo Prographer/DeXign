@@ -28,7 +28,7 @@ namespace DeXign.Core.Controls
             set { SetValue(MarginProperty, value); }
         }
 
-        [DesignElement(Category = Constants.Property.Layout, DisplayName = "세로 정렬")]
+        [DesignElement(Category = Constants.Property.Layout, DisplayName = "세로 정렬", IsNotEnum = true)]
         [XForms("VerticalOptions")]
         public PVerticalAlignment VerticalAlignment
         {
@@ -36,7 +36,7 @@ namespace DeXign.Core.Controls
             set { SetValue(VerticalAlignmentProperty, value); }
         }
 
-        [DesignElement(Category = Constants.Property.Layout, DisplayName = "가로 정렬")]
+        [DesignElement(Category = Constants.Property.Layout, DisplayName = "가로 정렬", IsNotEnum = true)]
         [XForms("HorizontalOptions")]
         public PHorizontalAlignment HorizontalAlignment
         {

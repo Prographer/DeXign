@@ -31,7 +31,6 @@ namespace DeXign.Windows.Pages
             Model.PlatformCommand.OnExecute += PlatformCommand_OnExecute;
             
             // test code
-            storyboard.ElementChanged += Storyboard_ElementChanged;
             storyboard.Loaded += Storyboard_Loaded;
         }
 
@@ -39,45 +38,7 @@ namespace DeXign.Windows.Pages
         {
             storyboard.AddNewScreen();
         }
-
-        private void Storyboard_ElementChanged(object sender, EventArgs e)
-        {
-            PresentXamlCode();
-        }
-
-        public void PresentXamlCode()
-        {
-            var screen = storyboard.Screens.FirstOrDefault();
-
-            if (screen == null)
-                return;
-
-            var content = (PContentPage)screen.DataContext;
-            LayoutExtension.SetPageName(content, "MainPage");
-
-            // Generate
-            var codeUnit = new CodeGeneratorUnit<PObject>()
-            {
-                NodeIterating = true,
-                Items =
-                {
-                    content
-                }
-            };
-
-            var assemblyInfo = new CodeGeneratorAssemblyInfo();
-            var manifest = new CodeGeneratorManifest();
-
-            var xGenerator = new XFormsGenerator(
-                XFormsGenerateType.Xaml,
-                codeUnit,
-                manifest,
-                assemblyInfo);
-
-            string[] codes = xGenerator.Generate().ToArray();
-            code.Text = codes[0];
-        }
-
+        
         private void PlatformCommand_OnExecute(object sender, object e)
         {
             SetTheme(((string)e).ToEnum<Platform>().Value);

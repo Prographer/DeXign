@@ -611,7 +611,52 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
+
+    <Style x:Key="EnumRadioButtonStyle" TargetType="{x:Type RadioButton}">
+        <Setter Property="Margin" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Border ClipToBounds="True" Background="Transparent">
+                        <Grid Margin="{TemplateBinding Margin}">
+                            <Rectangle x:Name="rect" Stroke="{StaticResource Brush.Accent}" StrokeThickness="0" Margin="-1"/>
+
+                            <Border>
+                                <ContentPresenter Content="{TemplateBinding Content}"/>
+                            </Border>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation To="2" Duration="0:0:0.3" Storyboard.TargetName="rect" Storyboard.TargetProperty="StrokeThickness">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CircleEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation To="0" Duration="0:0:0.3" Storyboard.TargetName="rect" Storyboard.TargetProperty="StrokeThickness">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CircleEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="PathRadioButtonStyle" TargetType="{x:Type RadioButton}">
         <Setter Property="Template">
             <Setter.Value>

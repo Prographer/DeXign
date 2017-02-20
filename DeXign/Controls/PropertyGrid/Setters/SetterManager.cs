@@ -26,12 +26,14 @@ namespace DeXign.Controls
         public static ISetter CreateSetter(DependencyObject target, PropertyInfo pi)
         {
             Type type = pi.PropertyType;
-            
-            if (type.IsEnum)
-                type = typeof(Enum);
 
             if (!setterTypes.ContainsKey(type))
-                return null;
+            {
+                if (type.IsEnum)
+                    type = typeof(Enum);
+                else
+                    return null;
+            }
 
             return (ISetter)Activator.CreateInstance(
                 setterTypes[type],

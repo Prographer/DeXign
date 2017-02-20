@@ -69,11 +69,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\EnumRadioBox.cs" />
     <Compile Include="Controls\LabelEx.cs" />
     <Compile Include="Controls\LinkTextBlock.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\BaseSetter.cs" />
+    <Compile Include="Controls\PropertyGrid\Setters\Components\TextAlignmentSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\DoubleSetter.cs" />
+    <Compile Include="Controls\PropertyGrid\Setters\Components\EnumRadioSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\EnumSetter.cs" />
+    <Compile Include="Controls\PropertyGrid\Setters\Components\AlignmentSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\StringSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\ValueBoxSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\SetterAttribute.cs" />
@@ -98,8 +102,10 @@
     <Compile Include="MVVM\Commands\ActionCommand.cs" />
     <Compile Include="MVVM\Converter\DoubleToCornerRadiusConverter.cs" />
     <Compile Include="MVVM\Converter\EnumToEnumConvereter.cs" />
+    <Compile Include="MVVM\Converter\EqualConverter.cs" />
     <Compile Include="MVVM\Converter\GridViewColumnStarConverter.cs" />
     <Compile Include="MVVM\Converter\NullObjectToVisibilityConverter.cs" />
+    <Compile Include="MVVM\Converter\EnumToStringConverter.cs" />
     <Compile Include="MVVM\Models\Base\BaseNotifyModel.cs" />
     <Compile Include="MVVM\Models\Base\IModel.cs" />
     <Compile Include="MVVM\Models\Base\IViewModel.cs" />
@@ -287,6 +293,24 @@
     <Resource Include="Resources\Icons\IconScrollViewer.png" />
     <Resource Include="Resources\Icons\IconSlider.png" />
     <Resource Include="Resources\Icons\IconWebView.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\IconHorizontalCenter.png" />
+    <Resource Include="Resources\Icons\IconHorizontalStretch.png" />
+    <Resource Include="Resources\Icons\IconVerticalCenter.png" />
+    <Resource Include="Resources\Icons\IconVerticalStretch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\IconVerticalBottom.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\IconVerticalTop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\IconHorizontalLeft.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\IconHorizontalRight.png" />
   </ItemGroup>
   <Import Project="..\DeXign.Shared\DeXign.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
