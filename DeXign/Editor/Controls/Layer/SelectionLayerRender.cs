@@ -27,6 +27,12 @@ namespace DeXign.Editor.Layer
             double virtualWidth = ClipData.LeftClip.RenderSize.Height / ScaleX;
             double virtualHeight = ClipData.LeftClip.RenderSize.Height / ScaleX;
 
+            if (virtualWidth == 0)
+                virtualWidth = ClipData.TopClip.RenderSize.Width / ScaleX;
+
+            if (virtualHeight == 0)
+                virtualHeight = ClipData.TopClip.RenderSize.Height / ScaleX;
+
             ClipData.LeftClip.Arrange(
                 new Rect(
                     parentRect.X - virtualWidth / 2, 0,

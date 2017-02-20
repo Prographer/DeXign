@@ -704,13 +704,14 @@ namespace DeXign.Editor.Layer
             {
                 var stackPanel = (StackPanel)AdornedElement.Parent;
 
-                // Horizontal
+                // Stack Vertical
+                ClipData.LeftVisible = (stackPanel.Orientation == Orientation.Vertical);
+                ClipData.RightVisible = (stackPanel.Orientation == Orientation.Vertical);
+
+                // Stack Horizontal
                 ClipData.TopVisible = (stackPanel.Orientation == Orientation.Horizontal);
                 ClipData.BottomVisible = (stackPanel.Orientation == Orientation.Horizontal);
 
-                // Vertical
-                ClipData.LeftVisible = (stackPanel.Orientation == Orientation.Vertical);
-                ClipData.RightVisible = (stackPanel.Orientation == Orientation.Vertical);
             }
         }
 
