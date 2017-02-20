@@ -2,13 +2,13 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:c="clr-namespace:DeXign.Controls"
-                    xmlns:core="clr-namespace:DeXign.Core;assembly=DeXign.Core">
+                    xmlns:core="clr-namespace:DeXign.Core;assembly=DeXign.Core"
+                    xmlns:rule="clr-namespace:DeXign.Rules">
     
     <Style x:Key="EnumIconStyle" TargetType="{x:Type Image}">
         <Setter Property="Width" Value="24"/>
         <Setter Property="Height" Value="20"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="CacheMode" Value="BitmapCache"/>
     </Style>
     
     <Style x:Key="ValueBoxSetterStyle" TargetType="{x:Type c:ValueBoxSetter}">
@@ -123,4 +123,70 @@
     
     <Style TargetType="{x:Type c:StringSetter}" BasedOn="{StaticResource ValueBoxSetterStyle}"/>
     <Style TargetType="{x:Type c:DoubleSetter}" BasedOn="{StaticResource ValueBoxSetterStyle}"/>
+
+    <Style TargetType="{x:Type c:ThicknessSetter}">
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type c:ThicknessSetter}">
+                    <ControlTemplate.Resources>
+                        <Style TargetType="{x:Type TextBox}">
+                            <Setter Property="MinWidth" Value="25"/>
+                            <Setter Property="BorderBrush" Value="#747474"/>
+                            <Setter Property="MaxWidth" Value="35"/>
+                            <Setter Property="FontSize" Value="10"/>
+                            <Setter Property="Margin" Value="2"/>
+                            <Setter Property="TextAlignment" Value="Center"/>
+                        </Style>
+                    </ControlTemplate.Resources>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="40"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+
+                        <Image x:Name="background" Grid.RowSpan="3" Grid.ColumnSpan="3" Source="pack://application:,,,/DeXign;component/Resources/Images/MarginBackground.png" Stretch="Fill" Width="110" Height="110"/>
+
+                        <TextBox x:Name="PART_leftValueBox" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox x:Name="PART_rightValueBox" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox x:Name="PART_topValueBox" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox x:Name="PART_bottomValueBox" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMargin" Value="False">
+                            <Setter TargetName="background" Property="Source" Value="pack://application:,,,/DeXign;component/Resources/Images/PaddingBackground.png"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type c:OpacitySetter}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type c:OpacitySetter}">
+                    <Grid>
+                        <TextBox Width="40" HorizontalAlignment="Left" BorderThickness="0" Background="Transparent">
+                            <TextBox.Text>
+                                <Binding Path="Value" ElementName="PART_slider" Converter="{StaticResource Converter.Percentage}" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <rule:PercentageRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <Slider x:Name="PART_slider" Minimum="0" Maximum="1" Margin="35,0,15,0"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

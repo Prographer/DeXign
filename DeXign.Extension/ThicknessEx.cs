@@ -5,7 +5,7 @@ namespace DeXign.Extension
 {
     public static class ThicknessEx
     {
-        public static Thickness Clean(this Thickness thickness, int decimalLength = 2)
+        public static Thickness Clean(this Thickness thickness, int decimalLength = 0)
         {
             thickness.Left = Math.Round(thickness.Left, decimalLength);
             thickness.Right = Math.Round(thickness.Right, decimalLength);

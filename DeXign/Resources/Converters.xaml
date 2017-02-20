@@ -6,4 +6,5 @@
     <cvt:NullObjectToVisibilityConverter x:Key="Converter.NullObjectToVisibility"/>
     <cvt:RadiusConverter x:Key="Converter.Radius"/>
     <cvt:GridViewColumnStarConverter x:Key="Converter.GridViewColumnStar"/>
+    <cvt:PercentageConverter x:Key="Converter.Percentage"/>
 </ResourceDictionary>

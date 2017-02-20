@@ -73,6 +73,8 @@
     <Compile Include="Controls\LabelEx.cs" />
     <Compile Include="Controls\LinkTextBlock.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\BaseSetter.cs" />
+    <Compile Include="Controls\PropertyGrid\Setters\Components\OpacitySetter.cs" />
+    <Compile Include="Controls\PropertyGrid\Setters\Components\ThicknessSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\TextAlignmentSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\DoubleSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\EnumRadioSetter.cs" />
@@ -106,15 +108,18 @@
     <Compile Include="MVVM\Converter\GridViewColumnStarConverter.cs" />
     <Compile Include="MVVM\Converter\NullObjectToVisibilityConverter.cs" />
     <Compile Include="MVVM\Converter\EnumToStringConverter.cs" />
+    <Compile Include="MVVM\Converter\PercentageConverter.cs" />
     <Compile Include="MVVM\Models\Base\BaseNotifyModel.cs" />
     <Compile Include="MVVM\Models\Base\IModel.cs" />
     <Compile Include="MVVM\Models\Base\IViewModel.cs" />
     <Compile Include="MVVM\Models\MainModel.cs" />
     <Compile Include="MVVM\Models\PropertyGridItemModel.cs" />
     <Compile Include="MVVM\Models\StoryboardModel.cs" />
+    <Compile Include="MVVM\Rules\PercentageRule.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="Input\Mouse.cs" />
     <Compile Include="Themes\ThemeManager.cs" />
+    <Compile Include="ElementThicknessBinder.cs" />
     <Compile Include="Windows\Pages\WelcomePage.xaml.cs">
       <DependentUpon>WelcomePage.xaml</DependentUpon>
     </Compile>
@@ -311,6 +316,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons\IconHorizontalRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\MarginBackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\PaddingBackground.png" />
   </ItemGroup>
   <Import Project="..\DeXign.Shared\DeXign.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.ComponentModel;
@@ -10,8 +11,6 @@ using DeXign.Core.Designer;
 using WPFExtension;
 
 using Moda.KString;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace DeXign.Controls
 {
@@ -46,7 +45,12 @@ namespace DeXign.Controls
                 
                 foreach (var prop in DesignerManager.GetProperties(presentedObject.GetType()))
                 {
-                    ISetter setter = SetterManager.CreateSetter(presentedObject, prop.Element);
+                    ISetter setter;
+
+                    if (string.IsNullOrEmpty(prop.Attribute.Key))
+                        setter = SetterManager.CreateSetter(presentedObject, prop.Element);
+                    else
+                        setter = SetterManager.CreateSetter(presentedObject, prop.Element, prop.Attribute.Key);
                     
                     if (setter == null)
                         continue;

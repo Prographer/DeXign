@@ -4,6 +4,8 @@ namespace DeXign.Core
 {
     public class DesignElementAttribute : Attribute
     {
+        public string Key { get; set; }
+
         public bool Visible { get; set; } = true;
 
         public string DisplayName { get; set; }
