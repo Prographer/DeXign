@@ -7,16 +7,15 @@ using DeXign.Core.Controls;
 using DeXign.Core.Designer;
 using DeXign.Editor;
 using DeXign.Editor.Renderer;
-using DeXign.Input;
 using DeXign.Extension;
 using DeXign.Converter;
-using WPFExtension;
+using DeXign.Controls;
 
-[assembly: ExportRenderer(typeof(PStackLayout), typeof(StackPanel), typeof(StackLayoutRenderer))]
+[assembly: ExportRenderer(typeof(PStackLayout), typeof(SpacingStackPanel), typeof(StackLayoutRenderer))]
 
 namespace DeXign.Editor.Renderer
 {
-    class StackLayoutRenderer : LayerRenderer<PStackLayout, StackPanel>, IStackLayout
+    class StackLayoutRenderer : LayerRenderer<PStackLayout, SpacingStackPanel>, IStackLayout
     {
         static EnumToEnumConverter<Orientation, POrientation> orientationConverter;
 
@@ -25,7 +24,7 @@ namespace DeXign.Editor.Renderer
             orientationConverter = new EnumToEnumConverter<Orientation, POrientation>();
         }
 
-        public StackLayoutRenderer(StackPanel adornedElement, PStackLayout model) : base(adornedElement, model)
+        public StackLayoutRenderer(SpacingStackPanel adornedElement, PStackLayout model) : base(adornedElement, model)
         {
         }
 
@@ -34,7 +33,7 @@ namespace DeXign.Editor.Renderer
             return item != null;
         }
 
-        protected override void OnElementAttached(StackPanel element)
+        protected override void OnElementAttached(SpacingStackPanel element)
         {
             base.OnElementAttached(element);
 
@@ -43,12 +42,16 @@ namespace DeXign.Editor.Renderer
                 Model, PStackLayout.OrientationProperty,
                 converter: orientationConverter);
 
+            BindingEx.SetBinding(
+                element, SpacingStackPanel.SpacingProperty,
+                Model, PStackLayout.SpacingProperty);
+
             SetSize(100, 100);
         }
         
         public override void OnAddedChild(IRenderer child)
         {
-            if (Element.Orientation == Orientation.Vertical)
+            if (Element.IsVertical)
             {
                 child.Element.Width = double.NaN;
                 child.Element.HorizontalAlignment = HorizontalAlignment.Stretch;

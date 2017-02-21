@@ -14,12 +14,28 @@ namespace DeXign.Core.Controls
             DependencyHelper.Register(
                 new PropertyMetadata(POrientation.Vertical));
 
+        public static readonly DependencyProperty SpacingProperty =
+            DependencyHelper.Register(
+                new PropertyMetadata(6d));
+
         [DesignElement(Category = Constants.Property.Design, DisplayName = "쌓기 방향")]
         [XForms("Orientation")]
         public POrientation Orientation
         {
             get { return GetValue<POrientation>(OrientationProperty); }
             set { SetValue(OrientationProperty, value); }
+        }
+
+        [DesignElement(Category = Constants.Property.Blank, DisplayName = "아이템 사이 공백")]
+        [XForms("Spacing")]
+        public double Spacing
+        {
+            get { return GetValue<double>(SpacingProperty); }
+            set { SetValue(SpacingProperty, value); }
+        }
+
+        public PStackLayout()
+        {
         }
     }
 }
