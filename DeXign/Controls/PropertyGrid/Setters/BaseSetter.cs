@@ -84,6 +84,8 @@ namespace DeXign.Controls
         {
             if (!isDisposed)
             {
+                isDisposed = true;
+
                 OnDispose();
 
                 Target = null;

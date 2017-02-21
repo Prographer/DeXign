@@ -395,7 +395,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListViewItem}">
-                    <Border Background="{TemplateBinding Background}" Width="70" Height="88" ToolTip="{Binding ToolTip}" ToolTipService.InitialShowDelay="1000">
+                    <Border Background="{TemplateBinding Background}" Width="70" Height="88" ToolTip="{Binding ToolTip}" ToolTipService.InitialShowDelay="800">
                         <Grid VerticalAlignment="Center">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="32"/>
