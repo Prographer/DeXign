@@ -101,14 +101,11 @@
 
         <TabControl x:Name="tabControl" Grid.Column="2" SelectionChanged="tabControl_SelectionChanged">
             <c:ClosableTabItem Header="Welcome">
-                <c:SpacingStackPanel>
-                    <Button Content="asdasd"/>
-                </c:SpacingStackPanel>
-                <!--<Frame>
+                <Frame>
                     <Frame.Content>
                         <p:WelcomePage/>
                     </Frame.Content>
-                </Frame>-->
+                </Frame>
             </c:ClosableTabItem>
         </TabControl>
 
