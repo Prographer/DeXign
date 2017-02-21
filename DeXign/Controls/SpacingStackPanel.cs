@@ -10,7 +10,15 @@ namespace DeXign.Controls
     {
         public static readonly DependencyProperty SpacingProperty =
             DependencyHelper.Register(
-                new PropertyMetadata(10d));
+                new FrameworkPropertyMetadata(
+                    10d,
+                    FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender));
+
+        public static readonly DependencyProperty PaddingProperty =
+            DependencyHelper.Register(
+                new FrameworkPropertyMetadata(
+                    new Thickness(),
+                     FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender));
 
         public double Spacing
         {
@@ -18,27 +26,34 @@ namespace DeXign.Controls
             set { SetValue(SpacingProperty, value); }
         }
 
+        public Thickness Padding
+        {
+            get { return (Thickness)GetValue(PaddingProperty); }
+            set { SetValue(PaddingProperty, value); }
+        }
+
         internal bool IsVertical
         {
             get { return Orientation == Orientation.Vertical; }
         }
-
-        public SpacingStackPanel()
+        
+        private Size CollapseThickness(Thickness thickness)
         {
-            SpacingProperty.AddValueChanged(this, Spacing_Changed);
-        }
-
-        private void Spacing_Changed(object sender, EventArgs e)
-        {
-            this.InvalidateMeasure();
-            this.InvalidateArrange();
+            return new Size(
+                thickness.Left + thickness.Right, 
+                thickness.Top + thickness.Bottom);
         }
 
         protected override Size MeasureOverride(Size constraint)
         {
             Size stackDesiredSize = new Size();
             Size layoutSlotSize = constraint;
-                        
+
+            Size padding = CollapseThickness(this.Padding);
+
+            constraint.Width = Math.Max(0, constraint.Width - padding.Width);
+            constraint.Height = Math.Max(0, constraint.Height - padding.Height);
+
             if (IsVertical)
             {
                 layoutSlotSize.Height = double.PositiveInfinity;
@@ -60,7 +75,7 @@ namespace DeXign.Controls
 
                 if (child == null)
                     continue;
-
+                
                 child.Measure(layoutSlotSize);
                 Size childDesiredSize = child.DesiredSize;
 
@@ -68,7 +83,7 @@ namespace DeXign.Controls
                 {
                     stackDesiredSize.Width = Math.Max(stackDesiredSize.Width, childDesiredSize.Width);
                     stackDesiredSize.Height += childDesiredSize.Height + Spacing;
-
+                    
                     if (i == this.Children.Count - 1)
                         stackDesiredSize.Height -= Spacing;
                 }
@@ -76,20 +91,28 @@ namespace DeXign.Controls
                 {
                     stackDesiredSize.Width += childDesiredSize.Width + Spacing;
                     stackDesiredSize.Height = Math.Max(stackDesiredSize.Height, childDesiredSize.Height);
-
+                    
                     if (i == this.Children.Count - 1)
                         stackDesiredSize.Width -= Spacing;
                 }
             }
+
+            stackDesiredSize.Width += padding.Width;
+            stackDesiredSize.Height += padding.Height;
 
             return stackDesiredSize;
         }
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            var rcChild = new Rect(arrangeSize);
+            var rcChild = new Rect(
+                new Point(this.Padding.Left, this.Padding.Top),
+                arrangeSize);
+
             double previousChildSize = 0.0;
-            
+
+            Size padding = CollapseThickness(this.Padding);
+
             for (int i = 0, count = this.Children.Count; i < count; ++i)
             {
                 UIElement child = this.Children[i];
@@ -105,7 +128,7 @@ namespace DeXign.Controls
                     previousChildSize = child.DesiredSize.Height;
 
                     rcChild.Height = previousChildSize;
-                    rcChild.Width = Math.Max(arrangeSize.Width, child.DesiredSize.Width);
+                    rcChild.Width = Math.Max(Math.Max(arrangeSize.Width, child.DesiredSize.Width) - padding.Width, 0);
                 }
                 else
                 {
@@ -113,7 +136,7 @@ namespace DeXign.Controls
                     previousChildSize = child.DesiredSize.Width;
 
                     rcChild.Width = previousChildSize;
-                    rcChild.Height = Math.Max(arrangeSize.Height, child.DesiredSize.Height);
+                    rcChild.Height = Math.Max(Math.Max(arrangeSize.Height, child.DesiredSize.Height) - padding.Height, 0);
                 }
 
                 child.Arrange(rcChild);

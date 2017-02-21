@@ -44,5 +44,43 @@ namespace DeXign.Extension
 
             return result;
         }
+
+        public static Binding TryBinding(
+            DependencyObject source, string path,
+            DependencyObject target, DependencyProperty targetProperty,
+            BindingMode mode = BindingMode.TwoWay,
+            IValueConverter converter = null)
+        {
+            var sourceProperty = source.FindDependencyProperty(path);
+
+            if (sourceProperty != null)
+            {
+                return BindingEx.SetBinding(
+                    source, sourceProperty,
+                    target, targetProperty,
+                    mode, converter);
+            }
+
+            return null;
+        }
+
+        public static Binding TryBinding(
+            DependencyObject source, DependencyProperty sourceProperty,
+            DependencyObject target, string path,
+            BindingMode mode = BindingMode.TwoWay,
+            IValueConverter converter = null)
+        {
+            var targetProperty = target.FindDependencyProperty(path);
+
+            if (targetProperty != null)
+            {
+                return BindingEx.SetBinding(
+                    source, sourceProperty,
+                    target, targetProperty,
+                    mode, converter);
+            }
+
+            return null;
+        }
     }
 }

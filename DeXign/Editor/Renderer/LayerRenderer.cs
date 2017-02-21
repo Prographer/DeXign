@@ -11,6 +11,7 @@ using DeXign.Resources;
 using WPFExtension;
 using DeXign.Converter;
 using DeXign.Core;
+using System.Windows.Controls;
 
 namespace DeXign.Editor.Renderer
 {
@@ -93,12 +94,9 @@ namespace DeXign.Editor.Renderer
                     });
 
                 // Background Binding
-                var backgroundProperty = visual.FindDependencyProperty("Background");
-
-                if (backgroundProperty != null)
-                    BindingEx.SetBinding(
-                        visual, backgroundProperty,
-                        model, PVisual.BackgroundProperty);
+                BindingEx.TryBinding(
+                    visual, "Background",
+                    model, PVisual.BackgroundProperty);
 
                 // Size Binding
                 BindingEx.SetBinding(
@@ -166,6 +164,17 @@ namespace DeXign.Editor.Renderer
                     visual, FrameworkElement.HorizontalAlignmentProperty,
                     model, PControl.HorizontalAlignmentProperty,
                     converter: hConverter);
+            }
+            #endregion
+
+            #region < PLayout >
+            if (Model is PLayout)
+            {
+                var model = Model as PLayout;
+
+                BindingEx.TryBinding(
+                    model, PLayout.PaddingProperty,
+                    visual, "Padding");
             }
             #endregion
         }
