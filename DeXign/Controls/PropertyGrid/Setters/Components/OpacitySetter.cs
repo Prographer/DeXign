@@ -25,5 +25,10 @@ namespace DeXign.Controls
                 this, ValueProperty,
                 slider, Slider.ValueProperty);
         }
+
+        protected override void OnDispose()
+        {
+            slider = null;
+        }
     }
 }

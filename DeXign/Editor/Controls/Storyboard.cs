@@ -16,8 +16,6 @@ using DeXign.Editor;
 using DeXign.Editor.Layer;
 using DeXign.Editor.Renderer;
 using DeXign.Extension;
-using DeXign.Input;
-using DeXign.Models;
 
 namespace DeXign.Editor.Controls
 {
@@ -107,6 +105,8 @@ namespace DeXign.Editor.Controls
             {
                 foreach (var layer in layers)
                 {
+                    GroupSelector.Select(layer, false);
+
                     RemoveElement(
                         (FrameworkElement)layer.AdornedElement.Parent, 
                         layer.AdornedElement);

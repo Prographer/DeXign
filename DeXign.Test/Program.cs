@@ -43,8 +43,8 @@ namespace DeXign.Test
                 Title = "DeXign",
                 Content = (grid = new PGridLayout
                 {
-                    VerticalAlignment = LayoutAlignment.FillAndExpand,
-                    HorizontalAlignment = LayoutAlignment.FillAndExpand,
+                    VerticalAlignment = PVerticalAlignment.Stretch,
+                    HorizontalAlignment = PHorizontalAlignment.Stretch,
 
                     ColumnDefinitions =
                     {
@@ -136,8 +136,8 @@ namespace DeXign.Test
                 Title = "DeXign",
                 Content = (stack = new PStackLayout
                 {
-                    VerticalAlignment = LayoutAlignment.Center,
-                    HorizontalAlignment = LayoutAlignment.End,
+                    VerticalAlignment = PVerticalAlignment.Center,
+                    HorizontalAlignment = PHorizontalAlignment.Right,
                     Children =
                     {
                         new PLabel

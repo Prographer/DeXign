@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -9,7 +10,7 @@ using WPFExtension;
 
 namespace DeXign.Controls
 {
-    class FilterListView : ListView
+    class FilterListView : ListView, IEnumerable<object>
     {
         private ObservableCollection<object> items;
         private CollectionView collectionView;
@@ -84,6 +85,16 @@ namespace DeXign.Controls
         protected virtual bool OnFilter(object item)
         {
             return true;
+        }
+
+        public IEnumerator<object> GetEnumerator()
+        {
+            return items.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return items.GetEnumerator();
         }
     }
 }

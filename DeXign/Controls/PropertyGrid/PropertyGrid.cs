@@ -36,6 +36,10 @@ namespace DeXign.Controls
 
         private void SelectedObjects_Changed(object sender, EventArgs e)
         {
+            foreach (PropertyGridItemModel item in this)
+                if (item.Setter is IDisposable)
+                    (item.Setter as IDisposable).Dispose();
+
             this.Clear();
 
             if (SelectedObjects != null && SelectedObjects.Length > 0 &&

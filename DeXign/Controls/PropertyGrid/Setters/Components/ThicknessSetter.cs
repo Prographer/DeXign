@@ -76,5 +76,13 @@ namespace DeXign.Controls
                 .UpdateSource();
             }
         }
+
+        protected override void OnDispose()
+        {
+            leftValueBox = null;
+            topValueBox = null;
+            rightValueBox = null;
+            bottomValueBox = null;
+        }
     }
 }

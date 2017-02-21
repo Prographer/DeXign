@@ -48,5 +48,13 @@ namespace DeXign.Controls
             if (Value != v)
                 Value = v;
         }
+
+        protected override void OnDispose()
+        {
+            valueComboBox.SelectionChanged -= ValueComboBox_SelectionChanged;
+            ValueProperty.RemoveValueChanged(this, ValueChanged);
+
+            valueComboBox = null;
+        }
     }
 }

@@ -1,8 +1,10 @@
-﻿using DeXign.Extension;
-using System;
+﻿using System;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+
+using DeXign.Extension;
+
 using WPFExtension;
 
 namespace DeXign.Controls
@@ -13,7 +15,7 @@ namespace DeXign.Controls
         void SetTargetValue(object value);
     }
 
-    public class BaseSetter : Control, ISetter
+    public class BaseSetter : Control, ISetter, IDisposable
     {
         public static readonly DependencyProperty ValueProperty =
             DependencyHelper.Register();
@@ -31,11 +33,13 @@ namespace DeXign.Controls
             }
         }
 
-        public DependencyObject Target { get; }
+        public DependencyObject Target { get; private set; }
 
-        public PropertyInfo TargetProperty { get; }
+        public PropertyInfo TargetProperty { get; private set; }
 
-        public DependencyProperty TargetDependencyProperty { get; }
+        public DependencyProperty TargetDependencyProperty { get; private set; }
+
+        bool isDisposed = false;
 
         public BaseSetter(DependencyObject target, PropertyInfo pi)
         {
@@ -74,6 +78,22 @@ namespace DeXign.Controls
             where T : DependencyObject
         {
             return (T)GetTemplateChild(name);
+        }
+
+        public void Dispose()
+        {
+            if (!isDisposed)
+            {
+                OnDispose();
+
+                Target = null;
+                TargetProperty = null;
+                TargetDependencyProperty = null;
+            }
+        }
+
+        protected virtual void OnDispose()
+        {   
         }
     }
 }

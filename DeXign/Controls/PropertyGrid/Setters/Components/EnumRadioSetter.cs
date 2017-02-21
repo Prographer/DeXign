@@ -26,5 +26,10 @@ namespace DeXign.Controls
                 this, ValueProperty,
                 ValueRadioBox, EnumRadioBox.ValueProperty);
         }
+
+        protected override void OnDispose()
+        {
+            ValueRadioBox = null;
+        }
     }
 }

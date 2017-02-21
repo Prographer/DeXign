@@ -36,5 +36,10 @@ namespace DeXign.Controls
                     .UpdateSource();
             }
         }
+
+        protected override void OnDispose()
+        {
+            valueBox = null;
+        }
     }
 }
