@@ -63,11 +63,16 @@ namespace DeXign.Editor
 
         public static void UnselectAll(string group = "default", params FrameworkElement[] ignorElements)
         {
-            if (!groups.ContainsKey(group))
+            if (!groups.ContainsKey(group) && groups[group].Count == 0)
                 return;
 
             foreach (var item in GetSelectedItems(group).Except(ignorElements).ToArray())
-                Select(item, false, group);
+            {
+                groups[group].Remove(item);
+                item.RaiseEvent(new SelectionChangedEventArgs(UnselectedEvent));
+            }
+
+            SelectedItemChanged?.Invoke(null, null);
         }
 
         public static bool IsSelected(object obj, string group = "default")

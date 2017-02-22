@@ -36,6 +36,7 @@ namespace DeXign.Windows.Pages
 
         private void Storyboard_Loaded(object sender, RoutedEventArgs e)
         {
+            storyboard.Loaded -= Storyboard_Loaded;
             storyboard.AddNewScreen();
         }
         

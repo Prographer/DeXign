@@ -48,13 +48,14 @@ namespace DeXign.Controls
         {
             var brush = (Value as SolidColorBrush);
 
-            if (colorCanvas != null && !brush.Color.Equals(colorCanvas.SelectedColor))
+            if (colorCanvas != null && 
+                brush != null && !brush.Color.Equals(colorCanvas.SelectedColor))
                 colorCanvas.SelectedColor = brush.Color;
         }
 
         protected override void OnDispose()
         {
-            if (this.Value is SolidColorBrush && colorCanvas != null)
+            if (this.Value is SolidColorBrush)
             {
                 TargetDependencyProperty.RemoveValueChanged(Target, Brush_Changed);
                 colorCanvas.SelectedColorChanged -= ColorCanvas_SelectedColorChanged;

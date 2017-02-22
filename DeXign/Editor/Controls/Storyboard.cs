@@ -105,12 +105,12 @@ namespace DeXign.Editor.Controls
             {
                 foreach (var layer in layers)
                 {
-                    GroupSelector.Select(layer, false);
-
                     RemoveElement(
                         (FrameworkElement)layer.AdornedElement.Parent, 
                         layer.AdornedElement);
                 }
+
+                GroupSelector.UnselectAll();
             }
         }
 

@@ -42,8 +42,8 @@ namespace DeXign.Controls
 
             this.Clear();
 
-            if (SelectedObjects != null && SelectedObjects.Length > 0 &&
-                presentedObject != SelectedObjects[0])
+            if (SelectedObjects?.Length > 0 &&
+                !SelectedObjects[0].Equals(presentedObject))
             {
                 presentedObject = (DependencyObject)SelectedObjects[0];
                 

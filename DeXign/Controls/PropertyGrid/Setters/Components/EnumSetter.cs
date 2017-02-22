@@ -28,7 +28,7 @@ namespace DeXign.Controls
 
             valueComboBox.SelectedItem = ((Enum)Value).GetDescription();
             valueComboBox.SelectionChanged += ValueComboBox_SelectionChanged;
-
+            
             ValueProperty.AddValueChanged(this, ValueChanged);
         }
 
