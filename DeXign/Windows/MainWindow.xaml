@@ -107,6 +107,20 @@
                     </Frame.Content>
                 </Frame>
             </c:ClosableTabItem>
+            <c:ClosableTabItem Header="Debugging">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Debugging Page" Foreground="Red" Margin="8" FontSize="24"/>
+
+                    <Grid Grid.Row="1">
+                        
+                    </Grid>
+                </Grid>
+            </c:ClosableTabItem>
         </TabControl>
 
         <c:HeaderLayout Grid.Column="4" Header="속성" Style="{StaticResource DeXignHeaderLayoutStyle}">

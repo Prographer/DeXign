@@ -111,12 +111,17 @@
     <Compile Include="Controls\PropertyGrid\Setters\SetterManager.cs" />
     <Compile Include="Controls\RectangleEx.cs" />
     <Compile Include="Controls\StarGridViewColumn.cs" />
+    <Compile Include="Controls\RelativeThumb.cs" />
     <Compile Include="Editor\Controls\Layer\AttachedAdorner.cs" />
     <Compile Include="Editor\Controls\Layer\DropSelectionLayer.cs" />
+    <Compile Include="Editor\Controls\Layer\SelectionLayerGuideline.cs" />
     <Compile Include="Editor\Controls\MoveThumb.cs" />
     <Compile Include="Editor\DesignTime.cs" />
+    <Compile Include="Editor\Guideline.cs" />
     <Compile Include="Editor\Interfaces\IContentLayout.cs" />
     <Compile Include="Editor\Interfaces\IGridLayout.cs" />
+    <Compile Include="Editor\Interfaces\IGuideProvider.cs" />
+    <Compile Include="Editor\Interfaces\IGuideService.cs" />
     <Compile Include="Editor\Interfaces\IStackLayout.cs" />
     <Compile Include="Editor\Interfaces\IStoryboard.cs" />
     <Compile Include="Editor\Renderer\Controls\ButtonRenderer.cs" />

@@ -181,14 +181,14 @@ namespace DeXign.Editor.Controls
             if (parent.DataContext != null && parent.DataContext is DependencyObject)
             {
                 // Add On PObject Parent
-                ElementParentContentCore(
+                VisualContentHelper.GetContent(
                     (DependencyObject)parent.DataContext,
                     pi => pi.SetValue(parent.DataContext, visual.DataContext), // Single Content
                     list => list.Add(visual.DataContext));                     // List Content
             }
 
             // Add On WPF Parent
-            ElementParentContentCore(
+            VisualContentHelper.GetContent(
                 parent,
                 pi => pi.SetValue(parent, visual),  // Single Content
                 list => list.Add(visual));          // List Content
@@ -217,15 +217,15 @@ namespace DeXign.Editor.Controls
             // Remove On AdornerLayer
             element.RemoveAdorner((Adorner)childRenderer);
             element.SetRenderer(null);
-            
+
             // Remove On PObject Parent
-            ElementParentContentCore(
+            VisualContentHelper.GetContent(
                 (DependencyObject)parent.DataContext,
                 pi => pi.SetValue(parent.DataContext, null), // Single Content
                 list => list.Remove(element.DataContext));   // List Content
 
             // Remove On WPF Parent
-            ElementParentContentCore(
+            VisualContentHelper.GetContent(
                 parent, 
                 pi => pi.SetValue(parent, null), // Single Content
                 list => list.Remove(element));   // List Content
@@ -234,40 +234,6 @@ namespace DeXign.Editor.Controls
             parentRenderer?.OnRemovedChild(childRenderer);
 
             ElementChanged?.Invoke(this, null);
-        }
-
-        private void ElementParentContentCore(
-            DependencyObject parent,
-            Action<PropertyInfo> singleContent,
-            Action<IList> listContent,
-            Action failed = null)
-        {
-            var attr = parent.GetAttribute<ContentPropertyAttribute>();
-
-            if (attr != null)
-            {
-                var contentPropertyInfo = parent
-                    .GetType()
-                    .GetProperty(attr.Name);
-
-                if (contentPropertyInfo.CanCastingTo<DependencyObject>() ||
-                    contentPropertyInfo.PropertyType == typeof(object))
-                {
-                    singleContent?.Invoke(
-                        contentPropertyInfo);
-
-                    return;
-                }
-                else if (contentPropertyInfo.CanCastingTo<IList>())
-                {
-                    listContent?.Invoke(
-                        (IList)contentPropertyInfo.GetValue(parent));
-
-                    return;
-                }
-            }
-
-            failed?.Invoke();
         }
     }
 }

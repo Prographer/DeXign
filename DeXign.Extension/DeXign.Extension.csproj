@@ -59,6 +59,7 @@
     <Compile Include="SmoothScroll\RepeatButtonHolder.cs" />
     <Compile Include="SmoothScroll\ScrollViewerEx.cs" />
     <Compile Include="SmoothScroll\SmoothScrollBehavior.cs" />
+    <Compile Include="VisualContentHelper.cs" />
     <Compile Include="VisualTreeHelperEx.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

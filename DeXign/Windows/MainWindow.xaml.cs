@@ -17,20 +17,20 @@ namespace DeXign
     public partial class MainWindow : ChromeWindow, IViewModel<MainModel>
     {
         public MainModel Model { get; set; }
-        
+        public Point pt;
         public MainWindow()
         {
             InitializeComponent();
             InitializeCommands();
             InitializeLayouts();
-
+            
             Model = new MainModel();
             this.DataContext = Model;
             
             // test
             GroupSelector.SelectedItemChanged += GroupSelector_SelectedItemChanged;
         }
-
+        
         private void GroupSelector_SelectedItemChanged(object sender, EventArgs e)
         {
             propertyGrid.SelectedObjects = GroupSelector.GetSelectedItems()

@@ -370,7 +370,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type c:PropertyGrid}">
-                    <ScrollViewer Focusable="False" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" HorizontalScrollBarVisibility="Disabled" ex:ScrollViewerEx.SmoothScrollEnabled="True">
+                    <ScrollViewer Focusable="False" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" HorizontalScrollBarVisibility="Disabled">
                         <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                     </ScrollViewer>
                     <ControlTemplate.Triggers>
@@ -440,7 +440,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type c:ToolBox}">
-                    <ScrollViewer Focusable="False" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" ex:ScrollViewerEx.SmoothScrollEnabled="True">
+                    <ScrollViewer Focusable="False" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
                         <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                     </ScrollViewer>
                     <ControlTemplate.Triggers>

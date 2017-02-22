@@ -50,6 +50,24 @@ namespace DeXign.Editor.Renderer
             this.Element = adornedElement;
         }
 
+        protected override void OnDisposed()
+        {
+            VisualContentHelper.GetContent(
+                AdornedElement,
+                null,
+                list =>
+                {
+                    foreach (FrameworkElement element in list)
+                    {
+                        IRenderer renderer = element.GetRenderer();
+                        if (renderer is IDisposable)
+                            (renderer as IDisposable).Dispose();
+                    }
+                });
+
+            base.OnDisposed();
+        }
+
         protected override void OnLoaded(FrameworkElement adornedElement)
         {
             base.OnLoaded(adornedElement);

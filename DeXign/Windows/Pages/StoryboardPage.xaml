@@ -13,11 +13,6 @@
       Title="StoryboardPage">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="1*"/>
-        </Grid.RowDefinitions>
         <ScrollViewer>
             <AdornerDecorator>
                 <dc:Storyboard x:Name="storyboard">
@@ -29,11 +24,6 @@
                 </dc:Storyboard>
             </AdornerDecorator>
         </ScrollViewer>
-        <Slider x:Name="slider" VerticalAlignment="Bottom" Margin="10" Maximum="8" Minimum="0.25" Value="0.5"/>
-
-        <GridSplitter Grid.Row="1" Height="5" Background="Gray" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-        <TextBox x:Name="code" Grid.Row="2"/>
-
-        <TextBlock Text="Debug" Foreground="Red" FontSize="24" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="2" Margin="16"/>
+        <Slider x:Name="slider" VerticalAlignment="Bottom" Margin="10" Maximum="8" Minimum="0.25" Value="1"/>
     </Grid>
 </Page>

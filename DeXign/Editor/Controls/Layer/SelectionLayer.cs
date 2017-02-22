@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
@@ -173,6 +174,7 @@ namespace DeXign.Editor.Layer
         #region [ Constructor ]
         public SelectionLayer(UIElement adornedElement) : base(adornedElement)
         {
+            GuidelineFilter.Push(GetSizeGuidableLines);
         }
 
         // Element.Loaded -> OnLoaded
@@ -211,6 +213,9 @@ namespace DeXign.Editor.Layer
 
         protected override void OnDisposed()
         {
+            // 스냅라인 등록 해제
+            RootParent.GuideLayer.Remove(this);
+
             // GroupSelector
             this.RemoveSelectedHandler(OnSelected);
             this.RemoveUnselectedHandler(OnUnselected);
@@ -453,6 +458,8 @@ namespace DeXign.Editor.Layer
             foreach (MarginClip clip in clipGrid.Children)
                 ToggleButton.IsCheckedProperty.AddValueChanged(clip, ClipChanged);
             #endregion
+
+            moveThumb.DragCompleted += ThumbOnDragCompleted;
         }
         #endregion
 
@@ -536,6 +543,9 @@ namespace DeXign.Editor.Layer
         #region [ Guide Line Status ]
         private void ThumbOnDragCompleted(object sender, DragCompletedEventArgs e)
         {
+            // Clear Snapped Guidelines
+            RootParent.GuideLayer.ClearSnappedGuidelines();
+
             DisplayWidthTop = false;
             DisplayWidthBottom = false;
             DisplayHeightLeft = false;
@@ -729,11 +739,15 @@ namespace DeXign.Editor.Layer
             SetHeight(height);
         }
 
-        public void SetMargin(Thickness margin)
+        public void SetMargin(Thickness margin, bool snap = true)
         {
+            // Update Snap Line
+            if (snap)
+                MarginSnap(ref margin);
+
             AdornedElement.Margin = margin.Clean();
         }
-
+        
         public void SetWidth(double width)
         {
             if (double.IsNaN(width) || AdornedElement.HorizontalAlignment != HorizontalAlignment.Stretch)

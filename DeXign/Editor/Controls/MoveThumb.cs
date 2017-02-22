@@ -5,110 +5,181 @@ using System.Windows.Controls.Primitives;
 using DeXign.Editor.Layer;
 using DeXign.Editor.Renderer;
 using DeXign.Extension;
+using DeXign.Controls;
+using System.Collections;
+using System.Collections.Generic;
+using System;
 
 namespace DeXign.Editor.Controls
 {
-    class MoveThumb : Thumb
+    class MoveThumb : RelativeThumb
     {
         public FrameworkElement Target { get; set; }
         public SelectionLayer Layer { get; set; }
 
+        Point beginPosition;
+        Thickness beginMargin;
+        
         public MoveThumb(SelectionLayer layer)
         {
             this.Layer = layer;
             this.Target = layer.AdornedElement;
 
-            this.DragDelta += OnDragDelta;
-            this.DragStarted += OnDragStated;
+            this.RelativeTarget = layer.RootParent;
         }
 
-        private void OnDragStated(object sender, DragStartedEventArgs e)
+        private IEnumerable<Guideline> GetSizeGuidableLines()
         {
+            if (Layer.Parent is IStoryboard)
+            {
+                
+            }
+            else
+            {
+                Point vPosition = Point.Add(beginPosition, (Vector)PreviousDelta);
+                Rect vBound = new Rect(
+                    Layer.Parent.Element.TranslatePoint(vPosition, Layer.RootParent),
+                    Target.RenderSize);
+
+                // top
+                yield return new Guideline(
+                    new Point(vBound.X, vBound.Y),
+                    new Point(vBound.Right, vBound.Y))
+                {
+                    Direction = GuidelineDirection.Top
+                };
+
+                // left
+                yield return new Guideline(
+                    new Point(vBound.X, vBound.Y), 
+                    new Point(vBound.X, vBound.Bottom))
+                {
+                    Direction = GuidelineDirection.Left
+                };
+
+                // bottom
+                yield return new Guideline(
+                    new Point(vBound.X, vBound.Bottom),
+                    new Point(vBound.Right, vBound.Bottom))
+                {
+                    Direction = GuidelineDirection.Bottom
+                };
+
+                // right
+                yield return new Guideline(
+                    new Point(vBound.Right, vBound.Top),
+                    new Point(vBound.Right, vBound.Bottom))
+                {
+                    Direction = GuidelineDirection.Right
+                };
+            }
         }
 
-        private void OnDragDelta(object sender, DragDeltaEventArgs e)
+        protected override void OnDragStarted(double horizontalOffset, double verticalOffset)
+        {
+            // Filter Push
+            Layer.GuidelineFilter.Push(GetSizeGuidableLines);
+
+            beginPosition = Target.TranslatePoint(new Point(), Layer.Parent.Element);
+
+            if (!(Layer.Parent is IStoryboard))
+                beginMargin = Target.Margin;
+        }
+
+        protected override void OnDragCompleted(double horizontalChange, double verticalChange)
+        {
+            // Filter Pop
+            Layer.GuidelineFilter.Pop();
+
+            base.OnDragCompleted(horizontalChange, verticalChange);
+        }
+
+        protected override void OnDragDelta(double horizontalChange, double verticalChange)
         {
             Layer.CancelNextInvert = true;
 
             if (Layer.Parent is IStoryboard)
             {
-                Canvas.SetTop(
-                    Target, 
-                    Canvas.GetTop(Target) + e.VerticalChange);
+                Point canvasPosition = ApplyPositionDelta(
+                    new Point(horizontalChange, verticalChange));
 
-                Canvas.SetLeft(
-                    Target,
-                    Canvas.GetLeft(Target) + e.HorizontalChange);
+                Canvas.SetLeft(Target, canvasPosition.X);
+                Canvas.SetTop(Target, canvasPosition.Y);
             }
             else
             {
-                Thickness parentMargin = Layer.GetParentRenderMargin();
-                Thickness margin = Target.Margin;
-
-                parentMargin.Left *= -1;
-                parentMargin.Top *= -1;
-
-                bool allowVertical = true;
-                bool allowHorizontal = true;
-
-                if (Layer.Parent is IStackLayout)
-                {
-                    var stackRenderer = Layer.Parent as StackLayoutRenderer;
-
-                    allowVertical = 
-                        (stackRenderer.Element.Orientation == Orientation.Horizontal);
-
-                    allowHorizontal = 
-                        (stackRenderer.Element.Orientation == Orientation.Vertical);
-                }
+                Thickness margin = ApplyMarginDelta(
+                    new Point(horizontalChange, verticalChange));
                 
-                if (allowVertical)
-                {
-                    switch (Layer.ClipData.VerticalAlignment)
-                    {
-                        case VerticalAlignment.Top:
-                            margin.Top = parentMargin.Top + e.VerticalChange;
-                            break;
-
-                        case VerticalAlignment.Bottom:
-                            margin.Bottom = parentMargin.Bottom - e.VerticalChange;
-                            break;
-
-                        case VerticalAlignment.Stretch:
-                        case VerticalAlignment.Center:
-                            margin.Top = parentMargin.Top + e.VerticalChange;
-                            margin.Bottom = parentMargin.Bottom - e.VerticalChange;
-                            break;
-                    }
-                }
-
-                if (allowHorizontal)
-                {
-                    switch (Layer.ClipData.HorizontalAlignment)
-                    {
-                        case HorizontalAlignment.Left:
-                            margin.Left = parentMargin.Left + e.HorizontalChange;
-                            break;
-
-                        case HorizontalAlignment.Right:
-                            margin.Right = parentMargin.Right - e.HorizontalChange;
-                            break;
-
-                        case HorizontalAlignment.Stretch:
-                        case HorizontalAlignment.Center:
-                            margin.Left = parentMargin.Left + e.HorizontalChange;
-                            margin.Right = parentMargin.Right - e.HorizontalChange;
-                            break;
-                    }
-                }
-
-                Target.Margin = margin.Clean();
+                // Snap with Set
+                Layer.SetMargin(margin);
             }
         }
 
-        private void SetMarginTop()
+        private Point ApplyPositionDelta(Point delta)
         {
+            return Point.Add(beginPosition, (Vector)PreviousDelta);
+        }
 
+        private Thickness ApplyMarginDelta(Point delta)
+        {
+            Thickness margin = beginMargin;
+            
+            bool allowVertical = true;
+            bool allowHorizontal = true;
+
+            if (Layer.Parent is IStackLayout)
+            {
+                var stackRenderer = Layer.Parent as StackLayoutRenderer;
+
+                allowVertical =
+                    (stackRenderer.Element.Orientation == Orientation.Horizontal);
+
+                allowHorizontal =
+                    (stackRenderer.Element.Orientation == Orientation.Vertical);
+            }
+
+            if (allowVertical)
+            {
+                switch (Layer.ClipData.VerticalAlignment)
+                {
+                    case VerticalAlignment.Top:
+                        margin.Top = beginMargin.Top + delta.Y;
+                        break;
+
+                    case VerticalAlignment.Bottom:
+                        margin.Bottom = beginMargin.Bottom - delta.Y;
+                        break;
+
+                    case VerticalAlignment.Stretch:
+                    case VerticalAlignment.Center:
+                        margin.Top = beginMargin.Top + delta.Y;
+                        margin.Bottom = beginMargin.Bottom - delta.Y;
+                        break;
+                }
+            }
+
+            if (allowHorizontal)
+            {
+                switch (Layer.ClipData.HorizontalAlignment)
+                {
+                    case HorizontalAlignment.Left:
+                        margin.Left = beginMargin.Left + delta.X;
+                        break;
+
+                    case HorizontalAlignment.Right:
+                        margin.Right = beginMargin.Right - delta.X;
+                        break;
+
+                    case HorizontalAlignment.Stretch:
+                    case HorizontalAlignment.Center:
+                        margin.Left = beginMargin.Left + delta.X;
+                        margin.Right = beginMargin.Right - delta.X;
+                        break;
+                }
+            }
+            
+            return margin;
         }
     }
 }

@@ -9,10 +9,12 @@ using DeXign.Editor.Layer;
 using DeXign.Extension;
 
 using WPFExtension;
+using System.Collections.Generic;
+using DeXign.Controls;
 
 namespace DeXign.Editor.Controls
 {
-    class ResizeThumb : Thumb
+    class ResizeThumb : RelativeThumb
     {
         public static readonly DependencyProperty StrokeProperty =
             DependencyHelper.Register(
@@ -39,41 +41,37 @@ namespace DeXign.Editor.Controls
         {
             this.Layer = layer;
             this.Target = layer.AdornedElement;
-            
-            this.DragDelta += OnDragDelta;
-            this.DragStarted += OnDragStated;
+
+            this.RelativeTarget = layer.RootParent;
         }
-        
-        private void OnDragDelta(object sender, DragDeltaEventArgs e)
+       
+        protected override void OnDragDelta(double horizontalChange, double verticalChange)
         {
-            Vector scale = GetScale();
-
-            double deltaX = e.HorizontalChange * scale.X;
-            double deltaY = e.VerticalChange * scale.Y;
-
             // Cancel Design Mode
             Layer.CancelNextInvert = true;
 
             if (Layer.Parent is IStoryboard)
             {
-                OnCanvasDragDelta(deltaX, deltaY);
+                OnCanvasDragDelta(horizontalChange, verticalChange);
             }
-            else 
+            else
             {
-                OnPanelDragDelta(deltaX, deltaY);
+                OnPanelDragDelta(horizontalChange, verticalChange);
             }
         }
-
-        private void OnDragStated(object sender, DragStartedEventArgs e)
+        
+        protected override void OnDragStarted(double horizontalOffset, double verticalOffset)
         {
-            beginSize = new Vector(
-                Target.ActualWidth,
-                Target.ActualHeight);
-            
+            Layer.GuidelineFilter.Push(GetSizeGuidableLines);
+
+            beginSize = (Vector)Target.RenderSize;
+
             if (Layer.Parent is IStoryboard)
+            {
                 beginPosition = new Vector(
                     Canvas.GetLeft(Target),
                     Canvas.GetTop(Target));
+            }
             else
             {
                 var position = Target.TranslatePoint(new Point(0, 0), (UIElement)Target.Parent);
@@ -87,14 +85,11 @@ namespace DeXign.Editor.Controls
                 beginPosition.Y + beginSize.Y - Target.GetDesignMinHeight());
         }
 
-        protected virtual Vector GetScale()
-        {
-            if (RenderTransform is ScaleTransform)
-                return new Vector(
-                    (RenderTransform as ScaleTransform).ScaleX,
-                    (RenderTransform as ScaleTransform).ScaleY);
 
-            return new Vector(1, 1);
+        protected override void OnDragCompleted(double horizontalChange, double verticalChange)
+        {
+            Layer.GuidelineFilter.Pop();
+            base.OnDragCompleted(horizontalChange, verticalChange);
         }
 
         private void OnPanelDragDelta(double deltaX, double deltaY)
@@ -119,7 +114,7 @@ namespace DeXign.Editor.Controls
                 ResizeDirection == ResizeGripDirection.BottomLeft ||
                 ResizeDirection == ResizeGripDirection.BottomRight;
 
-            Thickness margin = Target.Margin;
+            Thickness margin = beginThickness;
             var targetParent = (FrameworkElement)Target.Parent;
             var position = Target.TranslatePoint(new Point(0, 0), targetParent);
 
@@ -128,6 +123,9 @@ namespace DeXign.Editor.Controls
                 switch (Layer.ClipData.VerticalAlignment)
                 {
                     case VerticalAlignment.Center:
+                        SizingHeight(-deltaY * 2);
+                        break;
+
                     case VerticalAlignment.Bottom:
                         SizingHeight(-deltaY);
                         break;
@@ -135,7 +133,7 @@ namespace DeXign.Editor.Controls
                     case VerticalAlignment.Stretch:
                         margin.Bottom = targetParent.RenderSize.Height - position.Y - Target.RenderSize.Height;
                         margin.Top = Math.Min(
-                            margin.Top + deltaY, 
+                            beginThickness.Top + deltaY, 
                             beginBound.Bottom - Target.GetDesignMinHeight());
                         break;
 
@@ -151,13 +149,15 @@ namespace DeXign.Editor.Controls
                 switch (Layer.ClipData.VerticalAlignment)
                 {
                     case VerticalAlignment.Center:
+                        SizingHeight(deltaY * 2);
+                        break;
+
                     case VerticalAlignment.Top:
                         SizingHeight(deltaY);
                         break;
 
                     case VerticalAlignment.Stretch:
-                        margin.Top = position.Y;
-                        margin.Bottom -= deltaY;
+                        margin.Bottom = beginThickness.Bottom - deltaY;
                         break;
 
                     case VerticalAlignment.Bottom:
@@ -172,6 +172,9 @@ namespace DeXign.Editor.Controls
                 switch (Layer.ClipData.HorizontalAlignment)
                 {
                     case HorizontalAlignment.Center:
+                        SizingWidth(-deltaX * 2);
+                        break;
+
                     case HorizontalAlignment.Right:
                         SizingWidth(-deltaX);
                         break;
@@ -179,7 +182,7 @@ namespace DeXign.Editor.Controls
                     case HorizontalAlignment.Stretch:
                         margin.Right = targetParent.RenderSize.Width - position.X - Target.RenderSize.Width;
                         margin.Left = Math.Min(
-                            margin.Left + deltaX,
+                            beginThickness.Left + deltaX,
                             beginBound.Right - Target.GetDesignMinWidth());
                         break;
 
@@ -195,13 +198,15 @@ namespace DeXign.Editor.Controls
                 switch (Layer.ClipData.HorizontalAlignment)
                 {
                     case HorizontalAlignment.Center:
+                        SizingWidth(deltaX * 2);
+                        break;
+
                     case HorizontalAlignment.Left:
                         SizingWidth(deltaX);
                         break;
 
                     case HorizontalAlignment.Stretch:
-                        margin.Left = position.X;
-                        margin.Right -= deltaX;
+                        margin.Right = beginThickness.Right - deltaX;
                         break;
 
                     case HorizontalAlignment.Right:
@@ -210,8 +215,8 @@ namespace DeXign.Editor.Controls
                         break;
                 }
             }
-            
-            Target.Margin = margin.Clean();
+
+            Layer.SetMargin(margin);
         }
 
         protected virtual void OnCanvasDragDelta(double deltaX, double deltaY)
@@ -274,7 +279,7 @@ namespace DeXign.Editor.Controls
         {
             double width = Math.Max(
                 Target.GetDesignMinWidth(),
-                Target.ActualWidth + deltaX);
+                beginSize.X + deltaX);
 
             Layer.SetWidth(width);
 
@@ -285,7 +290,7 @@ namespace DeXign.Editor.Controls
         {
             double height = Math.Max(
                 Target.GetDesignMinHeight(),
-                Target.ActualHeight + deltaY);
+                beginSize.Y + deltaY);
 
             Layer.SetHeight(height);
 
@@ -298,7 +303,7 @@ namespace DeXign.Editor.Controls
 
             Canvas.SetLeft(
                 Target,
-                x = Math.Min(Canvas.GetLeft(Target) - deltaX, positionLimit.X));
+                x = Math.Min(beginPosition.X - deltaX, positionLimit.X));
 
             return x;
         }
@@ -309,9 +314,19 @@ namespace DeXign.Editor.Controls
 
             Canvas.SetTop(
                 Target,
-                x = Math.Min(Canvas.GetTop(Target) - deltaY, positionLimit.Y));
+                x = Math.Min(beginPosition.Y - deltaY, positionLimit.Y));
 
             return x;
         }
+
+        #region [ Guideline ]
+        private IEnumerable<Guideline> GetSizeGuidableLines()
+        {
+            if (false)
+            {
+                yield return null;
+            }
+        }
+        #endregion
     }
 }
