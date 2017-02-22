@@ -98,7 +98,7 @@ namespace DeXign
             var item = (ClosableTabItem)tabControl.SelectedItem;
             var itemModel = (StoryboardModel)item?.Tag;
 
-            Model.StoryboardPage = (StoryboardPage)itemModel?.ViewModel;
+            Model.StoryboardPage = itemModel?.ViewModel;
         }
     }
 }

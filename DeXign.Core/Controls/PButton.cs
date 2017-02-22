@@ -48,7 +48,7 @@ namespace DeXign.Core.Controls
             set { SetValue(BorderRadiusProperty, value); }
         }
 
-        [DesignElement(Category = Constants.Property.Design, DisplayName = "버튼 보더 두께")]
+        [DesignElement(Category = Constants.Property.Design, DisplayName = "버튼 보더 두께", Visible = false)]
         [XForms("BorderWidth")]
         public double BorderThickness
         {
@@ -56,7 +56,7 @@ namespace DeXign.Core.Controls
             set { SetValue(BorderThicknessProperty, value); }
         }
 
-        [DesignElement(Category = Constants.Property.Design, DisplayName = "버튼 보더 색상")]
+        [DesignElement(Category = Constants.Property.Design, DisplayName = "버튼 보더 색상", Visible = false)]
         [XForms("BorderColor")]
         public Brush BorderBrush
         {

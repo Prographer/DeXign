@@ -40,6 +40,10 @@ namespace DeXign.Editor.Renderer
             SetSize(double.NaN, double.NaN);
 
             BindingEx.SetBinding(
+                Model, PLabel.ForegroundProperty,
+                element, LabelEx.ForegroundProperty);
+
+            BindingEx.SetBinding(
                 Model, PLabel.TextProperty,
                 element, LabelEx.ContentProperty);
 

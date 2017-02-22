@@ -721,7 +721,6 @@ namespace DeXign.Editor.Layer
                 // Stack Horizontal
                 ClipData.TopVisible = (stackPanel.Orientation == Orientation.Horizontal);
                 ClipData.BottomVisible = (stackPanel.Orientation == Orientation.Horizontal);
-
             }
         }
 
