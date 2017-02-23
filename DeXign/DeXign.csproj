@@ -150,6 +150,7 @@
     <Compile Include="Input\Mouse.cs" />
     <Compile Include="Themes\ThemeManager.cs" />
     <Compile Include="MVVM\ElementThicknessBinder.cs" />
+    <Compile Include="Utilities\MathUtil.cs" />
     <Compile Include="Windows\Pages\WelcomePage.xaml.cs">
       <DependentUpon>WelcomePage.xaml</DependentUpon>
     </Compile>
@@ -307,7 +308,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MVVM\Behavior\" />
-    <Folder Include="Utilities\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\GridLayoutTooltip.png" />
