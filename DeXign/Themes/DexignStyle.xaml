@@ -7,7 +7,7 @@
                     xmlns:m="clr-namespace:DeXign.Models">
 
     <!-- Used 'XAML Region' Extension -->
-        
+
     <!-- #region Expander Style -->
     <Style x:Key="ExpanderDownHeaderStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Height" Value="36"/>
@@ -70,7 +70,7 @@
         </Setter>
     </Style>
     <!--#endregion-->
-    
+
     <!-- #region Tab Style -->
     <Style TargetType="{x:Type TabControl}">
         <Setter Property="BorderThickness" Value="0,2,0,0"/>
@@ -200,7 +200,7 @@
         </Setter>
     </Style>
     <!-- #endregion -->
-    
+
     <!-- #region Menu Style -->
     <Style x:Key="DexignMenuSeparatorStyle" TargetType="{x:Type Separator}">
         <Setter Property="Background" Value="{StaticResource Brush.Menu.Seperator}"/>
@@ -246,11 +246,11 @@
                             <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                         <Trigger Property="IsHighlighted" Value="true">
-                            <Setter Property="Background" TargetName="Border" Value="{StaticResource Brush.Accent.50}"/>
+                            <Setter Property="Background" TargetName="Border" Value="#878787"/>
                             <Setter Property="Foreground" Value="White"/>
                         </Trigger>
-                        <Trigger Property="IsHighlighted" Value="false">
-                            <Setter Property="Foreground" Value="{StaticResource Brush.Accent.50}"/>
+                        <Trigger Property="IsSubmenuOpen" Value="true">
+                            <Setter Property="Background" TargetName="Border" Value="#F4BB24"/>
                         </Trigger>
                         <Trigger SourceName="Popup" Property="AllowsTransparency" Value="True">
                             <Setter TargetName="SubmenuBorder" Property="Padding" Value="3" />
@@ -261,7 +261,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style TargetType="{x:Type Menu}">
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -398,41 +398,36 @@
                     <Border Background="{TemplateBinding Background}" Width="70" Height="88" ToolTip="{Binding ToolTip}" ToolTipService.InitialShowDelay="800">
                         <Grid VerticalAlignment="Center">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="32"/>
+                                <RowDefinition Height="Auto"/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
 
-                            <Border Grid.Row="0" Width="32">
-                                <ContentPresenter Content="{Binding Content}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <Border x:Name="contentBorder" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6" CornerRadius="10">
+                                <ContentPresenter Content="{Binding Content}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="32" Height="32"/>
                             </Border>
 
-                            <TextBlock Grid.Row="1" Margin="0,12,0,0" Text="{Binding Title}" Foreground="#585858" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" FontSize="12"/>
+                            <TextBlock Grid.Row="1" Margin="0,6,0,0" Text="{Binding Title}" Foreground="#585858" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" FontSize="12"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="contentBorder" Property="Background" Value="#D7D7D7"/>
+                        </Trigger>
+                        
                         <!-- Selection Deactivated -->
                         <Trigger Property="IsSelected" Value="true">
-                            <Setter Property="Background" Value="#11000000" />
+                            <Setter TargetName="contentBorder" Property="Background" Value="#C5C5C5" />
                         </Trigger>
-
-                        <!-- Selection Activated -->
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsSelected" Value="true" />
-                                <Condition Property="Selector.IsSelectionActive" Value="true" />
-                            </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="{StaticResource Brush.Accent}" />
-                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <ItemsPanelTemplate x:Key="DeXignToolBoxItemsPanelTemplate">
         <WrapPanel Orientation="Horizontal"/>
     </ItemsPanelTemplate>
-    
+
     <Style TargetType="{x:Type c:ToolBox}">
         <Setter Property="Background" Value="#BBBBBB"/>
         <Setter Property="SelectionMode" Value="Single"/>
@@ -457,7 +452,7 @@
         </Setter>
     </Style>
     <!-- #endregion -->
-    
+
     <!-- #region ResolutionComboBox Style -->
     <DataTemplate x:Key="ResolutionItemTemplate">
         <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -477,20 +472,20 @@
                     <Line X1="25" Y1="0" X2="18" Y2="7" Stroke="LightGray" StrokeThickness="1"/>
                     <Line X1="0" Y1="25" X2="7" Y2="18" Stroke="LightGray" StrokeThickness="1"/>
                     <Line X1="25" Y1="25" X2="18" Y2="18" Stroke="LightGray" StrokeThickness="1"/>
-                    
+
                     <Border BorderThickness="1" BorderBrush="Black">
                         <Border BorderThickness="1" BorderBrush="Gray">
                             <TextBlock Text="{Binding Inch}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="10"/>
                         </Border>
                     </Border>
                 </Grid>
-                
+
                 <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Title}" FontSize="12" VerticalAlignment="Bottom" />
                 <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding SubTitle}" FontSize="10" VerticalAlignment="Top" Opacity="0.56"/>
             </Grid>
         </Border>
     </DataTemplate>
-    
+
     <Style x:Key="ResolutionComboBoxToggleButtonStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="OverridesDefaultStyle" Value="true"/>
         <Setter Property="IsTabStop" Value="false"/>
@@ -527,7 +522,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <ControlTemplate x:Key="ResolutionComboBoxTemplate" TargetType="{x:Type ComboBox}">
         <Grid x:Name="templateRoot" SnapsToDevicePixels="true">
             <Grid.ColumnDefinitions>
@@ -572,7 +567,7 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
-    
+
     <Style x:Key="ResolutionComboBoxStyle" TargetType="{x:Type ComboBox}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
@@ -586,7 +581,7 @@
         <Setter Property="Template" Value="{StaticResource ResolutionComboBoxTemplate}"/>
     </Style>
     <!-- #endregion -->
-    
+
     <!-- #region Controls Style -->
     <Style TargetType="{x:Type c:LabelEx}">
         <Setter Property="Padding" Value="0"/>
@@ -602,7 +597,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style TargetType="{x:Type c:LinkTextBlock}">
         <Setter Property="Cursor" Value="Hand"/>
         <Style.Triggers>
@@ -700,7 +695,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style x:Key="SearchBarStyle" TargetType="{x:Type c:HintTextBox}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
@@ -759,7 +754,7 @@
             </MultiTrigger>
         </Style.Triggers>
     </Style>
-    
+
     <Style TargetType="{x:Type c:PathButton}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="PathHorizontalAlignment" Value="Center"/>
@@ -778,32 +773,10 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <!-- 20% -->
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <ColorAnimation To="#44FFFFFF" Duration="0:0:0.3" Storyboard.TargetName="border" Storyboard.TargetProperty="Background.(SolidColorBrush.Color)">
-                                            <ColorAnimation.EasingFunction>
-                                                <CircleEase EasingMode="EaseOut"/>
-                                            </ColorAnimation.EasingFunction>
-                                        </ColorAnimation>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <ColorAnimation To="Transparent" Duration="0:0:0.2" Storyboard.TargetName="border" Storyboard.TargetProperty="Background.(SolidColorBrush.Color)">
-                                            <ColorAnimation.EasingFunction>
-                                                <CircleEase EasingMode="EaseOut"/>
-                                            </ColorAnimation.EasingFunction>
-                                        </ColorAnimation>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>
+                            <Setter TargetName="border" Property="Background" Value="#878787"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="border" Property="Background" Value="{StaticResource Brush.Accent}"/>
+                            <Setter TargetName="border" Property="Background" Value="#F4BB24"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -908,7 +881,7 @@
                                                                     </BeginStoryboard>
                                                                 </Trigger.ExitActions>
                                                             </Trigger>
-                                                            
+
                                                             <Trigger Property="IsDragging" Value="True">
                                                                 <Setter Property="Fill" TargetName="rectangle" Value="#99606060"/>
                                                             </Trigger>
@@ -941,7 +914,7 @@
         </Setter>
     </Style>
     <!-- #endregion -->
-    
+
     <!-- #region Window Styles -->
     <!-- Control Box -->
     <Style TargetType="{x:Type c:ControlBox}">
@@ -1048,7 +1021,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                
+
                                 <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                                     <c:ActionControlBox VerticalAlignment="Center" Margin="12,0"/>
 
@@ -1074,5 +1047,5 @@
         </Setter>
     </Style>
     <!-- #endregion -->
-    
+
 </ResourceDictionary>
