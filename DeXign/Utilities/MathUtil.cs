@@ -61,8 +61,11 @@ namespace DeXign.Utilities
         {
             double angle = 0;
 
+           
             if (deltaX == 0 || deltaY == 0)
             {
+                if (deltaX == 0 && deltaY == 0)
+                    return angle;
                 if (deltaY == 0)
                     angle = 270 + Math.Sign(deltaX) * 90;
 
