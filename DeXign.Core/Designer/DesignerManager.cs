@@ -31,7 +31,7 @@ namespace DeXign.Core.Designer
                 .Select(t => new AttributeTuple<DesignElementAttribute, Type>(
                     t.GetAttribute<DesignElementAttribute>(), t));
         }
-
+        
         public static IEnumerable<AttributeTuple<DesignElementAttribute, PropertyInfo>> GetProperties(Type declarType)
         {
             if (props.ContainsKey(declarType))

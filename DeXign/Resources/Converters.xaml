@@ -7,4 +7,6 @@
     <cvt:RadiusConverter x:Key="Converter.Radius"/>
     <cvt:GridViewColumnStarConverter x:Key="Converter.GridViewColumnStar"/>
     <cvt:PercentageConverter x:Key="Converter.Percentage"/>
+    <cvt:ToolboxIconConverter x:Key="Converter.ToolboxIcon"/>
+    <cvt:DisplayNameConverter x:Key="Converter.DisplayName"/>
 </ResourceDictionary>

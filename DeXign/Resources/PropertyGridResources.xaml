@@ -16,7 +16,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type c:ValueBoxSetter}">
-                    <TextBox x:Name="PART_valueBox" HorizontalAlignment="Stretch" FontSize="12" BorderThickness="0" Background="Transparent"/>
+                    <TextBox x:Name="PART_valueBox" HorizontalAlignment="Stretch" FontSize="12" BorderThickness="0" Background="Transparent" SelectionBrush="{DynamicResource Brush.Accent}"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -133,6 +133,7 @@
     <Compile Include="Editor\Renderer\RendererManager.cs" />
     <Compile Include="Editor\Renderer\StoryboardRenderer.cs" />
     <Compile Include="MVVM\Commands\ActionCommand.cs" />
+    <Compile Include="MVVM\Converter\DisplayNameConverter.cs" />
     <Compile Include="MVVM\Converter\DoubleToCornerRadiusConverter.cs" />
     <Compile Include="MVVM\Converter\EnumToEnumConvereter.cs" />
     <Compile Include="MVVM\Converter\EqualConverter.cs" />
@@ -140,12 +141,14 @@
     <Compile Include="MVVM\Converter\NullObjectToVisibilityConverter.cs" />
     <Compile Include="MVVM\Converter\EnumToStringConverter.cs" />
     <Compile Include="MVVM\Converter\PercentageConverter.cs" />
+    <Compile Include="MVVM\Converter\ToolboxIconConverter.cs" />
     <Compile Include="MVVM\Models\Base\BaseNotifyModel.cs" />
     <Compile Include="MVVM\Models\Base\IModel.cs" />
     <Compile Include="MVVM\Models\Base\IViewModel.cs" />
     <Compile Include="MVVM\Models\MainModel.cs" />
     <Compile Include="MVVM\Models\PropertyGridItemModel.cs" />
     <Compile Include="MVVM\Models\StoryboardModel.cs" />
+    <Compile Include="MVVM\Rules\NameScopeRule.cs" />
     <Compile Include="MVVM\Rules\PercentageRule.cs" />
     <Compile Include="Input\Mouse.cs" />
     <Compile Include="Themes\ThemeManager.cs" />

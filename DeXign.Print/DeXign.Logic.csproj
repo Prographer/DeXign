@@ -49,6 +49,7 @@
     <Compile Include="BinderReleasedEventArgs.cs" />
     <Compile Include="BinderExpression.cs" />
     <Compile Include="BinderOptions.cs" />
+    <Compile Include="Binder\BaseBinder.cs" />
     <Compile Include="Collections\BinderCollection.cs" />
     <Compile Include="Collections\BinderExpressionCollection.cs" />
     <Compile Include="Interfaces\IBinder.cs" />
@@ -59,7 +60,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Binder\" />
+    <ProjectReference Include="..\DeXign.Core\DeXign.Core.csproj">
+      <Project>{1673484e-a5cb-47e7-9278-17c9b2ba57c1}</Project>
+      <Name>DeXign.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

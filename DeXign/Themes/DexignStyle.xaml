@@ -370,9 +370,34 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type c:PropertyGrid}">
-                    <ScrollViewer Focusable="False" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" HorizontalScrollBarVisibility="Disabled">
-                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                    </ScrollViewer>
+                    <DockPanel>
+                        <Border DockPanel.Dock="Top" Background="#E6E6E6" Padding="8"
+                                Visibility="{TemplateBinding DataContext, Converter={StaticResource Converter.NullObjectToVisibility}}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Image Source="{TemplateBinding DataContext, Converter={StaticResource Converter.ToolboxIcon}}"
+                                       Visibility="{Binding Path=Source, RelativeSource={RelativeSource Self}, Converter={StaticResource Converter.NullObjectToVisibility}}"
+                                       Margin="0,0,16,0"
+                                       Height="32"/>
+
+                                <UniformGrid Grid.Column="1" Rows="2">
+                                    <TextBlock Text="{TemplateBinding DataContext, Converter={StaticResource Converter.DisplayName}}" Foreground="#777777" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,0,2"/>
+                                    <TextBox Text="&lt;이름 없음&gt;" HorizontalAlignment="Stretch" FontSize="12" BorderThickness="0" Background="Transparent" Margin="0,2,0,0" SelectionBrush="{DynamicResource Brush.Accent}"/>
+                                </UniformGrid>
+                            </Grid>
+                        </Border>
+                        <c:HintTextBox x:Name="PART_searchBox" DockPanel.Dock="Top" Style="{DynamicResource SearchBarStyle}" TextHint="속성 검색" Margin="-1,0"
+                                       Visibility="{TemplateBinding DataContext, Converter={StaticResource Converter.NullObjectToVisibility}}"/>
+                        <ScrollViewer DockPanel.Dock="Top" Focusable="False" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" HorizontalScrollBarVisibility="Disabled">
+                            <StackPanel>
+                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </DockPanel>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>

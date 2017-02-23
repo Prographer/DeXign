@@ -9,6 +9,7 @@ namespace DeXign.Extension
             DependencyObject source, DependencyProperty sourceProperty, 
             DependencyObject target, DependencyProperty targetProperty,
             BindingMode mode = BindingMode.TwoWay,
+            UpdateSourceTrigger sourceTrigger = UpdateSourceTrigger.Default,
             IValueConverter converter = null)
         {
             Binding result;
@@ -19,7 +20,8 @@ namespace DeXign.Extension
                 {
                     Source = source,
                     Mode = mode,
-                    Converter = converter
+                    Converter = converter,
+                    UpdateSourceTrigger = sourceTrigger
                 });
 
             return result;
@@ -29,6 +31,7 @@ namespace DeXign.Extension
             DependencyObject source, string path,
             DependencyObject target, DependencyProperty targetProperty,
             BindingMode mode = BindingMode.TwoWay,
+            UpdateSourceTrigger sourceTrigger = UpdateSourceTrigger.Default,
             IValueConverter converter = null)
         {
             Binding result;
@@ -39,7 +42,8 @@ namespace DeXign.Extension
                 {
                     Source = source,
                     Mode = mode,
-                    Converter = converter
+                    Converter = converter,
+                    UpdateSourceTrigger = sourceTrigger
                 });
 
             return result;
@@ -49,6 +53,7 @@ namespace DeXign.Extension
             DependencyObject source, string path,
             DependencyObject target, DependencyProperty targetProperty,
             BindingMode mode = BindingMode.TwoWay,
+            UpdateSourceTrigger sourceTrigger = UpdateSourceTrigger.Default,
             IValueConverter converter = null)
         {
             var sourceProperty = source.FindDependencyProperty(path);
@@ -58,7 +63,7 @@ namespace DeXign.Extension
                 return BindingEx.SetBinding(
                     source, sourceProperty,
                     target, targetProperty,
-                    mode, converter);
+                    mode, sourceTrigger, converter);
             }
 
             return null;
@@ -68,6 +73,7 @@ namespace DeXign.Extension
             DependencyObject source, DependencyProperty sourceProperty,
             DependencyObject target, string path,
             BindingMode mode = BindingMode.TwoWay,
+            UpdateSourceTrigger sourceTrigger = UpdateSourceTrigger.Default,
             IValueConverter converter = null)
         {
             var targetProperty = target.FindDependencyProperty(path);
@@ -77,7 +83,7 @@ namespace DeXign.Extension
                 return BindingEx.SetBinding(
                     source, sourceProperty,
                     target, targetProperty,
-                    mode, converter);
+                    mode, sourceTrigger, converter);
             }
 
             return null;

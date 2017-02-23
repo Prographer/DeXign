@@ -11,9 +11,12 @@ using DeXign.Core.Designer;
 using WPFExtension;
 
 using Moda.KString;
+using DeXign.Extension;
+using System.Windows.Data;
 
 namespace DeXign.Controls
 {
+    [TemplatePart(Name = "PART_searchBox", Type = typeof(TextBox))]
     internal class PropertyGrid : FilterListView
     {
         public static readonly DependencyProperty SelectedObjectsProperty =
@@ -45,8 +48,8 @@ namespace DeXign.Controls
             if (SelectedObjects?.Length > 0 &&
                 !SelectedObjects[0].Equals(presentedObject))
             {
-                presentedObject = (DependencyObject)SelectedObjects[0];
-                
+                SetPresentedObject((DependencyObject)SelectedObjects[0]);
+
                 foreach (var prop in DesignerManager.GetProperties(presentedObject.GetType()))
                 {
                     ISetter setter;
@@ -65,8 +68,14 @@ namespace DeXign.Controls
             }
             else
             {
-                presentedObject = null;
+                SetPresentedObject(null);
             }
+        }
+
+        private void SetPresentedObject(DependencyObject obj)
+        {
+            this.DataContext = obj;
+            this.presentedObject = obj;
         }
 
         protected override bool OnFilter(object item)
@@ -85,6 +94,12 @@ namespace DeXign.Controls
             {
                 ContainerStyle = ResourceManager.GetStyle("DeXignGroupItemStyle")
             });
+
+            // Search bar Binding
+            Binding b = BindingEx.SetBinding(
+                GetTemplateChild("PART_searchBox"), TextBox.TextProperty,
+                this, FilterKeywordProperty,
+                sourceTrigger: UpdateSourceTrigger.PropertyChanged);
         }
 
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)

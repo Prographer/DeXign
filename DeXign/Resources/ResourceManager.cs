@@ -6,6 +6,7 @@ using System.Windows.Media;
 using DeXign.Core.Designer;
 using System.Windows.Media.Imaging;
 using System.Collections.Generic;
+using System.Windows.Controls;
 
 namespace DeXign.Resources
 {
@@ -52,6 +53,19 @@ namespace DeXign.Resources
         public static DesignerResource GetDesignerResource(string name, ResourceDictionary resources = null)
         {
             return GetResource<DesignerResource>(name, resources);
+        }
+
+        public static ImageSource GetToolboxIcon(Type type)
+        {
+            if (App.Current.Resources.Contains(type))
+            {
+                var res = App.Current.Resources[type] as DesignerResource;
+                var img = res.Content as Image;
+
+                return img.Source;
+            }
+
+            return null;
         }
 
         public static BitmapImage GetImageSource(string name)

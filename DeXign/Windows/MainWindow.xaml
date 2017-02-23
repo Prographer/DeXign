@@ -98,7 +98,7 @@
 
         <GridSplitter Grid.Column="1" Background="#C0C0C0" Width="2" HorizontalAlignment="Center"/>
         
-        <TabControl x:Name="tabControl" Grid.Column="2" SelectionChanged="tabControl_SelectionChanged" Grid.ColumnSpan="3">
+        <TabControl x:Name="tabControl" Grid.Column="2" SelectionChanged="tabControl_SelectionChanged">
             <c:ClosableTabItem Header="Welcome">
                 <Frame>
                     <Frame.Content>
@@ -135,6 +135,8 @@
                             BezierPoint1="1,0.5"
                             BezierPoint2="0,0.5"
                             IsDebug="True"/>
+
+                        <Image x:Name="img" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                     </Grid>
                 </Grid>
             </c:ClosableTabItem>
@@ -144,9 +146,7 @@
         
         <c:HeaderLayout Grid.Column="4" Header="속성" Style="{StaticResource DeXignHeaderLayoutStyle}">
             <DockPanel Visibility="{Binding StoryboardPage, Converter={StaticResource Converter.NullObjectToVisibility}}">
-                <c:HintTextBox x:Name="propertyGridSearchBar" DockPanel.Dock="Top" Style="{DynamicResource SearchBarStyle}" TextHint="속성 검색" Margin="-1,0"/>
-                <c:PropertyGrid x:Name="propertyGrid" Visibility="{Binding StoryboardPage, Converter={StaticResource Converter.NullObjectToVisibility}}"
-                                FilterKeyword="{Binding Text, ElementName=propertyGridSearchBar, UpdateSourceTrigger=PropertyChanged}"/>
+                <c:PropertyGrid x:Name="propertyGrid" Visibility="{Binding StoryboardPage, Converter={StaticResource Converter.NullObjectToVisibility}}"/>
             </DockPanel>
         </c:HeaderLayout>
     </Grid>
