@@ -500,10 +500,7 @@ namespace DeXign.Editor.Layer
             
             if (MoveThumbHitTest(e.GetPosition(this)))
                 return;
-
-            // Keyboard Focus
-            Keyboard.Focus(RootParent);
-
+            
             // Design Mode Change
             if (GroupSelector.IsSelected(this))
                 InvertDesignMode();
@@ -527,6 +524,9 @@ namespace DeXign.Editor.Layer
 
         private void OnSelected(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
         {
+            // Keyboard Focus
+            Keyboard.Focus(RootParent);
+
             this.DesignMode = DesignMode.Size;
         }
 

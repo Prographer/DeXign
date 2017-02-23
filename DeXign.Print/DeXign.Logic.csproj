@@ -39,14 +39,24 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
+    <Reference Include="WPFExtension, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WPFExtension.1.0.1\lib\net45\WPFExtension.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BinderBindedEventArgs.cs" />
     <Compile Include="BinderReleasedEventArgs.cs" />
+    <Compile Include="BinderExpression.cs" />
+    <Compile Include="BinderOptions.cs" />
     <Compile Include="Collections\BinderCollection.cs" />
+    <Compile Include="Collections\BinderExpressionCollection.cs" />
     <Compile Include="Interfaces\IBinder.cs" />
     <Compile Include="Interfaces\IBinderProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Binder\" />

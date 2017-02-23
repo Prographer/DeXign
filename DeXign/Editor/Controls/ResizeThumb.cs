@@ -11,6 +11,7 @@ using DeXign.Extension;
 using WPFExtension;
 using System.Collections.Generic;
 using DeXign.Controls;
+using System.Windows.Input;
 
 namespace DeXign.Editor.Controls
 {
@@ -49,7 +50,7 @@ namespace DeXign.Editor.Controls
         {
             // Cancel Design Mode
             Layer.CancelNextInvert = true;
-
+            
             if (Layer.Parent is IStoryboard)
             {
                 OnCanvasDragDelta(horizontalChange, verticalChange);

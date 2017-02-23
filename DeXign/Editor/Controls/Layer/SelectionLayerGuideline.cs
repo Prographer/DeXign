@@ -1,9 +1,9 @@
-﻿using DeXign.Editor.Renderer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace DeXign.Editor.Layer
 {
@@ -58,6 +58,12 @@ namespace DeXign.Editor.Layer
 
         private void MarginSnap(ref Thickness margin)
         {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                RootParent.GuideLayer.ClearSnappedGuidelines();
+                return;
+            }
+
             Guideline[] items = RootParent.GuideLayer.InvalidateSnappedGuidelines(this).ToArray();
             Size parentSize = Parent.Element.RenderSize;
             Size size = AdornedElement.RenderSize;

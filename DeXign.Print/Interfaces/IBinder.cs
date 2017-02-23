@@ -21,9 +21,11 @@ namespace DeXign.Logic
         event EventHandler<BinderBindedEventArgs> Binded;
         event EventHandler<BinderReleasedEventArgs> Released;
 
-        BinderCollection Input { get; }
+        BinderCollection Inputs { get; } // inputs
+        BinderCollection Parameters { get; } // input parameters
+
         BinderCollection Outputs { get; }
 
-        BinderCollection Parameters { get; }
+        void SetProvider(IBinderProvider provider);
     }
 }

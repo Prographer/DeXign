@@ -99,7 +99,7 @@
             </DockPanel>
         </c:HeaderLayout>
 
-        <TabControl x:Name="tabControl" Grid.Column="2" SelectionChanged="tabControl_SelectionChanged">
+        <TabControl x:Name="tabControl" Grid.Column="2" SelectionChanged="tabControl_SelectionChanged" Grid.ColumnSpan="3" Margin="3,0,269,0">
             <c:ClosableTabItem Header="Welcome">
                 <Frame>
                     <Frame.Content>
@@ -118,13 +118,14 @@
 
                     <Grid Grid.Row="1">
                         <c:BezierLine Width="179" Height="104" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="12,43,0,0"
-                                      BezierPoint1="0.5,-0.3"
-                                      BezierPoint2="0.5,1.3"
+                                      Y1="0.5" Y2="0.5"
+                                      BezierPoint1="0.25,0"
+                                      BezierPoint2="0.75,1"
                                       IsDebug="True"/>
                         <c:BezierLine Width="179" Height="104" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="196,43,0,0"
                                       Y1="1" Y2="0"
-                                      BezierPoint1="0.5,1.3"
-                                      BezierPoint2="0.5,-0.3"
+                                      BezierPoint1="0.5,1"
+                                      BezierPoint2="0.5,0"
                                       IsDebug="True"/>
                         <c:BezierLine Width="179" Height="104" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="380,43,0,0"
                             BezierPoint1="0,0.5"
