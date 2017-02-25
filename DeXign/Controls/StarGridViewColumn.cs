@@ -15,39 +15,20 @@ namespace DeXign.Controls
     {
         public static readonly DependencyProperty StarWidthProperty =
             DependencyHelper.Register();
-
-        public static readonly DependencyProperty TargetProperty =
-            DependencyHelper.Register();
-
+        
         public double StarWidth
         {
             get { return (double)GetValue(StarWidthProperty); }
             set { SetValue(StarWidthProperty, value); }
         }
-
-        public GridView Target
-        {
-            get { return (GridView)GetValue(TargetProperty); }
-            set { SetValue(TargetProperty, value); }
-        }
-
+        
         public StarGridViewColumn()
         {
             StarWidthProperty.AddValueChanged(this, StarWidthChanged);
-            TargetProperty.AddValueChanged(this, TargetChanged);
-        }
-
-        private void TargetChanged(object sender, EventArgs e)
-        {
-            var t = Target;
         }
 
         private void StarWidthChanged(object sender, EventArgs e)
-        {
-            if (Target == null)
-                return;
-
-            
+        { 
         }
     }
 }

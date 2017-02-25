@@ -20,21 +20,10 @@ namespace DeXign.Controls
             base.OnApplyTemplate();
 
             valueBox = GetTemplateChild<TextBox>("PART_valueBox");
-
-            valueBox.KeyDown += Tb_KeyDown;
-
+            
             BindingEx.SetBinding(
                 this, ValueProperty,
                 valueBox, TextBox.TextProperty);
-        }
-
-        private void Tb_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                valueBox.GetBindingExpression(TextBox.TextProperty)
-                    .UpdateSource();
-            }
         }
 
         protected override void OnDispose()

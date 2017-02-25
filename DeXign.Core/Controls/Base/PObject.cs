@@ -2,7 +2,7 @@ using System.Windows;
 
 using WPFExtension;
 
-namespace DeXign.Core.Controls
+namespace DeXign.Core
 {
     public class PObject : DependencyObject
     {

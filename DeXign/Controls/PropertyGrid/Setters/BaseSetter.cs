@@ -43,6 +43,8 @@ namespace DeXign.Controls
 
         public BaseSetter(DependencyObject target, PropertyInfo pi)
         {
+            this.Focusable = false;
+
             this.Target = target;
 
             TargetProperty = pi;

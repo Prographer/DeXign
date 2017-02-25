@@ -97,7 +97,7 @@
         </c:HeaderLayout>
 
         <GridSplitter Grid.Column="1" Background="#C0C0C0" Width="2" HorizontalAlignment="Center"/>
-        
+
         <TabControl x:Name="tabControl" Grid.Column="2" SelectionChanged="tabControl_SelectionChanged">
             <c:ClosableTabItem Header="Welcome">
                 <Frame>

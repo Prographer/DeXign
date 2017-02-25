@@ -11,12 +11,28 @@
         <Setter Property="Height" Value="20"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
     </Style>
+
+    <Style x:Key="ValueBoxStyle" TargetType="{x:Type TextBox}">
+        <Setter Property="TabIndex" Value="0"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Brush.Accent}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="SelectionBrush" Value="{StaticResource Brush.Accent}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Style.Triggers>
+            <Trigger Property="IsFocused" Value="False">
+                <Setter Property="BorderBrush" Value="Transparent"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
     
     <Style x:Key="ValueBoxSetterStyle" TargetType="{x:Type c:ValueBoxSetter}">
+        <Setter Property="BorderBrush" Value="#FFABADB3"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type c:ValueBoxSetter}">
-                    <TextBox x:Name="PART_valueBox" HorizontalAlignment="Stretch" FontSize="12" BorderThickness="0" Background="Transparent" SelectionBrush="{DynamicResource Brush.Accent}"/>
+                    <c:SubmitTextBox x:Name="PART_valueBox" Style="{StaticResource ValueBoxStyle}"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -26,7 +42,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type c:EnumSetter}">
-                    <ComboBox x:Name="PART_valueComboBox" HorizontalAlignment="Stretch" FontSize="12" BorderThickness="0" Background="Transparent"/>
+                    <ComboBox x:Name="PART_valueComboBox" BorderThickness="0" Background="Transparent"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -143,21 +159,21 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="40"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="30"/>
                             <ColumnDefinition Width="40"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40"/>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="30"/>
                             <RowDefinition Height="40"/>
                         </Grid.RowDefinitions>
 
                         <Image x:Name="background" Grid.RowSpan="3" Grid.ColumnSpan="3" Source="pack://application:,,,/DeXign;component/Resources/Images/MarginBackground.png" Stretch="Fill" Width="110" Height="110"/>
 
-                        <TextBox x:Name="PART_leftValueBox" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBox x:Name="PART_rightValueBox" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBox x:Name="PART_topValueBox" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBox x:Name="PART_bottomValueBox" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <c:SubmitTextBox x:Name="PART_leftValueBox" MaxWidth="38" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource ValueBoxStyle}" Background="White"/>
+                        <c:SubmitTextBox x:Name="PART_rightValueBox" MaxWidth="38" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource ValueBoxStyle}" Background="White"/>
+                        <c:SubmitTextBox x:Name="PART_topValueBox" MaxWidth="38" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource ValueBoxStyle}" Background="White"/>
+                        <c:SubmitTextBox x:Name="PART_bottomValueBox" MaxWidth="38" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource ValueBoxStyle}" Background="White"/>
                     </Grid>
 
                     <ControlTemplate.Triggers>
@@ -175,7 +191,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type c:OpacitySetter}">
                     <Grid>
-                        <TextBox Width="35" HorizontalAlignment="Left" BorderThickness="0" Background="Transparent">
+                        <c:SubmitTextBox Width="35" HorizontalAlignment="Left" BorderThickness="0" Background="Transparent">
                             <TextBox.Text>
                                 <Binding Path="Value" ElementName="PART_slider" Converter="{StaticResource Converter.Percentage}" UpdateSourceTrigger="PropertyChanged">
                                     <Binding.ValidationRules>
@@ -183,7 +199,7 @@
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>
-                        </TextBox>
+                        </c:SubmitTextBox>
                         <Slider x:Name="PART_slider" Minimum="0" Maximum="1" Margin="40,0,15,0"/>
                     </Grid>
                 </ControlTemplate>
@@ -198,6 +214,7 @@
                     <xctk:ColorCanvas x:Name="PART_colorCanvas" SelectedColor="Red" Foreground="Black" Margin="0,0,10,0" FontSize="12">
                         <xctk:ColorCanvas.Style>
                             <Style TargetType="{x:Type xctk:ColorCanvas}">
+                                <Setter Property="Focusable" Value="False"/>
                                 <Setter Property="Background" Value="{x:Null}"/>
                                 <Setter Property="BorderThickness" Value="0"/>
                                 <Setter Property="Template">

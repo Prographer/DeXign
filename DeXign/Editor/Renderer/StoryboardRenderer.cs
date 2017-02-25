@@ -2,6 +2,7 @@ using System.Windows;
 
 using DeXign.Core.Controls;
 using DeXign.Editor.Layer;
+using DeXign.Core;
 
 namespace DeXign.Editor.Renderer
 {

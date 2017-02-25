@@ -1,6 +1,5 @@
 using System.Windows;
-
-using DeXign.Core.Controls;
+using DeXign.Core;
 
 namespace DeXign.Editor
 {

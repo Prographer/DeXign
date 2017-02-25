@@ -11,13 +11,15 @@ using DeXign.Windows.Pages;
 using DeXign.Editor;
 using System.Linq;
 using DeXign.Core.Controls;
+using WPFExtension;
+using System.Windows.Threading;
 
 namespace DeXign
 {
     public partial class MainWindow : ChromeWindow, IViewModel<MainModel>
     {
         public MainModel Model { get; set; }
-        public Point pt;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -29,8 +31,15 @@ namespace DeXign
             
             // test
             GroupSelector.SelectedItemChanged += GroupSelector_SelectedItemChanged;
+
+            FocusManager.AddGotFocusHandler(this, HHHH);
         }
-        
+
+        private void HHHH(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine(FocusManager.GetFocusedElement(this)?.ToString());
+        }
+
         private void GroupSelector_SelectedItemChanged(object sender, EventArgs e)
         {
             propertyGrid.SelectedObjects = GroupSelector.GetSelectedItems()

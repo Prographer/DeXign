@@ -10,6 +10,7 @@ using DeXign.Editor;
 using DeXign.Editor.Layer;
 
 using WPFExtension;
+using DeXign.Core;
 
 namespace DeXign.Editor.Renderer
 {
@@ -66,7 +67,9 @@ namespace DeXign.Editor.Renderer
 
             view.DataContext = model;
             view.AddAdorner((Adorner)renderer);
+
             view.SetRenderer(renderer);
+            model.SetRenderer(renderer);
 
             return view;
         }

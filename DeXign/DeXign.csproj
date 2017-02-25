@@ -117,6 +117,8 @@
     <Compile Include="Editor\Controls\Layer\DropSelectionLayer.cs" />
     <Compile Include="Editor\Controls\Layer\SelectionLayerGuideline.cs" />
     <Compile Include="Editor\Controls\MoveThumb.cs" />
+    <Compile Include="Editor\Controls\StoryboardNameScope.cs" />
+    <Compile Include="Controls\SubmitTextBox.cs" />
     <Compile Include="Editor\DesignTime.cs" />
     <Compile Include="Editor\Guideline.cs" />
     <Compile Include="Editor\Interfaces\IContentLayout.cs" />

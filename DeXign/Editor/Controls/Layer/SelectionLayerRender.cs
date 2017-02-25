@@ -274,16 +274,16 @@ namespace DeXign.Editor.Layer
 
             // Value Box Render
             if (marginLeft && valueLeft != "0")
-                DrawValueBox(dc, formattedTextLeft, textPositionLeft, textBoundLeft, Brushes.White);
+                DrawTextBound(dc, formattedTextLeft, textPositionLeft, textBoundLeft, Brushes.White);
 
             if (marginRight && valueRight != "0")
-                DrawValueBox(dc, formattedTextRight, textPositionRight, textBoundRight, Brushes.White);
+                DrawTextBound(dc, formattedTextRight, textPositionRight, textBoundRight, Brushes.White);
 
             if (marginTop && valueTop != "0")
-                DrawValueBox(dc, formattedTextTop, textPositionTop, textBoundTop, Brushes.White, 90);
+                DrawTextBound(dc, formattedTextTop, textPositionTop, textBoundTop, Brushes.White, 90);
 
             if (marginBottom && valueBottom != "0")
-                DrawValueBox(dc, formattedTextBottom, textPositionBottom, textBoundBottom, Brushes.White, 90);
+                DrawTextBound(dc, formattedTextBottom, textPositionBottom, textBoundBottom, Brushes.White, 90);
         }
 
         private void DrawGuideLineWidth(DrawingContext dc, bool isBottom)
@@ -338,7 +338,7 @@ namespace DeXign.Editor.Layer
                 textPosition.Y = textBound.Y + ValueBoxBlank;
             }
 
-            DrawValueBox(dc, formattedText, textPosition, textBound, Brushes.White);
+            DrawTextBound(dc, formattedText, textPosition, textBound, Brushes.White);
         }
 
         private void DrawGuideLineHeight(DrawingContext dc, bool isRight)
@@ -393,10 +393,10 @@ namespace DeXign.Editor.Layer
                 textPosition.X = textBound.X + ValueBoxBlank;
             }
 
-            DrawValueBox(dc, formattedText, textPosition, textBound, Brushes.White, 90);
+            DrawTextBound(dc, formattedText, textPosition, textBound, Brushes.White, 90);
         }
 
-        protected void DrawValueBox(
+        protected void DrawTextBound(
             DrawingContext dc,
             FormattedText text, Point textPosition,
             Rect bound, Brush background,
@@ -416,7 +416,7 @@ namespace DeXign.Editor.Layer
             if (isRotate)
                 dc.Pop();
         }
-
+        
         protected FormattedText CreateFormattedText(string text, double size, string fontName, Brush brush)
         {
             return new FormattedText(

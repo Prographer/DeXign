@@ -8,7 +8,6 @@ namespace DeXign.Extension
     public static class LogicalTreeHelperEx
     {
         public static IEnumerable<T> FindLogicalParents<T>(this DependencyObject element, bool findAll = true)
-            where T : DependencyObject
         {
             return Finds<T>(element, ParentSetter, findAll);
         }
@@ -22,7 +21,6 @@ namespace DeXign.Extension
         }
 
         public static IEnumerable<T> FindLogicalChildrens<T>(this DependencyObject element, bool findAll = true) 
-            where T : DependencyObject
         {
             return Finds<T>(element, ChildrenSetter, findAll);
         }
@@ -36,7 +34,7 @@ namespace DeXign.Extension
         private static IEnumerable<T> Finds<T>(
             this DependencyObject element,
             Action<DependencyObject, Queue<DependencyObject>> elementSetter,
-            bool findAll = true) where T : DependencyObject
+            bool findAll = true)
         {
             var visualQueue = new Queue<DependencyObject>();
             visualQueue.Enqueue(element);
@@ -50,7 +48,7 @@ namespace DeXign.Extension
 
                 if (visual is T)
                 {
-                    yield return visual as T;
+                    yield return (T)(object)visual;
 
                     if (!findAll)
                         break;

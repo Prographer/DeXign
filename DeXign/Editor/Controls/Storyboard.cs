@@ -1,18 +1,14 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Markup;
 
 using DeXign.Core;
 using DeXign.Core.Controls;
 using DeXign.Core.Designer;
-using DeXign.Editor;
 using DeXign.Editor.Layer;
 using DeXign.Editor.Renderer;
 using DeXign.Extension;
@@ -20,7 +16,7 @@ using DeXign.Extension;
 namespace DeXign.Editor.Controls
 {
     // TODO: 스토리 보드 구현해야함 할게 짱 많네
-    class Storyboard : Canvas
+    partial class Storyboard : Canvas
     {
         public event EventHandler ElementChanged;
 
@@ -217,6 +213,7 @@ namespace DeXign.Editor.Controls
             // Remove On AdornerLayer
             element.RemoveAdorner((Adorner)childRenderer);
             element.SetRenderer(null);
+            childRenderer.Model.SetRenderer(null);
 
             // Remove On PObject Parent
             VisualContentHelper.GetContent(
@@ -235,5 +232,6 @@ namespace DeXign.Editor.Controls
 
             ElementChanged?.Invoke(this, null);
         }
+        
     }
 }

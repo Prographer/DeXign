@@ -44,12 +44,7 @@ namespace DeXign.Controls
             topValueBox = GetTemplateChild<TextBox>("PART_topValueBox");
             rightValueBox = GetTemplateChild<TextBox>("PART_rightValueBox");
             bottomValueBox = GetTemplateChild<TextBox>("PART_bottomValueBox");
-
-            leftValueBox.KeyDown += ValueBox_KeyDown;
-            topValueBox.KeyDown += ValueBox_KeyDown;
-            rightValueBox.KeyDown += ValueBox_KeyDown;
-            bottomValueBox.KeyDown += ValueBox_KeyDown;
-
+            
             BindingEx.SetBinding(
                 marginBinder, ElementThicknessBinder.LeftProperty,
                 leftValueBox, TextBox.TextProperty);
@@ -65,16 +60,6 @@ namespace DeXign.Controls
             BindingEx.SetBinding(
                 marginBinder, ElementThicknessBinder.BottomProperty,
                 bottomValueBox, TextBox.TextProperty);
-        }
-
-        private void ValueBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                (sender as TextBox)
-                .GetBindingExpression(TextBox.TextProperty)
-                .UpdateSource();
-            }
         }
 
         protected override void OnDispose()

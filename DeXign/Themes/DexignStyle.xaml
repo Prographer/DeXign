@@ -4,7 +4,8 @@
                     xmlns:c="clr-namespace:DeXign.Controls"
                     xmlns:ex="clr-namespace:DeXign.Extension;assembly=DeXign.Extension"
                     xmlns:aero2="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
-                    xmlns:m="clr-namespace:DeXign.Models">
+                    xmlns:m="clr-namespace:DeXign.Models"
+                    xmlns:rule="clr-namespace:DeXign.Rules">
 
     <!-- Used 'XAML Region' Extension -->
 
@@ -53,7 +54,7 @@
                 <ControlTemplate TargetType="{x:Type Expander}">
                     <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
                         <DockPanel>
-                            <ToggleButton x:Name="HeaderSite" ContentTemplate="{TemplateBinding HeaderTemplate}" ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" Content="{TemplateBinding Header}" DockPanel.Dock="Top" Foreground="{TemplateBinding Foreground}" FontWeight="{TemplateBinding FontWeight}" FocusVisualStyle="{x:Null}" FontStyle="{TemplateBinding FontStyle}" FontStretch="{TemplateBinding FontStretch}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" MinWidth="0" MinHeight="0" Padding="{TemplateBinding Padding}" Style="{StaticResource ExpanderDownHeaderStyle}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <ToggleButton x:Name="HeaderSite" Focusable="False" ContentTemplate="{TemplateBinding HeaderTemplate}" ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" Content="{TemplateBinding Header}" DockPanel.Dock="Top" Foreground="{TemplateBinding Foreground}" FontWeight="{TemplateBinding FontWeight}" FocusVisualStyle="{x:Null}" FontStyle="{TemplateBinding FontStyle}" FontStretch="{TemplateBinding FontStretch}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" MinWidth="0" MinHeight="0" Padding="{TemplateBinding Padding}" Style="{StaticResource ExpanderDownHeaderStyle}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             <ContentPresenter x:Name="ExpandSite" DockPanel.Dock="Bottom" Focusable="false" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" Visibility="Collapsed" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </DockPanel>
                     </Border>
@@ -316,19 +317,23 @@
     </Style>
 
     <Style TargetType="{x:Type c:PropertyGrid}">
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="Cycle"/>
         <Setter Property="Background" Value="#BBBBBB"/>
         <Setter Property="Padding" Value="0"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="Focusable" Value="False"/>
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="Padding" Value="0"/>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                <Border Padding="8" BorderThickness="0,0,0,1" BorderBrush="#D2D2D2">
-                                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                        <GridViewRowPresenter 
+                                <Border BorderThickness="0,0,0,1" BorderBrush="#D2D2D2">
+                                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2,4">
+                                        <GridViewRowPresenter Focusable="False"
                                             Columns="{TemplateBinding GridView.ColumnCollection}" 
                                             Content="{TemplateBinding Content}" 
                                             Grid.RowSpan="2" 
@@ -360,7 +365,7 @@
                     <c:StarGridViewColumn StarWidth="1.7">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <ContentPresenter Content="{Binding Setter}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,8,0"/>
+                                <ContentPresenter Content="{Binding Setter}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Focusable="False"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </c:StarGridViewColumn>
@@ -384,10 +389,35 @@
                                        Margin="0,0,16,0"
                                        Height="32"/>
 
-                                <UniformGrid Grid.Column="1" Rows="2">
-                                    <TextBlock Text="{TemplateBinding DataContext, Converter={StaticResource Converter.DisplayName}}" Foreground="#777777" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,0,2"/>
-                                    <TextBox Text="&lt;이름 없음&gt;" HorizontalAlignment="Stretch" FontSize="12" BorderThickness="0" Background="Transparent" Margin="0,2,0,0" SelectionBrush="{DynamicResource Brush.Accent}"/>
-                                </UniformGrid>
+                                <Grid Grid.Column="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="4"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="형식" VerticalAlignment="Center" Foreground="#747474"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="이름" VerticalAlignment="Center" Foreground="#747474"/>
+                                    
+                                    <TextBlock Grid.Column="2" Grid.Row="0" Text="{TemplateBinding DataContext, Converter={StaticResource Converter.DisplayName}}" Foreground="#777777" FontWeight="Bold" VerticalAlignment="Center"/>
+                                    <c:SubmitTextBox Grid.Column="2" Grid.Row="2" Style="{StaticResource ValueBoxStyle}" HorizontalAlignment="Stretch">
+                                        <TextBox.Text>
+                                            <Binding Path="DataContext.Name" FallbackValue="&lt;이름 없음&gt;">
+                                                <Binding.RelativeSource>
+                                                    <RelativeSource Mode="FindAncestor" AncestorType="{x:Type c:PropertyGrid}"/>
+                                                </Binding.RelativeSource>
+                                                <Binding.ValidationRules>
+                                                    <rule:NameScopeRule/>
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox.Text>
+                                    </c:SubmitTextBox>
+                                </Grid>
                             </Grid>
                         </Border>
                         <c:HintTextBox x:Name="PART_searchBox" DockPanel.Dock="Top" Style="{DynamicResource SearchBarStyle}" TextHint="속성 검색" Margin="-1,0"
@@ -731,6 +761,7 @@
         <Setter Property="AllowDrop" Value="true"/>
         <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type c:HintTextBox}">
@@ -813,7 +844,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Expander IsExpanded="True" Background="#E6E6E6">
+                    <Expander IsExpanded="True" Background="#E6E6E6" Padding="0">
                         <Expander.Header>
                             <TextBlock Text="{Binding Name}" Foreground="#595959" FontSize="12" VerticalAlignment="Center" />
                         </Expander.Header>
@@ -926,6 +957,8 @@
     </Style>
 
     <Style TargetType="{x:Type ScrollViewer}">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollViewer}">

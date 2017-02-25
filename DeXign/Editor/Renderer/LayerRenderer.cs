@@ -12,6 +12,7 @@ using WPFExtension;
 using DeXign.Converter;
 using DeXign.Core;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace DeXign.Editor.Renderer
 {
@@ -37,7 +38,12 @@ namespace DeXign.Editor.Renderer
 
         public TModel Model { get; set; }
         #endregion
-        
+
+        #region [ Local Variable ]
+        private bool showModelName = false;
+        private string displayTypeName = "";
+        #endregion
+
         static LayerRenderer()
         {
             hConverter = new EnumToEnumConverter<HorizontalAlignment, PHorizontalAlignment>();
@@ -48,8 +54,13 @@ namespace DeXign.Editor.Renderer
         {
             this.Model = model;
             this.Element = adornedElement;
-        }
 
+            // 이름 설정
+            var attr = model.GetAttribute<DesignElementAttribute>();
+            if (attr != null)
+                displayTypeName = attr.DisplayName;
+        }
+        
         protected override void OnDisposed()
         {
             VisualContentHelper.GetContent(
@@ -203,6 +214,65 @@ namespace DeXign.Editor.Renderer
 
         public virtual void OnRemovedChild(IRenderer child)
         {
+        }
+        
+        protected override void OnRender(DrawingContext dc)
+        {
+            base.OnRender(dc);
+
+            if (showModelName)
+            {
+                double blank = 4 / ScaleX;
+                double opacity = 8;
+                string name = Model.Name;
+                SolidColorBrush brush = Brushes.Black;
+
+                if (string.IsNullOrEmpty(name))
+                {
+                    brush = Brushes.LightSlateGray;
+                    name = "<이름 없음>";
+                    opacity = 0.56;
+                }
+
+                name = $"{name} ({displayTypeName})";
+
+                FormattedText text = CreateFormattedText(name, 11, "맑은 고딕", brush);
+
+                var position = new Point(blank, -text.Height - blank);
+                var bound = new Rect(position, new Size(text.Width, text.Height));
+
+                Inflate(ref bound, blank, blank);
+
+                dc.PushOpacity(opacity);
+                dc.DrawRectangle(Brushes.White, null, bound);
+                dc.Pop();
+
+                dc.PushOpacity(0.8);
+                dc.DrawText(text, position);
+                dc.Pop();
+            }
+        }
+
+        protected override void OnDesignModeChanged()
+        {
+            showModelName &= (DesignMode == DesignMode.None);
+
+            base.OnDesignModeChanged();
+        }
+
+        protected override void OnMouseEnter(MouseEventArgs e)
+        {
+            if (DesignMode == DesignMode.None)
+                showModelName = true;
+
+            base.OnMouseEnter(e);
+        }
+
+        protected override void OnMouseLeave(MouseEventArgs e)
+        {
+            showModelName = false;
+
+            base.OnMouseLeave(e);
         }
     }
 }

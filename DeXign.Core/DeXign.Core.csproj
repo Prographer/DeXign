@@ -105,6 +105,7 @@
     <Compile Include="Generator\WPFGenerator.cs" />
     <Compile Include="Generator\XFormsGenerator.cs" />
     <Compile Include="Generator\XMLGenerator.cs" />
+    <Compile Include="Interfaces\INameScope.cs" />
     <Compile Include="PFontAttributes.cs" />
     <Compile Include="Interfaces\IDefinition.cs" />
     <Compile Include="PColumnDefinition.cs" />
