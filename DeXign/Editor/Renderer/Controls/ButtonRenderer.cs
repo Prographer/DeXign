@@ -8,6 +8,7 @@ using DeXign.Extension;
 using DeXign.Theme;
 
 using WPFExtension;
+using System;
 
 [assembly: ExportRenderer(typeof(PButton), typeof(RadiusButton), typeof(ButtonRenderer))]
 
@@ -60,7 +61,9 @@ namespace DeXign.Editor.Renderer
                 element, Button.BorderBrushProperty,
                 Model, PButton.BorderBrushProperty);
 
-            // TODO: BorderRadius
+            BindingEx.SetBinding(
+                element, RadiusButton.BorderRadiusProperty,
+                Model, PButton.BorderRadiusProperty);
 
             // Setting
             Model.Text = "버튼";

@@ -1,12 +1,11 @@
 using System.Windows;
 
-using DeXign.Core.Controls;
-using DeXign.Editor.Layer;
 using DeXign.Core;
+using DeXign.Editor.Layer;
 
 namespace DeXign.Editor.Renderer
 {
-    class StoryboardRenderer : StoryboardLayer, IRenderer, IStoryboard
+    public class StoryboardRenderer : StoryboardLayer, IRenderer, IStoryboard
     {
         public FrameworkElement Element => (FrameworkElement)AdornedElement;
 
@@ -23,5 +22,5 @@ namespace DeXign.Editor.Renderer
         public void OnRemovedChild(IRenderer child)
         {
         }
-    }
+    }    
 }

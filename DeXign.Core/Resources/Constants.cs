@@ -16,5 +16,10 @@ namespace DeXign.Core
             public const string Transform = "변형";
             public const string Other = "그 외";
         }
+
+        public sealed class Event
+        {
+            public const string Gesture = "행동";
+        }
     }
 }

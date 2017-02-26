@@ -84,6 +84,8 @@ namespace DeXign.Editor.Controls
             positionLimit = new Vector(
                 beginPosition.X + beginSize.X - Target.GetDesignMinWidth(),
                 beginPosition.Y + beginSize.Y - Target.GetDesignMinHeight());
+
+            base.OnDragStarted(horizontalOffset, verticalOffset);
         }
 
 

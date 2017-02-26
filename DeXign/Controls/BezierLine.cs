@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
+
 using WPFExtension;
 
 namespace DeXign.Controls
 {
-    class BezierLine : FrameworkElement
+    public class BezierLine : FrameworkElement
     {
         public static readonly DependencyProperty X1Property =
             DependencyHelper.Register(
@@ -26,7 +22,7 @@ namespace DeXign.Controls
         public static readonly DependencyProperty Y2Property =
             DependencyHelper.Register(
                 new FrameworkPropertyMetadata(1d, FrameworkPropertyMetadataOptions.AffectsRender));
-
+        
         public static readonly DependencyProperty BezierPoint1Property =
             DependencyHelper.Register(
                 new FrameworkPropertyMetadata(new Point(0, 0.5), FrameworkPropertyMetadataOptions.AffectsRender));
@@ -74,7 +70,7 @@ namespace DeXign.Controls
             get { return (Point)GetValue(BezierPoint2Property); }
             set { SetValue(BezierPoint2Property, value); }
         }
-
+        
         public bool IsDebug
         {
             get { return (bool)GetValue(IsDebugProperty); }
@@ -120,12 +116,10 @@ namespace DeXign.Controls
         {
             var startPoint = Multiply(new Point(X1, Y1), (Point)RenderSize);
             var endPoint = Multiply(new Point(X2, Y2), (Point)RenderSize);
-            var bz1 = Multiply(BezierPoint1, (Point)RenderSize);
-            var bz2 = Multiply(BezierPoint2, (Point)RenderSize);
 
             figure.StartPoint = startPoint;
-            segment.Point1 = bz1;
-            segment.Point2 = bz2;
+            segment.Point1 = BezierPoint1;
+            segment.Point2 = BezierPoint2;
             segment.Point3 = endPoint;
 
             var p = new Pen(Brushes.Black, 1);
@@ -135,8 +129,8 @@ namespace DeXign.Controls
             if (IsDebug)
             {
                 debugFigure.StartPoint = startPoint;
-                line1.Point = bz1;
-                line2.Point = bz2;
+                line1.Point = BezierPoint1;
+                line2.Point = BezierPoint2;
                 line3.Point = endPoint;
 
                 var rp = new Pen(Brushes.Red, 1);

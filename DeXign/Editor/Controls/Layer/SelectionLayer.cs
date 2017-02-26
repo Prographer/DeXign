@@ -23,6 +23,8 @@ namespace DeXign.Editor.Layer
 {
     public partial class SelectionLayer : StoryboardLayer
     {
+        public event EventHandler DesignModeChanged;
+
         #region [ Dependency Property ]
         public static readonly DependencyProperty DisplayMarginProperty =
             DependencyHelper.Register(
@@ -673,6 +675,7 @@ namespace DeXign.Editor.Layer
         private void DesignMode_Changed(object sender, EventArgs e)
         {
             OnDesignModeChanged();
+            DesignModeChanged?.Invoke(this, e);
         }
 
         protected virtual void OnDesignModeChanged()

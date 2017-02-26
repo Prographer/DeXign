@@ -1,3 +1,4 @@
+using System;
 using System.Windows;
 using System.Windows.Media;
 
@@ -9,6 +10,9 @@ namespace DeXign.Core.Controls
     [XForms("Xamarin.Forms", "Button")]
     public class PButton : PControl
     {
+        [DesignElement(Category = Constants.Event.Gesture, DisplayName = "클릭했을 때")]
+        public event EventHandler Clicked;
+
         public static readonly DependencyProperty TextProperty =
             DependencyHelper.Register();
 
@@ -16,7 +20,8 @@ namespace DeXign.Core.Controls
             DependencyHelper.Register();
 
         public static readonly DependencyProperty BorderRadiusProperty =
-            DependencyHelper.Register();
+            DependencyHelper.Register(
+                new PropertyMetadata(5d));
 
         public static readonly DependencyProperty BorderThicknessProperty =
             DependencyHelper.Register();

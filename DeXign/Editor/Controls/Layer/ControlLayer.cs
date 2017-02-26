@@ -1,3 +1,4 @@
+using DeXign.Editor.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,8 +56,16 @@ namespace DeXign.Editor.Layer
         protected override Size ArrangeOverride(Size finalSize)
         {
             foreach (FrameworkElement element in visualChildren)
+            {
+                double x = Storyboard.GetLeft(element);
+                double y = Storyboard.GetTop(element);
+
+                x = double.IsNaN(x) ? 0 : x;
+                y = double.IsNaN(y) ? 0 : y;
+
                 element.Arrange(
-                    new Rect(0, 0, AdornedElement.RenderSize.Width, AdornedElement.RenderSize.Height));
+                    new Rect(x, y, AdornedElement.RenderSize.Width, AdornedElement.RenderSize.Height));
+            }
 
             return finalSize;
         }

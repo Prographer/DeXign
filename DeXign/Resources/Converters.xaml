@@ -9,4 +9,6 @@
     <cvt:PercentageConverter x:Key="Converter.Percentage"/>
     <cvt:ToolboxIconConverter x:Key="Converter.ToolboxIcon"/>
     <cvt:DisplayNameConverter x:Key="Converter.DisplayName"/>
+    <cvt:BoolToVisibilityConverter x:Key="Converter.BoolToVisibility"/>
+    <cvt:BoolToVisibilityConverter x:Key="Converter.NotBoolToVisibility" TrueValue="Collapsed" FalseValue="Visible"/>
 </ResourceDictionary>

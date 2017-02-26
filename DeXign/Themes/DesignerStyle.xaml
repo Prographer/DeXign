@@ -75,9 +75,116 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ec:EventTriggerButton}">
                     <Grid>
-                        <Path Data="{StaticResource Path.HalfMoon}" Width="10" Height="15" Fill="{TemplateBinding Background}"/>
-                        <Path Data="{StaticResource Path.TriangleRight}" Width="4" Height="5" Fill="White"/>
+                        <Path Data="{StaticResource Path.HalfMoon}" Width="10" Height="15" Fill="{TemplateBinding Background}" />
+                        <Path Data="{StaticResource Path.Triangle.Right}" Width="4" Height="5" Fill="White" />
+
+                        <!--<c:PopupEx IsOpen="{TemplateBinding IsIntellisenseOpen}" Placement="Right" AllowsTransparency="True" PopupAnimation="Fade" VerticalAlignment="Center">
+                            <ec:IntellisenseInfo x:Name="PART_intellisense" PlaceDirection="Left"/>
+                        </c:PopupEx>-->
                     </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type ec:IntellisenseInfo}">
+        <Setter Property="MaxHeight" Value="140"/>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                <Border x:Name="border" Padding="2" Background="Transparent">
+                                    <Border BorderBrush="{StaticResource Brush.Logic.Event}" BorderThickness="3,0,0,0">
+                                        <TextBlock Text="{Binding Title}" Margin="6,0,0,0"/>
+                                    </Border>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="true">
+                                        <Setter TargetName="border" Property="Background" Value="#D7D7D7"/>
+                                    </Trigger>
+
+                                    <Trigger Property="IsSelected" Value="true">
+                                        <Setter TargetName="border" Property="Background" Value="#C5C5C5" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ec:IntellisenseInfo}">
+                    <Border Padding="6">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="0" Opacity="0.28" BlurRadius="6"/>
+                        </Border.Effect>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Path x:Name="triangle" Grid.Column="0" Grid.Row="1" Data="{StaticResource Path.Triangle.Left}" Width="12" Height="12" Fill="White" Stretch="Fill"/>
+
+                            <Border Grid.Column="1" Grid.Row="1" Padding="6" Background="White">
+                                <Grid>
+                                    <ScrollViewer Focusable="False" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}"
+                                                  Visibility="{TemplateBinding IsEmpty, Converter={StaticResource Converter.NotBoolToVisibility}}">
+                                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                    </ScrollViewer>
+
+                                    <TextBlock Text="사용가능한 행동이 없습니다"
+                                               Visibility="{TemplateBinding IsEmpty, Converter={StaticResource Converter.BoolToVisibility}}"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="PlaceDirection" Value="Left">
+                            <Setter TargetName="triangle" Property="Grid.Column" Value="0"/>
+                            <Setter TargetName="triangle" Property="Grid.Row" Value="1"/>
+                            <Setter TargetName="triangle" Property="Data" Value="{StaticResource Path.Triangle.Left}"/>
+                        </Trigger>
+
+                        <Trigger Property="PlaceDirection" Value="Top">
+                            <Setter TargetName="triangle" Property="Grid.Column" Value="1"/>
+                            <Setter TargetName="triangle" Property="Grid.Row" Value="0"/>
+                            <Setter TargetName="triangle" Property="Data" Value="{StaticResource Path.Triangle.Top}"/>
+                        </Trigger>
+
+                        <Trigger Property="PlaceDirection" Value="Right">
+                            <Setter TargetName="triangle" Property="Grid.Column" Value="2"/>
+                            <Setter TargetName="triangle" Property="Grid.Row" Value="1"/>
+                            <Setter TargetName="triangle" Property="Data" Value="{StaticResource Path.Triangle.Right}"/>
+                        </Trigger>
+
+                        <Trigger Property="PlaceDirection" Value="Bottom">
+                            <Setter TargetName="triangle" Property="Grid.Column" Value="1"/>
+                            <Setter TargetName="triangle" Property="Grid.Row" Value="2"/>
+                            <Setter TargetName="triangle" Property="Data" Value="{StaticResource Path.Triangle.Bottom}"/>
+                        </Trigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsGrouping" Value="True"/>
+                                <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

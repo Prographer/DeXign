@@ -6,32 +6,21 @@ namespace DeXign.Logic.Binder
 {
     class BaseBinder : PControl, IBinder
     {
-        public BinderCollection Inputs
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public BinderCollection Outputs
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public BinderCollection Parameters
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
         public event EventHandler<BinderBindedEventArgs> Binded;
         public event EventHandler<BinderReleasedEventArgs> Released;
+
+        public BinderCollection Inputs { get; }
+
+        public BinderCollection Outputs { get; }
+
+        public BinderCollection Parameters { get; }
+
+        public BaseBinder()
+        {
+            Inputs = new BinderCollection();
+            Outputs = new BinderCollection();
+            Parameters = new BinderCollection();
+        }
 
         public void Bind(IBinder outputBinder, BinderOptions options)
         {

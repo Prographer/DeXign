@@ -29,13 +29,13 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <Path x:Name="arrow" Data="{StaticResource Path.TriangleUp}" Margin="23,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Fill="#626262" SnapsToDevicePixels="true" />
+                            <Path x:Name="arrow" Data="{StaticResource Path.Triangle.Top}" Margin="23,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Fill="#626262" SnapsToDevicePixels="true" />
                             <ContentPresenter Grid.Column="1" HorizontalAlignment="Left" Margin="4,0,0,0" RecognizesAccessKey="True" SnapsToDevicePixels="True" VerticalAlignment="Center"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="true">
-                            <Setter Property="Data" TargetName="arrow" Value="{StaticResource Path.TriangleDown}"/>
+                            <Setter Property="Data" TargetName="arrow" Value="{StaticResource Path.Triangle.Bottom}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -309,7 +309,7 @@
         </Setter>
     </Style>
     <!-- #endregion -->
-
+    
     <!-- #region PropertyGrid Style -->
     <Style TargetType="{x:Type ListViewItem}">
         <Setter Property="Background" Value="Transparent"/>
@@ -551,7 +551,7 @@
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border x:Name="templateRoot" SnapsToDevicePixels="true" Background="Transparent">
                         <Border x:Name="splitBorder" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Right" Margin="0" SnapsToDevicePixels="true" Width="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}">
-                            <Path x:Name="arrow" Data="{StaticResource Path.TriangleDown}" Fill="LightGray" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center"/>
+                            <Path x:Name="arrow" Data="{StaticResource Path.Triangle.Bottom}" Fill="LightGray" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center"/>
                         </Border>
                     </Border>
                     <ControlTemplate.Triggers>

@@ -15,16 +15,18 @@ using DeXign.Extension;
 
 namespace DeXign.Editor.Controls
 {
-    // TODO: 스토리 보드 구현해야함 할게 짱 많네
-    partial class Storyboard : Canvas
+    public partial class Storyboard : Canvas
     {
         public event EventHandler ElementChanged;
 
+        #region [ Properties ]
         public GuideLayer GuideLayer { get; private set; }
         public StoryboardRenderer Renderer { get; private set; }
 
         public List<ContentControl> Screens { get; } = new List<ContentControl>();
+        #endregion
 
+        #region [ Constructor ]
         public Storyboard()
         {
             InitializeLayer();
@@ -67,42 +69,21 @@ namespace DeXign.Editor.Controls
 
             this.SetRenderer(Renderer);
         }
+        #endregion
 
-        public ContentControl AddNewScreen()
-        {
-            var metadata = DesignerManager
-                .GetElementTypes()
-                .FirstOrDefault(at => at.Element == typeof(PContentPage));
-
-            var control = this.GenerateToElement(this, metadata) as ContentControl;
-
-            control.Margin = new Thickness(0);
-            control.VerticalAlignment = VerticalAlignment.Top;
-            control.HorizontalAlignment = HorizontalAlignment.Left;
-
-            control.Width = 360;
-            control.Height = 615;
-
-            Canvas.SetTop(control, 80);
-            Canvas.SetLeft(control, 80);
-
-            Screens.Add(control);
-
-            return control;
-        }
-
+        #region [ Input ]
         private void Delete_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             var layers = GroupSelector.GetSelectedItems()
                 .Cast<SelectionLayer>()
                 .ToArray();
-            
+
             if (layers.Length > 0)
             {
                 foreach (var layer in layers)
                 {
                     RemoveElement(
-                        (FrameworkElement)layer.AdornedElement.Parent, 
+                        (FrameworkElement)layer.AdornedElement.Parent,
                         layer.AdornedElement);
                 }
 
@@ -160,6 +141,31 @@ namespace DeXign.Editor.Controls
 
             GroupSelector.UnselectAll();
         }
+        #endregion
+
+        #region [ Render Element ]
+        public ContentControl AddNewScreen()
+        {
+            var metadata = DesignerManager
+                .GetElementTypes()
+                .FirstOrDefault(at => at.Element == typeof(PContentPage));
+
+            var control = this.GenerateToElement(this, metadata) as ContentControl;
+
+            control.Margin = new Thickness(0);
+            control.VerticalAlignment = VerticalAlignment.Top;
+            control.HorizontalAlignment = HorizontalAlignment.Left;
+
+            control.Width = 360;
+            control.Height = 615;
+
+            Canvas.SetTop(control, 80);
+            Canvas.SetLeft(control, 80);
+
+            Screens.Add(control);
+
+            return control;
+        }
 
         public FrameworkElement GenerateToElement(
             FrameworkElement parent,
@@ -167,7 +173,7 @@ namespace DeXign.Editor.Controls
         {
             var rendererAttr = RendererManager.FromModelType(data.Element);
             var visual = RendererManager.CreateVisual(rendererAttr);
-            
+
             if (visual == null)
                 return null;
 
@@ -196,7 +202,7 @@ namespace DeXign.Editor.Controls
 
             return visual;
         }
-        
+
         public void RemoveElement(FrameworkElement parent, FrameworkElement element)
         {
             IRenderer parentRenderer = parent.GetRenderer();
@@ -223,7 +229,7 @@ namespace DeXign.Editor.Controls
 
             // Remove On WPF Parent
             VisualContentHelper.GetContent(
-                parent, 
+                parent,
                 pi => pi.SetValue(parent, null), // Single Content
                 list => list.Remove(element));   // List Content
 
@@ -232,6 +238,47 @@ namespace DeXign.Editor.Controls
 
             ElementChanged?.Invoke(this, null);
         }
-        
+        #endregion
+
+        #region [ Bezier Line Connector ]
+        private void Connector_Updated(object sender, EventArgs e)
+        {
+            Renderer.InvalidateArrange();
+        }
+
+        public LineConnectorBase CreateConnectedLine(
+            Func<LineConnectorBase, Point> startPosition,
+            Func<LineConnectorBase, Point> endPosition)
+        {
+            var connector = new LineConnectorBase(this, startPosition, endPosition);
+
+            connector.Updated += Connector_Updated;
+
+            Renderer.Add(connector.Line);
+
+            return connector;
+        }
+
+        public LineConnector CreateConnectedLine(
+            FrameworkElement source,
+            FrameworkElement target)
+        {
+            var connector = new LineConnector(this, source, target);
+
+            connector.Updated += Connector_Updated;
+
+            Renderer.Add(connector.Line);
+
+            return connector;
+        }
+
+        public void RemoveConnectedLine(LineConnectorBase connector)
+        {
+            connector.Updated -= Connector_Updated;
+
+            Renderer.Remove(connector.Line);
+            connector.Release();
+        }
+        #endregion
     }
 }

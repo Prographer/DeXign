@@ -23,6 +23,9 @@ namespace DeXign.Editor.Layer
             object data = e.Data.GetData(typeof(AttributeTuple<DesignElementAttribute, Type>));
             dragCanceled = !this.CanDrop((AttributeTuple<DesignElementAttribute, Type>)data);
 
+            if (data == null)
+                return;
+
             ShowFrame(!dragCanceled);
         }
 

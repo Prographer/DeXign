@@ -27,6 +27,20 @@ namespace DeXign.Extension
             return obj.GetAttribute<TAttribute>() != null;
         }
 
+        public static TAttribute GetAttribute<TAttribute>(this EventInfo ei)
+            where TAttribute : Attribute
+        {
+            TAttribute attr = ei.GetCustomAttribute<TAttribute>();
+
+            return attr;
+        }
+
+        public static bool HasAttribute<TAttribute>(this EventInfo ei)
+            where TAttribute : Attribute
+        {
+            return ei.GetAttribute<TAttribute>() != null;
+        }
+
         public static TAttribute GetAttribute<TAttribute>(this PropertyInfo pi)
             where TAttribute : Attribute
         {

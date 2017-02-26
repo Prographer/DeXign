@@ -24,6 +24,10 @@
     <Color x:Key="Color.ToolBox.Item.Fill">#EEEEEE</Color>
     <Color x:Key="Color.ToolBox.Item.Border">#DBDBDB</Color>
 
+    <Color x:Key="Color.Logic.Event">#FF9900</Color>
+    <Color x:Key="Color.Logic.Statement">#975EE7</Color>
+    <Color x:Key="Color.Logic.Comopnent">#5E8BE7</Color>
+    
     <!-- Brushes -->
     <SolidColorBrush x:Key="Brush.LemonGrass" Color="{StaticResource Color.LemonGrass}"/>
     
@@ -47,6 +51,10 @@
     <SolidColorBrush x:Key="Brush.ToolBox.Item.Fill" Color="{StaticResource Color.ToolBox.Item.Fill}"/>
     <SolidColorBrush x:Key="Brush.ToolBox.Item.Border" Color="{StaticResource Color.ToolBox.Item.Border}"/>
 
+    <SolidColorBrush x:Key="Brush.Logic.Event" Color="{StaticResource Color.Logic.Event}"/>
+    <SolidColorBrush x:Key="Brush.Logic.Statement" Color="{StaticResource Color.Logic.Statement}"/>
+    <SolidColorBrush x:Key="Brush.Logic.Comopnent" Color="{StaticResource Color.Logic.Comopnent}"/>
+    
     <LinearGradientBrush x:Key="Brush.Header" StartPoint="0.5,0" EndPoint="0.5,1">
         <GradientStop Color="#717171" Offset="0"/>
         <GradientStop Color="#555555" Offset="1"/>

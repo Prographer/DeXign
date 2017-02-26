@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DeXign.Editor.Controls
 {
-    partial class Storyboard : INameScope
+    public partial class Storyboard : INameScope
     {
         Dictionary<PObject, string> nameDict =
             new Dictionary<PObject, string>();

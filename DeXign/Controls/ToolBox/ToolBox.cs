@@ -13,17 +13,7 @@ namespace DeXign.Controls
         {
             AddGroupProperty("Category");
         }
-
-        private void OnDragEnd(object sender, DragHelper.DragEventArgs e)
-        {
-            // TODO: End Drag
-        }
-
-        private void OnDrag(object sender, DragHelper.DragEventArgs e)
-        {
-            // TODO: Drag
-        }
-
+        
         protected override bool OnFilter(object item)
         {
             return (item as ToolBoxItemView).Model.Title.KContains(FilterKeyword);

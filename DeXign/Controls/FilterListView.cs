@@ -24,6 +24,11 @@ namespace DeXign.Controls
             (d as FilterListView).Filter();
         }
 
+        public int ItemCount
+        {
+            get { return items.Count; }
+        }
+
         public string FilterKeyword
         {
             get { return (string)GetValue(FilterKeywordProperty); }
@@ -38,23 +43,23 @@ namespace DeXign.Controls
             InitializeGrouping();
         }
 
-        public void Clear()
+        public virtual void Clear()
         {
             items.Clear();
         }
 
-        public void AddItem(object item)
+        public virtual void AddItem(object item)
         {
             items.Add(item);
         }
 
-        public void AddItems(IEnumerable<object> items)
+        public virtual void AddItems(IEnumerable<object> items)
         {
             foreach (object item in items)
                 this.items.Add(item);
         }
 
-        public void RemoveItem(object item)
+        public virtual void RemoveItem(object item)
         {
             items.Remove(item);
         }

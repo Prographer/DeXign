@@ -264,7 +264,7 @@ namespace DeXign.Editor.Renderer
         {
             if (DesignMode == DesignMode.None)
                 showModelName = true;
-
+        
             base.OnMouseEnter(e);
         }
 

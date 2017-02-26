@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace DeXign.Editor.Layer
 {
-    class GuideLayer : StoryboardLayer, IGuideService
+    public class GuideLayer : StoryboardLayer, IGuideService
     {
         public List<IGuideProvider> Items { get; }
 

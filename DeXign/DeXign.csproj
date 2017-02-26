@@ -93,10 +93,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Animation\SpringEase.cs" />
     <Compile Include="Controls\BezierLine.cs" />
     <Compile Include="Controls\EnumRadioBox.cs" />
+    <Compile Include="Editor\Connector\LineConnector.cs" />
+    <Compile Include="Editor\Connector\LineConnectorBase.cs" />
+    <Compile Include="Editor\Controls\IntellisenseInfo\IntellisenseInfoItemView.cs" />
     <Compile Include="Controls\LabelEx.cs" />
     <Compile Include="Controls\LinkTextBlock.cs" />
+    <Compile Include="Controls\PopupEx.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\BaseSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\BrushSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\OpacitySetter.cs" />
@@ -113,6 +118,7 @@
     <Compile Include="Controls\RectangleEx.cs" />
     <Compile Include="Controls\StarGridViewColumn.cs" />
     <Compile Include="Controls\RelativeThumb.cs" />
+    <Compile Include="Editor\Controls\IntellisenseInfo\IntellisenseInfo.cs" />
     <Compile Include="Editor\Controls\Layer\AttachedAdorner.cs" />
     <Compile Include="Editor\Controls\Layer\DropSelectionLayer.cs" />
     <Compile Include="Editor\Controls\Layer\SelectionLayerGuideline.cs" />
@@ -127,6 +133,7 @@
     <Compile Include="Editor\Interfaces\IGuideService.cs" />
     <Compile Include="Editor\Interfaces\IStackLayout.cs" />
     <Compile Include="Editor\Interfaces\IStoryboard.cs" />
+    <Compile Include="Editor\Direction.cs" />
     <Compile Include="Editor\Renderer\Controls\ButtonRenderer.cs" />
     <Compile Include="Editor\Renderer\Layouts\StackLayoutRenderer.cs" />
     <Compile Include="Editor\Renderer\Layouts\GridRenderer.cs" />
@@ -135,6 +142,7 @@
     <Compile Include="Editor\Renderer\RendererManager.cs" />
     <Compile Include="Editor\Renderer\StoryboardRenderer.cs" />
     <Compile Include="MVVM\Commands\ActionCommand.cs" />
+    <Compile Include="MVVM\Converter\BoolToVisibilityConverter.cs" />
     <Compile Include="MVVM\Converter\DisplayNameConverter.cs" />
     <Compile Include="MVVM\Converter\DoubleToCornerRadiusConverter.cs" />
     <Compile Include="MVVM\Converter\EnumToEnumConvereter.cs" />
@@ -147,6 +155,7 @@
     <Compile Include="MVVM\Models\Base\BaseNotifyModel.cs" />
     <Compile Include="MVVM\Models\Base\IModel.cs" />
     <Compile Include="MVVM\Models\Base\IViewModel.cs" />
+    <Compile Include="MVVM\Models\IntellisenseInfoItemModel.cs" />
     <Compile Include="MVVM\Models\MainModel.cs" />
     <Compile Include="MVVM\Models\PropertyGridItemModel.cs" />
     <Compile Include="MVVM\Models\StoryboardModel.cs" />

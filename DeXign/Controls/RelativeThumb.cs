@@ -15,6 +15,10 @@ namespace DeXign.Controls
         Point beginMousePoint;
         Vector previousDelta;
 
+        public RelativeThumb()
+        {
+        }
+
         protected virtual void OnDragDelta(double horizontalChange, double verticalChange)
         {
             RaiseEvent(new DragDeltaEventArgs(horizontalChange, verticalChange));
@@ -98,7 +102,7 @@ namespace DeXign.Controls
                 OnDragCompleted(delta.X, delta.Y);
             }
         }
-
+        
         private Point ScreenToRelativePoint(Point point)
         {
             Visual target = RelativeTarget ?? this;

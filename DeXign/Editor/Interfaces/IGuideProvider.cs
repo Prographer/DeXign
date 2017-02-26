@@ -2,7 +2,7 @@
 
 namespace DeXign.Editor
 {
-    interface IGuideProvider
+    public interface IGuideProvider
     {
         IEnumerable<Guideline> GetGuidableLines();
     }
