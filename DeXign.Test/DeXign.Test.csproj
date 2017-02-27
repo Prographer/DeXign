@@ -60,7 +60,7 @@
       <Project>{d5964727-2cf5-42c1-a40e-7d6cdc8f6fb5}</Project>
       <Name>DeXign.Extension</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DeXign.Print\DeXign.Core.Logic.csproj">
+    <ProjectReference Include="..\DeXign.Core.Logic\DeXign.Core.Logic.csproj">
       <Project>{AF4C42D2-80DA-4002-8244-F4F5A4F65BAA}</Project>
       <Name>DeXign.Core.Logic</Name>
     </ProjectReference>

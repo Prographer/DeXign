@@ -43,10 +43,10 @@ namespace DeXign.Test
             printAction(c3);
 
             c1.ReleaseAll();
+            c2.ReleaseAll();
 
-            Console.WriteLine(new string('-', 30));
-
-
+            Console.WriteLine(new string('-', 30) + "\r\n");
+            
             printAction(c1);
             printAction(c2);
             printAction(c3);
