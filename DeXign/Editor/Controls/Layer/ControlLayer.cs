@@ -62,7 +62,7 @@ namespace DeXign.Editor.Layer
 
                 x = double.IsNaN(x) ? 0 : x;
                 y = double.IsNaN(y) ? 0 : y;
-
+                
                 element.Arrange(
                     new Rect(x, y, AdornedElement.RenderSize.Width, AdornedElement.RenderSize.Height));
             }

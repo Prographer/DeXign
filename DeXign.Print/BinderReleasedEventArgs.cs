@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DeXign.Logic
+namespace DeXign.Core.Logic
 {
     public class BinderReleasedEventArgs : EventArgs
     {

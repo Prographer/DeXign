@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using System.Windows.Controls.Primitives;
 
-using DeXign.Input;
+using DeXign.OS;
 using System.Windows.Media;
 
 namespace DeXign.Controls

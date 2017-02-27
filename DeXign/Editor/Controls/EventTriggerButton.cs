@@ -1,18 +1,13 @@
 using System.Windows;
-using System.Windows.Controls;
-
-using WPFExtension;
 
 using DeXign.Editor.Layer;
-using DeXign.Controls;
-using System;
-using DeXign.Input;
+using DeXign.OS;
+using System.Windows.Controls;
 using System.Windows.Input;
-using DeXign.Editor.Renderer;
 
 namespace DeXign.Editor.Controls
 {
-    class EventTriggerButton : RelativeThumb
+    class EventTriggerButton : Control
     {
         public SelectionLayer ParentLayer { get; set; }
 
@@ -21,26 +16,22 @@ namespace DeXign.Editor.Controls
         public EventTriggerButton(SelectionLayer parentLayer)
         {
             this.ParentLayer = parentLayer;
-
-            // Thumb에서 LostMouseCapture 핸들을 제일 먼저 처리해버려서 래핑 불가능함
-            // 정상적으로 MouseUp을 할경우 가상 함수가 불린후 RoutedEvent가 불리지만
-            // MouseUp을 통과하고 마우스 캡쳐가 사라지는경우 가상함수 호출이 불가능
-            this.DragCompleted += EventTriggerButton_DragCompleted;
         }
 
-        private void EventTriggerButton_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            if (dragLine != null)
-            {
-                ParentLayer.RootParent.RemoveConnectedLine(dragLine);
-                dragLine = null;
-            }
-        }
+            base.OnMouseLeftButtonDown(e);
 
-        protected override void OnDragStarted(double horizontalOffset, double verticalOffset)
-        {
-            dragLine = ParentLayer.RootParent
-                .CreateConnectedLine(
+            if (ParentLayer is IRenderer == false)
+                return;
+
+            var renderer = ParentLayer as IRenderer;
+            var storyboard = ParentLayer.RootParent;
+
+            storyboard.CloseComponentBox();
+
+            dragLine = storyboard
+                .CreatePendingConnectedLine(
                     c =>
                     {
                         return this.TranslatePoint(
@@ -51,16 +42,41 @@ namespace DeXign.Editor.Controls
                     {
                         return c.Parent.PointFromScreen(SystemMouse.Position);
                     });
-                
-            base.OnDragStarted(horizontalOffset, verticalOffset);
+            
+            ParentLayer.DesignModeChanged += ParentLayer_DesignModeChanged;
+            dragLine.Released += DragLine_Released;
+
+            // 드래그
+            DragDrop.DoDragDrop(this, renderer.Model, DragDropEffects.None);
+            
+            // 컴포넌트박스 Open
+            storyboard.OpenComponentBox(renderer.Model);
         }
 
-        protected override void OnDragDelta(double horizontalChange, double verticalChange)
+        private void ParentLayer_DesignModeChanged(object sender, System.EventArgs e)
         {
-            // Cancel Design Mode
-            ParentLayer.CancelNextInvert = true;
+            if (ParentLayer.DesignMode != DesignMode.Trigger && dragLine != null)
+            {
+                ParentLayer.RootParent.CloseComponentBox();
+            }
+        }
 
+        private void DragLine_Released(object sender, System.EventArgs e)
+        {
+            // Released Connector on Renderer
+
+            if (dragLine == null)
+                return;
+            
+            ParentLayer.DesignModeChanged -= ParentLayer_DesignModeChanged;
+            dragLine.Released -= DragLine_Released;
+            dragLine = null;
+        }
+
+        protected override void OnGiveFeedback(GiveFeedbackEventArgs e)
+        {
             dragLine.Update();
+            e.Handled = true;
         }
     }
 }

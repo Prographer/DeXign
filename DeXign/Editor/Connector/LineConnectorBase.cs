@@ -81,7 +81,7 @@ namespace DeXign.Editor
 
             // Line Size
             Vector size = targetPosition - sourcePosition;
-            
+
             Line.Width = Math.Abs(size.X);
             Line.Height = Math.Abs(size.Y);
 
@@ -122,7 +122,7 @@ namespace DeXign.Editor
 
             Line.BezierPoint1 = bzPt1;
             Line.BezierPoint2 = bzPt2;
-
+            
             Storyboard.SetLeft(Line, sourcePosition.X);
             Storyboard.SetTop(Line, sourcePosition.Y);
             

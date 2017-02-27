@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeXign.Extension", "DeXign.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeXign.Test", "DeXign.Test\DeXign.Test.csproj", "{1635E6AE-1350-4DD4-B780-11A44979C13A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeXign.Logic", "DeXign.Print\DeXign.Logic.csproj", "{AF4C42D2-80DA-4002-8244-F4F5A4F65BAA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeXign.Core.Logic", "DeXign.Print\DeXign.Core.Logic.csproj", "{AF4C42D2-80DA-4002-8244-F4F5A4F65BAA}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DeXign.Shared", "DeXign.Shared\DeXign.Shared.shproj", "{C4CAEE28-2CCD-4280-85D0-8F408DB4E256}"
 EndProject

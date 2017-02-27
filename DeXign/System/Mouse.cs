@@ -2,7 +2,7 @@ using System.Windows;
 
 using DeXign.Interop;
 
-namespace DeXign.Input
+namespace DeXign.OS
 {
     public static class SystemMouse
     {

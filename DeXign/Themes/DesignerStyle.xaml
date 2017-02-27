@@ -77,17 +77,13 @@
                     <Grid>
                         <Path Data="{StaticResource Path.HalfMoon}" Width="10" Height="15" Fill="{TemplateBinding Background}" />
                         <Path Data="{StaticResource Path.Triangle.Right}" Width="4" Height="5" Fill="White" />
-
-                        <!--<c:PopupEx IsOpen="{TemplateBinding IsIntellisenseOpen}" Placement="Right" AllowsTransparency="True" PopupAnimation="Fade" VerticalAlignment="Center">
-                            <ec:IntellisenseInfo x:Name="PART_intellisense" PlaceDirection="Left"/>
-                        </c:PopupEx>-->
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type ec:IntellisenseInfo}">
+    <Style TargetType="{x:Type ec:ComponentBox}">
         <Setter Property="MaxHeight" Value="140"/>
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
@@ -120,7 +116,7 @@
         </Setter>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ec:IntellisenseInfo}">
+                <ControlTemplate TargetType="{x:Type ec:ComponentBox}">
                     <Border Padding="6">
                         <Border.Effect>
                             <DropShadowEffect ShadowDepth="0" Opacity="0.28" BlurRadius="6"/>

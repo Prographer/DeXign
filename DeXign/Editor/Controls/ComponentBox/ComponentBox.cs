@@ -1,16 +1,19 @@
-﻿using DeXign.Controls;
+﻿using System;
+using System.Windows;
+
+using DeXign.Controls;
 using DeXign.Core;
 using DeXign.Core.Designer;
 using DeXign.Models;
-using System;
-using System.Windows;
 
 using WPFExtension;
 
 namespace DeXign.Editor.Controls
 {
-    class IntellisenseInfo : FilterListView
+    class ComponentBox : FilterListView
     {
+        public event EventHandler<ComponentBoxItemModel> ItemSelected;
+
         public static readonly DependencyProperty TargetObjectProperty =
             DependencyHelper.Register();
 
@@ -41,13 +44,20 @@ namespace DeXign.Editor.Controls
         
         private PObject presentedObject = null;
 
-        public IntellisenseInfo()
+        public ComponentBox()
         {
             TargetObjectProperty.AddValueChanged(this, TargetObject_Changed);
         }
 
         protected override void OnSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs e)
         {
+            var item = SelectedItem as ComponentBoxItemView;
+
+            if (item == null)
+                return;
+
+            ItemSelected?.Invoke(this, item.Model);
+
             this.UnselectAll();
         }
 
@@ -61,11 +71,9 @@ namespace DeXign.Editor.Controls
 
                 foreach (var ev in DesignerManager.GetEvents(TargetObject.GetType()))
                 {
-                    var item = new IntellisenseInfoItemView(
-                        new IntellisenseInfoItemModel(ev));
-
-                    InitializeItem(item);
-
+                    var item = new ComponentBoxItemView(
+                        new ComponentBoxItemModel(ev));
+                    
                     this.AddItem(item);
                 }
             }
@@ -76,17 +84,31 @@ namespace DeXign.Editor.Controls
         public override void Clear()
         {
             foreach (var item in this)
-                DestroyItem(item as IntellisenseInfoItemView);
+                DestroyItem(item as ComponentBoxItemView);
 
             base.Clear();
         }
 
-        private void DestroyItem(IntellisenseInfoItemView item)
+        public override void RemoveItem(object item)
+        {
+            DestroyItem((ComponentBoxItemView)item);
+
+            base.RemoveItem(item);
+        }
+
+        public override void AddItem(object item)
+        {
+            InitializeItem((ComponentBoxItemView)item);
+
+            base.AddItem(item);
+        }
+
+        private void DestroyItem(ComponentBoxItemView item)
         {
             // TODO: Dispose
         }
 
-        private void InitializeItem(IntellisenseInfoItemView item)
+        private void InitializeItem(ComponentBoxItemView item)
         {
             // TODO: Init
         }

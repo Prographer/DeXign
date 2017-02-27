@@ -1,16 +1,22 @@
-﻿namespace DeXign.Logic
+﻿namespace DeXign.Core.Logic
 {
     public class BinderExpression
     {
-        public IBinder Input { get; }
-        public IBinder Output { get; }
+        public BaseBinder Input { get; }
+        public BaseBinder Output { get; }
 
         public BinderOptions BindOptions { get; }
 
-        internal BinderExpression(IBinder input, IBinder output, BinderOptions bindOptions)
+        internal BinderExpression(BaseBinder input, BaseBinder output, BinderOptions bindOptions)
         {
             this.Input = input;
             this.Output = output;
+            this.BindOptions = bindOptions;
+        }
+
+        public void Release()
+        {
+            Input.ReleaseInput(Output);
         }
     }
 }

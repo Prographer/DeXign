@@ -1,18 +1,15 @@
 using System;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Input;
 
+using DeXign.Core;
+using DeXign.Converter;
 using DeXign.Core.Controls;
-using DeXign.Editor;
-using DeXign.Editor.Layer;
 using DeXign.Extension;
-using DeXign.Resources;
+using DeXign.Editor.Layer;
 
 using WPFExtension;
-using DeXign.Converter;
-using DeXign.Core;
-using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace DeXign.Editor.Renderer
 {

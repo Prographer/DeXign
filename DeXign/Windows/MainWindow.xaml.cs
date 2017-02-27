@@ -33,15 +33,8 @@ namespace DeXign
             
             // test
             GroupSelector.SelectedItemChanged += GroupSelector_SelectedItemChanged;
-
-            FocusManager.AddGotFocusHandler(this, HHHH);
         }
-
-        private void HHHH(object sender, RoutedEventArgs e)
-        {
-            Console.WriteLine(FocusManager.GetFocusedElement(this)?.ToString());
-        }
-
+        
         private void GroupSelector_SelectedItemChanged(object sender, EventArgs e)
         {
             propertyGrid.SelectedObjects = GroupSelector.GetSelectedItems()
@@ -104,7 +97,7 @@ namespace DeXign
                 });
         }
 
-        private void tabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void tabControl_SelectionChanged(object sender, global::System.Windows.Controls.SelectionChangedEventArgs e)
         {
             var item = (ClosableTabItem)tabControl.SelectedItem;
             var itemModel = (StoryboardModel)item?.Tag;

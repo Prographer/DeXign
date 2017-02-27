@@ -9,7 +9,7 @@ using DeXign.Core.Controls;
 using DeXign.Core.Designer;
 using DeXign.Editor;
 using DeXign.Editor.Renderer;
-using DeXign.Input;
+using DeXign.OS;
 
 [assembly: ExportRenderer(typeof(PGridLayout), typeof(Grid), typeof(GridRenderer))]
 

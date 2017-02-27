@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
 
@@ -12,6 +13,8 @@ using DeXign.Core.Designer;
 using DeXign.Editor.Layer;
 using DeXign.Editor.Renderer;
 using DeXign.Extension;
+using DeXign.OS;
+using DeXign.Models;
 
 namespace DeXign.Editor.Controls
 {
@@ -24,15 +27,42 @@ namespace DeXign.Editor.Controls
         public StoryboardRenderer Renderer { get; private set; }
 
         public List<ContentControl> Screens { get; } = new List<ContentControl>();
+
+        public bool IsComponentBoxOpen { get { return componentPopup.IsOpen; } }
+        #endregion
+
+        #region [ Local Variable ]
+        private Popup componentPopup;
+        private ComponentBox componentBox;
+        private Stack<LineConnectorBase> pendingLines;
         #endregion
 
         #region [ Constructor ]
         public Storyboard()
         {
             InitializeLayer();
+            InitializeComponents();
             InitializeBindings();
+
+            Application.Current.MainWindow.Deactivated += Storyboard_Deactivated;
         }
 
+        private void InitializeComponents()
+        {
+            pendingLines = new Stack<LineConnectorBase>();
+
+            componentBox = new ComponentBox();
+            componentPopup = new Popup()
+            {
+                AllowsTransparency = true,
+                Child = componentBox,
+                PopupAnimation = PopupAnimation.None,
+                Placement = PlacementMode.Relative
+            };
+            
+            componentBox.ItemSelected += ComponentBox_ItemSelected;
+        }
+        
         private void InitializeBindings()
         {
             this.InputBindings.Add(
@@ -93,6 +123,13 @@ namespace DeXign.Editor.Controls
 
         private void ESC_Execute(object sender, ExecutedRoutedEventArgs e)
         {
+            // Component Box
+            if (IsComponentBoxOpen)
+            {
+                CloseComponentBox();
+                return;
+            }
+
             // Selected Group
             if (GroupSelector.GetSelectedItemCount() > 1)
             {
@@ -246,7 +283,7 @@ namespace DeXign.Editor.Controls
             Renderer.InvalidateArrange();
         }
 
-        public LineConnectorBase CreateConnectedLine(
+        public LineConnectorBase CreatePendingConnectedLine(
             Func<LineConnectorBase, Point> startPosition,
             Func<LineConnectorBase, Point> endPosition)
         {
@@ -256,10 +293,13 @@ namespace DeXign.Editor.Controls
 
             Renderer.Add(connector.Line);
 
+            // add pending line
+            pendingLines.Push(connector);
+
             return connector;
         }
 
-        public LineConnector CreateConnectedLine(
+        public LineConnector CreatePendingConnectedLine(
             FrameworkElement source,
             FrameworkElement target)
         {
@@ -269,15 +309,80 @@ namespace DeXign.Editor.Controls
 
             Renderer.Add(connector.Line);
 
+            // add pending line
+            pendingLines.Push(connector);
+
             return connector;
         }
 
-        public void RemoveConnectedLine(LineConnectorBase connector)
+        public void PopPendingConnectedLine()
         {
+            if (!HasPendingConnectedLine())
+                return;
+
+            var connector = pendingLines.Pop();
+
             connector.Updated -= Connector_Updated;
 
             Renderer.Remove(connector.Line);
             connector.Release();
+        }
+
+        public bool HasPendingConnectedLine()
+        {
+            return pendingLines.Count > 0;
+        }
+        #endregion
+
+        #region [ Logic ]
+        private void Storyboard_Deactivated(object sender, EventArgs e)
+        {
+            CloseComponentBox();
+        }
+
+        internal void OpenComponentBox(PObject componentTarget)
+        {
+            componentBox.TargetObject = componentTarget;
+
+            Point mousePos = SystemMouse.Position;
+
+            // Popup Child Force Measure
+            componentBox.Measure(
+                new Size(componentBox.MaxWidth, componentBox.MaxHeight));
+
+            // Popup Place Area
+            componentPopup.PlacementRectangle =
+                new Rect(
+                    new Point(mousePos.X - 6, mousePos.Y - componentBox.DesiredSize.Height / 2),
+                    componentBox.DesiredSize);
+
+            // Popup Open
+            componentPopup.IsOpen = true;
+        }
+
+        internal void CloseComponentBox()
+        {
+            PopPendingConnectedLine();
+            componentPopup.IsOpen = false;
+        }
+
+        private void ComponentBox_ItemSelected(object sender, ComponentBoxItemModel model)
+        {
+            if (IsComponentBoxOpen)
+            {
+                // Close Opened Box
+                CloseComponentBox();
+
+                // Create Component
+                switch (model.ComponentType)
+                {
+                    case Models.ComponentType.Event:
+                        break;
+
+                    case Models.ComponentType.Instance:
+                        break;
+                }
+            }
         }
         #endregion
     }

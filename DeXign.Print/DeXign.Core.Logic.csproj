@@ -7,8 +7,8 @@
     <ProjectGuid>{AF4C42D2-80DA-4002-8244-F4F5A4F65BAA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DeXign.Logic</RootNamespace>
-    <AssemblyName>DeXign.Logic</AssemblyName>
+    <RootNamespace>DeXign.Core.Logic</RootNamespace>
+    <AssemblyName>DeXign.Core.Logic</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -46,12 +46,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BinderBindedEventArgs.cs" />
+    <Compile Include="BinderOperation.cs" />
     <Compile Include="BinderReleasedEventArgs.cs" />
     <Compile Include="BinderExpression.cs" />
     <Compile Include="BinderOptions.cs" />
     <Compile Include="Binder\BaseBinder.cs" />
     <Compile Include="Collections\BinderCollection.cs" />
     <Compile Include="Collections\BinderExpressionCollection.cs" />
+    <Compile Include="Component\PComponent.cs" />
+    <Compile Include="Component\PTrigger.cs" />
     <Compile Include="Interfaces\IBinder.cs" />
     <Compile Include="Interfaces\IBinderProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

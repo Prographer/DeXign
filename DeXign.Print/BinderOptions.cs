@@ -1,4 +1,4 @@
-﻿namespace DeXign.Logic
+﻿namespace DeXign.Core.Logic
 {
     public enum BinderOptions
     {

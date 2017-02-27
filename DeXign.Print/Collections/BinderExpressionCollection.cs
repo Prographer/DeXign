@@ -1,20 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 
-namespace DeXign.Logic.Collections
+using DeXign.Core.Logic;
+
+namespace DeXign.Core.Collections
 {
-    public class BinderExpressionCollection : ObservableCollection<BinderExpression>
+    public class BinderExpressionCollection : Collection<BinderExpression>
     {
         public BinderExpressionCollection()
         {
         }
 
-        public BinderExpressionCollection(IEnumerable<BinderExpression> collection) : base(collection)
-        {
-        }
-
-        public BinderExpressionCollection(List<BinderExpression> list) : base(list)
+        public BinderExpressionCollection(IList<BinderExpression> list) : base(list)
         {
         }
 

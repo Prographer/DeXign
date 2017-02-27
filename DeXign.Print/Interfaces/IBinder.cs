@@ -1,7 +1,7 @@
-﻿using DeXign.Logic.Collections;
-using System;
+﻿using System;
+using DeXign.Core.Collections;
 
-namespace DeXign.Logic
+namespace DeXign.Core.Logic
 {
     //
     //                                       +---------+
@@ -25,7 +25,5 @@ namespace DeXign.Logic
         BinderCollection Parameters { get; } // input parameters
 
         BinderCollection Outputs { get; }
-
-        void SetProvider(IBinderProvider provider);
     }
 }

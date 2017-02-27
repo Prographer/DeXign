@@ -1,14 +1,10 @@
 using System;
-using System.CodeDom;
-using System.Collections;
 using System.Diagnostics;
-using System.Windows;
 
 using DeXign.Core;
-using DeXign.Core.Collections;
 using DeXign.Core.Controls;
 using DeXign.Core.Designer;
-using DeXign.Extension;
+using DeXign.Core.Logic;
 
 namespace DeXign.Test
 {
@@ -16,8 +12,44 @@ namespace DeXign.Test
     {
         static void Main(string[] args)
         {
-            Test2();
-            //DesignerTest();
+            var c1 = new PComponent() { Tag = "c1" };
+            var c2 = new PComponent() { Tag = "c2" };
+            var c3 = new PComponent() { Tag = "c3" };
+
+            // c1 -> c2 -> c3
+
+            c2.Bind(c1, BinderOptions.Trigger);
+            c3.Bind(c2, BinderOptions.Trigger);
+
+            var printAction = new Action<PComponent>((PComponent c) =>
+            {
+                Console.WriteLine($"# {c.Tag}.Outputs");
+                foreach (PComponent binder in c.Outputs)
+                    Console.WriteLine($"{c.Tag} -> {binder.Tag}");
+
+                Console.WriteLine($"# {c.Tag}.Parameters");
+                foreach (PComponent binder in c.Parameters)
+                    Console.WriteLine($"{c.Tag} -> {binder.Tag}");
+
+                Console.WriteLine($"# {c.Tag}.Inputs");
+                foreach (PComponent binder in c.Inputs)
+                    Console.WriteLine($"{c.Tag} -> {binder.Tag}");
+
+                Console.WriteLine();
+            });
+
+            printAction(c1);
+            printAction(c2);
+            printAction(c3);
+
+            c1.ReleaseAll();
+
+            Console.WriteLine(new string('-', 30));
+
+
+            printAction(c1);
+            printAction(c2);
+            printAction(c3);
         }
 
         private static void DesignerTest()
