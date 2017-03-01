@@ -5,9 +5,12 @@ namespace DeXign.Converter
 {
     class PercentageConverter : BaseValueConverter<double, string>
     {
+        public double Maximum { get; set; } = 1;
+        public double Minimum { get; set; } = 0;
+
         public override string Convert(double value, object parameter)
         {
-            return $"{Math.Round(value * 100, 0)}%";
+            return $"{Math.Round((value - Minimum) / (Maximum - Minimum) * 100, 0)}%";
         }
 
         public override double ConvertBack(string value, object parameter)
@@ -20,7 +23,7 @@ namespace DeXign.Converter
             v = Math.Max(v, 0);
             v = Math.Min(v, 100);
 
-            return v / 100d;
+            return v / 100 * (Maximum - Minimum) + Minimum;
         }
     }
 }

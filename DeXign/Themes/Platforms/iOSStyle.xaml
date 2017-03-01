@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:DeXign.Theme"
                     xmlns:r="clr-namespace:DeXign.Editor.Renderer">
-    
+
     <Style x:Key="{x:Static local:ThemeKeyStore.Screen}" TargetType="{x:Type ContentControl}">
         <Setter Property="Background" Value="White"/>
         <Setter Property="Template">
@@ -49,8 +49,8 @@
     </Style>
 
     <Style x:Key="{x:Static local:ThemeKeyStore.ProgressBar}" TargetType="{x:Type ProgressBar}">
-        <Setter Property="Foreground" Value="#FF157DF9"/>
-        <Setter Property="Background" Value="#FFB7B7B7"/>
+        <Setter Property="Foreground" Value="{StaticResource Brush.iOS.Accent}"/>
+        <Setter Property="Background" Value="{StaticResource Brush.iOS.Gray}"/>
         <Setter Property="Maximum" Value="1"/>
         <Setter Property="Minimum" Value="0"/>
         <Setter Property="BorderThickness" Value="0"/>
@@ -105,4 +105,80 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!-- #region Slider Style -->
+    <Style x:Key="SliderRepeatButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Rectangle Fill="{StaticResource Brush.iOS.Gray}" Height="3"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SliderRepeatButton1" TargetType="{x:Type RepeatButton}">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Rectangle SnapsToDevicePixels="True" Fill="{StaticResource Brush.iOS.Accent}" Height="3"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SliderThumb" TargetType="{x:Type Thumb}">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Ellipse Height="28" Width="28" Fill="White" Stroke="{StaticResource Brush.iOS.Gray}" StrokeThickness="0.5">
+                        <Ellipse.Effect>
+                            <DropShadowEffect BlurRadius="8" Direction="270" ShadowDepth="2" Opacity="0.28"/>
+                        </Ellipse.Effect>
+                    </Ellipse>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{x:Static local:ThemeKeyStore.Slider}" TargetType="{x:Type Slider}">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Slider}">
+                    <Grid>
+                        <Grid Height="28" VerticalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Track Grid.Row="1" x:Name="PART_Track"   >
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Style="{StaticResource SliderRepeatButton1}"  Command="Slider.DecreaseLarge" Margin="0,0,0,0"/>
+                                </Track.DecreaseRepeatButton>
+                                <Track.Thumb>
+                                    <Thumb Style="{StaticResource SliderThumb}" />
+                                </Track.Thumb>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Style="{StaticResource SliderRepeatButton}" Command="Slider.IncreaseLarge" Margin="0,0,0,0"/>
+                                </Track.IncreaseRepeatButton>
+                            </Track>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- #endregion -->
 </ResourceDictionary>

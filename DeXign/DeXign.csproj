@@ -150,6 +150,7 @@
     <Compile Include="Editor\Renderer\Controls\ButtonRenderer.cs" />
     <Compile Include="Editor\Renderer\Controls\ImageRenderer.cs" />
     <Compile Include="Editor\Renderer\Controls\ProgressBarRenderer.cs" />
+    <Compile Include="Editor\Renderer\Controls\SliderRenderer.cs" />
     <Compile Include="Editor\Renderer\Layouts\ScrollViewRenderer.cs" />
     <Compile Include="Editor\Renderer\Layouts\StackLayoutRenderer.cs" />
     <Compile Include="Editor\Renderer\Layouts\GridRenderer.cs" />

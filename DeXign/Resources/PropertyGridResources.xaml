@@ -4,7 +4,8 @@
                     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
                     xmlns:c="clr-namespace:DeXign.Controls"
                     xmlns:core="clr-namespace:DeXign.Core;assembly=DeXign.Core"
-                    xmlns:rule="clr-namespace:DeXign.Rules">
+                    xmlns:rule="clr-namespace:DeXign.Rules"
+                    xmlns:cvt="clr-namespace:DeXign.Converter">
     
     <Style x:Key="EnumIconStyle" TargetType="{x:Type Image}">
         <Setter Property="Width" Value="24"/>
@@ -191,9 +192,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type c:PercentageSetter}">
                     <Grid>
-                        <c:SubmitTextBox Width="35" HorizontalAlignment="Left" BorderThickness="0" Background="Transparent">
+                        <c:SubmitTextBox x:Name="PART_valueBox" Width="35" HorizontalAlignment="Left" BorderThickness="0" Background="Transparent">
                             <TextBox.Text>
-                                <Binding Path="Value" ElementName="PART_slider" Converter="{StaticResource Converter.Percentage}" UpdateSourceTrigger="PropertyChanged">
+                                <Binding Path="Value" ElementName="PART_slider" Converter="{cvt:PercentageConverter}" UpdateSourceTrigger="PropertyChanged">
                                     <Binding.ValidationRules>
                                         <rule:PercentageRule/>
                                     </Binding.ValidationRules>

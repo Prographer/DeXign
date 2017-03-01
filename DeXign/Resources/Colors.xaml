@@ -27,6 +27,12 @@
     <Color x:Key="Color.Logic.Event">#FF9900</Color>
     <Color x:Key="Color.Logic.Statement">#975EE7</Color>
     <Color x:Key="Color.Logic.Comopnent">#5E8BE7</Color>
+
+    <Color x:Key="Color.iOS.Accent">#FF157DF9</Color>
+    <Color x:Key="Color.iOS.Gray">#FFB7B7B7</Color>
+
+    <Color x:Key="Color.Android.Accent">#FF83CBC4</Color>
+    <Color x:Key="Color.Android.Mask.White">#33FFFFFF</Color>
     
     <!-- Brushes -->
     <SolidColorBrush x:Key="Brush.LemonGrass" Color="{StaticResource Color.LemonGrass}"/>
@@ -59,4 +65,10 @@
         <GradientStop Color="#717171" Offset="0"/>
         <GradientStop Color="#555555" Offset="1"/>
     </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="Brush.iOS.Accent" Color="{StaticResource Color.iOS.Accent}"/>
+    <SolidColorBrush x:Key="Brush.iOS.Gray" Color="{StaticResource Color.iOS.Gray}"/>
+
+    <SolidColorBrush x:Key="Brush.Android.Accent" Color="{StaticResource Color.Android.Accent}"/>
+    <SolidColorBrush x:Key="Brush.Android.Mask.White" Color="{StaticResource Color.Android.Mask.White}"/>
 </ResourceDictionary>

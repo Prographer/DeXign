@@ -98,4 +98,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="{x:Static local:ThemeKeyStore.Slider}" TargetType="{x:Type Slider}">
+    </Style>
 </ResourceDictionary>

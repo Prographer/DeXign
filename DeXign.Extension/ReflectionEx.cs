@@ -7,6 +7,11 @@ namespace DeXign.Extension
 {
     public static class ReflectionEx
     {
+        public class TargetDependencyPropertyAttribute : Attribute
+        {
+            public string PropertyName { get; set; }
+        }
+
         public static TAttribute GetAttribute<TAttribute>(this object obj)
              where TAttribute : Attribute
         {
@@ -84,8 +89,13 @@ namespace DeXign.Extension
 
         public static DependencyProperty GetDependencyProperty(this PropertyInfo pi)
         {
+            string name = $"{pi.Name}Property";
+
+            if (pi.HasAttribute<TargetDependencyPropertyAttribute>())
+                name = pi.GetAttribute<TargetDependencyPropertyAttribute>().PropertyName;
+
             // DependencyProperty
-            var dpField = pi.DeclaringType.GetField($"{pi.Name}Property");
+            var dpField = pi.DeclaringType.GetField(name);
             
             if (dpField != null)
                 return dpField.GetValue(null) as DependencyProperty;

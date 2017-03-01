@@ -7,5 +7,6 @@ namespace DeXign.Theme
         public static readonly string Button = $"Theme_{nameof(Button)}Style";
         public static readonly string Image = $"Theme_{nameof(Image)}Style";
         public static readonly string ProgressBar = $"Theme_{nameof(ProgressBar)}Style";
+        public static readonly string Slider = $"Theme_{nameof(Slider)}Style";
     }
 }
