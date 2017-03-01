@@ -88,7 +88,7 @@ namespace DeXign.Editor.Renderer
             child.Element.Width = 100;
             child.Element.Height = 100;
 
-            child.Element.Margin = new Thickness(position.X, position.Y, 0, 0);
+            child.Element.Margin = new Thickness((int)position.X, (int)position.Y, 0, 0);
             child.Element.HorizontalAlignment = HorizontalAlignment.Left;
             child.Element.VerticalAlignment = VerticalAlignment.Top;
         }

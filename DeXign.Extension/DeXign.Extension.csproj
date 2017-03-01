@@ -52,6 +52,7 @@
     <Compile Include="IUISupport.cs" />
     <Compile Include="LogicalTreeHelperEx.cs" />
     <Compile Include="MarshalEx.cs" />
+    <Compile Include="RectEx.cs" />
     <Compile Include="StringEx.cs" />
     <Compile Include="ThicknessEx.cs" />
     <Compile Include="TypeSwitch.cs" />
