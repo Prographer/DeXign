@@ -46,6 +46,8 @@
     <Style x:Key="{x:Static local:ThemeKeyStore.Button}" TargetType="{x:Type r:RadiusButton}" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Padding" Value="8,6"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="{StaticResource Brush.iOS.Accent}"/>
     </Style>
 
     <Style x:Key="{x:Static local:ThemeKeyStore.ProgressBar}" TargetType="{x:Type ProgressBar}">
