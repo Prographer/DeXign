@@ -109,7 +109,7 @@ namespace DeXign.Core.Controls
             set { SetValue(MinWidthProperty, value); }
         }
 
-        [DesignElement(Key = "Opacity", Category = Constants.Property.Design, DisplayName = "투명도")]
+        [DesignElement(Key = "Percentage", Category = Constants.Property.Design, DisplayName = "투명도")]
         [XForms("Opacity")]
         public double Opacity
         {

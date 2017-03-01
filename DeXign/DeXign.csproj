@@ -105,6 +105,7 @@
     <Compile Include="Controls\EnumRadioBox.cs" />
     <Compile Include="Controls\ImageBox.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\ImageSourceSetter.cs" />
+    <Compile Include="Controls\PropertyGrid\Setters\Components\SliderSetter.cs" />
     <Compile Include="Controls\ProtrudedScrollViewer.cs" />
     <Compile Include="Editor\Connector\LineConnector.cs" />
     <Compile Include="Editor\Connector\LineConnectorBase.cs" />
@@ -113,7 +114,7 @@
     <Compile Include="Controls\LinkTextBlock.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\BaseSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\BrushSetter.cs" />
-    <Compile Include="Controls\PropertyGrid\Setters\Components\OpacitySetter.cs" />
+    <Compile Include="Controls\PropertyGrid\Setters\Components\PercentageSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\ThicknessSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\TextAlignmentSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\DoubleSetter.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Editor\Renderer\Components\TriggerRenderer.cs" />
     <Compile Include="Editor\Renderer\Controls\ButtonRenderer.cs" />
     <Compile Include="Editor\Renderer\Controls\ImageRenderer.cs" />
+    <Compile Include="Editor\Renderer\Controls\ProgressBarRenderer.cs" />
     <Compile Include="Editor\Renderer\Layouts\ScrollViewRenderer.cs" />
     <Compile Include="Editor\Renderer\Layouts\StackLayoutRenderer.cs" />
     <Compile Include="Editor\Renderer\Layouts\GridRenderer.cs" />

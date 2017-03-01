@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
+using WPFExtension;
 
 namespace DeXign.Core.Controls
 {
@@ -10,5 +7,15 @@ namespace DeXign.Core.Controls
     [XForms("Xamarin.Forms", "ProgressBar")]
     public class PProgressBar : PControl
     {
+        public static readonly DependencyProperty ProgressProperty =
+            DependencyHelper.Register(new PropertyMetadata(0.5d));
+
+        [DesignElement(Key = "Percentage", Category = Constants.Property.Design, DisplayName = "진행도")]
+        [XForms("Progress")]
+        public double Progress
+        {
+            get { return GetValue<double>(ProgressProperty); }
+            set { SetValue(ProgressProperty, value); }
+        }
     }
 }

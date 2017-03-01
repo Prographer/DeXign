@@ -6,12 +6,12 @@ using System.Windows.Controls;
 namespace DeXign.Controls
 {
     [TemplatePart(Name = "PART_slider", Type = typeof(Slider))]
-    [Setter(Key = "Opacity", Type = typeof(double))]
-    class OpacitySetter : BaseSetter
+    [Setter(Key = "Percentage", Type = typeof(double))]
+    class PercentageSetter : BaseSetter
     {
         Slider slider;
 
-        public OpacitySetter(DependencyObject target, PropertyInfo pi) : base(target, pi)
+        public PercentageSetter(DependencyObject target, PropertyInfo pi) : base(target, pi)
         {
         }
 
