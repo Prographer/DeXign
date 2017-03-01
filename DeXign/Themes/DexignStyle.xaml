@@ -644,8 +644,15 @@
                 <ControlTemplate TargetType="{x:Type c:ImageBox}">
                     <Grid>
                         <Path Data="{StaticResource Path.DefaultImage}" Fill="LightGray" Stretch="Uniform" Visibility="{TemplateBinding Source, Converter={StaticResource Converter.NotNullObjectToVisibility}}" HorizontalAlignment="Center"/>
-                        <Image Source="{TemplateBinding Source}" Stretch="{TemplateBinding Stretch}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        <Image x:Name="img" Source="{TemplateBinding Source}" Stretch="{TemplateBinding Stretch}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RenderOptions.BitmapScalingMode="HighQuality"/>
                     </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Stretch" Value="UniformToFill">
+                            <Setter TargetName="img" Property="HorizontalAlignment" Value="Center"/>
+                            <Setter TargetName="img" Property="VerticalAlignment" Value="Center"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
