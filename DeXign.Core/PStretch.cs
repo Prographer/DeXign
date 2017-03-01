@@ -2,19 +2,19 @@
 
 namespace DeXign.Core
 {
-    [XForms("Stretch", "Xamarin.Forms")]
+    [XForms("Aspect", "Xamarin.Forms")]
     public enum PStretch
     {
-        [Description("원본")]
-        None = 0,
-
         [Description("채우기")]
+        [XForms("Fill")]
         Fill = 1,
 
         [Description("비율")]
+        [XForms("AspectFit")]
         Uniform = 2,
 
         [Description("비율 채우기")]
+        [XForms("AspectFill")]
         UniformToFill = 3
     }
 }

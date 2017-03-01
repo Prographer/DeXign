@@ -1,3 +1,4 @@
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Collections.Generic;
@@ -5,7 +6,6 @@ using System.Collections.Generic;
 using DeXign.Controls;
 using DeXign.Editor.Layer;
 using DeXign.Editor.Renderer;
-using System;
 
 namespace DeXign.Editor.Controls
 {
