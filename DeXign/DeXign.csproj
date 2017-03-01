@@ -105,6 +105,7 @@
     <Compile Include="Controls\EnumRadioBox.cs" />
     <Compile Include="Controls\ImageBox.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\ImageSourceSetter.cs" />
+    <Compile Include="Controls\ProtrudedScrollViewer.cs" />
     <Compile Include="Editor\Connector\LineConnector.cs" />
     <Compile Include="Editor\Connector\LineConnectorBase.cs" />
     <Compile Include="Editor\Controls\ComponentBox\ComponentBoxItemView.cs" />
