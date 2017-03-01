@@ -12,12 +12,26 @@ namespace DeXign.Core.Controls
         public static readonly DependencyProperty SourceProperty =
             DependencyHelper.Register();
 
+        public static readonly DependencyProperty StretchProperty =
+            DependencyHelper.Register(new PropertyMetadata(PStretch.Uniform));
+
         [DesignElement(Key = "ImageSource", Category = Constants.Property.Design, DisplayName = "이미지")]
         [XForms("Source")]
         public string Source
         {
             get { return GetValue<string>(SourceProperty); }
             set { SetValue(SourceProperty, value); }
+        }
+
+        [DesignElement(Category = Constants.Property.Design, DisplayName = "이미지 모드")]
+        public PStretch Stretch
+        {
+            get { return GetValue<PStretch>(StretchProperty); }
+            set { SetValue(StretchProperty, value); }
+        }
+
+        public PImage()
+        {
         }
     }
 }
