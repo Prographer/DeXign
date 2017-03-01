@@ -125,6 +125,7 @@
     <Compile Include="PGridLength.cs" />
     <Compile Include="PHorizontalAlignment.cs" />
     <Compile Include="Platform.cs" />
+    <Compile Include="PStretch.cs" />
     <Compile Include="PVerticalAlignment.cs" />
     <Compile Include="PVerticalTextAlignment.cs" />
     <Compile Include="POrientation.cs" />

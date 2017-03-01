@@ -644,7 +644,7 @@
                 <ControlTemplate TargetType="{x:Type c:ImageBox}">
                     <Grid>
                         <Path Data="{StaticResource Path.DefaultImage}" Fill="LightGray" Stretch="Uniform" Visibility="{TemplateBinding Source, Converter={StaticResource Converter.NotNullObjectToVisibility}}" HorizontalAlignment="Center"/>
-                        <Image Source="{TemplateBinding Source}" Stretch="Uniform" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        <Image Source="{TemplateBinding Source}" Stretch="{TemplateBinding Stretch}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RenderOptions.BitmapScalingMode="HighQuality"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
