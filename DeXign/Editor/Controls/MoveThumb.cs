@@ -5,11 +5,14 @@ using System.Collections.Generic;
 using DeXign.Controls;
 using DeXign.Editor.Layer;
 using DeXign.Editor.Renderer;
+using System;
 
 namespace DeXign.Editor.Controls
 {
     class MoveThumb : RelativeThumb
     {
+        public event EventHandler Moved;
+
         public FrameworkElement Target { get; set; }
         public SelectionLayer Layer { get; set; }
 
@@ -110,6 +113,8 @@ namespace DeXign.Editor.Controls
                 // Snap with Set
                 Layer.SetMargin(margin);
             }
+
+            Moved?.Invoke(this, null);
         }
 
         private Point ApplyPositionDelta(Point delta)

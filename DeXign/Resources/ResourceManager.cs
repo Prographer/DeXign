@@ -72,10 +72,18 @@ namespace DeXign.Resources
         {
             string path = $"pack://application:,,,/DeXign;component/Resources/{name}";
 
-            if (!imageCache.ContainsKey(path))
-                imageCache[path] = new BitmapImage(new Uri(path));
+            return GetImageSourceFromPath(path);
+        }
 
-            return imageCache[path];
+        public static BitmapImage GetImageSourceFromPath(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return null;
+
+            if (!imageCache.ContainsKey(name))
+                imageCache[name] = new BitmapImage(new Uri(name));
+
+            return imageCache[name];
         }
 
         public static T GetResource<T>(object name, ResourceDictionary resources = null)

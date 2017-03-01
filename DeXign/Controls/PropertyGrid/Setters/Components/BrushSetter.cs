@@ -55,7 +55,7 @@ namespace DeXign.Controls
 
         protected override void OnDispose()
         {
-            if (this.Value is SolidColorBrush)
+            if (this.Value is SolidColorBrush && colorCanvas != null)
             {
                 TargetDependencyProperty.RemoveValueChanged(Target, Brush_Changed);
                 colorCanvas.SelectedColorChanged -= ColorCanvas_SelectedColorChanged;

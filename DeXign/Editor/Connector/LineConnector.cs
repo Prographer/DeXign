@@ -2,6 +2,7 @@
 using System.Windows;
 
 using DeXign.Editor.Controls;
+using DeXign.Extension;
 
 namespace DeXign.Editor
 {
@@ -27,13 +28,13 @@ namespace DeXign.Editor
 
             base.Source = GetSourcePosition;
             base.Target = GetTargetPosition;
-
-            LineConnectorBase.SetLineConnector(source, this);
-            LineConnectorBase.SetLineConnector(target, this);
         }
 
         private Point GetSourcePosition(LineConnectorBase connector)
         {
+            if (Source is IUISupport)
+                return (Source as IUISupport).GetLocation();
+
             return Source.TranslatePoint(
                 new Point(
                     Source.RenderSize.Width,
@@ -42,6 +43,9 @@ namespace DeXign.Editor
 
         private Point GetTargetPosition(LineConnectorBase connector)
         {
+            if (Target is IUISupport)
+                return (Target as IUISupport).GetLocation();
+
             return Target.TranslatePoint(
                 new Point(
                     0,
@@ -50,8 +54,6 @@ namespace DeXign.Editor
 
         protected override void OnRelease()
         {
-            LineConnectorBase.SetLineConnector(Source, null);
-            LineConnectorBase.SetLineConnector(Target, null);
         }
     }
 }

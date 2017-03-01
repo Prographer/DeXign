@@ -3,6 +3,7 @@ using System;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+
 using WPFExtension;
 
 namespace DeXign.Controls
@@ -51,10 +52,13 @@ namespace DeXign.Controls
 
         protected override void OnDispose()
         {
-            valueComboBox.SelectionChanged -= ValueComboBox_SelectionChanged;
-            ValueProperty.RemoveValueChanged(this, ValueChanged);
+            if (valueComboBox != null)
+            {
+                valueComboBox.SelectionChanged -= ValueComboBox_SelectionChanged;
+                ValueProperty.RemoveValueChanged(this, ValueChanged);
 
-            valueComboBox = null;
+                valueComboBox = null;
+            }
         }
     }
 }

@@ -35,6 +35,10 @@ namespace DeXign.Controls
             DependencyHelper.Register(
                 new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender));
 
+        public static readonly DependencyProperty StrokeThicknessProperty =
+            DependencyHelper.Register(
+                new FrameworkPropertyMetadata(1d, FrameworkPropertyMetadataOptions.AffectsRender));
+
         public double X1
         {
             get { return (double)GetValue(X1Property); }
@@ -75,6 +79,12 @@ namespace DeXign.Controls
         {
             get { return (bool)GetValue(IsDebugProperty); }
             set { SetValue(IsDebugProperty, value); }
+        }
+
+        public double StrokeThickness
+        {
+            get { return (double)GetValue(StrokeThicknessProperty); }
+            set { SetValue(StrokeThicknessProperty, value); }
         }
 
         PathGeometry geometry;
@@ -122,7 +132,7 @@ namespace DeXign.Controls
             segment.Point2 = BezierPoint2;
             segment.Point3 = endPoint;
 
-            var p = new Pen(Brushes.Black, 1);
+            var p = new Pen(Brushes.Black, StrokeThickness);
 
             dc.DrawGeometry(null, p, geometry);
 

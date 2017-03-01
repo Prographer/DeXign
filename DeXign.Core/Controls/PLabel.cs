@@ -72,7 +72,7 @@ namespace DeXign.Core.Controls
             set { SetValue(FontFamilyProperty, value); }
         }
 
-        [DesignElement(Category = Constants.Property.Design, DisplayName = "텍스트 색상")]
+        [DesignElement(Category = Constants.Property.Brush, DisplayName = "텍스트 색상")]
         [XForms("TextColor")]
         public Brush Foreground
         {
@@ -88,6 +88,7 @@ namespace DeXign.Core.Controls
             set { SetValue(FontAttributesProperty, value); }
         }
 
+        [DesignElement(Category = Constants.Property.Design, DisplayName = "폰트 크기")]
         [XForms("FontSize")]
         public double FontSize
         {

@@ -4,8 +4,6 @@ using System.Windows;
 using DeXign.Controls;
 using DeXign.Editor.Controls;
 
-using WPFExtension;
-
 namespace DeXign.Editor
 {
     public class LineConnectorBase
@@ -14,10 +12,7 @@ namespace DeXign.Editor
 
         public event EventHandler Released;
         public event EventHandler Updated;
-
-        public static readonly DependencyProperty LineConnectorProperty =
-            DependencyHelper.RegisterAttached<LineConnectorBase>();
-
+        
         public Storyboard Parent { get; }
 
         public Func<LineConnectorBase, Point> Source { get; protected set; }
@@ -35,8 +30,6 @@ namespace DeXign.Editor
                 VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Left
             };
-
-            LineConnectorBase.SetLineConnector(Line, this);
 
             IsConnected = true;
         }
@@ -57,8 +50,7 @@ namespace DeXign.Editor
             if (IsConnected)
             {
                 IsConnected = false;
-
-                LineConnectorBase.SetLineConnector(Line, null);
+                
                 Source = null;
                 Target = null;
 
@@ -127,16 +119,6 @@ namespace DeXign.Editor
             Storyboard.SetTop(Line, sourcePosition.Y);
             
             Updated?.Invoke(this, null);
-        }
-
-        public static void SetLineConnector(DependencyObject obj, LineConnectorBase connector)
-        {
-            obj.SetValue(LineConnectorProperty, connector);
-        }
-
-        public static LineConnectorBase GetLineConnector(DependencyObject obj)
-        {
-            return (LineConnectorBase)obj.GetValue(LineConnectorProperty);
         }
     }
 }

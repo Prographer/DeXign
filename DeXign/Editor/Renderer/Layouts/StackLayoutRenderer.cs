@@ -55,12 +55,12 @@ namespace DeXign.Editor.Renderer
             {
                 child.Element.Width = double.NaN;
                 child.Element.HorizontalAlignment = HorizontalAlignment.Stretch;
-                child.Element.VerticalAlignment = VerticalAlignment.Center;
+                child.Element.VerticalAlignment = VerticalAlignment.Top;
             }
             else
             {
                 child.Element.Height = double.NaN;
-                child.Element.HorizontalAlignment = HorizontalAlignment.Center;
+                child.Element.HorizontalAlignment = HorizontalAlignment.Left;
                 child.Element.VerticalAlignment = VerticalAlignment.Stretch;
             }
         }

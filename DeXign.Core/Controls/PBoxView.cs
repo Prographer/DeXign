@@ -13,7 +13,7 @@ namespace DeXign.Core.Controls
             DependencyHelper.Register(
                 new PropertyMetadata(Brushes.Transparent));
 
-        [DesignElement(Category = Constants.Property.Design, DisplayName = "배경색")]
+        [DesignElement(Category = Constants.Property.Brush, DisplayName = "배경색")]
         [XForms("Color")]
         public Brush Fill
         {

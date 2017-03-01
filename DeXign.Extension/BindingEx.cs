@@ -60,6 +60,12 @@ namespace DeXign.Extension
 
             if (sourceProperty != null)
             {
+                if (source.GetValue(sourceProperty) == null && 
+                    sourceProperty.PropertyType == targetProperty.PropertyType)
+                {
+                    source.SetValue(sourceProperty, target.GetValue(targetProperty));
+                }
+
                 return BindingEx.SetBinding(
                     source, sourceProperty,
                     target, targetProperty,

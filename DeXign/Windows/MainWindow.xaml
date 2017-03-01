@@ -89,7 +89,7 @@
         </Grid.ColumnDefinitions>
 
         <c:HeaderLayout Grid.Column="0" Header="도구 상자" Style="{StaticResource DeXignHeaderLayoutStyle}">
-            <DockPanel Visibility="{Binding StoryboardPage, Converter={StaticResource Converter.NullObjectToVisibility}}" HorizontalAlignment="Right" Width="210">
+            <DockPanel Visibility="{Binding StoryboardPage, Converter={StaticResource Converter.NullObjectToVisibility}}" HorizontalAlignment="Stretch">
                 <c:HintTextBox x:Name="toolBoxSearchBar" DockPanel.Dock="Top" Style="{DynamicResource SearchBarStyle}" TextHint="도구 검색" Margin="-1,0"/>
                 <c:ToolBox x:Name="toolBox" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                            FilterKeyword="{Binding Text, ElementName=toolBoxSearchBar, UpdateSourceTrigger=PropertyChanged}"/>

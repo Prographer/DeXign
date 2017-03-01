@@ -47,6 +47,28 @@ namespace DeXign.Core.Designer
         }
 
         /// <summary>
+        /// <see cref="DesignElementAttribute"/> 특성을 가져옵니다
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static AttributeTuple<DesignElementAttribute, Type> GetElementType<T>()
+        {
+            return GetElementType(typeof(T));
+        }
+
+        /// <summary>
+        /// <see cref="DesignElementAttribute"/> 특성을 가져옵니다
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static AttributeTuple<DesignElementAttribute, Type> GetElementType(Type type)
+        {
+            return GetElementTypes()
+                .Where(at => at.Element == type)
+                .FirstOrDefault();
+        }
+
+        /// <summary>
         /// <see cref="DesignElementAttribute"/> 특성이 정의된 모든 속성을 가져옵니다. 
         /// </summary>
         /// <param name="declareType">모델 타입</param>
@@ -74,8 +96,9 @@ namespace DeXign.Core.Designer
 
         private static IEnumerable<AttributeTuple<DesignElementAttribute, Type>> GetElementTypesCore()
         {
-            return Assembly.GetAssembly(typeof(PObject))
-                .GetTypes()
+            return AppDomain.CurrentDomain
+                .GetAssemblies()
+                .SelectMany(assm => assm.GetTypes())
                 .Where(t => t.HasAttribute<DesignElementAttribute>())
                 .Select(t => new AttributeTuple<DesignElementAttribute, Type>(
                     t.GetAttribute<DesignElementAttribute>(), t));
@@ -83,8 +106,19 @@ namespace DeXign.Core.Designer
 
         private static IEnumerable<AttributeTuple<DesignElementAttribute, PropertyInfo>> GetPropertiesCore(Type declareType)
         {
+            var ignore = declareType.GetAttribute<DesignElementIgnoreAttribute>();
+
             return declareType.GetProperties()
-                .Where(pi => pi.HasAttribute<DesignElementAttribute>())
+                .Where(pi =>
+                {
+                    if (!pi.HasAttribute<DesignElementAttribute>())
+                        return false;
+
+                    if (ignore != null && ignore.PropertyNames.Contains(pi.Name))
+                        return false;
+
+                    return true;
+                })
                 .Select(pi => new AttributeTuple<DesignElementAttribute, PropertyInfo>(
                     pi.GetAttribute<DesignElementAttribute>(), pi));
         }

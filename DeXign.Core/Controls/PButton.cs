@@ -37,7 +37,7 @@ namespace DeXign.Core.Controls
             set { SetValue(TextProperty, value); }
         }
 
-        [DesignElement(Category = Constants.Property.Design, DisplayName = "텍스트 색상")]
+        [DesignElement(Category = Constants.Property.Brush, DisplayName = "텍스트 색상")]
         [XForms("TextColor")]
         public Brush Foreground
         {
@@ -61,7 +61,7 @@ namespace DeXign.Core.Controls
             set { SetValue(BorderThicknessProperty, value); }
         }
 
-        [DesignElement(Category = Constants.Property.Design, DisplayName = "버튼 보더 색상", Visible = false)]
+        [DesignElement(Category = Constants.Property.Brush, DisplayName = "버튼 보더 색상", Visible = false)]
         [XForms("BorderColor")]
         public Brush BorderBrush
         {

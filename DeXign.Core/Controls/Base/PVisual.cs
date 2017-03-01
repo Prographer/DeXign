@@ -1,13 +1,15 @@
+using System;
 using System.Windows;
 using System.Windows.Media;
 
-using DeXign.Extension;
+using DeXign.Core.Logic;
+using DeXign.Core.Collections;
 
 using WPFExtension;
 
 namespace DeXign.Core.Controls
 {
-    public class PVisual : PObject
+    public class PVisual : PObject, IBinderProvider
     {
         public static readonly DependencyProperty AnchorXProperty =
             DependencyHelper.Register(new PropertyMetadata(0.5d));
@@ -48,6 +50,9 @@ namespace DeXign.Core.Controls
         public static readonly DependencyProperty YProperty =
             DependencyHelper.Register();
 
+        public event EventHandler<BinderBindedEventArgs> Binded;
+        public event EventHandler<BinderReleasedEventArgs> Released;
+
         [DesignElement(Category = Constants.Property.Transform, DisplayName = "기준점 X")]
         [XForms("AnchorX")]
         public double AnchorX
@@ -64,11 +69,11 @@ namespace DeXign.Core.Controls
             set { SetValue(AnchorYProperty, value); }
         }
 
-        [DesignElement(Category = Constants.Property.Design, DisplayName = "배경색")]
+        [DesignElement(Category = Constants.Property.Brush, DisplayName = "배경색")]
         [XForms("BackgroundColor")]
-        public SolidColorBrush Background
+        public Brush Background
         {
-            get { return GetValue<SolidColorBrush>(BackgroundProperty); }
+            get { return GetValue<Brush>(BackgroundProperty); }
             set { SetValue(BackgroundProperty, value); }
         }
 
@@ -149,5 +154,42 @@ namespace DeXign.Core.Controls
             get { return GetValue<double>(YProperty); }
             set { SetValue(YProperty, value); }
         }
+
+        #region [ IBinder Interface ]
+        // virtual binder
+        public BaseBinder Binder { get; } = new BaseBinder();
+        
+        public bool CanBind(BaseBinder outputBinder, BinderOptions options)
+        {
+            // 논리적으론 가능하지만
+            // PVisual은 Trigger와 연결하는것밖에 안됨.
+            return false;
+        }
+
+        public void Bind(BaseBinder outputBinder, BinderOptions options)
+        {
+            throw new Exception("PVisual에 Output을 연결할 수 없습니다.");
+        }
+
+        public void ReleaseInput(BaseBinder outputBinder)
+        {
+            throw new Exception("PVisual에 Output을 연결할 수 없습니다.");
+        }
+
+        public void ReleaseOutput(BaseBinder inputBinder)
+        {
+            Binder.ReleaseOutput(inputBinder);
+        }
+
+        public void ReleaseAll()
+        {
+            Binder.ReleaseAll();
+        }
+
+        public BaseBinder ProvideValue()
+        {
+            return Binder;
+        }
+        #endregion
     }
 }

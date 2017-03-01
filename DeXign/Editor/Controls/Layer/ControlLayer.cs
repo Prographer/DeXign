@@ -24,48 +24,40 @@ namespace DeXign.Editor.Layer
             get { return (VisualCollection)GetValue(ChildrenPropertyKey.DependencyProperty); }
         }
 
-        VisualCollection visualChildren;
+        protected VisualCollection InternalChildren;
 
         protected override int VisualChildrenCount
         {
-            get { return visualChildren.Count; }
+            get { return InternalChildren.Count; }
         }
 
         public ControlLayer(UIElement targetElement) : base(targetElement)
         {
-            visualChildren = new VisualCollection(this);
+            InternalChildren = new VisualCollection(this);
 
-            SetValue(ChildrenPropertyKey, visualChildren);
+            SetValue(ChildrenPropertyKey, InternalChildren);
         }
 
         public void Add(FrameworkElement element)
         {
-            visualChildren.Add(element);
+            InternalChildren.Add(element);
         }
 
         public void Remove(FrameworkElement element)
         {
-            visualChildren.Remove(element);
+            InternalChildren.Remove(element);
         }
 
         protected override Visual GetVisualChild(int index)
         {
-            return visualChildren[index];
+            return InternalChildren[index];
         }
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            foreach (FrameworkElement element in visualChildren)
-            {
-                double x = Storyboard.GetLeft(element);
-                double y = Storyboard.GetTop(element);
-
-                x = double.IsNaN(x) ? 0 : x;
-                y = double.IsNaN(y) ? 0 : y;
-                
+            foreach (FrameworkElement element in InternalChildren)
                 element.Arrange(
-                    new Rect(x, y, AdornedElement.RenderSize.Width, AdornedElement.RenderSize.Height));
-            }
+                    new Rect(0, 0, AdornedElement.RenderSize.Width, AdornedElement.RenderSize.Height));
 
             return finalSize;
         }

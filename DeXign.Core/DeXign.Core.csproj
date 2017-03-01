@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\DesignElementAttribute.cs" />
+    <Compile Include="Attributes\DesignElementIgnoreAttribute.cs" />
     <Compile Include="Attributes\XFormsAttribute.cs" />
     <Compile Include="Collections\PDefinitionCollection.cs" />
     <Compile Include="Collections\PControlCollection.cs" />
@@ -106,6 +107,18 @@
     <Compile Include="Generator\XFormsGenerator.cs" />
     <Compile Include="Generator\XMLGenerator.cs" />
     <Compile Include="Interfaces\INameScope.cs" />
+    <Compile Include="Logic\BinderBindedEventArgs.cs" />
+    <Compile Include="Logic\BinderExpression.cs" />
+    <Compile Include="Logic\BinderOperation.cs" />
+    <Compile Include="Logic\BinderOptions.cs" />
+    <Compile Include="Logic\BinderReleasedEventArgs.cs" />
+    <Compile Include="Logic\Binder\BaseBinder.cs" />
+    <Compile Include="Logic\Collections\BinderCollection.cs" />
+    <Compile Include="Logic\Collections\BinderExpressionCollection.cs" />
+    <Compile Include="Logic\Component\PComponent.cs" />
+    <Compile Include="Logic\Component\PTrigger.cs" />
+    <Compile Include="Logic\Interfaces\IBinder.cs" />
+    <Compile Include="Logic\Interfaces\IBinderProvider.cs" />
     <Compile Include="PFontAttributes.cs" />
     <Compile Include="Interfaces\IDefinition.cs" />
     <Compile Include="PColumnDefinition.cs" />

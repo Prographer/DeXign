@@ -1,9 +1,11 @@
 using System.Windows;
 using DeXign.Core;
+using DeXign.Core.Logic;
+using System;
 
 namespace DeXign.Editor
 {
-    public interface IRenderer
+    public interface IRenderer : IBinderProvider
     {
         FrameworkElement Element { get; }
         PObject Model { get; set; }

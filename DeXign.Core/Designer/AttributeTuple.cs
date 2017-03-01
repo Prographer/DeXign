@@ -13,5 +13,10 @@ namespace DeXign.Core.Designer
             this.Attribute = attr;
             this.Element = element;
         }
+
+        public override string ToString()
+        {
+            return $"[{Attribute.ToString()}, {Element.ToString()}]";
+        }
     }
 }

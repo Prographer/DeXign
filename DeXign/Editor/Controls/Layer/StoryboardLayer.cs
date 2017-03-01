@@ -10,6 +10,9 @@ namespace DeXign.Editor.Layer
 {
     public class StoryboardLayer : ControlLayer, IDisposable
     {
+        public event EventHandler RendererLoaded;
+        public event EventHandler InvalidatedLayout;
+
         bool IsDisposed = false;
 
         internal Storyboard RootParent;
@@ -34,6 +37,8 @@ namespace DeXign.Editor.Layer
             this.RootScale = RootParent?.RenderTransform as ScaleTransform;
 
             OnLoaded((FrameworkElement)AdornedElement);
+
+            RendererLoaded?.Invoke(this, e);
         }
 
         protected virtual void OnLoaded(FrameworkElement adornedElement)
@@ -51,6 +56,11 @@ namespace DeXign.Editor.Layer
 
         protected virtual void OnDisposed()
         {
+        }
+
+        protected void RaiseInvalidatedLayout()
+        {
+            InvalidatedLayout?.Invoke(this, null);
         }
     }
 }

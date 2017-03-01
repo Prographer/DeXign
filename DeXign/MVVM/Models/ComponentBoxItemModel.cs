@@ -6,13 +6,7 @@ using DeXign.Core.Designer;
 
 namespace DeXign.Models
 {
-    public enum ComponentType
-    {
-        Event,
-        Instance
-    }
-
-    class ComponentBoxItemModel
+    public class ComponentBoxItemModel
     {
         public string Title { get; }
 
@@ -31,7 +25,7 @@ namespace DeXign.Models
         public ComponentBoxItemModel(AttributeTuple<DesignElementAttribute, EventInfo> data) 
             : this(data.Attribute)
         {
-            ComponentType = ComponentType.Event;
+            this.ComponentType = ComponentType.Event;
             Data = data.Element;
         }
 

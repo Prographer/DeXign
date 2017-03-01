@@ -15,6 +15,7 @@ namespace DeXign.Core
             public const string Layout = "레이아웃";
             public const string Transform = "변형";
             public const string Other = "그 외";
+            public const string Brush = "색상";
         }
 
         public sealed class Event

@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Media;
 
 using DeXign.Resources;
+using DeXign.Controls;
 
 namespace DeXign.Editor.Layer
 {
@@ -436,10 +437,23 @@ namespace DeXign.Editor.Layer
         {
             var parentElement = AdornedElement.Parent as FrameworkElement;
             var position = parentElement.TranslatePoint(new Point(), AdornedElement);
+            var size = parentElement.RenderSize;
 
+            if (Parent is IStackLayout)
+            {
+                var stack = Parent.Element as SpacingStackPanel;
+                var bound = stack.GetArrangedBound(AdornedElement);
+
+                position.Y += bound.Top;
+                position.X += bound.Left;
+
+                size.Width = bound.Width;
+                size.Height = bound.Height;
+            }
+            
             return new Rect(
                 position,
-                parentElement.RenderSize);
+                size);
         }
 
         internal Thickness GetParentRenderMargin()

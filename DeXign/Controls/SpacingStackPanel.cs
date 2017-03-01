@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -36,7 +37,22 @@ namespace DeXign.Controls
         {
             get { return Orientation == Orientation.Vertical; }
         }
-        
+
+        internal Dictionary<object, Rect> lastArrangedBounds;
+
+        public SpacingStackPanel()
+        {
+            lastArrangedBounds = new Dictionary<object, Rect>();
+        }
+
+        internal Rect GetArrangedBound(FrameworkElement element)
+        {
+            if (!lastArrangedBounds.ContainsKey(element))
+                return new Rect(-1, -1, -1, -1);
+
+            return lastArrangedBounds[element];
+        }
+
         private Size CollapseThickness(Thickness thickness)
         {
             return new Size(
@@ -138,6 +154,9 @@ namespace DeXign.Controls
                     rcChild.Width = previousChildSize;
                     rcChild.Height = Math.Max(Math.Max(arrangeSize.Height, child.DesiredSize.Height) - padding.Height, 0);
                 }
+
+                // chaching
+                lastArrangedBounds[child] = rcChild;
 
                 child.Arrange(rcChild);
             }

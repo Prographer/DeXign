@@ -638,15 +638,29 @@
     <!-- #endregion -->
 
     <!-- #region Controls Style -->
+    <Style TargetType="{x:Type c:ImageBox}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type c:ImageBox}">
+                    <Grid>
+                        <Path Data="{StaticResource Path.DefaultImage}" Fill="LightGray" Stretch="Uniform" Visibility="{TemplateBinding Source, Converter={StaticResource Converter.NotNullObjectToVisibility}}" HorizontalAlignment="Center"/>
+                        <Image Source="{TemplateBinding Source}" Stretch="Uniform" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <Style TargetType="{x:Type c:LabelEx}">
         <Setter Property="Padding" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type c:LabelEx}">
-                    <Grid>
+                    <Grid Background="{TemplateBinding Background}">
                         <TextBlock Text="{TemplateBinding Content}" TextTrimming="CharacterEllipsis"
                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                   FontSize="{TemplateBinding FontSize}"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -809,6 +823,30 @@
                 <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
             </MultiTrigger>
         </Style.Triggers>
+    </Style>
+
+    <Style x:Key="SimpleButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="shell:WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" Background="Transparent" BorderThickness="0" Padding="{TemplateBinding Padding}">
+                        <ContentPresenter SnapsToDevicePixels="True"/>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="border" Property="Background" Value="#878787"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="border" Property="Background" Value="#F4BB24"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style TargetType="{x:Type c:PathButton}">

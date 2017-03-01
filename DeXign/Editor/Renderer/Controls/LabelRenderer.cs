@@ -57,6 +57,10 @@ namespace DeXign.Editor.Renderer
                 element, LabelEx.VerticalContentAlignmentProperty,
                 converter: vConverter);
 
+            BindingEx.SetBinding(
+                element, LabelEx.FontSizeProperty,
+                Model, PLabel.FontSizeProperty);
+
             Model.Text = "텍스트";
         }
     }

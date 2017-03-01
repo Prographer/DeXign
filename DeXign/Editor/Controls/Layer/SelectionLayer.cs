@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -15,7 +13,6 @@ using DeXign.Editor.Controls;
 using DeXign.Editor.Renderer;
 using DeXign.Extension;
 using DeXign.Resources;
-using DeXign.Windows.Pages;
 
 using WPFExtension;
 
@@ -165,10 +162,10 @@ namespace DeXign.Editor.Layer
 
         MoveThumb moveThumb;
         Rectangle frame;
-        EventTriggerButton triggerButton;
         Grid resizeGrid;
         Grid clipGrid;
 
+        internal EventTriggerButton TriggerButton;
         internal MarginClipHolder ClipData;
         internal bool CancelNextInvert;
         #endregion
@@ -249,6 +246,9 @@ namespace DeXign.Editor.Layer
 
             #region < Add Move Thumb >
             Add(moveThumb = new MoveThumb(this));
+
+            moveThumb.DragCompleted += ThumbOnDragCompleted;
+            moveThumb.Moved += MoveThumb_Moved;
             #endregion
 
             #region < Add Frame >
@@ -401,7 +401,7 @@ namespace DeXign.Editor.Layer
             #endregion
 
             #region < Add Event Trigger Button >
-            Add(triggerButton = new EventTriggerButton(this)
+            Add(TriggerButton = new EventTriggerButton(this)
             {
                 Visibility = Visibility.Collapsed,
                 Margin = new Thickness(10, 0, -10, 0),
@@ -436,7 +436,7 @@ namespace DeXign.Editor.Layer
             // SelectionBrush -> triggerButton Background
             BindingEx.SetBinding(
                 this, SelectionBrushProperty,
-                triggerButton, Control.BackgroundProperty);
+                TriggerButton, Control.BackgroundProperty);
 
             // SelectionBrush -> frame Stroke
             BindingEx.SetBinding(
@@ -460,8 +460,6 @@ namespace DeXign.Editor.Layer
             foreach (MarginClip clip in clipGrid.Children)
                 ToggleButton.IsCheckedProperty.AddValueChanged(clip, ClipChanged);
             #endregion
-
-            moveThumb.DragCompleted += ThumbOnDragCompleted;
         }
         #endregion
 
@@ -538,10 +536,6 @@ namespace DeXign.Editor.Layer
         }
         #endregion
 
-        #region [ Movement ]
-
-        #endregion
-
         #region [ Guide Line Status ]
         private void ThumbOnDragCompleted(object sender, DragCompletedEventArgs e)
         {
@@ -597,6 +591,23 @@ namespace DeXign.Editor.Layer
         #endregion
 
         #region [ Invalidated ]
+        private void RaiseDesignModeChanged()
+        {
+            DesignModeChanged?.Invoke(this, null);
+        }
+
+        private void MoveThumb_Moved(object sender, EventArgs e)
+        {
+            RaiseInvalidatedLayout();
+        }
+
+        protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
+        {
+            base.OnRenderSizeChanged(sizeInfo);
+
+            RaiseInvalidatedLayout();
+        }
+
         private void ClipChanged(object sender, EventArgs e)
         {
             ApplyClipData();
@@ -666,7 +677,7 @@ namespace DeXign.Editor.Layer
             }
             #endregion
 
-            SetMargin(margin);
+            SetMargin(margin, false);
             SetSize(renderSize.Width, renderSize.Height);
 
             this.InvalidateVisual();
@@ -675,7 +686,9 @@ namespace DeXign.Editor.Layer
         private void DesignMode_Changed(object sender, EventArgs e)
         {
             OnDesignModeChanged();
-            DesignModeChanged?.Invoke(this, e);
+
+            RaiseDesignModeChanged();
+            RaiseInvalidatedLayout();
         }
 
         protected virtual void OnDesignModeChanged()
@@ -692,7 +705,7 @@ namespace DeXign.Editor.Layer
         {
             frame.Visibility = Visibility.Collapsed;
             resizeGrid.Visibility = Visibility.Collapsed;
-            triggerButton.Visibility = Visibility.Collapsed;
+            TriggerButton.Visibility = Visibility.Collapsed;
 
             if (DesignMode != DesignMode.None)
             {
@@ -701,7 +714,7 @@ namespace DeXign.Editor.Layer
                 if (DesignMode == DesignMode.Size)
                     resizeGrid.Visibility = Visibility.Visible;
                 else
-                    triggerButton.Visibility = Visibility.Visible;
+                    TriggerButton.Visibility = Visibility.Visible;
             }
 
             this.InvalidateVisual();

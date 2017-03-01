@@ -10,16 +10,17 @@ using DeXign.Extension;
 using DeXign.Editor.Layer;
 
 using WPFExtension;
+using DeXign.Core.Logic;
 
 namespace DeXign.Editor.Renderer
 {
-    public class LayerRenderer<TModel, TElement> : DropSelectionLayer, IRenderer<TModel, TElement>
-        where TModel : PObject
+    public class LayerRenderer<TModel, TElement> : DropSelectionLayer, IRenderer<TModel, TElement>, IUISupport
+        where TModel : PVisual
         where TElement : FrameworkElement
     {
         static EnumToEnumConverter<HorizontalAlignment, PHorizontalAlignment> hConverter;
         static EnumToEnumConverter<VerticalAlignment, PVerticalAlignment> vConverter;
-
+        
         #region [ IRenderer Interface ]
         FrameworkElement IRenderer.Element => Element;
 
@@ -271,5 +272,62 @@ namespace DeXign.Editor.Renderer
 
             base.OnMouseLeave(e);
         }
+
+        #region [ IBinderProvider Interface ]
+        public bool CanBind(BaseBinder outputBinder, BinderOptions options)
+        {
+            return Model.Binder.CanBind(outputBinder, options);
+        }
+
+        public void Bind(BaseBinder outputBinder, BinderOptions options)
+        {
+            Model.Binder.Bind(outputBinder, options);
+        }
+
+        public void ReleaseInput(BaseBinder outputBinder)
+        {
+            Model.Binder.ReleaseInput(outputBinder);
+        }
+
+        public void ReleaseOutput(BaseBinder inputBinder)
+        {
+            Model.Binder.ReleaseOutput(inputBinder);
+        }
+
+        public void ReleaseAll()
+        {
+            Model.Binder.ReleaseAll();
+        }
+
+        public BaseBinder ProvideValue()
+        {
+            return Model.Binder;
+        }
+        #endregion
+
+        #region [ IUISupport ]
+        public Point GetLocation()
+        {
+            FrameworkElement element = this.Element;
+
+            if (DesignMode == DesignMode.Trigger)
+                element = TriggerButton;
+
+            return element.TranslatePoint(
+                new Point(
+                    element.RenderSize.Width,
+                    element.RenderSize.Height / 2),
+                RootParent);
+        }
+
+        public Rect GetBound()
+        {
+            var point = Element.TranslatePoint(new Point(), RootParent);
+
+            return new Rect(
+                point,
+                Element.DesiredSize);
+        }
+        #endregion
     }
 }

@@ -49,6 +49,7 @@
     <Compile Include="DoubleEx.cs" />
     <Compile Include="EnumEx.cs" />
     <Compile Include="Hardware.cs" />
+    <Compile Include="IUISupport.cs" />
     <Compile Include="LogicalTreeHelperEx.cs" />
     <Compile Include="MarshalEx.cs" />
     <Compile Include="StringEx.cs" />

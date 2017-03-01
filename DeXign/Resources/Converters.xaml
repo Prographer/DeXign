@@ -4,6 +4,7 @@
 
     <cvt:DoubleToCornerRadiusConverter x:Key="Converter.DoubleToCornerRadius"/>
     <cvt:NullObjectToVisibilityConverter x:Key="Converter.NullObjectToVisibility"/>
+    <cvt:NullObjectToVisibilityConverter x:Key="Converter.NotNullObjectToVisibility" NullValue="Visible" NotNullValue="Collapsed"/>
     <cvt:RadiusConverter x:Key="Converter.Radius"/>
     <cvt:GridViewColumnStarConverter x:Key="Converter.GridViewColumnStar"/>
     <cvt:PercentageConverter x:Key="Converter.Percentage"/>
@@ -11,4 +12,5 @@
     <cvt:DisplayNameConverter x:Key="Converter.DisplayName"/>
     <cvt:BoolToVisibilityConverter x:Key="Converter.BoolToVisibility"/>
     <cvt:BoolToVisibilityConverter x:Key="Converter.NotBoolToVisibility" TrueValue="Collapsed" FalseValue="Visible"/>
+    <cvt:PathToImageConverter x:Key="Converter.PathToImage"/>
 </ResourceDictionary>

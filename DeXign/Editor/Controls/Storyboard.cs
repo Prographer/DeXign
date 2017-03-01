@@ -2,39 +2,52 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Reflection;
+using System.Windows.Threading;
 
 using DeXign.Core;
 using DeXign.Core.Controls;
-using DeXign.Core.Designer;
+using DeXign.Core.Logic;
+using DeXign.Core.Logic.Component;
 using DeXign.Editor.Layer;
 using DeXign.Editor.Renderer;
-using DeXign.Extension;
 using DeXign.OS;
 using DeXign.Models;
+using DeXign.Extension;
+using DeXign.Core.Designer;
+using DeXign.Controls;
+using DeXign.Converter;
 
 namespace DeXign.Editor.Controls
 {
     public partial class Storyboard : Canvas
     {
         public event EventHandler ElementChanged;
-
+        
         #region [ Properties ]
         public GuideLayer GuideLayer { get; private set; }
+        public AbsoluteLayer LineLayer { get; private set; }
         public StoryboardRenderer Renderer { get; private set; }
 
         public List<ContentControl> Screens { get; } = new List<ContentControl>();
 
-        public bool IsComponentBoxOpen { get { return componentPopup.IsOpen; } }
+        public bool IsComponentBoxOpen { get { return componentBoxPopup.IsOpen; } }
         #endregion
 
         #region [ Local Variable ]
-        private Popup componentPopup;
+        private DispatcherTimer updateTimer;
+
+        private Popup componentBoxPopup;
+        private Point componentBoxPosition;
         private ComponentBox componentBox;
+        
         private Stack<LineConnectorBase> pendingLines;
+        private List<LineConnectorBase> managedLines;
         #endregion
 
         #region [ Constructor ]
@@ -47,12 +60,21 @@ namespace DeXign.Editor.Controls
             Application.Current.MainWindow.Deactivated += Storyboard_Deactivated;
         }
 
+        private void UpdateTimer_Tick(object sender, EventArgs e)
+        {
+            foreach (var line in managedLines)
+                line.Update();
+
+            LineLayer.InvalidateArrange();
+        }
+
         private void InitializeComponents()
         {
             pendingLines = new Stack<LineConnectorBase>();
+            managedLines = new List<LineConnectorBase>();
 
             componentBox = new ComponentBox();
-            componentPopup = new Popup()
+            componentBoxPopup = new Popup()
             {
                 AllowsTransparency = true,
                 Child = componentBox,
@@ -61,6 +83,15 @@ namespace DeXign.Editor.Controls
             };
             
             componentBox.ItemSelected += ComponentBox_ItemSelected;
+
+            // Line Update Timer
+            updateTimer = new DispatcherTimer()
+            {
+                Interval = TimeSpan.FromMilliseconds(10)
+            };
+
+            updateTimer.Tick += UpdateTimer_Tick;
+            updateTimer.Start();
         }
         
         private void InitializeBindings()
@@ -89,12 +120,15 @@ namespace DeXign.Editor.Controls
         private void InitializeLayer()
         {
             GuideLayer = new GuideLayer(this);
+            LineLayer = new AbsoluteLayer(this);
             Renderer = new StoryboardRenderer(this);
 
             this.AddAdorner(GuideLayer);
+            this.AddAdorner(LineLayer);
             this.AddAdorner(Renderer);
 
             GuideLayer.SetAdornerIndex(2);
+            LineLayer.SetAdornerIndex(0);
             Renderer.SetAdornerIndex(2);
 
             this.SetRenderer(Renderer);
@@ -155,6 +189,10 @@ namespace DeXign.Editor.Controls
                 GroupSelector.UnselectAll();
         }
 
+        /// <summary>
+        /// 선택된 레이어를 가져옵니다.
+        /// </summary>
+        /// <returns></returns>
         protected SelectionLayer GetSelectedLayer()
         {
             var items = GroupSelector.GetSelectedItems();
@@ -181,12 +219,13 @@ namespace DeXign.Editor.Controls
         #endregion
 
         #region [ Render Element ]
+        /// <summary>
+        /// 화면을 생성합니다.
+        /// </summary>
+        /// <returns></returns>
         public ContentControl AddNewScreen()
         {
-            var metadata = DesignerManager
-                .GetElementTypes()
-                .FirstOrDefault(at => at.Element == typeof(PContentPage));
-
+            var metadata = DesignerManager.GetElementType(typeof(PContentPage));
             var control = this.GenerateToElement(this, metadata) as ContentControl;
 
             control.Margin = new Thickness(0);
@@ -204,6 +243,12 @@ namespace DeXign.Editor.Controls
             return control;
         }
 
+        /// <summary>
+        /// 어셈블리의 <see cref="DesignElementAttribute"/> 특성으로 등록된 데이터 모델 <see cref="Type"/>의 <see cref="IRenderer{TModel, TElement}"/>를 생성 후 Parent의 자식으로 설정합니다.
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public FrameworkElement GenerateToElement(
             FrameworkElement parent,
             AttributeTuple<DesignElementAttribute, Type> data)
@@ -240,6 +285,11 @@ namespace DeXign.Editor.Controls
             return visual;
         }
 
+        /// <summary>
+        /// Parent의 자식으로 등록된 Element를 삭제하고 <see cref="IRenderer"/> 및 레이어를 삭제합니다.
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="element"></param>
         public void RemoveElement(FrameworkElement parent, FrameworkElement element)
         {
             IRenderer parentRenderer = parent.GetRenderer();
@@ -280,41 +330,102 @@ namespace DeXign.Editor.Controls
         #region [ Bezier Line Connector ]
         private void Connector_Updated(object sender, EventArgs e)
         {
-            Renderer.InvalidateArrange();
+            LineLayer.InvalidateArrange();
+        }
+        
+        /// <summary>
+        /// 연결점을 시각적으로 동기화시켜주는 임시 <see cref="LineConnectorBase"/>를 생성합니다.
+        /// </summary>
+        /// <param name="startPosition"></param>
+        /// <param name="endPosition"></param>
+        /// <returns></returns>
+        public LineConnectorBase CreatePendingConnectedLine(
+            Func<LineConnectorBase, Point> startPosition,
+            Func<LineConnectorBase, Point> endPosition)
+        {
+            var connector = CreateConnectedLine(startPosition, endPosition);
+
+            // add pending line
+            pendingLines.Push(connector);
+            managedLines.Remove(connector);
+
+            connector.Updated += Connector_Updated;
+
+            return connector;
         }
 
-        public LineConnectorBase CreatePendingConnectedLine(
+        /// <summary>
+        /// 두 <see cref="FrameworkElement"/>를 시각적으로 이어주는 임시 <see cref="LineConnector"/>를 생성합니다.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public LineConnector CreatePendingConnectedLine(
+            FrameworkElement source,
+            FrameworkElement target)
+        {
+            var connector = CreateConnectedLine(source, target);
+            
+            // add pending line
+            pendingLines.Push(connector);
+            managedLines.Remove(connector);
+
+            connector.Updated += Connector_Updated;
+
+            return connector;
+        }
+
+        /// <summary>
+        /// 연결점을 시각적으로 동기화시켜주는 임시 <see cref="LineConnectorBase"/>를 생성합니다.
+        /// </summary>
+        /// <param name="startPosition"></param>
+        /// <param name="endPosition"></param>
+        /// <returns></returns>
+        public LineConnectorBase CreateConnectedLine(
             Func<LineConnectorBase, Point> startPosition,
             Func<LineConnectorBase, Point> endPosition)
         {
             var connector = new LineConnectorBase(this, startPosition, endPosition);
 
-            connector.Updated += Connector_Updated;
+            var scale = RenderTransform as ScaleTransform;
+            BindingEx.SetBinding(
+                scale, ScaleTransform.ScaleXProperty,
+                connector.Line, BezierLine.StrokeThicknessProperty,
+                converter: new ReciprocalConverter());
 
-            Renderer.Add(connector.Line);
-
-            // add pending line
-            pendingLines.Push(connector);
+            LineLayer.Add(connector.Line);
+            managedLines.Add(connector);
 
             return connector;
         }
 
-        public LineConnector CreatePendingConnectedLine(
+        /// <summary>
+        /// 두 <see cref="FrameworkElement"/>를 시각적으로 이어주는 임시 <see cref="LineConnector"/>를 생성합니다.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public LineConnector CreateConnectedLine(
             FrameworkElement source,
             FrameworkElement target)
         {
             var connector = new LineConnector(this, source, target);
 
-            connector.Updated += Connector_Updated;
+            var scale = RenderTransform as ScaleTransform;
+            BindingEx.SetBinding(
+                scale, ScaleTransform.ScaleXProperty,
+                connector.Line, BezierLine.StrokeThicknessProperty,
+                converter: new ReciprocalConverter());
 
-            Renderer.Add(connector.Line);
-
-            // add pending line
-            pendingLines.Push(connector);
+            LineLayer.Add(connector.Line);
+            managedLines.Add(connector);
 
             return connector;
         }
 
+        /// <summary>
+        /// 임시로 생성된 <see cref="LineConnectorBase"/>를 삭제합니다.
+        /// </summary>
         public void PopPendingConnectedLine()
         {
             if (!HasPendingConnectedLine())
@@ -324,10 +435,16 @@ namespace DeXign.Editor.Controls
 
             connector.Updated -= Connector_Updated;
 
-            Renderer.Remove(connector.Line);
+            LineLayer.Remove(connector.Line);
+            managedLines.Remove(connector);
+
             connector.Release();
         }
 
+        /// <summary>
+        /// 임시로 생성된 <see cref="LineConnectorBase"/>의 존재 여부를 확인합니다.
+        /// </summary>
+        /// <returns></returns>
         public bool HasPendingConnectedLine()
         {
             return pendingLines.Count > 0;
@@ -335,6 +452,55 @@ namespace DeXign.Editor.Controls
         #endregion
 
         #region [ Logic ]
+        /// <summary>
+        /// 로직 컴포넌트를 생성합니다.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="position"></param>
+        /// <returns></returns>
+        public FrameworkElement AddNewComponent(ComponentBoxItemModel model, Point position)
+        {
+            Type pType = null;
+
+            switch (model.ComponentType)
+            {
+                case ComponentType.Event:
+                    pType = typeof(PTrigger);
+                    break;
+
+                case ComponentType.Instance:
+                    pType = model.Data as Type;
+                    break;
+            }
+
+            if (pType == null)
+            {
+                MessageBox.Show("Coming soon!");
+                return null;
+            }
+
+            var metadata = DesignerManager.GetElementType(pType);
+            var control = this.GenerateToElement(this, metadata) as FrameworkElement;
+
+            // Trigger Setting
+            if (model.ComponentType == ComponentType.Event)
+            {
+                var triggerRenderer = control.GetRenderer() as TriggerRenderer;
+
+                triggerRenderer.Model.EventInfo = model.Data as EventInfo;
+            }
+
+            // Add Visual
+            control.Margin = new Thickness(0);
+            control.VerticalAlignment = VerticalAlignment.Top;
+            control.HorizontalAlignment = HorizontalAlignment.Left;
+
+            Canvas.SetLeft(control, position.X);
+            Canvas.SetTop(control, position.Y);
+
+            return control;
+        }
+
         private void Storyboard_Deactivated(object sender, EventArgs e)
         {
             CloseComponentBox();
@@ -342,48 +508,99 @@ namespace DeXign.Editor.Controls
 
         internal void OpenComponentBox(PObject componentTarget)
         {
+            // Set Target
             componentBox.TargetObject = componentTarget;
 
-            Point mousePos = SystemMouse.Position;
+            // Set Last Open Position
+            componentBoxPosition = SystemMouse.Position;
 
             // Popup Child Force Measure
             componentBox.Measure(
                 new Size(componentBox.MaxWidth, componentBox.MaxHeight));
 
             // Popup Place Area
-            componentPopup.PlacementRectangle =
+            componentBoxPopup.PlacementRectangle =
                 new Rect(
-                    new Point(mousePos.X - 6, mousePos.Y - componentBox.DesiredSize.Height / 2),
+                    new Point(componentBoxPosition.X - 6, componentBoxPosition.Y - componentBox.DesiredSize.Height / 2),
                     componentBox.DesiredSize);
 
             // Popup Open
-            componentPopup.IsOpen = true;
+            componentBoxPopup.IsOpen = true;
         }
 
         internal void CloseComponentBox()
         {
             PopPendingConnectedLine();
-            componentPopup.IsOpen = false;
+            componentBoxPopup.IsOpen = false;
         }
 
+        internal void ConnectComponent(IRenderer outputRenderer, IRenderer inputRenderer, BinderOptions option)
+        {
+            var layer = (inputRenderer as StoryboardLayer);
+
+            BinderOperation.SetBind(outputRenderer, inputRenderer, option);
+
+#if DEBUG
+            // output check
+            System.Diagnostics.Debug.Assert(
+                outputRenderer.ProvideValue()
+                    .Outputs.Contains(inputRenderer.ProvideValue()));
+
+            // input check
+            System.Diagnostics.Debug.Assert(
+                inputRenderer.ProvideValue()
+                    .Inputs.Contains(outputRenderer.ProvideValue()));
+#endif
+
+            // Connect
+            if (layer.IsLoaded)
+            {
+                ConnectRendererBezierLine(outputRenderer, inputRenderer);
+                return;
+            }
+
+            layer.RendererLoaded += (s, e) =>
+            {
+                ConnectRendererBezierLine(outputRenderer, inputRenderer);
+            };
+        }
+
+        private void ConnectRendererBezierLine(IRenderer outputRenderer, IRenderer inputRenderer)
+        {
+            var connector = CreateConnectedLine((FrameworkElement)outputRenderer, (FrameworkElement)inputRenderer);
+            connector.Update();
+        }
+        
         private void ComponentBox_ItemSelected(object sender, ComponentBoxItemModel model)
         {
             if (IsComponentBoxOpen)
             {
+                IRenderer sourceRenderer = componentBox.TargetObject.GetRenderer();
+                
                 // Close Opened Box
                 CloseComponentBox();
 
                 // Create Component
-                switch (model.ComponentType)
-                {
-                    case Models.ComponentType.Event:
-                        break;
+                FrameworkElement visual = AddNewComponent(model, this.PointFromScreen(componentBoxPosition));
+                IRenderer targetRenderer = visual.GetRenderer();
 
-                    case Models.ComponentType.Instance:
-                        break;
-                }
+                if (visual == null)
+                    return;
+
+                // * Logic Binding *
+                ConnectComponent(sourceRenderer, targetRenderer, BinderOptions.Trigger);
             }
         }
         #endregion
+    }
+
+    internal class ComponentRequest
+    {
+        public PObject Target { get; set; }
+
+        public FrameworkElement VisualBinderSource { get; set; }
+
+        public IRenderer BinderSource { get; set; }
+        public BinderOptions BinderOption { get; set; }
     }
 }

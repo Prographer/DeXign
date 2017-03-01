@@ -207,6 +207,24 @@
         </Setter>
     </Style>
 
+    <Style TargetType="{x:Type c:ImageSourceSetter}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type c:ImageSourceSetter}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <c:SubmitTextBox x:Name="PART_sourceBox" IsReadOnly="True" Style="{StaticResource ValueBoxStyle}"/>
+                        <Button x:Name="PART_sourceButton" Grid.Column="1" Style="{DynamicResource SimpleButtonStyle}" Content="..." Padding="4,0" Margin="0,0,15,0"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="{x:Type c:BrushSetter}">
         <Setter Property="Template">
             <Setter.Value>

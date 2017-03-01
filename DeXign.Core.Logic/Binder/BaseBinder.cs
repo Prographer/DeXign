@@ -10,29 +10,84 @@ namespace DeXign.Core.Logic
         public event EventHandler<BinderBindedEventArgs> Binded;
         public event EventHandler<BinderReleasedEventArgs> Released;
 
+        // Lazy Instance Create
+
         // Binder
-        public BinderCollection Inputs { get; }
+        private BinderCollection _inputs;
+        public BinderCollection Inputs
+        {
+            get
+            {
+                if (_inputs == null)
+                    _inputs = new BinderCollection();
 
-        public BinderCollection Outputs { get; }
+                return _inputs;
+            }
+        }
 
-        public BinderCollection Parameters { get; }
+        private BinderCollection _outputs;
+        public BinderCollection Outputs
+        {
+            get
+            {
+                if (_outputs == null)
+                    _outputs = new BinderCollection();
+
+                return _outputs;
+            }
+        }
+
+        private BinderCollection _parameters;
+        public BinderCollection Parameters
+        {
+            get
+            {
+                if (_parameters == null)
+                    _parameters = new BinderCollection();
+
+                return _parameters;
+            }
+        }
 
         // Expression
-        internal BinderExpressionCollection InputExpressions { get; }
+        private BinderExpressionCollection _inputExpressions;
+        internal BinderExpressionCollection InputExpressions
+        {
+            get
+            {
+                if (_inputExpressions == null)
+                    _inputExpressions = new BinderExpressionCollection();
 
-        internal BinderExpressionCollection OutputExpressions { get; }
+                return _inputExpressions;
+            }
+        }
 
-        internal BinderExpressionCollection ParameterExpressions { get; }
+        private BinderExpressionCollection _outputExpressions;
+        internal BinderExpressionCollection OutputExpressions
+        {
+            get
+            {
+                if (_outputExpressions == null)
+                    _outputExpressions = new BinderExpressionCollection();
+
+                return _outputExpressions;
+            }
+        }
+
+        private BinderExpressionCollection _parameterExpressions;
+        internal BinderExpressionCollection ParameterExpressions
+        {
+            get
+            {
+                if (_parameterExpressions == null)
+                    _parameterExpressions = new BinderExpressionCollection();
+
+                return _parameterExpressions;
+            }
+        }
         
         public BaseBinder()
         {
-            Inputs = new BinderCollection();
-            Outputs = new BinderCollection();
-            Parameters = new BinderCollection();
-
-            InputExpressions = new BinderExpressionCollection();
-            OutputExpressions = new BinderExpressionCollection();
-            ParameterExpressions = new BinderExpressionCollection();
         }
 
         public void Bind(BaseBinder outputBinder, BinderOptions options)
