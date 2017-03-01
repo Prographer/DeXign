@@ -70,18 +70,6 @@
       <HintPath>..\packages\WPFExtension.1.0.1\lib\net45\WPFExtension.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xamarin.Forms.2.3.3.193\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Xamarin.Forms.Platform, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xamarin.Forms.2.3.3.193\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Platform.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Xamarin.Forms.Xaml, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xamarin.Forms.2.3.3.193\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Xaml.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
       <Private>True</Private>
@@ -159,6 +147,7 @@
     <Compile Include="Editor\Renderer\Components\TriggerRenderer.cs" />
     <Compile Include="Editor\Renderer\Controls\ButtonRenderer.cs" />
     <Compile Include="Editor\Renderer\Controls\ImageRenderer.cs" />
+    <Compile Include="Editor\Renderer\Layouts\ScrollViewRenderer.cs" />
     <Compile Include="Editor\Renderer\Layouts\StackLayoutRenderer.cs" />
     <Compile Include="Editor\Renderer\Layouts\GridRenderer.cs" />
     <Compile Include="Editor\Renderer\Controls\LabelRenderer.cs" />
