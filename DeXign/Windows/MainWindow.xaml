@@ -83,7 +83,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="210"/>
             <ColumnDefinition Width="2"/>
-            <ColumnDefinition MinWidth="128"/>
+            <ColumnDefinition/>
             <ColumnDefinition Width="2"/>
             <ColumnDefinition Width="270"/>
         </Grid.ColumnDefinitions>

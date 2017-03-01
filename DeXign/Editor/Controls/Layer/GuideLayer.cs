@@ -72,15 +72,23 @@ namespace DeXign.Editor.Layer
                 {
                     SnapItems.Add(
                         new Guideline(
-                            new Point(gl.Point1.X, Math.Min(gl.Point1.Y, gl.SnappedGuideline.Point1.Y)),
-                            new Point(gl.Point1.X, Math.Max(gl.Point2.Y, gl.SnappedGuideline.Point2.Y))));
+                            new Point(
+                                Math.Floor(gl.Point1.X),
+                                Math.Floor(Math.Min(gl.Point1.Y, gl.SnappedGuideline.Point1.Y))),
+                            new Point(
+                                Math.Floor(gl.Point1.X),
+                                Math.Floor(Math.Max(gl.Point2.Y, gl.SnappedGuideline.Point2.Y)))));
                 }
                 else
                 {
                     SnapItems.Add(
                         new Guideline(
-                            new Point(Math.Min(gl.Point1.X, gl.SnappedGuideline.Point1.X), gl.Point1.Y),
-                            new Point(Math.Max(gl.Point2.X, gl.SnappedGuideline.Point2.X), gl.Point2.Y)));
+                            new Point(
+                                Math.Floor(Math.Min(gl.Point1.X, gl.SnappedGuideline.Point1.X)),
+                                Math.Floor(gl.Point1.Y)),
+                            new Point(
+                                Math.Floor(Math.Max(gl.Point2.X, gl.SnappedGuideline.Point2.X)),
+                                Math.Floor(gl.Point2.Y))));
                 }
 
                 yield return gl;
