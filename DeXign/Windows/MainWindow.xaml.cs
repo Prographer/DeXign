@@ -10,11 +10,6 @@ using DeXign.Resources;
 using DeXign.Windows.Pages;
 using DeXign.Editor;
 using System.Linq;
-using DeXign.Core.Controls;
-using WPFExtension;
-using System.Windows.Threading;
-using System.Windows.Media.Animation;
-using DeXign.Animation;
 
 namespace DeXign
 {

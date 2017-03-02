@@ -23,12 +23,15 @@ using DeXign.Extension;
 using DeXign.Core.Designer;
 using DeXign.Controls;
 using DeXign.Converter;
+using DeXign.Task;
 
 namespace DeXign.Editor.Controls
 {
     public partial class Storyboard : Canvas
     {
         #region [ Properties ]
+        public TaskManager TaskManager { get; set; }
+
         public GuideLayer GuideLayer { get; private set; }
         public AbsoluteLayer LineLayer { get; private set; }
         public StoryboardRenderer Renderer { get; private set; }

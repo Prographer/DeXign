@@ -5,7 +5,8 @@
                     xmlns:ex="clr-namespace:DeXign.Extension;assembly=DeXign.Extension"
                     xmlns:aero2="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
                     xmlns:m="clr-namespace:DeXign.Models"
-                    xmlns:rule="clr-namespace:DeXign.Rules">
+                    xmlns:rule="clr-namespace:DeXign.Rules"
+                    xmlns:t="clr-namespace:DeXign.Task">
 
     <!-- Used 'XAML Region' Extension -->
 
@@ -1084,19 +1085,23 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type c:ActionControlBox}">
                     <UniformGrid Columns="2">
-                        <c:PathButton x:Name="undoButton" Opacity="0.5" IsEnabled="false" PathData="{StaticResource Path.ArrowBack}" CornerRadius="18" Foreground="White" PathWidth="18" PathHeight="18"/>
-                        <c:PathButton x:Name="redoButton" Opacity="0.5" IsEnabled="false" PathData="{StaticResource Path.ArrowNext}" CornerRadius="18" Foreground="White" PathWidth="18" PathHeight="18"/>
+                        <c:PathButton x:Name="undoButton" 
+                                      Command="{Binding TaskManager.UndoCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                      Opacity="0.5" IsEnabled="false" PathData="{StaticResource Path.ArrowBack}" CornerRadius="18" Foreground="White" PathWidth="18" PathHeight="18"/>
+                        <c:PathButton x:Name="redoButton"
+                                      Command="{Binding TaskManager.RedoCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                      Opacity="0.5" IsEnabled="false" PathData="{StaticResource Path.ArrowNext}" CornerRadius="18" Foreground="White" PathWidth="18" PathHeight="18"/>
                     </UniformGrid>
 
                     <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding CanUndo}" Value="true">
+                        <Trigger Property="CanUndo" Value="true">
                             <Setter TargetName="undoButton" Property="Opacity" Value="1"/>
                             <Setter TargetName="undoButton" Property="IsEnabled" Value="true"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding CanRedo}" Value="true">
+                        </Trigger>
+                        <Trigger Property="CanRedo" Value="true">
                             <Setter TargetName="redoButton" Property="Opacity" Value="1"/>
                             <Setter TargetName="redoButton" Property="IsEnabled" Value="true"/>
-                        </DataTrigger>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

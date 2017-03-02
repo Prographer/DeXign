@@ -28,7 +28,10 @@ namespace DeXign.Windows.Pages
             this.DataContext = Model;
 
             Model.PlatformCommand.OnExecute += PlatformCommand_OnExecute;
-            
+
+            // Task Manager Setting
+            storyboard.TaskManager = Model.TaskManager;
+
             // test code
             storyboard.Loaded += Storyboard_Loaded;
 
