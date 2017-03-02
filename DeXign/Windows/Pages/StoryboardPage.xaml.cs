@@ -1,18 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 using DeXign.Core;
 using DeXign.Core.Controls;
-using DeXign.Core.Designer;
-using DeXign.Editor.Controls;
 using DeXign.Editor.Renderer;
 using DeXign.Extension;
 using DeXign.Models;
 using DeXign.Theme;
-using System.Windows.Threading;
 
 namespace DeXign.Windows.Pages
 {

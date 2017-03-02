@@ -182,6 +182,9 @@
     <Compile Include="MVVM\Rules\PercentageRule.cs" />
     <Compile Include="System\Mouse.cs" />
     <Compile Include="System\Screen.cs" />
+    <Compile Include="Task\DispatcherTaskData.cs" />
+    <Compile Include="Task\TaskData.cs" />
+    <Compile Include="Task\TaskManager.cs" />
     <Compile Include="Themes\ThemeManager.cs" />
     <Compile Include="MVVM\ElementThicknessBinder.cs" />
     <Compile Include="Utilities\MathUtil.cs" />

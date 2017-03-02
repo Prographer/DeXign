@@ -1078,13 +1078,26 @@
         <Setter Property="Width" Value="88"/>
         <Setter Property="Height" Value="36"/>
 
+        <Setter Property="TaskManager" Value="{Binding StoryboardPage.Model.TaskManager}"/>
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type c:ActionControlBox}">
                     <UniformGrid Columns="2">
-                        <c:PathButton PathData="{StaticResource Path.ArrowBack}" CornerRadius="18" Foreground="White" PathWidth="18" PathHeight="18"/>
-                        <c:PathButton PathData="{StaticResource Path.ArrowNext}" CornerRadius="18" Foreground="White" PathWidth="18" PathHeight="18"/>
+                        <c:PathButton x:Name="undoButton" Opacity="0.5" IsEnabled="false" PathData="{StaticResource Path.ArrowBack}" CornerRadius="18" Foreground="White" PathWidth="18" PathHeight="18"/>
+                        <c:PathButton x:Name="redoButton" Opacity="0.5" IsEnabled="false" PathData="{StaticResource Path.ArrowNext}" CornerRadius="18" Foreground="White" PathWidth="18" PathHeight="18"/>
                     </UniformGrid>
+
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding CanUndo}" Value="true">
+                            <Setter TargetName="undoButton" Property="Opacity" Value="1"/>
+                            <Setter TargetName="undoButton" Property="IsEnabled" Value="true"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding CanRedo}" Value="true">
+                            <Setter TargetName="redoButton" Property="Opacity" Value="1"/>
+                            <Setter TargetName="redoButton" Property="IsEnabled" Value="true"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
