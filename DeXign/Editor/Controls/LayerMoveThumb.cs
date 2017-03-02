@@ -6,22 +6,23 @@ using System.Collections.Generic;
 using DeXign.Controls;
 using DeXign.Editor.Layer;
 using DeXign.Editor.Renderer;
+using System.Windows.Input;
 
 namespace DeXign.Editor.Controls
 {
-    class MoveThumb : RelativeThumb
+    class LayerMoveThumb : RelativeThumb
     {
         public event EventHandler Moved;
 
         public FrameworkElement Target { get; set; }
-        public SelectionLayer Layer { get; set; }
+        public SelectionLayer ParentLayer { get; set; }
 
         Point beginPosition;
         Thickness beginMargin;
         
-        public MoveThumb(SelectionLayer layer)
+        public LayerMoveThumb(SelectionLayer layer)
         {
-            this.Layer = layer;
+            this.ParentLayer = layer;
             this.Target = layer.AdornedElement;
 
             this.RelativeTarget = layer.RootParent;
@@ -29,7 +30,7 @@ namespace DeXign.Editor.Controls
 
         private IEnumerable<Guideline> GetSizeGuidableLines()
         {
-            if (Layer.Parent is IStoryboard)
+            if (ParentLayer.Parent is IStoryboard)
             {
                 
             }
@@ -37,7 +38,7 @@ namespace DeXign.Editor.Controls
             {
                 Point vPosition = Point.Add(beginPosition, (Vector)PreviousDelta);
                 Rect vBound = new Rect(
-                    Layer.Parent.Element.TranslatePoint(vPosition, Layer.RootParent),
+                    ParentLayer.Parent.Element.TranslatePoint(vPosition, ParentLayer.RootParent),
                     Target.RenderSize);
 
                 // top
@@ -74,30 +75,45 @@ namespace DeXign.Editor.Controls
             }
         }
 
+        protected override void OnPreviewMouseMove(MouseEventArgs e)
+        {
+            base.OnPreviewMouseMove(e);
+        }
+
+        protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnPreviewMouseLeftButtonDown(e);
+
+            if (ParentLayer.DesignMode == DesignMode.Trigger)
+            {
+                e.Handled = true;
+            }
+        }
+
         protected override void OnDragStarted(double horizontalOffset, double verticalOffset)
         {
             // Filter Push
-            Layer.GuidelineFilter.Push(GetSizeGuidableLines);
+            ParentLayer.GuidelineFilter.Push(GetSizeGuidableLines);
 
-            beginPosition = Target.TranslatePoint(new Point(), Layer.Parent.Element);
+            beginPosition = Target.TranslatePoint(new Point(), ParentLayer.Parent.Element);
 
-            if (!(Layer.Parent is IStoryboard))
+            if (!(ParentLayer.Parent is IStoryboard))
                 beginMargin = Target.Margin;
         }
 
         protected override void OnDragCompleted(double horizontalChange, double verticalChange)
         {
             // Filter Pop
-            Layer.GuidelineFilter.Pop();
+            ParentLayer.GuidelineFilter.Pop();
 
             base.OnDragCompleted(horizontalChange, verticalChange);
         }
 
         protected override void OnDragDelta(double horizontalChange, double verticalChange)
         {
-            Layer.CancelNextInvert = true;
+            ParentLayer.CancelNextSelect();
 
-            if (Layer.Parent is IStoryboard)
+            if (ParentLayer.Parent is IStoryboard)
             {
                 Point canvasPosition = ApplyPositionDelta(
                     new Point(horizontalChange, verticalChange));
@@ -111,7 +127,7 @@ namespace DeXign.Editor.Controls
                     new Point(horizontalChange, verticalChange));
                 
                 // Snap with Set
-                Layer.SetMargin(margin);
+                ParentLayer.SetMargin(margin);
             }
 
             Moved?.Invoke(this, null);
@@ -129,9 +145,9 @@ namespace DeXign.Editor.Controls
             bool allowVertical = true;
             bool allowHorizontal = true;
 
-            if (Layer.Parent is IStackLayout)
+            if (ParentLayer.Parent is IStackLayout)
             {
-                var stackRenderer = Layer.Parent as StackLayoutRenderer;
+                var stackRenderer = ParentLayer.Parent as StackLayoutRenderer;
 
                 allowVertical =
                     (stackRenderer.Element.Orientation == Orientation.Horizontal);
@@ -142,7 +158,7 @@ namespace DeXign.Editor.Controls
 
             if (allowVertical)
             {
-                switch (Layer.ClipData.VerticalAlignment)
+                switch (ParentLayer.ClipData.VerticalAlignment)
                 {
                     case VerticalAlignment.Top:
                         margin.Top = beginMargin.Top + delta.Y;
@@ -162,7 +178,7 @@ namespace DeXign.Editor.Controls
 
             if (allowHorizontal)
             {
-                switch (Layer.ClipData.HorizontalAlignment)
+                switch (ParentLayer.ClipData.HorizontalAlignment)
                 {
                     case HorizontalAlignment.Left:
                         margin.Left = beginMargin.Left + delta.X;

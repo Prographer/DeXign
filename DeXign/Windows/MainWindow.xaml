@@ -120,7 +120,11 @@
 
                     <Grid Grid.Row="1">
                         <!-- TODO Debug -->
-                        
+                        <c:ProtrudedScrollViewer Width="200" Height="200" HorizontalScrollBarVisibility="Auto">
+                            <StackPanel Orientation="Vertical">
+                                <Rectangle Width="1000" Height="1000"/>
+                            </StackPanel>
+                        </c:ProtrudedScrollViewer>
                     </Grid>
                 </Grid>
             </c:ClosableTabItem>

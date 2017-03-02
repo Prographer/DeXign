@@ -8,6 +8,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Reflection;
+using System.ComponentModel;
 using System.Windows.Threading;
 
 using DeXign.Core;
@@ -27,8 +28,6 @@ namespace DeXign.Editor.Controls
 {
     public partial class Storyboard : Canvas
     {
-        public event EventHandler ElementChanged;
-        
         #region [ Properties ]
         public GuideLayer GuideLayer { get; private set; }
         public AbsoluteLayer LineLayer { get; private set; }
@@ -53,6 +52,9 @@ namespace DeXign.Editor.Controls
         #region [ Constructor ]
         public Storyboard()
         {
+            if (DesignerProperties.GetIsInDesignMode(this))
+                return;
+
             InitializeLayer();
             InitializeComponents();
             InitializeBindings();
@@ -110,13 +112,23 @@ namespace DeXign.Editor.Controls
                     Command = DXCommands.DeleteCommand
                 });
 
+            this.InputBindings.Add(
+                new KeyBinding()
+                {
+                    Key = Key.Tab,
+                    Command = DXCommands.DesignModeCommand
+                });
+
             this.CommandBindings.Add(
                 new CommandBinding(DXCommands.ESCCommand, ESC_Execute));
 
             this.CommandBindings.Add(
                 new CommandBinding(DXCommands.DeleteCommand, Delete_Execute));
-        }
 
+            this.CommandBindings.Add(
+                new CommandBinding(DXCommands.DesignModeCommand, DesignMode_Execute));
+        }
+        
         private void InitializeLayer()
         {
             GuideLayer = new GuideLayer(this);
@@ -136,6 +148,13 @@ namespace DeXign.Editor.Controls
         #endregion
 
         #region [ Input ]
+        private void DesignMode_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            var selectedLayer = GetSelectedLayer();
+
+            selectedLayer?.Select();
+        }
+
         private void Delete_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             var layers = GroupSelector.GetSelectedItems()
@@ -280,8 +299,6 @@ namespace DeXign.Editor.Controls
             // Notice child added
             parentRenderer?.OnAddedChild(childRenderer);
 
-            ElementChanged?.Invoke(this, null);
-
             return visual;
         }
 
@@ -319,11 +336,9 @@ namespace DeXign.Editor.Controls
                 parent,
                 pi => pi.SetValue(parent, null), // Single Content
                 list => list.Remove(element));   // List Content
-
+            
             // Notice child removed 
             parentRenderer?.OnRemovedChild(childRenderer);
-
-            ElementChanged?.Invoke(this, null);
         }
         #endregion
 

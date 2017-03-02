@@ -5,6 +5,7 @@ using System.Windows.Media;
 
 using DeXign.Resources;
 using DeXign.Controls;
+using System.Windows.Input;
 
 namespace DeXign.Editor.Layer
 {
@@ -33,7 +34,7 @@ namespace DeXign.Editor.Layer
 
             if (virtualHeight == 0)
                 virtualHeight = ClipData.TopClip.RenderSize.Height / ScaleX;
-
+            
             ClipData.LeftClip.Arrange(
                 new Rect(
                     parentRect.X - virtualWidth / 2, 0,
@@ -53,6 +54,15 @@ namespace DeXign.Editor.Layer
                 new Rect(
                     0, parentRect.Bottom - virtualHeight / 2,
                     RenderSize.Width, virtualHeight));
+
+            // * Virtual Thumb Bound Arrange *
+            parentRect.X = Math.Max(parentRect.X, 0);
+            parentRect.Y = Math.Max(parentRect.Y, 0);
+            parentRect.Width = Math.Min(parentRect.Width, moveThumb.RenderSize.Width);
+            parentRect.Height = Math.Min(parentRect.Height, moveThumb.RenderSize.Height);
+            
+            moveThumb.Measure(parentRect.Size);
+            moveThumb.Arrange(parentRect);
 
             return arrangeSize;
         }

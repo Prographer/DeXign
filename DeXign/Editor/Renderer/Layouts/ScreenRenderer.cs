@@ -78,6 +78,8 @@ namespace DeXign.Editor.Renderer
 
         public override void OnAddedChild(IRenderer child)
         {
+            base.OnAddedChild(child);
+
             child.Element.VerticalAlignment = VerticalAlignment.Stretch;
             child.Element.HorizontalAlignment = HorizontalAlignment.Stretch;
         }

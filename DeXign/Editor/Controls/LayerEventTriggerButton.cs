@@ -7,13 +7,13 @@ using DeXign.Editor.Layer;
 
 namespace DeXign.Editor.Controls
 {
-    class EventTriggerButton : Control
+    class LayerEventTriggerButton : Control
     {
         public SelectionLayer ParentLayer { get; set; }
 
         private LineConnectorBase dragLine;
 
-        public EventTriggerButton(SelectionLayer parentLayer)
+        public LayerEventTriggerButton(SelectionLayer parentLayer)
         {
             this.ParentLayer = parentLayer;
         }

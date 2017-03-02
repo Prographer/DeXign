@@ -40,7 +40,7 @@
     </Style>
 
     <Style x:Key="{x:Static local:ThemeKeyStore.BoxView}" TargetType="{x:Type Rectangle}">
-        <Setter Property="Fill" Value="BlueViolet"/>
+        <Setter Property="Fill" Value="{StaticResource Brush.iOS.Accent}"/>
     </Style>
 
     <Style x:Key="{x:Static local:ThemeKeyStore.Button}" TargetType="{x:Type r:RadiusButton}" BasedOn="{StaticResource {x:Type Button}}">

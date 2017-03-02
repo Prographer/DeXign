@@ -83,6 +83,8 @@ namespace DeXign.Editor.Renderer
 
         public override void OnAddedChild(IRenderer child)
         {
+            base.OnAddedChild(child);
+
             var position = this.PointFromScreen(SystemMouse.Position);
 
             child.Element.Width = 100;

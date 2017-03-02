@@ -13,17 +13,23 @@
       Title="StoryboardPage">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="200"/>
+        </Grid.RowDefinitions>
+
         <ScrollViewer>
             <AdornerDecorator>
                 <dc:Storyboard x:Name="storyboard">
                     <dc:Storyboard.RenderTransform>
                         <ScaleTransform ScaleX="{Binding Value, ElementName=slider}" ScaleY="{Binding Value, ElementName=slider}"/>
                     </dc:Storyboard.RenderTransform>
-
-                    <!--<ContentControl x:Name="screen" Width="270" Height="480" l:AttachedAdorner.AdornerType="{x:Type r:ScreenRenderer}" Canvas.Left="170" Canvas.Top="80"/>-->
                 </dc:Storyboard>
             </AdornerDecorator>
         </ScrollViewer>
         <Slider x:Name="slider" VerticalAlignment="Bottom" Margin="10" Maximum="8" Minimum="0.25" Value="1"/>
+
+        <GridSplitter Grid.Row="1" VerticalAlignment="Top" Height="5" Background="Gray" HorizontalAlignment="Stretch"/>
+        <TextBox x:Name="codeBox" Grid.Row="1" BorderThickness="0" IsReadOnly="True" Margin="0,5,0,0"/>
     </Grid>
 </Page>

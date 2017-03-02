@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Windows;
 
 using DeXign.Core;
@@ -13,16 +14,23 @@ namespace DeXign.Editor.Renderer
 
         public PObject Model { get; set; }
 
+        public IRenderer RendererParent { get; }
+
+        public IList<IRenderer> RendererChildren { get; }
+
         public StoryboardRenderer(UIElement adornedElement) : base(adornedElement)
         {
+            this.RendererChildren = new List<IRenderer>();
         }
 
         public void OnAddedChild(IRenderer child)
         {
+            this.RendererChildren.Add(child);
         }
 
         public void OnRemovedChild(IRenderer child)
         {
+            this.RendererChildren.Remove(child);
         }
 
         #region [ IBinderProvider ]

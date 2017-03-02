@@ -11,6 +11,7 @@ using DeXign.Editor.Layer;
 
 using WPFExtension;
 using DeXign.Core.Logic;
+using System.Collections.Generic;
 
 namespace DeXign.Editor.Renderer
 {
@@ -37,6 +38,14 @@ namespace DeXign.Editor.Renderer
         public TModel Model { get; set; }
         #endregion
 
+        #region [ Property ]
+        public IList<IRenderer> RendererChildren { get; }
+
+        public IRenderer RendererParent => this.Parent;
+
+        public bool IsElementAttached { get; private set; }
+        #endregion
+
         #region [ Local Variable ]
         private bool showModelName = false;
         private string displayTypeName = "";
@@ -52,6 +61,8 @@ namespace DeXign.Editor.Renderer
         {
             this.Model = model;
             this.Element = adornedElement;
+
+            this.RendererChildren = new List<IRenderer>();
 
             // 이름 설정
             var attr = model.GetAttribute<DesignElementAttribute>();
@@ -88,6 +99,8 @@ namespace DeXign.Editor.Renderer
                 this.Element.SetResourceReference(StyleProperty, styleName);
 
             OnElementAttached(this.Element);
+
+            IsElementAttached = true;
         }
 
         public bool IsContentParent()
@@ -208,10 +221,12 @@ namespace DeXign.Editor.Renderer
 
         public virtual void OnAddedChild(IRenderer child)
         {
+            this.RendererChildren.Add(child);
         }
 
         public virtual void OnRemovedChild(IRenderer child)
         {
+            this.RendererChildren.Remove(child);
         }
         
         protected override void OnRender(DrawingContext dc)

@@ -14,6 +14,8 @@ namespace DeXign
 
         public static RoutedCommand DeleteCommand { get; }
 
+        public static RoutedCommand DesignModeCommand { get; }
+
         static DXCommands()
         {
             NewProjectCommand = new RoutedCommand("NewProject", typeof(DXCommands));
@@ -21,6 +23,7 @@ namespace DeXign
             ESCCommand = new RoutedCommand("ESCCommand", typeof(DXCommands));
             PlatformCommand = new RoutedCommand("PlatformCommand", typeof(DXCommands));
             DeleteCommand = new RoutedCommand("DeleteCommand", typeof(DXCommands));
+            DesignModeCommand = new RoutedCommand("DesignModeCommand", typeof(DXCommands));
         }
     }
  }

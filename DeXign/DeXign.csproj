@@ -133,7 +133,7 @@
     <Compile Include="Editor\Controls\Layer\AttachedAdorner.cs" />
     <Compile Include="Editor\Controls\Layer\DropSelectionLayer.cs" />
     <Compile Include="Editor\Controls\Layer\SelectionLayerGuideline.cs" />
-    <Compile Include="Editor\Controls\MoveThumb.cs" />
+    <Compile Include="Editor\Controls\LayerMoveThumb.cs" />
     <Compile Include="Editor\Controls\StoryboardNameScope.cs" />
     <Compile Include="Controls\SubmitTextBox.cs" />
     <Compile Include="Editor\DesignTime.cs" />
@@ -157,6 +157,7 @@
     <Compile Include="Editor\Renderer\Controls\LabelRenderer.cs" />
     <Compile Include="Editor\Renderer\Controls\BoxViewRenderer.cs" />
     <Compile Include="Editor\Renderer\RendererManager.cs" />
+    <Compile Include="Editor\Renderer\RendererTreeHelper.cs" />
     <Compile Include="Editor\Renderer\StoryboardRenderer.cs" />
     <Compile Include="MVVM\Commands\ActionCommand.cs" />
     <Compile Include="MVVM\Converter\BoolToVisibilityConverter.cs" />
@@ -254,13 +255,13 @@
     <Compile Include="Controls\StrokePath.cs" />
     <Compile Include="Controls\ToolBox\ToolBoxItemView.cs" />
     <Compile Include="Editor\Attribute\ExportRendererAttribute.cs" />
-    <Compile Include="Editor\Controls\EventTriggerButton.cs" />
+    <Compile Include="Editor\Controls\LayerEventTriggerButton.cs" />
     <Compile Include="Editor\Controls\Layer\ControlLayer.cs" />
     <Compile Include="Editor\Controls\Layer\GuideLayer.cs" />
     <Compile Include="Editor\Controls\Layer\SelectionLayerAnimation.cs" />
     <Compile Include="Editor\Controls\Layer\SelectionLayerRender.cs" />
-    <Compile Include="Editor\Controls\MarginClip.cs" />
-    <Compile Include="Editor\Controls\ResizeThumb.cs" />
+    <Compile Include="Editor\Controls\LayerMarginClip.cs" />
+    <Compile Include="Editor\Controls\LayerResizeThumb.cs" />
     <Compile Include="Controls\Separator.cs" />
     <Compile Include="Controls\ToolBox\ToolBox.cs" />
     <Compile Include="Editor\Controls\Layer\SelectionLayer.cs" />

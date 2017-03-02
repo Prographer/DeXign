@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 
 using DeXign.Core;
@@ -23,19 +24,32 @@ namespace DeXign.Editor.Renderer
             get { return Model; }
             set { Model = (TModel)value; }
         }
-        
+
+        public IRenderer RendererParent { get; private set; }
+
+        public IList<IRenderer> RendererChildren { get; }
+
         public ComponentRenderer(TElement adornedElement, TModel model) : base(adornedElement)
         {
             this.Model = model;
             this.Element = adornedElement;
+
+            this.RendererChildren = new List<IRenderer>();
+        }
+
+        protected override void OnLoaded(FrameworkElement adornedElement)
+        {
+            RendererParent = adornedElement.Parent.GetRenderer();
         }
 
         public virtual void OnAddedChild(IRenderer child)
         {
+            this.RendererChildren.Add(child);
         }
 
         public virtual void OnRemovedChild(IRenderer child)
         {
+            this.RendererChildren.Remove(child);
         }
 
         #region [ IBinderProvider Interface ]

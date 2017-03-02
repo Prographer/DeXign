@@ -5,6 +5,7 @@ using System.Windows.Media;
 using DeXign.Core;
 using DeXign.Core.Designer;
 using DeXign.Editor;
+using System.Windows.Input;
 
 namespace DeXign.Editor.Layer
 {
@@ -75,6 +76,8 @@ namespace DeXign.Editor.Layer
         {
             OnCreatedChild(
                 RootParent.GenerateToElement(this.AdornedElement, item));
+
+            Keyboard.Focus(RootParent);
         }
 
         public virtual void OnCreatedChild(FrameworkElement child)

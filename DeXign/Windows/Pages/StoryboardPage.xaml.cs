@@ -12,13 +12,16 @@ using DeXign.Editor.Renderer;
 using DeXign.Extension;
 using DeXign.Models;
 using DeXign.Theme;
+using System.Windows.Threading;
 
 namespace DeXign.Windows.Pages
 {
     public partial class StoryboardPage : Page, IViewModel<StoryboardModel>
     {
         public StoryboardModel Model { get; set; }
-        
+
+        DispatcherTimer updateTimer;
+
         public StoryboardPage()
         {
             InitializeComponent();
@@ -32,6 +35,42 @@ namespace DeXign.Windows.Pages
             
             // test code
             storyboard.Loaded += Storyboard_Loaded;
+
+            updateTimer = new DispatcherTimer();
+            updateTimer.Interval = TimeSpan.FromMilliseconds(20);
+            updateTimer.Tick += UpdateTimer_Tick;
+            updateTimer.Start();
+        }
+
+        private void UpdateTimer_Tick(object sender, EventArgs e)
+        {
+            var screenRenderer = storyboard.Screens[0].GetRenderer() as ScreenRenderer;
+
+            LayoutExtension.SetPageName(screenRenderer.Model as PPage, "MainPage");
+            
+            // Generate
+            var codeUnit = new CodeGeneratorUnit<PObject>()
+            {
+                NodeIterating = true,
+                Items =
+                {
+                    screenRenderer.Model
+                }
+            };
+
+            var assemblyInfo = new CodeGeneratorAssemblyInfo();
+            var manifest = new CodeGeneratorManifest();
+
+            var xGenerator = new XFormsGenerator(
+                XFormsGenerateType.Xaml,
+                codeUnit,
+                manifest,
+                assemblyInfo);
+
+            foreach (string code in xGenerator.Generate())
+            {
+                codeBox.Text = code;
+            }
         }
 
         private void Storyboard_Loaded(object sender, RoutedEventArgs e)

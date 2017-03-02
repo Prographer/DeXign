@@ -15,7 +15,7 @@ using System.Windows.Input;
 
 namespace DeXign.Editor.Controls
 {
-    class ResizeThumb : RelativeThumb
+    class LayerResizeThumb : RelativeThumb
     {
         public static readonly DependencyProperty StrokeProperty =
             DependencyHelper.Register(
@@ -38,7 +38,7 @@ namespace DeXign.Editor.Controls
         private Rect beginBound;
         private Vector positionLimit;
 
-        public ResizeThumb(SelectionLayer layer)
+        public LayerResizeThumb(SelectionLayer layer)
         {
             this.Layer = layer;
             this.Target = layer.AdornedElement;
@@ -49,7 +49,7 @@ namespace DeXign.Editor.Controls
         protected override void OnDragDelta(double horizontalChange, double verticalChange)
         {
             // Cancel Design Mode
-            Layer.CancelNextInvert = true;
+            Layer.CancelNextSelect();
             
             if (Layer.Parent is IStoryboard)
             {

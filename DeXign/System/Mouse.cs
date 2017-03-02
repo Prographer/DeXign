@@ -12,7 +12,7 @@ namespace DeXign.OS
             {
                 NativeMethods.Point point;
                 UnsafeNativeMethods.GetCursorPos(out point);
-                
+
                 return new Point(point.X, point.Y);
             }
         }

@@ -11,6 +11,8 @@ using DeXign.Extension;
 using DeXign.Converter;
 using DeXign.Controls;
 using DeXign.OS;
+using System.Windows.Input;
+using DeXign.Editor.Layer;
 
 [assembly: ExportRenderer(typeof(PStackLayout), typeof(SpacingStackPanel), typeof(StackLayoutRenderer))]
 
@@ -50,9 +52,30 @@ namespace DeXign.Editor.Renderer
             SetSize(100, 100);
         }
         
-        public override void OnAddedChild(IRenderer childRenderer)
+        public override void OnAddedChild(IRenderer child)
         {
+            base.OnAddedChild(child);
+
             var position = this.Element.PointFromScreen(SystemMouse.Position);
+
+            MoveToPosition(child.Element, position);
+            
+            if (Element.IsVertical)
+            {
+                child.Element.Width = double.NaN;
+                child.Element.HorizontalAlignment = HorizontalAlignment.Stretch;
+                child.Element.VerticalAlignment = VerticalAlignment.Top;
+            }
+            else
+            {
+                child.Element.Height = double.NaN;
+                child.Element.HorizontalAlignment = HorizontalAlignment.Left;
+                child.Element.VerticalAlignment = VerticalAlignment.Stretch;
+            }
+        }
+
+        public void MoveToPosition(FrameworkElement element, Point position)
+        {
             int index = -1;
 
             // Inserting
@@ -69,7 +92,7 @@ namespace DeXign.Editor.Renderer
 
                     c1 = (this.Element.Orientation == Orientation.Vertical ? bound.CenterY() : bound.CenterX());
                 }
-                
+
                 var nextChild = this.Element.Children[i + 1] as FrameworkElement;
                 Rect nextBound = this.Element.GetArrangedBound(nextChild);
 
@@ -83,21 +106,8 @@ namespace DeXign.Editor.Renderer
 
             if (index != -1)
             {
-                this.Element.Children.Remove(childRenderer.Element);
-                this.Element.Children.Insert(index, childRenderer.Element);
-            }
-
-            if (Element.IsVertical)
-            {
-                childRenderer.Element.Width = double.NaN;
-                childRenderer.Element.HorizontalAlignment = HorizontalAlignment.Stretch;
-                childRenderer.Element.VerticalAlignment = VerticalAlignment.Top;
-            }
-            else
-            {
-                childRenderer.Element.Height = double.NaN;
-                childRenderer.Element.HorizontalAlignment = HorizontalAlignment.Left;
-                childRenderer.Element.VerticalAlignment = VerticalAlignment.Stretch;
+                this.Element.Children.Remove(element);
+                this.Element.Children.Insert(index, element);
             }
         }
     }

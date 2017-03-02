@@ -160,14 +160,14 @@ namespace DeXign.Editor.Layer
         const double Blank = 6;
         const double ValueBoxBlank = 2;
 
-        MoveThumb moveThumb;
+        LayerMoveThumb moveThumb;
         Rectangle frame;
         Grid resizeGrid;
         Grid clipGrid;
+        bool cancelNextInvert;
 
-        internal EventTriggerButton TriggerButton;
+        internal LayerEventTriggerButton TriggerButton;
         internal MarginClipHolder ClipData;
-        internal bool CancelNextInvert;
         #endregion
 
         #region [ Constructor ]
@@ -223,7 +223,7 @@ namespace DeXign.Editor.Layer
             DesignModeProperty.RemoveValueChanged(this, DesignMode_Changed);
 
             // clips
-            foreach (MarginClip clip in clipGrid.Children)
+            foreach (LayerMarginClip clip in clipGrid.Children)
                 ToggleButton.IsCheckedProperty.RemoveValueChanged(clip, ClipChanged);
         }
 
@@ -245,10 +245,14 @@ namespace DeXign.Editor.Layer
                 RootScale.ScaleY);
 
             #region < Add Move Thumb >
-            Add(moveThumb = new MoveThumb(this));
+            Add(moveThumb = new LayerMoveThumb(this));
 
             moveThumb.DragCompleted += ThumbOnDragCompleted;
             moveThumb.Moved += MoveThumb_Moved;
+
+            // Selection
+            moveThumb.PreviewMouseLeftButtonDown += MoveThumb_PreviewMouseLeftButtonDown;
+            moveThumb.PreviewMouseLeftButtonUp += MoveThumb_PreviewMouseLeftButtonUp;
             #endregion
 
             #region < Add Frame >
@@ -269,7 +273,7 @@ namespace DeXign.Editor.Layer
                 Visibility = Visibility.Collapsed,
                 Children =
                 {
-                    (ClipData.LeftClip = new MarginClip
+                    (ClipData.LeftClip = new LayerMarginClip
                     {
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Center,
@@ -282,13 +286,13 @@ namespace DeXign.Editor.Layer
                             }
                         }
                     }),
-                    (ClipData.TopClip = new MarginClip
+                    (ClipData.TopClip = new LayerMarginClip
                     {
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Center,
                         LayoutTransform = scale
                     }),
-                    (ClipData.RightClip = new MarginClip
+                    (ClipData.RightClip = new LayerMarginClip
                     {
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Center,
@@ -301,7 +305,7 @@ namespace DeXign.Editor.Layer
                             }
                         }
                     }),
-                    (ClipData.BottomClip = new MarginClip
+                    (ClipData.BottomClip = new LayerMarginClip
                     {
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Center,
@@ -317,7 +321,7 @@ namespace DeXign.Editor.Layer
                 Visibility = Visibility.Collapsed,
                 Children =
                 {
-                    new ResizeThumb(this)
+                    new LayerResizeThumb(this)
                     {
                         ResizeDirection = ResizeGripDirection.TopLeft,
                         Cursor = Cursors.SizeNWSE,
@@ -327,7 +331,7 @@ namespace DeXign.Editor.Layer
                         RenderTransform = scale,
                         RenderTransformOrigin = new Point(1, 1)
                     },
-                    new ResizeThumb(this)
+                    new LayerResizeThumb(this)
                     {
                         ResizeDirection = ResizeGripDirection.Top,
                         Cursor = Cursors.SizeNS,
@@ -337,7 +341,7 @@ namespace DeXign.Editor.Layer
                         RenderTransform = scale,
                         RenderTransformOrigin = new Point(0.5, 1)
                     },
-                    new ResizeThumb(this)
+                    new LayerResizeThumb(this)
                     {
                         ResizeDirection = ResizeGripDirection.TopRight,
                         Cursor = Cursors.SizeNESW,
@@ -347,7 +351,7 @@ namespace DeXign.Editor.Layer
                         RenderTransform = scale,
                         RenderTransformOrigin = new Point(0, 1)
                     },
-                    new ResizeThumb(this)
+                    new LayerResizeThumb(this)
                     {
                         ResizeDirection = ResizeGripDirection.Left,
                         Cursor = Cursors.SizeWE,
@@ -357,7 +361,7 @@ namespace DeXign.Editor.Layer
                         RenderTransform = scale,
                         RenderTransformOrigin = new Point(1, 0.5)
                     },
-                    new ResizeThumb(this)
+                    new LayerResizeThumb(this)
                     {
                         ResizeDirection = ResizeGripDirection.Right,
                         Cursor = Cursors.SizeWE,
@@ -367,7 +371,7 @@ namespace DeXign.Editor.Layer
                         RenderTransform = scale,
                         RenderTransformOrigin = new Point(0, 0.5)
                     },
-                    new ResizeThumb(this)
+                    new LayerResizeThumb(this)
                     {
                         ResizeDirection = ResizeGripDirection.BottomLeft,
                         Cursor = Cursors.SizeNESW,
@@ -377,7 +381,7 @@ namespace DeXign.Editor.Layer
                         RenderTransform = scale,
                         RenderTransformOrigin = new Point(1, 0)
                     },
-                    new ResizeThumb(this)
+                    new LayerResizeThumb(this)
                     {
                         ResizeDirection = ResizeGripDirection.Bottom,
                         Cursor = Cursors.SizeNS,
@@ -387,7 +391,7 @@ namespace DeXign.Editor.Layer
                         RenderTransform = scale,
                         RenderTransformOrigin = new Point(0.5, 0)
                     },
-                    new ResizeThumb(this)
+                    new LayerResizeThumb(this)
                     {
                         ResizeDirection = ResizeGripDirection.BottomRight,
                         Cursor = Cursors.SizeNWSE,
@@ -401,7 +405,7 @@ namespace DeXign.Editor.Layer
             #endregion
 
             #region < Add Event Trigger Button >
-            Add(TriggerButton = new EventTriggerButton(this)
+            Add(TriggerButton = new LayerEventTriggerButton(this)
             {
                 Visibility = Visibility.Collapsed,
                 Margin = new Thickness(10, 0, -10, 0),
@@ -443,12 +447,12 @@ namespace DeXign.Editor.Layer
                 this, SelectionBrushProperty,
                 frame, Shape.StrokeProperty);
             
-            foreach (ResizeThumb thumb in resizeGrid.Children)
+            foreach (LayerResizeThumb thumb in resizeGrid.Children)
             {
                 // SelectionBrush -> thumb Stroke
                 BindingEx.SetBinding(
                     this, SelectionBrushProperty,
-                    thumb, ResizeThumb.StrokeProperty);
+                    thumb, LayerResizeThumb.StrokeProperty);
 
                 thumb.DragStarted += ThumbOnDragStarted;
                 thumb.DragCompleted += ThumbOnDragCompleted;
@@ -457,13 +461,51 @@ namespace DeXign.Editor.Layer
             // caching
             UpdateMarginClips();
 
-            foreach (MarginClip clip in clipGrid.Children)
+            foreach (LayerMarginClip clip in clipGrid.Children)
                 ToggleButton.IsCheckedProperty.AddValueChanged(clip, ClipChanged);
             #endregion
         }
         #endregion
 
         #region [ Selection ]
+        internal void CancelNextSelect()
+        {
+            cancelNextInvert = true;
+        }
+
+        private void MoveThumb_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Keyboard.Focus(RootParent);
+
+            if (!GroupSelector.IsSelected(this))
+            {
+                cancelNextInvert = true;
+                Select();
+            }
+        }
+        
+        private void MoveThumb_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (cancelNextInvert)
+            {
+                cancelNextInvert = false;
+                return;
+            }
+
+            Select();
+        }
+
+        public void Select()
+        {
+            // Design Mode Change
+            if (GroupSelector.IsSelected(this))
+                InvertDesignMode();
+
+            // Select
+            GroupSelector.Select(this, true,
+                multiSelect: Keyboard.IsKeyDown(Key.LeftShift));
+        }
+
         private void InvertDesignMode()
         {
             switch (DesignMode)
@@ -478,55 +520,9 @@ namespace DeXign.Editor.Layer
                     break;
             }
         }
-
-        protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            // 선택되지 않은 경우 드래그 방지
-            if (DesignMode == DesignMode.None)
-                e.Handled = true;
-
-            base.OnPreviewMouseLeftButtonDown(e);
-        }
         
-        protected override void OnPreviewMouseLeftButtonUp(MouseButtonEventArgs e)
-        {
-            base.OnPreviewMouseLeftButtonUp(e);
-
-            if (CancelNextInvert)
-            {
-                CancelNextInvert = false;
-                return;
-            }
-            
-            if (MoveThumbHitTest(e.GetPosition(this)))
-                return;
-            
-            // Design Mode Change
-            if (GroupSelector.IsSelected(this))
-                InvertDesignMode();
-
-            // Select
-            GroupSelector.Select(this, true,
-                multiSelect: Keyboard.IsKeyDown(Key.LeftShift));
-
-            e.Handled = true;
-        }
-
-        private bool MoveThumbHitTest(Point position)
-        {
-            HitTestResult hitResults = VisualTreeHelper.HitTest(this, position);
-
-            return (
-                hitResults != null && 
-                hitResults.VisualHit != null &&
-                (hitResults.VisualHit as FrameworkElement).TemplatedParent != moveThumb);
-        }
-
         private void OnSelected(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
         {
-            // Keyboard Focus
-            Keyboard.Focus(RootParent);
-
             this.DesignMode = DesignMode.Size;
         }
 
@@ -550,7 +546,7 @@ namespace DeXign.Editor.Layer
 
         private void ThumbOnDragStarted(object sender, DragStartedEventArgs dragStartedEventArgs)
         {
-            var thumb = (ResizeThumb)sender;
+            var thumb = (LayerResizeThumb)sender;
 
             switch (thumb.ResizeDirection)
             {
@@ -779,10 +775,10 @@ namespace DeXign.Editor.Layer
 
     internal struct MarginClipHolder
     {
-        public MarginClip LeftClip;
-        public MarginClip TopClip;
-        public MarginClip RightClip;
-        public MarginClip BottomClip;
+        public LayerMarginClip LeftClip;
+        public LayerMarginClip TopClip;
+        public LayerMarginClip RightClip;
+        public LayerMarginClip BottomClip;
 
         public HorizontalAlignment HorizontalAlignment
         {
