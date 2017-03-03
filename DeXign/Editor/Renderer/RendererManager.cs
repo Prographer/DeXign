@@ -53,7 +53,7 @@ namespace DeXign.Editor.Renderer
             return FromViewType(typeof(T));
         }
 
-        public static FrameworkElement CreateVisual(ExportRendererAttribute rendererAttr)
+        public static FrameworkElement CreateVisual(ExportRendererAttribute rendererAttr, Point position)
         {
             if (rendererAttr == null)
             {
@@ -64,6 +64,10 @@ namespace DeXign.Editor.Renderer
             var model = (PObject)Activator.CreateInstance(rendererAttr.ModelType);
             var view = (FrameworkElement)Activator.CreateInstance(rendererAttr.ViewType);
             var renderer = (IRenderer)Activator.CreateInstance(rendererAttr.RendererType, view, model);
+
+            // metadata setting
+            renderer.Metadata.CreatedTime = DateTime.Now;
+            renderer.Metadata.CreatedPosition = position;
 
             view.DataContext = model;
             view.AddAdorner((Adorner)renderer);

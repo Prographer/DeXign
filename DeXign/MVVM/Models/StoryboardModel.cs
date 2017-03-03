@@ -9,26 +9,14 @@ namespace DeXign.Models
     {
         public StoryboardPage ViewModel { get; }
 
-        public TaskManager TaskManager { get; }
+        public DispatcherTaskManager TaskManager { get; }
 
         public ActionCommand PlatformCommand { get; set; }
         
         public StoryboardModel()
         {
             PlatformCommand = new ActionCommand();
-            TaskManager = new TaskManager();
-
-            TaskManager.Push(
-                new TaskData(
-                    this,
-                    () =>
-                    {
-                        Console.WriteLine("Do");
-                    },
-                    () =>
-                    {
-                        Console.WriteLine("Redo");
-                    }));
+            TaskManager = new DispatcherTaskManager();
         }
 
         public StoryboardModel(StoryboardPage viewModel) : this()

@@ -39,7 +39,7 @@ namespace DeXign.Editor.Renderer
             {
                 IRenderer item = rendererQueue.Dequeue();
                 
-                if (item is T)
+                if (item is T && !renderer.Equals(item))
                 {
                     yield return (T)item;
 

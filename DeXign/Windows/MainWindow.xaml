@@ -13,9 +13,6 @@
         MinWidth="600" MinHeight="400"
         Width="1280" Height="800"
         Title="DX">
-    <c:ChromeWindow.Resources>
-
-    </c:ChromeWindow.Resources>
 
     <c:ChromeWindow.Style>
         <StaticResource ResourceKey="DexignWindowStyle"/>
@@ -24,6 +21,8 @@
     <c:ChromeWindow.InputBindings>
         <KeyBinding Modifiers="Ctrl" Key="N" Command="{x:Static local:DXCommands.NewProjectCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="O" Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="Z" Command="{x:Static local:DXCommands.UndoCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="Y" Command="{x:Static local:DXCommands.RedoCommand}"/>
     </c:ChromeWindow.InputBindings>
 
     <c:ChromeWindow.Menu>

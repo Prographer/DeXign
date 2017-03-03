@@ -1074,7 +1074,7 @@
     </Style>
 
     <!-- Undo/Redo Control Box Style -->
-    <Style TargetType="{x:Type c:ActionControlBox}">
+    <Style TargetType="{x:Type c:TaskNavigationBox}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Width" Value="88"/>
         <Setter Property="Height" Value="36"/>
@@ -1083,7 +1083,7 @@
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type c:ActionControlBox}">
+                <ControlTemplate TargetType="{x:Type c:TaskNavigationBox}">
                     <UniformGrid Columns="2">
                         <c:PathButton x:Name="undoButton" 
                                       Command="{Binding TaskManager.UndoCommand, RelativeSource={RelativeSource TemplatedParent}}"
@@ -1160,7 +1160,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                    <c:ActionControlBox VerticalAlignment="Center" Margin="12,0"/>
+                                    <c:TaskNavigationBox x:Name="PART_taskNavigationBox" VerticalAlignment="Center" Margin="12,0"/>
 
                                     <c:Separator Width="2" Height="31" Style="{DynamicResource DexignSeparatorStyle}" Margin="4,0"/>
                                 </StackPanel>

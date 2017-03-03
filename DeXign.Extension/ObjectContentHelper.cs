@@ -10,7 +10,7 @@ using System.Windows.Markup;
 
 namespace DeXign.Extension
 {
-    public static class VisualContentHelper
+    public static class ObjectContentHelper
     {
         public static void GetContent(
             this DependencyObject obj,

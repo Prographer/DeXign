@@ -14,7 +14,7 @@ using DeXign.Extension;
 
 namespace DeXign.Editor.Renderer
 {
-    class ScreenRenderer : LayerRenderer<PContentPage, ContentControl>
+    class ScreenRenderer : LayerRenderer<PContentPage, ContentControl>, IContentLayout
     {
         public ScreenRenderer(ContentControl adornedElement, PContentPage model) : base(adornedElement, model)
         {
@@ -66,7 +66,7 @@ namespace DeXign.Editor.Renderer
                 new Point(-7 / ScaleX, RenderSize.Height - 1 / ScaleX));
         }
 
-        public override bool CanDrop(AttributeTuple<DesignElementAttribute, Type> item)
+        public override bool CanDrop(AttributeTuple<DesignElementAttribute, Type> item, Point mouse)
         {
             return item != null;
         }
@@ -76,9 +76,9 @@ namespace DeXign.Editor.Renderer
             return Theme.ThemeKeyStore.Screen;
         }
 
-        public override void OnAddedChild(IRenderer child)
+        public override void OnAddedChild(IRenderer child, Point position)
         {
-            base.OnAddedChild(child);
+            base.OnAddedChild(child, position);
 
             child.Element.VerticalAlignment = VerticalAlignment.Stretch;
             child.Element.HorizontalAlignment = HorizontalAlignment.Stretch;

@@ -42,7 +42,14 @@ namespace DeXign.Controls
                 if (Math.Abs(position.X - this.beginPosition.X) > dragSize.Width / 2 ||
                     Math.Abs(position.Y - this.beginPosition.Y) > dragSize.Height / 2)
                 {
-                    DragDrop.DoDragDrop(this, Model.Metadata, DragDropEffects.None);
+                    try
+                    {
+                        DragDrop.DoDragDrop(this, Model.Metadata, DragDropEffects.None);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message + "\r\n\r\n" + ex.StackTrace);
+                    }
                     Selector.SetIsSelected(this, false);
                 }
             }

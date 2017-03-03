@@ -16,6 +16,9 @@ namespace DeXign
 
         public static RoutedCommand DesignModeCommand { get; }
 
+        public static RoutedCommand UndoCommand { get; }
+        public static RoutedCommand RedoCommand { get; }
+
         static DXCommands()
         {
             NewProjectCommand = new RoutedCommand("NewProject", typeof(DXCommands));
@@ -24,6 +27,8 @@ namespace DeXign
             PlatformCommand = new RoutedCommand("PlatformCommand", typeof(DXCommands));
             DeleteCommand = new RoutedCommand("DeleteCommand", typeof(DXCommands));
             DesignModeCommand = new RoutedCommand("DesignModeCommand", typeof(DXCommands));
+            UndoCommand = new RoutedCommand("UndoCommand", typeof(DXCommands));
+            RedoCommand = new RoutedCommand("RedoCommand", typeof(DXCommands));
         }
     }
  }

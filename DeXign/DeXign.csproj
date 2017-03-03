@@ -139,9 +139,11 @@
     <Compile Include="Editor\DesignTime.cs" />
     <Compile Include="Editor\Guideline.cs" />
     <Compile Include="Editor\Interfaces\IContentLayout.cs" />
+    <Compile Include="Editor\Interfaces\IRendererElement.cs" />
     <Compile Include="Editor\Interfaces\IGridLayout.cs" />
     <Compile Include="Editor\Interfaces\IGuideProvider.cs" />
     <Compile Include="Editor\Interfaces\IGuideService.cs" />
+    <Compile Include="Editor\Interfaces\IRendererLayout.cs" />
     <Compile Include="Editor\Interfaces\IStackLayout.cs" />
     <Compile Include="Editor\Interfaces\IStoryboard.cs" />
     <Compile Include="Editor\Direction.cs" />
@@ -157,6 +159,7 @@
     <Compile Include="Editor\Renderer\Controls\LabelRenderer.cs" />
     <Compile Include="Editor\Renderer\Controls\BoxViewRenderer.cs" />
     <Compile Include="Editor\Renderer\RendererManager.cs" />
+    <Compile Include="Editor\Renderer\RendererMetadata.cs" />
     <Compile Include="Editor\Renderer\RendererTreeHelper.cs" />
     <Compile Include="Editor\Renderer\StoryboardRenderer.cs" />
     <Compile Include="MVVM\Commands\ActionCommand.cs" />
@@ -182,7 +185,10 @@
     <Compile Include="MVVM\Rules\PercentageRule.cs" />
     <Compile Include="System\Mouse.cs" />
     <Compile Include="System\Screen.cs" />
+    <Compile Include="Task\Components\ElementTaskData.cs" />
     <Compile Include="Task\DispatcherTaskData.cs" />
+    <Compile Include="Task\DispatcherTaskManager.cs" />
+    <Compile Include="Task\Components\LayoutTaskData.cs" />
     <Compile Include="Task\TaskData.cs" />
     <Compile Include="Task\TaskManager.cs" />
     <Compile Include="Themes\ThemeManager.cs" />
@@ -243,7 +249,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MVVM\Commands\DXCommands.cs" />
-    <Compile Include="Controls\ActionControlBox.cs" />
+    <Compile Include="Controls\TaskNavigationBox.cs" />
     <Compile Include="Controls\ChromeWindow.cs" />
     <Compile Include="Controls\ClosableTabItem.cs" />
     <Compile Include="Controls\ControlBox.cs" />

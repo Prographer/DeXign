@@ -8,7 +8,7 @@ using DeXign.Extension;
 
 namespace DeXign.Controls
 {
-    public class ActionControlBox : ContentControl
+    public class TaskNavigationBox : ContentControl
     {
         public static readonly DependencyProperty TaskManagerProperty =
             DependencyHelper.Register();
@@ -41,7 +41,7 @@ namespace DeXign.Controls
             set { SetValue(CanRedoProperty, value); }
         }
 
-        public ActionControlBox()
+        public TaskNavigationBox()
         {
             TaskManagerProperty.AddValueChanged(this, TaskManager_Changed);
         }
@@ -56,12 +56,12 @@ namespace DeXign.Controls
                 {
                     BindingEx.SetBinding(
                         TaskManager, TaskManager.CanRedoProperty,
-                        this, ActionControlBox.CanRedoProperty,
+                        this, TaskNavigationBox.CanRedoProperty,
                         BindingMode.OneWay);
 
                     BindingEx.SetBinding(
                         TaskManager, TaskManager.CanUndoProperty,
-                        this, ActionControlBox.CanUndoProperty,
+                        this, TaskNavigationBox.CanUndoProperty,
                         BindingMode.OneWay);
 
                     Console.WriteLine("Binded TaskManager to UI");

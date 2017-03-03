@@ -179,8 +179,11 @@ namespace DeXign.Editor.Layer
         // Element.Loaded -> OnLoaded
         protected override void OnLoaded(FrameworkElement adornedElement)
         {
+#if DEBUG
             if (DesignerProperties.GetIsInDesignMode(this))
                 this.Visibility = Visibility.Collapsed;
+
+#endif
 
             // 디자인 모드 변경 이벤트 등록
             DesignModeProperty.AddValueChanged(this, DesignMode_Changed);

@@ -18,12 +18,16 @@ namespace DeXign.Editor.Renderer
 
         public IList<IRenderer> RendererChildren { get; }
 
+        public RendererMetadata Metadata { get; }
+
         public StoryboardRenderer(UIElement adornedElement) : base(adornedElement)
         {
+            this.Metadata = new RendererMetadata();
+
             this.RendererChildren = new List<IRenderer>();
         }
 
-        public void OnAddedChild(IRenderer child)
+        public void OnAddedChild(IRenderer child, Point position)
         {
             this.RendererChildren.Add(child);
         }

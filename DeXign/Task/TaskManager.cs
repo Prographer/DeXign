@@ -1,6 +1,7 @@
 ﻿using DeXign.Commands;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using WPFExtension;
@@ -74,14 +75,19 @@ namespace DeXign.Task
             Undo();
         }
 
-        public void Push(TaskData task)
+        public virtual void Push(TaskData task)
         {
-            UndoStack.Clear();
+            ClearUndoStack();
 
             DoStack.Push(task);
             task.Do();
 
             Update();
+        }
+
+        public virtual void Push(object source, Action doAction, Action undoAction)
+        {
+            this.Push(new TaskData(source, doAction, undoAction));
         }
 
         public bool Redo()
@@ -118,10 +124,33 @@ namespace DeXign.Task
             return false;
         }
 
+        protected virtual void ClearUndoStack()
+        {
+            foreach (TaskData task in UndoStack.ToArray().Reverse())
+            {
+                // 삭제될 Task의 Source를 참조하고 있는지 확인함
+                if (DoStack.Count(t => t.Source.Equals(task.Source)) == 0)
+                    task.Dispose();
+            }
+
+            UndoStack.Clear();
+        }
+
         private void Update()
         {
             CanRedo = (UndoStack.Count > 0);
             CanUndo = (DoStack.Count > 0);
+
+            Console.WriteLine(" # Do Stack");
+            foreach (var task in DoStack)
+                Console.WriteLine(task.Source.GetType().Name);
+
+            Console.WriteLine();
+            Console.WriteLine(" # Undo Stack");
+            foreach (var task in UndoStack)
+                Console.WriteLine(task.Source.GetType().Name);
+
+            Console.WriteLine();
         }
     }
 }

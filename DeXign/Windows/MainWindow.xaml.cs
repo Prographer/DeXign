@@ -63,8 +63,26 @@ namespace DeXign
             this.CommandBindings.Add(
                 new CommandBinding(
                     DXCommands.NewProjectCommand, NewProject_Execute));
+
+            this.CommandBindings.Add(
+                new CommandBinding(
+                    DXCommands.UndoCommand, Undo_Execute));
+
+            this.CommandBindings.Add(
+                new CommandBinding(
+                    DXCommands.RedoCommand, Redo_Execute));
         }
-        
+
+        private void Redo_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            TaskNavigator.TaskManager.Redo();
+        }
+
+        private void Undo_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            TaskNavigator.TaskManager.Undo();
+        }
+
         private void NewProject_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             CreateStoryboardPage();

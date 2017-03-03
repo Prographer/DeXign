@@ -6,30 +6,42 @@ namespace DeXign.Task
 {
     public class DispatcherTaskData : TaskData
     {
+        public Action DestroyAction { get; set; }
+
         Dispatcher dispatcher;
 
-        public DispatcherTaskData(object source, Action doAction, Action undoAction) : base(source, doAction, undoAction)
+        public DispatcherTaskData(object source, Action doAction, Action undoAction, Action destroyAction) : base(source, doAction, undoAction)
         {
             dispatcher = Application.Current.Dispatcher;
+
+            this.DestroyAction = destroyAction;
         }
 
         public override void Do()
         {
-            if (DoAction == null)
-                return;
-
-            dispatcher.BeginInvoke(
-                DoAction,
-                DispatcherPriority.ContextIdle);
+            Invoke(DoAction);
         }
 
         public override void Undo()
         {
-            if (UndoAction == null)
+            Invoke(UndoAction);
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+
+            Invoke(DestroyAction);
+            DestroyAction = null;
+        }
+
+        private void Invoke(Action action)
+        {
+            if (action == null)
                 return;
 
-            dispatcher.BeginInvoke(
-                UndoAction,
+            dispatcher.Invoke(
+                action,
                 DispatcherPriority.ContextIdle);
         }
     }

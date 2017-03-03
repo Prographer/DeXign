@@ -21,6 +21,7 @@ using WPFExtension;
 
 namespace DeXign.Controls
 {
+    [TemplatePart(Name = "PART_taskNavigationBox", Type = typeof(TaskNavigationBox))]
     public class ChromeWindow : Window
     {
         #region [ Dependency Property ]
@@ -44,6 +45,8 @@ namespace DeXign.Controls
         #endregion
 
         #region [ Property ]
+        public TaskNavigationBox TaskNavigator { get; private set; }
+
         public bool IsLoading
         {
             get { return (bool)GetValue(IsLoadingProperty); }
@@ -183,5 +186,12 @@ namespace DeXign.Controls
             mmi.ToPtr(lParam, true);
         }
         #endregion
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            TaskNavigator = (TaskNavigationBox)GetTemplateChild("PART_taskNavigationBox");
+        }
     }
 }

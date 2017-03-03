@@ -83,7 +83,7 @@ namespace DeXign.Editor.Renderer
             }
         }
 
-        public override bool CanDrop(AttributeTuple<DesignElementAttribute, Type> item)
+        public override bool CanDrop(AttributeTuple<DesignElementAttribute, Type> item, Point mouse)
         {
             return true;
         }

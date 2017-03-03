@@ -29,8 +29,12 @@ namespace DeXign.Editor.Renderer
 
         public IList<IRenderer> RendererChildren { get; }
 
+        public RendererMetadata Metadata { get; }
+
         public ComponentRenderer(TElement adornedElement, TModel model) : base(adornedElement)
         {
+            Metadata = new RendererMetadata();
+
             this.Model = model;
             this.Element = adornedElement;
 
@@ -42,7 +46,7 @@ namespace DeXign.Editor.Renderer
             RendererParent = adornedElement.Parent.GetRenderer();
         }
 
-        public virtual void OnAddedChild(IRenderer child)
+        public virtual void OnAddedChild(IRenderer child, Point position)
         {
             this.RendererChildren.Add(child);
         }

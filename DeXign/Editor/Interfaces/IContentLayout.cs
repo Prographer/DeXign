@@ -1,6 +1,6 @@
 namespace DeXign.Editor
 {
-    interface IContentLayout
+    interface IContentLayout : IRendererLayout
     {
     }
 }

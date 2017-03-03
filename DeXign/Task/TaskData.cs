@@ -26,7 +26,7 @@ namespace DeXign.Task
             UndoAction?.Invoke();
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             DoAction = null;
             UndoAction = null;

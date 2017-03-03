@@ -17,14 +17,16 @@ namespace DeXign.Editor.Layer
 
         public static readonly DependencyProperty AdornerIndexProperty =
             DependencyHelper.RegisterAttached<int>();
-
+        
         #region [ Static Local Variable ]
         private static MethodInfo setZOrderMethodInfo;
+        private static List<FrameworkElement> pendingElements;
         #endregion
 
         #region [ Static Constructor ]
         static AttachedAdorner()
         {
+            pendingElements = new List<FrameworkElement>();
             setZOrderMethodInfo = typeof(AdornerLayer).GetMethod("SetAdornerZOrder", BindingFlags.NonPublic | BindingFlags.Instance);
         }
         #endregion
@@ -77,11 +79,14 @@ namespace DeXign.Editor.Layer
             {
                 items = new List<Adorner>();
                 element.SetValue(AdornersProperty, items);
-
-                element.Loaded += Element_Loaded;
             }
 
-            items.Add(adorner);
+            if (!items.Contains(adorner))
+            {
+                items.Add(adorner);
+
+                ApplyAdorner(element, adorner);
+            }
         }
 
         public static void RemoveAdorner(this FrameworkElement element, Adorner adorner)
@@ -97,7 +102,12 @@ namespace DeXign.Editor.Layer
             var element = sender as FrameworkElement;
             var items = element.GetAdorners();
 
-            element.Loaded -= Element_Loaded;
+            if (pendingElements.Contains(element))
+            {
+                element.Loaded -= Element_Loaded;
+
+                pendingElements.Remove(element);
+            }
 
             if (items == null)
                 return;
@@ -105,10 +115,31 @@ namespace DeXign.Editor.Layer
             var layer = GetAdornerLayer(element);
 
             foreach (Adorner item in items)
+                ApplyAdornerCore(element, item);
+        }
+
+        private static void ApplyAdorner(FrameworkElement element, Adorner adorner)
+        {
+            if (element.IsLoaded)
             {
-                layer.Add(item);
-                SetLayerZOrder(item, item.GetAdornerIndex());
+                ApplyAdornerCore(element, adorner);
             }
+            else
+            {
+                if (!pendingElements.Contains(element))
+                {
+                    pendingElements.Add(element);
+                    element.Loaded += Element_Loaded;
+                }
+            }
+        }
+
+        private static void ApplyAdornerCore(FrameworkElement element, Adorner adorner)
+        {
+            var layer = GetAdornerLayer(element);
+
+            layer.Add(adorner);
+            SetLayerZOrder(adorner, adorner.GetAdornerIndex());
         }
         #endregion
     }

@@ -31,7 +31,7 @@ namespace DeXign.Editor.Renderer
         {
         }
 
-        public override bool CanDrop(AttributeTuple<DesignElementAttribute, Type> item)
+        public override bool CanDrop(AttributeTuple<DesignElementAttribute, Type> item, Point mouse)
         {
             return item != null;
         }
@@ -52,11 +52,12 @@ namespace DeXign.Editor.Renderer
             SetSize(100, 100);
         }
         
-        public override void OnAddedChild(IRenderer child)
+        public override void OnAddedChild(IRenderer child, Point position)
         {
-            base.OnAddedChild(child);
+            base.OnAddedChild(child, position);
 
-            var position = this.Element.PointFromScreen(SystemMouse.Position);
+            // position은 RootParent 기준이기 때문에 StackPanel 기준으로 다시 계산
+            position = RootParent.TranslatePoint(position, this);
 
             MoveToPosition(child.Element, position);
             

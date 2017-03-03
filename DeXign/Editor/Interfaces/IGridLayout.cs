@@ -1,6 +1,6 @@
 namespace DeXign.Editor
 {
-    interface IGridLayout
+    interface IGridLayout : IRendererLayout
     {
     }
 }

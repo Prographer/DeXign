@@ -22,7 +22,7 @@ namespace DeXign.Editor.Layer
         protected override void OnPreviewDragEnter(DragEventArgs e)
         {
             object data = e.Data.GetData(typeof(AttributeTuple<DesignElementAttribute, Type>));
-            dragCanceled = !this.CanDrop((AttributeTuple<DesignElementAttribute, Type>)data);
+            dragCanceled = !this.CanDrop((AttributeTuple<DesignElementAttribute, Type>)data, e.GetPosition(RootParent));
 
             if (data == null)
                 return;
@@ -62,20 +62,20 @@ namespace DeXign.Editor.Layer
             if (!dragCanceled)
             {
                 object data = e.Data.GetData(typeof(AttributeTuple<DesignElementAttribute, Type>));
-
-                OnDrop((AttributeTuple<DesignElementAttribute, Type>)data);
+                
+                OnDrop((AttributeTuple<DesignElementAttribute, Type>)data, e.GetPosition(RootParent));
             }
         }
 
-        public virtual bool CanDrop(AttributeTuple<DesignElementAttribute, Type> item)
+        public virtual bool CanDrop(AttributeTuple<DesignElementAttribute, Type> item, Point mouse)
         {
             return false;
         }
         
-        public virtual void OnDrop(AttributeTuple<DesignElementAttribute, Type> item)
+        public virtual void OnDrop(AttributeTuple<DesignElementAttribute, Type> item, Point mouse)
         {
             OnCreatedChild(
-                RootParent.GenerateToElement(this.AdornedElement, item));
+                RootParent.GenerateToElement(this.AdornedElement, item, mouse));
 
             Keyboard.Focus(RootParent);
         }

@@ -1,6 +1,6 @@
 namespace DeXign.Editor
 {
-    interface IStackLayout
+    interface IStackLayout : IRendererLayout
     {
     }
 }

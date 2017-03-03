@@ -1,21 +1,23 @@
 using System.Windows;
+using System.Collections.Generic;
+
 using DeXign.Core;
 using DeXign.Core.Logic;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using DeXign.Core.Controls;
+using DeXign.Editor.Renderer;
 
 namespace DeXign.Editor
 {
     public interface IRenderer : IBinderProvider
     {
+        RendererMetadata Metadata { get; }
         IRenderer RendererParent { get; }
         IList<IRenderer> RendererChildren { get; }
 
         FrameworkElement Element { get; }
         PObject Model { get; set; }
 
-        void OnAddedChild(IRenderer child);
+        void OnAddedChild(IRenderer child, Point position);
         void OnRemovedChild(IRenderer child);
     }
 

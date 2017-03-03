@@ -15,7 +15,7 @@ using System.Collections.Generic;
 
 namespace DeXign.Editor.Renderer
 {
-    public class LayerRenderer<TModel, TElement> : DropSelectionLayer, IRenderer<TModel, TElement>, IUISupport
+    public class LayerRenderer<TModel, TElement> : DropSelectionLayer, IRenderer<TModel, TElement>, IRendererElement, IUISupport
         where TModel : PVisual
         where TElement : FrameworkElement
     {
@@ -44,6 +44,8 @@ namespace DeXign.Editor.Renderer
         public IRenderer RendererParent => this.Parent;
 
         public bool IsElementAttached { get; private set; }
+
+        public RendererMetadata Metadata { get; private set; }
         #endregion
 
         #region [ Local Variable ]
@@ -59,6 +61,8 @@ namespace DeXign.Editor.Renderer
 
         public LayerRenderer(TElement adornedElement, TModel model) : base(adornedElement)
         {
+            this.Metadata = new RendererMetadata();
+
             this.Model = model;
             this.Element = adornedElement;
 
@@ -72,7 +76,7 @@ namespace DeXign.Editor.Renderer
         
         protected override void OnDisposed()
         {
-            VisualContentHelper.GetContent(
+            ObjectContentHelper.GetContent(
                 AdornedElement,
                 null,
                 list =>
@@ -113,6 +117,10 @@ namespace DeXign.Editor.Renderer
         protected virtual string OnLoadPlatformStyleName()
         {
             return null;
+        }
+
+        protected virtual void OnElementDettached(TElement element)
+        {
         }
 
         protected virtual void OnElementAttached(TElement element)
@@ -219,7 +227,7 @@ namespace DeXign.Editor.Renderer
             #endregion
         }
 
-        public virtual void OnAddedChild(IRenderer child)
+        public virtual void OnAddedChild(IRenderer child, Point position)
         {
             this.RendererChildren.Add(child);
         }

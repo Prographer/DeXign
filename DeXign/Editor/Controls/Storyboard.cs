@@ -30,7 +30,7 @@ namespace DeXign.Editor.Controls
     public partial class Storyboard : Canvas
     {
         #region [ Properties ]
-        public TaskManager TaskManager { get; set; }
+        public DispatcherTaskManager TaskManager { get; set; }
 
         public GuideLayer GuideLayer { get; private set; }
         public AbsoluteLayer LineLayer { get; private set; }
@@ -168,9 +168,40 @@ namespace DeXign.Editor.Controls
             {
                 foreach (var layer in layers)
                 {
-                    RemoveElement(
-                        (FrameworkElement)layer.AdornedElement.Parent,
-                        layer.AdornedElement);
+                    var element = layer.AdornedElement;
+                    var parent = (FrameworkElement)element.Parent;
+
+                    IRenderer elementRenderer = element.GetRenderer();
+
+                    // Check Selected Parent
+                    if (RendererTreeHelper
+                        .FindParents<IRenderer>(elementRenderer)
+                        .Count(r => GroupSelector.IsSelected(r)) > 0)
+                    {
+                        continue;
+                    }
+
+                    // * Task *
+                    if (elementRenderer is IRendererLayout)
+                    {
+                        TaskManager?.Push(
+                            new LayoutTaskData(
+                                RendererTaskType.Remove,
+                                (IRendererLayout)elementRenderer,
+                                () => RemoveElement(parent, element, true),
+                                () => AddElement(parent, element, true),
+                                () => RemoveElement(parent, element)));
+                    }
+                    else
+                    {
+                        TaskManager?.Push(
+                            new ElementTaskData(
+                                RendererTaskType.Remove,
+                                (IRendererElement)elementRenderer,
+                                () => RemoveElement(parent, element, true),
+                                () => AddElement(parent, element, true),
+                                () => RemoveElement(parent, element)));
+                    }
                 }
 
                 GroupSelector.UnselectAll();
@@ -248,7 +279,7 @@ namespace DeXign.Editor.Controls
         public ContentControl AddNewScreen()
         {
             var metadata = DesignerManager.GetElementType(typeof(PContentPage));
-            var control = this.GenerateToElement(this, metadata) as ContentControl;
+            var control = this.GenerateToElement(this, metadata, pushTask: false) as ContentControl;
 
             control.Margin = new Thickness(0);
             control.VerticalAlignment = VerticalAlignment.Top;
@@ -273,36 +304,57 @@ namespace DeXign.Editor.Controls
         /// <returns></returns>
         public FrameworkElement GenerateToElement(
             FrameworkElement parent,
-            AttributeTuple<DesignElementAttribute, Type> data)
+            AttributeTuple<DesignElementAttribute, Type> data, 
+            Point position = default(Point),
+            bool pushTask = true)
         {
             var rendererAttr = RendererManager.FromModelType(data.Element);
-            var visual = RendererManager.CreateVisual(rendererAttr);
+            var visual = RendererManager.CreateVisual(rendererAttr, position);
 
             if (visual == null)
                 return null;
 
+            // * Task *
+            if (pushTask)
+            {
+                TaskManager?.Push(
+                    visual.GetRenderer(),                      // Source
+                    () => AddElement(parent, visual, true),    // Do Action
+                    () => RemoveElement(parent, visual, true), // Undo Action
+                    () => DestroyElement(parent, visual));     // Dispose Action
+            }
+            else
+            {
+                AddElement(parent, visual);
+            }
+            
+            return visual;
+        }
+
+        public void AddElement(FrameworkElement parent, FrameworkElement element, bool pushTask = false)
+        {
             IRenderer parentRenderer = parent.GetRenderer();
-            IRenderer childRenderer = visual.GetRenderer();
+            IRenderer childRenderer = element.GetRenderer();
+
+            element.AddAdorner((Adorner)childRenderer);
 
             if (parent.DataContext != null && parent.DataContext is DependencyObject)
             {
                 // Add On PObject Parent
-                VisualContentHelper.GetContent(
+                ObjectContentHelper.GetContent(
                     (DependencyObject)parent.DataContext,
-                    pi => pi.SetValue(parent.DataContext, visual.DataContext), // Single Content
-                    list => list.Add(visual.DataContext));                     // List Content
+                    pi => pi.SetValue(parent.DataContext, element.DataContext), // Single Content
+                    list => list.Add(element.DataContext));                     // List Content
             }
 
             // Add On WPF Parent
-            VisualContentHelper.GetContent(
+            ObjectContentHelper.GetContent(
                 parent,
-                pi => pi.SetValue(parent, visual),  // Single Content
-                list => list.Add(visual));          // List Content
-
+                pi => pi.SetValue(parent, element),  // Single Content
+                list => list.Add(element));          // List Content
+            
             // Notice child added
-            parentRenderer?.OnAddedChild(childRenderer);
-
-            return visual;
+            parentRenderer?.OnAddedChild(childRenderer, childRenderer.Metadata.CreatedPosition);
         }
 
         /// <summary>
@@ -310,7 +362,7 @@ namespace DeXign.Editor.Controls
         /// </summary>
         /// <param name="parent"></param>
         /// <param name="element"></param>
-        public void RemoveElement(FrameworkElement parent, FrameworkElement element)
+        public void RemoveElement(FrameworkElement parent, FrameworkElement element, bool pushTask = false)
         {
             IRenderer parentRenderer = parent.GetRenderer();
             IRenderer childRenderer = element.GetRenderer();
@@ -319,29 +371,47 @@ namespace DeXign.Editor.Controls
                 (parent.DataContext != null && !(parent.DataContext is PObject)))
                 return;
 
-            // Dispose
-            if (childRenderer is IDisposable)
-                ((IDisposable)childRenderer).Dispose();
+            // Selection Check
+            if (GroupSelector.IsSelected(childRenderer))
+            {
+                GroupSelector.Select(childRenderer as SelectionLayer, false);
+            }
 
             // Remove On AdornerLayer
             element.RemoveAdorner((Adorner)childRenderer);
-            element.SetRenderer(null);
-            childRenderer.Model.SetRenderer(null);
+
+            if (!pushTask)
+            {
+                // Dispose
+                DestroyElement(parent, element);
+            }
 
             // Remove On PObject Parent
-            VisualContentHelper.GetContent(
+            ObjectContentHelper.GetContent(
                 (DependencyObject)parent.DataContext,
                 pi => pi.SetValue(parent.DataContext, null), // Single Content
                 list => list.Remove(element.DataContext));   // List Content
 
             // Remove On WPF Parent
-            VisualContentHelper.GetContent(
+            ObjectContentHelper.GetContent(
                 parent,
                 pi => pi.SetValue(parent, null), // Single Content
                 list => list.Remove(element));   // List Content
             
             // Notice child removed 
             parentRenderer?.OnRemovedChild(childRenderer);
+        }
+
+        private void DestroyElement(FrameworkElement parent, FrameworkElement element)
+        {
+            IRenderer childRenderer = element.GetRenderer();
+
+            // Dispose
+            if (childRenderer is IDisposable)
+                ((IDisposable)childRenderer).Dispose();
+
+            element.SetRenderer(null);
+            childRenderer.Model.SetRenderer(null);
         }
         #endregion
 
