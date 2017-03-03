@@ -31,14 +31,17 @@ namespace DeXign.Task
 
         public override void Do()
         {
-            // On WPF
-            ObjectContentHelper.GetContent(
-                Source.RendererParent.Element,
-                null,
-                list =>
-                {
-                    index = list.IndexOf(Source.Element);
-                });
+            if (TaskType == RendererTaskType.Remove)
+            {
+                // On WPF
+                ObjectContentHelper.GetContent(
+                    Source.RendererParent.Element,
+                    null,
+                    list =>
+                    {
+                        index = list.IndexOf(Source.Element);
+                    });
+            }
 
             base.Do();
         }
@@ -47,28 +50,31 @@ namespace DeXign.Task
         {
             base.Undo();
 
-            if (index == -1)
-                return;
+            if (TaskType == RendererTaskType.Remove)
+            {
+                if (index == -1)
+                    return;
 
-            // On PObject
-            ObjectContentHelper.GetContent(
-                Source.RendererParent.Model,
-                null,
-                list =>
-                {
-                    list.Remove(Source.Model);
-                    list.Insert(index, Source.Model);
-                });
+                // On PObject
+                ObjectContentHelper.GetContent(
+                    Source.RendererParent.Model,
+                    null,
+                    list =>
+                    {
+                        list.Remove(Source.Model);
+                        list.Insert(index, Source.Model);
+                    });
 
-            // On WPF
-            ObjectContentHelper.GetContent(
-                Source.RendererParent.Element,
-                null,
-                list =>
-                {
-                    list.Remove(Source.Element);
-                    list.Insert(index, Source.Element);
-                });
+                // On WPF
+                ObjectContentHelper.GetContent(
+                    Source.RendererParent.Element,
+                    null,
+                    list =>
+                    {
+                        list.Remove(Source.Element);
+                        list.Insert(index, Source.Element);
+                    });
+            }
         }
     }
 }
