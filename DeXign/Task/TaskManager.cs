@@ -1,9 +1,11 @@
-﻿using DeXign.Commands;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+
+using DeXign.Commands;
+
 using WPFExtension;
 
 namespace DeXign.Task
@@ -37,7 +39,14 @@ namespace DeXign.Task
             private set { SetValue(CanUndoPropertyKey, value); }
         }
 
+        /// <summary>
+        /// 이전작업으로 되돌리는 명령어를 가져옵니다.
+        /// </summary>
         public ActionCommand RedoCommand { get; }
+
+        /// <summary>
+        /// 이전작업으로 되돌리는 명령어를 가져옵니다.
+        /// </summary>
         public ActionCommand UndoCommand { get; }
 
         protected Stack<TaskData> DoStack { get; }
@@ -47,7 +56,7 @@ namespace DeXign.Task
         {
             DoStack = new Stack<TaskData>();
             UndoStack = new Stack<TaskData>();
-
+            
             RedoCommand = new ActionCommand();
             UndoCommand = new ActionCommand();
 
@@ -140,17 +149,6 @@ namespace DeXign.Task
         {
             CanRedo = (UndoStack.Count > 0);
             CanUndo = (DoStack.Count > 0);
-
-            Console.WriteLine(" # Do Stack");
-            foreach (var task in DoStack)
-                Console.WriteLine(task.Source.GetType().Name);
-
-            Console.WriteLine();
-            Console.WriteLine(" # Undo Stack");
-            foreach (var task in UndoStack)
-                Console.WriteLine(task.Source.GetType().Name);
-
-            Console.WriteLine();
         }
     }
 }
