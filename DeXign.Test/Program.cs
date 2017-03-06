@@ -8,6 +8,7 @@ using DeXign.Core.Logic;
 using DeXign.Task;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 namespace DeXign.Test
 {

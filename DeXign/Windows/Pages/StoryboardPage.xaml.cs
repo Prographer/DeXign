@@ -44,8 +44,6 @@ namespace DeXign.Windows.Pages
         private void UpdateTimer_Tick(object sender, EventArgs e)
         {
             var screenRenderer = storyboard.Screens[0].GetRenderer() as ScreenRenderer;
-
-            LayoutExtension.SetPageName(screenRenderer.Model as PPage, "MainPage");
             
             // Generate
             var codeUnit = new CodeGeneratorUnit<PObject>()

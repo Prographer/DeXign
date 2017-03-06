@@ -293,6 +293,10 @@ namespace DeXign.Editor.Controls
 
             Screens.Add(control);
 
+            LayoutExtension.SetPageName(
+                (PPage)control.GetRenderer().Model, 
+                $"Screen{Screens.Count}");
+
             return control;
         }
 

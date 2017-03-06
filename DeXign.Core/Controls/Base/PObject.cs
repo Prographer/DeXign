@@ -1,9 +1,11 @@
+using System;
 using System.Windows;
 
 using WPFExtension;
 
 namespace DeXign.Core
 {
+    [Serializable]
     public class PObject : DependencyObject
     {
         public static readonly DependencyProperty NameProperty =
