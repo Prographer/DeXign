@@ -141,6 +141,7 @@
     <Compile Include="Editor\Controls\LayerMoveThumb.cs" />
     <Compile Include="Editor\Controls\StoryboardNameScope.cs" />
     <Compile Include="Controls\SubmitTextBox.cs" />
+    <Compile Include="Editor\Controls\StoryboardProject.cs" />
     <Compile Include="Editor\DesignTime.cs" />
     <Compile Include="Editor\Guideline.cs" />
     <Compile Include="Editor\Interfaces\IContentLayout.cs" />

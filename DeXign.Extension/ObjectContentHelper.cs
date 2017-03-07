@@ -12,11 +12,7 @@ namespace DeXign.Extension
 {
     public static class ObjectContentHelper
     {
-        public static void GetContent(
-            this DependencyObject obj,
-            Action<PropertyInfo> singleContent,
-            Action<IList> listContent,
-            Action failed = null)
+        public static object GetContent(this object obj)
         {
             var attr = obj.GetAttribute<ContentPropertyAttribute>();
 
@@ -29,21 +25,39 @@ namespace DeXign.Extension
                 if (contentPropertyInfo.CanCastingTo<DependencyObject>() ||
                     contentPropertyInfo.PropertyType == typeof(object))
                 {
-                    singleContent?.Invoke(
-                        contentPropertyInfo);
-
-                    return;
+                    return contentPropertyInfo;
                 }
                 else if (contentPropertyInfo.CanCastingTo<IList>())
                 {
-                    listContent?.Invoke(
-                        (IList)contentPropertyInfo.GetValue(obj));
-
-                    return;
+                    return (IList)contentPropertyInfo.GetValue(obj);
                 }
             }
 
-            failed?.Invoke();
+            return null;
+        }
+
+
+        public static void GetContent(
+            this object obj,
+            Action<PropertyInfo> singleContent,
+            Action<IList> listContent,
+            Action failed = null)
+        {
+            object content = obj.GetContent();
+
+            if (content == null)
+            {
+                failed?.Invoke();
+                return;
+            }
+
+            if (content is PropertyInfo)
+                singleContent?.Invoke(
+                    content as PropertyInfo);
+
+            if (content is IList)
+                listContent?.Invoke(
+                    (IList)content);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace DeXign.IO
         {
             base.CreateStream();
 
-            this.Name = $"Screen\\{LayoutExtension.GetPageName(this.Model)}.xml";
+            this.Name = $"Screens\\{LayoutExtension.GetPageName(this.Model)}.xml";
         }
     }
 }

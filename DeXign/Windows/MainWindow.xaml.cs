@@ -13,6 +13,7 @@ using System.Linq;
 using DeXign.IO;
 using DeXign.Core.Controls;
 using DeXign.Core;
+using Microsoft.Win32;
 
 namespace DeXign.Windows
 {
@@ -79,7 +80,8 @@ namespace DeXign.Windows
                 new CommandBinding(
                     DXCommands.RedoCommand, Redo_Execute));
         }
-        
+
+        #region [ Commands ]
         private void Redo_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             TaskNavigator.TaskManager.Redo();
@@ -97,10 +99,17 @@ namespace DeXign.Windows
 
         private void OpenProject_Execute(object sender, ExecutedRoutedEventArgs e)
         {
-            MessageBox.Show("열기!");
+            OpenProject();
         }
 
         private void SaveProject_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            SaveProject();
+        }
+        #endregion
+
+        #region [ Project Handling ]
+        private void SaveProject()
         {
             if (Model.StoryboardPage != null)
             {
@@ -108,6 +117,31 @@ namespace DeXign.Windows
 
                 Model.StoryboardPage
                     .Model.Project.Save();
+            }
+        }
+
+        private void OpenProject()
+        {
+            var fileDialog = new OpenFileDialog()
+            {
+                InitialDirectory = Environment.CurrentDirectory,
+                Filter = "DeXign 프로젝트 파일(*.dx)|*.dx"
+            };
+
+            bool? result = fileDialog.ShowDialog();
+
+            if (result != null && result.Value)
+            {
+                var project = DXProject.Open(fileDialog.FileName);
+
+                if (!project.CanOpen)
+                {
+                    // 메박 커스텀하고 내용 바꿀..
+                    MessageBox.Show("어디 나사하나 빠진 파일 같습니다.");
+                    return;
+                }
+
+                OpenStoryboardPage(project);
             }
         }
 
@@ -124,16 +158,13 @@ namespace DeXign.Windows
                         ProjectName = projDialog.AppName
                     });
 
-                CreateStoryboardPage(project);
+                OpenStoryboardPage(project);
             }
         }
+        #endregion
 
+        #region [ Storyboard Handling ]
         public void OpenStoryboardPage(DXProject project)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void CreateStoryboardPage(DXProject project)
         {
             var page = new StoryboardPage();
 
@@ -152,7 +183,9 @@ namespace DeXign.Windows
                     Tag = page.Model
                 });
         }
+        #endregion
 
+        #region [ Layout ]
         private void tabControl_SelectionChanged(object sender, global::System.Windows.Controls.SelectionChangedEventArgs e)
         {
             var item = (ClosableTabItem)tabControl.SelectedItem;
@@ -160,5 +193,6 @@ namespace DeXign.Windows
 
             Model.StoryboardPage = itemModel?.ViewModel;
         }
+        #endregion
     }
 }

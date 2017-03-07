@@ -307,15 +307,7 @@ namespace DeXign.Editor.Controls
             var control = this.GenerateToElement(this, metadata, pushTask: false) as ContentControl;
             var model = (PContentPage)control.GetRenderer().Model;
 
-            control.Margin = new Thickness(0);
-            control.VerticalAlignment = VerticalAlignment.Top;
-            control.HorizontalAlignment = HorizontalAlignment.Left;
-
-            control.Width = 360;
-            control.Height = 615;
-
-            Canvas.SetTop(control, 80);
-            Canvas.SetLeft(control, 80);
+            AddScreenCore(control);
 
             // Add Screen To Project
             Screens?.Add(model);
@@ -327,6 +319,19 @@ namespace DeXign.Editor.Controls
             Keyboard.Focus(this);
 
             return control;
+        }
+
+        private void AddScreenCore(ContentControl control)
+        {
+            control.Margin = new Thickness(0);
+            control.VerticalAlignment = VerticalAlignment.Top;
+            control.HorizontalAlignment = HorizontalAlignment.Left;
+
+            control.Width = 360;
+            control.Height = 615;
+
+            Canvas.SetTop(control, 80);
+            Canvas.SetLeft(control, 80);
         }
 
         /// <summary>
@@ -342,7 +347,7 @@ namespace DeXign.Editor.Controls
             bool pushTask = true)
         {
             var rendererAttr = RendererManager.FromModelType(data.Element);
-            var visual = RendererManager.CreateVisual(rendererAttr, position);
+            var visual = RendererManager.CreateVisualRenderer(rendererAttr, position);
 
             if (visual == null)
                 return null;

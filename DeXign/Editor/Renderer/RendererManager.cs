@@ -43,17 +43,17 @@ namespace DeXign.Editor.Renderer
             return Items.FirstOrDefault(item => item.ViewType == viewType);
         }
 
-        public static ExportRendererAttribute FromModelType<T>()
+        public static ExportRendererAttribute FromModelType<T>(T model)
         {
             return FromModelType(typeof(T));
         }
 
-        public static ExportRendererAttribute FromViewType<T>()
+        public static ExportRendererAttribute FromViewType<T>(T model)
         {
             return FromViewType(typeof(T));
         }
 
-        public static FrameworkElement CreateVisual(ExportRendererAttribute rendererAttr, Point position)
+        public static FrameworkElement CreateVisualRenderer(ExportRendererAttribute rendererAttr, Point position)
         {
             if (rendererAttr == null)
             {
@@ -62,6 +62,19 @@ namespace DeXign.Editor.Renderer
             }
 
             var model = (PObject)Activator.CreateInstance(rendererAttr.ModelType);
+
+            return CreateVisualRendererCore(rendererAttr, model, position);
+        }
+
+        public static FrameworkElement CreateVisualRendererFromModel(PObject model)
+        {
+            var rendererAttr = FromModelType(model.GetType());
+
+            return CreateVisualRendererCore(rendererAttr, model, default(Point));
+        }
+
+        private static FrameworkElement CreateVisualRendererCore(ExportRendererAttribute rendererAttr, PObject model, Point position)
+        {
             var view = (FrameworkElement)Activator.CreateInstance(rendererAttr.ViewType);
             var renderer = (IRenderer)Activator.CreateInstance(rendererAttr.RendererType, view, model);
 

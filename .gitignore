@@ -153,9 +153,6 @@ publish/
 # except build/, which is used as an MSBuild target.
 !**/packages/build/
 
-# ignore too
-!**/IO/packages/*
-
 # Uncomment if necessary however generally it will be regenerated when needed
 #!**/packages/repositories.config
 # NuGet v3's project.json files produces more ignoreable files
@@ -244,3 +241,6 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+
+# DeXign Specific Exclude Folder
+!**/IO/packages/*

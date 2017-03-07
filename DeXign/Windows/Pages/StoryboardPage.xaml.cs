@@ -18,6 +18,7 @@ namespace DeXign.Windows.Pages
         
         DispatcherTimer updateTimer;
 
+        #region [ Constructor ]
         public StoryboardPage()
         {
             InitializeComponent();
@@ -26,13 +27,13 @@ namespace DeXign.Windows.Pages
 
             SetTheme(Platform.Android);
 
-            // Task Manager Setting
-            storyboard.TaskManager = Model.TaskManager;
-
-            // test code
             this.Loaded += StoryboardPage_Loaded;
             storyboard.Loaded += Storyboard_Loaded;
 
+            // Task Manager Setting
+            storyboard.TaskManager = Model.TaskManager;
+
+            // Test Code
             updateTimer = new DispatcherTimer();
             updateTimer.Interval = TimeSpan.FromMilliseconds(20);
             updateTimer.Tick += UpdateTimer_Tick;
@@ -57,14 +58,20 @@ namespace DeXign.Windows.Pages
             this.CommandBindings.Add(
                 new CommandBinding(DXCommands.CloseCommand, Close_Execute));
         }
+        #endregion
 
+        #region [ Command ]
         private void Close_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             storyboard.Close();
         }
+        #endregion
 
         private void UpdateTimer_Tick(object sender, EventArgs e)
         {
+            // 프로젝트 로드 구현후 개방
+            return;
+
             var screenRenderer = storyboard.Screens[0].GetRenderer() as ScreenRenderer;
             
             // Generate
@@ -95,9 +102,18 @@ namespace DeXign.Windows.Pages
         private void Storyboard_Loaded(object sender, RoutedEventArgs e)
         {
             storyboard.Loaded -= Storyboard_Loaded;
-            storyboard.AddNewScreen();
+
+            if (Model.Project.Screens.Count == 0)
+            {
+                storyboard.AddNewScreen();
+            }
+            else
+            {
+                storyboard.InitializeProject();
+            }
         }
-        
+
+        #region [ Theme ]
         private void PlatformCommand_OnExecute(object sender, object e)
         {
             SetTheme(((string)e).ToEnum<Platform>().Value);
@@ -110,5 +126,6 @@ namespace DeXign.Windows.Pages
             if (theme != null)
                 this.Resources = theme;
         }
+        #endregion
     }
 }
