@@ -7,17 +7,14 @@ using System.Windows.Interop;
 using DeXign.Extension;
 using DeXign.Interop;
 
+using WPFExtension;
+
 using Microsoft.Windows.Shell;
 
 using MINMAXINFO = DeXign.Interop.NativeMethods.MINMAXINFO;
-
 using Monitor = DeXign.Interop.NativeMethods.Monitor;
-
 using MONITORINFO = DeXign.Interop.NativeMethods.MONITORINFO;
-
 using WinSystemCommands = System.Windows.SystemCommands;
-
-using WPFExtension;
 
 namespace DeXign.Controls
 {
@@ -93,8 +90,15 @@ namespace DeXign.Controls
                 UseAeroCaptionButtons = false,
                 UseNoneWindowStyle = false
             };
-
+            
             WindowChrome.SetWindowChrome(this, chrome);
+
+            CaptionHeightProperty.AddValueChanged(this, CaptionHeightChanged);
+        }
+
+        private void CaptionHeightChanged(object sender, EventArgs e)
+        {
+            WindowChrome.GetWindowChrome(this).CaptionHeight = this.CaptionHeight;
         }
 
         private void InitializeCommands()

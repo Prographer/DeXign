@@ -1,9 +1,11 @@
 ﻿using DeXign.Core;
 using DeXign.Core.Controls;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Xml.Serialization;
 
 namespace DeXign.IO
@@ -154,6 +156,33 @@ namespace DeXign.IO
                 throw new FileNotFoundException();
 
             return new DXProject(path);
+        }
+
+        public static DXProject OpenDialog()
+        {
+            var fileDialog = new OpenFileDialog()
+            {
+                InitialDirectory = Environment.CurrentDirectory,
+                Filter = "DeXign 프로젝트 파일(*.dx)|*.dx"
+            };
+
+            bool? result = fileDialog.ShowDialog();
+
+            if (result != null && result.Value)
+            {
+                var project = DXProject.Open(fileDialog.FileName);
+
+                if (!project.CanOpen)
+                {
+                    // 메박 커스텀하고 내용 바꿀..
+                    MessageBox.Show("어디 나사하나 빠진 파일 같습니다.");
+                    return null;
+                }
+
+                return project;
+            }
+
+            return null;
         }
         #endregion
     }
