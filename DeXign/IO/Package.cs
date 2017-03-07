@@ -11,11 +11,24 @@ namespace DeXign.IO
         /// </summary>
         /// <param name="files"></param>
         /// <returns></returns>
-        public static Stream Packaging(params PackageFile[] files)
+        public static Stream Packaging(IEnumerable<PackageFile> files)
         {
             var ms = new MemoryStream();
-            var za = new ZipArchive(ms, ZipArchiveMode.Create, true);
-                
+
+            Packaging(ms, files);
+
+            return ms;
+        }
+
+        /// <summary>
+        /// 스트림 패키지 파일을 압축합니다.
+        /// </summary>
+        /// <param name="destination"></param>
+        /// <param name="files"></param>
+        public static void Packaging(Stream destination, IEnumerable<PackageFile> files)
+        {
+            var za = new ZipArchive(destination, ZipArchiveMode.Create);
+
             foreach (var file in files)
             {
                 if (file.IsEmpty)
@@ -31,8 +44,6 @@ namespace DeXign.IO
             }
 
             za.Dispose();
-
-            return ms;
         }
 
         /// <summary>

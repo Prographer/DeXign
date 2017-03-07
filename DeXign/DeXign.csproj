@@ -104,11 +104,14 @@
     </ApplicationDefinition>
     <Compile Include="Animation\SpringEase.cs" />
     <Compile Include="Controls\BezierLine.cs" />
+    <Compile Include="Controls\Cell\ContentCell.cs" />
+    <Compile Include="Controls\Cell\CheckBoxCell.cs" />
     <Compile Include="Controls\EnumRadioBox.cs" />
     <Compile Include="Controls\ImageBox.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\ImageSourceSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\SliderSetter.cs" />
     <Compile Include="Controls\ProtrudedScrollViewer.cs" />
+    <Compile Include="Controls\Cell\TextCell.cs" />
     <Compile Include="Editor\Connector\LineConnector.cs" />
     <Compile Include="Editor\Connector\LineConnectorBase.cs" />
     <Compile Include="Editor\Controls\ComponentBox\ComponentBoxItemView.cs" />
@@ -164,9 +167,15 @@
     <Compile Include="Editor\Renderer\RendererMetadata.cs" />
     <Compile Include="Editor\Renderer\RendererTreeHelper.cs" />
     <Compile Include="Editor\Renderer\StoryboardRenderer.cs" />
-    <Compile Include="IO\PModelXMLReader.cs" />
-    <Compile Include="IO\PModelXMLWriter.cs" />
+    <Compile Include="IO\Packages\ManifestPackageFile.cs" />
+    <Compile Include="IO\Packages\ModelPackageFile.cs" />
+    <Compile Include="IO\Project\DXProject.cs" />
+    <Compile Include="IO\Project\DXProjectManifest.cs" />
+    <Compile Include="IO\Xml\PModelXmlReader.cs" />
+    <Compile Include="IO\Xml\PModelXmlWriter.cs" />
     <Compile Include="MVVM\Commands\ActionCommand.cs" />
+    <Compile Include="MVVM\Commands\DialogCommands.cs" />
+    <Compile Include="MVVM\Commands\RasableRoutedCommand.cs" />
     <Compile Include="MVVM\Converter\BoolToVisibilityConverter.cs" />
     <Compile Include="MVVM\Converter\DisplayNameConverter.cs" />
     <Compile Include="MVVM\Converter\DoubleToCornerRadiusConverter.cs" />
@@ -182,12 +191,13 @@
     <Compile Include="MVVM\Models\Base\IModel.cs" />
     <Compile Include="MVVM\Models\Base\IViewModel.cs" />
     <Compile Include="MVVM\Models\ComponentBoxItemModel.cs" />
+    <Compile Include="MVVM\Models\DialogWindowModel.cs" />
     <Compile Include="MVVM\Models\MainModel.cs" />
     <Compile Include="MVVM\Models\PropertyGridItemModel.cs" />
     <Compile Include="MVVM\Models\StoryboardModel.cs" />
     <Compile Include="MVVM\Rules\NameScopeRule.cs" />
     <Compile Include="MVVM\Rules\PercentageRule.cs" />
-    <Compile Include="IO\Components\ScreenPackageFile.cs" />
+    <Compile Include="IO\Packages\ScreenPackageFile.cs" />
     <Compile Include="IO\Package.cs" />
     <Compile Include="IO\PackageFile.cs" />
     <Compile Include="System\Mouse.cs" />
@@ -201,6 +211,18 @@
     <Compile Include="Themes\ThemeManager.cs" />
     <Compile Include="MVVM\ElementThicknessBinder.cs" />
     <Compile Include="Utilities\MathUtil.cs" />
+    <Compile Include="Windows\Dialog\DialogWindow.xaml.cs">
+      <DependentUpon>DialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Dialog\IDialogNavigator.cs" />
+    <Compile Include="Windows\Dialog\Pages\DialogPage.cs" />
+    <Compile Include="Windows\Dialog\Pages\NewProjectPage2.xaml.cs">
+      <DependentUpon>NewProjectPage2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Dialog\Pages\NewProjectPage1.xaml.cs">
+      <DependentUpon>NewProjectPage1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Dialog\ProjectDialog.cs" />
     <Compile Include="Windows\Pages\WelcomePage.xaml.cs">
       <DependentUpon>WelcomePage.xaml</DependentUpon>
     </Compile>
@@ -246,6 +268,14 @@
     <Page Include="Themes\Platforms\WindowStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Dialog\DialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Dialog\Pages\NewProjectPage2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -305,6 +335,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\Dialog\Pages\NewProjectPage1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\Pages\WelcomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

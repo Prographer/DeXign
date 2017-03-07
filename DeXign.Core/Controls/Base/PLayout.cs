@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Markup;
+using System.ComponentModel;
 
 using DeXign.Core.Collections;
-using DeXign.Extension;
 
 using WPFExtension;
 
@@ -29,10 +24,11 @@ namespace DeXign.Core.Controls
 
     [ContentProperty("Children")]
     [XForms("Blank", "Xamarin.Forms")]
-    public class PLayout<T> : PLayout 
+    public class PLayout<T> : PLayout
         where T : PControl
     {
         [XForms("Children")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PControlCollection<T> Children { get; } = new PControlCollection<T>();
     }
 }

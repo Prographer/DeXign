@@ -1,10 +1,10 @@
 using System;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows.Threading;
 
 using DeXign.Core;
-using DeXign.Core.Controls;
 using DeXign.Editor.Renderer;
 using DeXign.Extension;
 using DeXign.Models;
@@ -15,30 +15,52 @@ namespace DeXign.Windows.Pages
     public partial class StoryboardPage : Page, IViewModel<StoryboardModel>
     {
         public StoryboardModel Model { get; set; }
-
+        
         DispatcherTimer updateTimer;
 
         public StoryboardPage()
         {
             InitializeComponent();
+            InitializeCommands();
+            InitializeModel();
 
             SetTheme(Platform.Android);
-
-            Model = new StoryboardModel(this);
-            this.DataContext = Model;
-
-            Model.PlatformCommand.OnExecute += PlatformCommand_OnExecute;
 
             // Task Manager Setting
             storyboard.TaskManager = Model.TaskManager;
 
             // test code
+            this.Loaded += StoryboardPage_Loaded;
             storyboard.Loaded += Storyboard_Loaded;
 
             updateTimer = new DispatcherTimer();
             updateTimer.Interval = TimeSpan.FromMilliseconds(20);
             updateTimer.Tick += UpdateTimer_Tick;
             updateTimer.Start();
+        }
+
+        private void StoryboardPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            Keyboard.Focus(storyboard);
+        }
+
+        private void InitializeModel()
+        {
+            Model = new StoryboardModel(this);
+            this.DataContext = Model;
+
+            Model.PlatformCommand.OnExecute += PlatformCommand_OnExecute;
+        }
+
+        private void InitializeCommands()
+        {
+            this.CommandBindings.Add(
+                new CommandBinding(DXCommands.CloseCommand, Close_Execute));
+        }
+
+        private void Close_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            storyboard.Close();
         }
 
         private void UpdateTimer_Tick(object sender, EventArgs e)

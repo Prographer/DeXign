@@ -5,7 +5,7 @@ using DeXign.Core.Controls;
 
 namespace DeXign.Core.Collections
 {
-    public class PControlCollection<T> : ObservableCollection<T> 
+    public class PControlCollection<T> : List<T> 
         where T : PVisual
     {
         public PControlCollection()
@@ -21,7 +21,7 @@ namespace DeXign.Core.Collections
         }
     }
 
-    public class PControlCollection : ObservableCollection<PControl>
+    public class PControlCollection : List<PControl>
     {
         public PControlCollection()
         {

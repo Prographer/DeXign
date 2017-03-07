@@ -1,13 +1,15 @@
 using DeXign.Commands;
 using DeXign.Windows.Pages;
+using DeXign.IO;
 using DeXign.Task;
-using System;
 
 namespace DeXign.Models
 {
     public class StoryboardModel : IModel
     {
         public StoryboardPage ViewModel { get; }
+
+        public DXProject Project { get; set; }
 
         public DispatcherTaskManager TaskManager { get; }
 

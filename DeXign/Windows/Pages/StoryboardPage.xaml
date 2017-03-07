@@ -12,6 +12,10 @@
       d:DesignHeight="665" d:DesignWidth="977"
       Title="StoryboardPage">
 
+    <Page.InputBindings>
+        <KeyBinding Modifiers="Alt" Key="F4" Command="{x:Static local:DXCommands.CloseCommand}"/>
+    </Page.InputBindings>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>

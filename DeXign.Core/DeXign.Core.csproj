@@ -91,6 +91,7 @@
     <Compile Include="Controls\Picker\PTimerPicker.cs" />
     <Compile Include="Controls\Cell\PViewCell.cs" />
     <Compile Include="Controls\PWebView.cs" />
+    <Compile Include="DataTreeHelper.cs" />
     <Compile Include="Designer\AttributeTuple.cs" />
     <Compile Include="Designer\DesignerManager.cs" />
     <Compile Include="Designer\DesignerResource.cs" />

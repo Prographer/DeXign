@@ -10,8 +10,11 @@ using DeXign.Resources;
 using DeXign.Windows.Pages;
 using DeXign.Editor;
 using System.Linq;
+using DeXign.IO;
+using DeXign.Core.Controls;
+using DeXign.Core;
 
-namespace DeXign
+namespace DeXign.Windows
 {
     public partial class MainWindow : ChromeWindow, IViewModel<MainModel>
     {
@@ -66,13 +69,17 @@ namespace DeXign
 
             this.CommandBindings.Add(
                 new CommandBinding(
+                    DXCommands.SaveProjectCommand, SaveProject_Execute));
+
+            this.CommandBindings.Add(
+                new CommandBinding(
                     DXCommands.UndoCommand, Undo_Execute));
 
             this.CommandBindings.Add(
                 new CommandBinding(
                     DXCommands.RedoCommand, Redo_Execute));
         }
-
+        
         private void Redo_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             TaskNavigator.TaskManager.Redo();
@@ -85,7 +92,7 @@ namespace DeXign
 
         private void NewProject_Execute(object sender, ExecutedRoutedEventArgs e)
         {
-            CreateStoryboardPage();
+            CreateNewProject();
         }
 
         private void OpenProject_Execute(object sender, ExecutedRoutedEventArgs e)
@@ -93,14 +100,50 @@ namespace DeXign
             MessageBox.Show("열기!");
         }
 
-        public void CreateStoryboardPage()
+        private void SaveProject_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (Model.StoryboardPage != null)
+            {
+                // WindowModel -> StoryboardPage Model -> DXProject . Save
+
+                Model.StoryboardPage
+                    .Model.Project.Save();
+            }
+        }
+
+        public void CreateNewProject()
+        {
+            var projDialog = new ProjectDialog();
+
+            if (projDialog.ShowDialog())
+            {
+                var project = DXProject.Create(
+                    $"{projDialog.AppName}.dx",
+                    new DXProjectManifest()
+                    {
+                        ProjectName = projDialog.AppName
+                    });
+
+                CreateStoryboardPage(project);
+            }
+        }
+
+        public void OpenStoryboardPage(DXProject project)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CreateStoryboardPage(DXProject project)
         {
             var page = new StoryboardPage();
+
+            // DeXign Project
+            page.Model.Project = project;
 
             tabControl.Items.Add(
                 new ClosableTabItem()
                 {
-                    Header = "App1",
+                    Header = project.Manifest.ProjectName,
                     IsSelected = true,
                     Content = new Frame()
                     {

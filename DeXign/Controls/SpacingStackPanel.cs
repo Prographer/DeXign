@@ -7,7 +7,7 @@ using WPFExtension;
 
 namespace DeXign.Controls
 {
-    class SpacingStackPanel : StackPanel
+    public class SpacingStackPanel : StackPanel
     {
         public static readonly DependencyProperty SpacingProperty =
             DependencyHelper.Register(

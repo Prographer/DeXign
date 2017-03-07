@@ -4,9 +4,13 @@ namespace DeXign
 {
     public static class DXCommands
     {
+        // New / Open / Save
         public static RoutedCommand NewProjectCommand { get; }
-
         public static RoutedCommand OpenProjectCommand { get; }
+        public static RoutedCommand SaveProjectCommand { get; }
+
+        // Close
+        public static RoutedCommand CloseCommand { get; }
 
         public static RoutedCommand ESCCommand { get; }
 
@@ -16,6 +20,7 @@ namespace DeXign
 
         public static RoutedCommand DesignModeCommand { get; }
 
+        // Undo / Redo
         public static RoutedCommand UndoCommand { get; }
         public static RoutedCommand RedoCommand { get; }
 
@@ -23,12 +28,17 @@ namespace DeXign
         {
             NewProjectCommand = new RoutedCommand("NewProject", typeof(DXCommands));
             OpenProjectCommand = new RoutedCommand("OpenProject", typeof(DXCommands));
-            ESCCommand = new RoutedCommand("ESCCommand", typeof(DXCommands));
-            PlatformCommand = new RoutedCommand("PlatformCommand", typeof(DXCommands));
-            DeleteCommand = new RoutedCommand("DeleteCommand", typeof(DXCommands));
-            DesignModeCommand = new RoutedCommand("DesignModeCommand", typeof(DXCommands));
-            UndoCommand = new RoutedCommand("UndoCommand", typeof(DXCommands));
-            RedoCommand = new RoutedCommand("RedoCommand", typeof(DXCommands));
+            SaveProjectCommand = new RoutedCommand("SaveProject", typeof(DXCommands));
+
+            ESCCommand = new RoutedCommand("ESC", typeof(DXCommands));
+            PlatformCommand = new RoutedCommand("Platform", typeof(DXCommands));
+            DeleteCommand = new RoutedCommand("Delete", typeof(DXCommands));
+            DesignModeCommand = new RoutedCommand("DesignMode", typeof(DXCommands));
+
+            UndoCommand = new RoutedCommand("Undo", typeof(DXCommands));
+            RedoCommand = new RoutedCommand("Redo", typeof(DXCommands));
+
+            CloseCommand = new RoutedCommand("Close", typeof(DXCommands));
         }
     }
  }

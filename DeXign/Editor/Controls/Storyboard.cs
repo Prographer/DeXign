@@ -24,24 +24,28 @@ using DeXign.Core.Designer;
 using DeXign.Controls;
 using DeXign.Converter;
 using DeXign.Task;
+using DeXign.IO;
 
 namespace DeXign.Editor.Controls
 {
     public partial class Storyboard : Canvas
     {
         #region [ Properties ]
+        public StoryboardModel Model { get; private set; }
+
         public DispatcherTaskManager TaskManager { get; set; }
 
         public GuideLayer GuideLayer { get; private set; }
         public AbsoluteLayer LineLayer { get; private set; }
         public StoryboardRenderer Renderer { get; private set; }
 
-        public List<ContentControl> Screens { get; } = new List<ContentControl>();
+        public List<PContentPage> Screens => Model?.Project.Screens;
 
         public bool IsComponentBoxOpen { get { return componentBoxPopup.IsOpen; } }
         #endregion
 
         #region [ Local Variable ]
+        private ClosableTabItem mangedTabItem;
         private DispatcherTimer updateTimer;
 
         private Popup componentBoxPopup;
@@ -62,7 +66,28 @@ namespace DeXign.Editor.Controls
             InitializeComponents();
             InitializeBindings();
 
+            this.DataContextChanged += Storyboard_DataContextChanged;
+            this.Loaded += Storyboard_Loaded;
+
             Application.Current.MainWindow.Deactivated += Storyboard_Deactivated;
+        }
+
+        private void Storyboard_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (DataContext is StoryboardModel)
+            {
+                Model = DataContext as StoryboardModel;
+            }
+        }
+
+        private void Storyboard_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.Loaded -= Storyboard_Loaded;
+
+            var frame = VisualTreeHelperEx.FindVisualParents<Frame>(this).FirstOrDefault();
+
+            if (frame != null)
+                mangedTabItem = frame.Parent as ClosableTabItem;
         }
 
         private void UpdateTimer_Tick(object sender, EventArgs e)
@@ -280,6 +305,7 @@ namespace DeXign.Editor.Controls
         {
             var metadata = DesignerManager.GetElementType(typeof(PContentPage));
             var control = this.GenerateToElement(this, metadata, pushTask: false) as ContentControl;
+            var model = (PContentPage)control.GetRenderer().Model;
 
             control.Margin = new Thickness(0);
             control.VerticalAlignment = VerticalAlignment.Top;
@@ -291,11 +317,14 @@ namespace DeXign.Editor.Controls
             Canvas.SetTop(control, 80);
             Canvas.SetLeft(control, 80);
 
-            Screens.Add(control);
+            // Add Screen To Project
+            Screens?.Add(model);
 
             LayoutExtension.SetPageName(
-                (PPage)control.GetRenderer().Model, 
-                $"Screen{Screens.Count}");
+                model, 
+                $"Screen{Screens?.Count}");
+
+            Keyboard.Focus(this);
 
             return control;
         }
@@ -684,6 +713,17 @@ namespace DeXign.Editor.Controls
             }
         }
         #endregion
+
+        #region [ I/O ]
+        public void Save()
+        {
+        }
+        #endregion
+
+        public void Close()
+        {
+            mangedTabItem?.Close();
+        }
     }
 
     internal class ComponentRequest

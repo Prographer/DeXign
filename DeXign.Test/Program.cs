@@ -1,14 +1,11 @@
 using System;
 using System.Diagnostics;
 
+using DeXign.IO;
 using DeXign.Core;
-using DeXign.Core.Controls;
-using DeXign.Core.Designer;
 using DeXign.Core.Logic;
-using DeXign.Task;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+using DeXign.Core.Designer;
+using DeXign.Core.Controls;
 
 namespace DeXign.Test
 {
@@ -16,7 +13,6 @@ namespace DeXign.Test
     {
         static void Main(string[] args)
         {
-            return;
             var c1 = new PComponent() { Tag = "c1" };
             var c2 = new PComponent() { Tag = "c2" };
             var c3 = new PComponent() { Tag = "c3" };

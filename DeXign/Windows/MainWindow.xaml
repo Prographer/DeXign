@@ -7,7 +7,7 @@
         xmlns:c="clr-namespace:DeXign.Controls"
         xmlns:m="clr-namespace:DeXign.Models"
         xmlns:p="clr-namespace:DeXign.Windows.Pages"
-        x:Class="DeXign.MainWindow"
+        x:Class="DeXign.Windows.MainWindow"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         MinWidth="600" MinHeight="400"
@@ -19,8 +19,12 @@
     </c:ChromeWindow.Style>
 
     <c:ChromeWindow.InputBindings>
+        <!-- New / Open / Save -->
         <KeyBinding Modifiers="Ctrl" Key="N" Command="{x:Static local:DXCommands.NewProjectCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="O" Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="S" Command="{x:Static local:DXCommands.SaveProjectCommand}"/>
+        
+        <!-- Undo / Redo -->
         <KeyBinding Modifiers="Ctrl" Key="Z" Command="{x:Static local:DXCommands.UndoCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="Y" Command="{x:Static local:DXCommands.RedoCommand}"/>
     </c:ChromeWindow.InputBindings>

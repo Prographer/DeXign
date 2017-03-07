@@ -16,10 +16,15 @@ namespace DeXign.Controls
 
         public ClosableTabItem()
         {
-            this.CommandBindings.Add(new CommandBinding(CloseCommand, Close));
+            this.CommandBindings.Add(new CommandBinding(CloseCommand, Close_Execute));
         }
 
-        private void Close(object sender, ExecutedRoutedEventArgs e)
+        private void Close_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            Close();
+        }
+
+        public void Close()
         {
             var tab = this.Parent as TabControl;
 

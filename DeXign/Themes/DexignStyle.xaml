@@ -638,7 +638,44 @@
     </Style>
     <!-- #endregion -->
 
-    <!-- #region Controls Style -->
+    <!-- #region Cell Style -->
+    <Style TargetType="{x:Type c:ContentCell}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type c:ContentCell}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Bullet"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{TemplateBinding Header}" TextAlignment="Right"/>
+                        <ContentPresenter Content="{TemplateBinding Content}" Grid.Column="1" Margin="16,0,0,0"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="{x:Type c:TextCell}" BasedOn="{StaticResource {x:Type c:ContentCell}}">
+        <Setter Property="Content">
+            <Setter.Value>
+                <TextBox Text="{Binding Text, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type c:TextCell}}}"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type c:CheckBoxCell}">
+        <Setter Property="Content">
+            <Setter.Value>
+                <CheckBox IsChecked="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type c:CheckBoxCell}}}"
+                          Content="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type c:CheckBoxCell}}}"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- #endregion -->
+    
+    <!-- #region Controls Style -->   
     <Style TargetType="{x:Type c:ImageBox}">
         <Setter Property="Template">
             <Setter.Value>
