@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-using System.Windows;
+﻿using System.Windows;
+using System.Collections.Generic;
 using System.Windows.Markup.Primitives;
 
 namespace DeXign.Utilities
@@ -10,12 +9,10 @@ namespace DeXign.Utilities
         public DependencyObject Object { get; }
         
         private Dictionary<DependencyProperty, object> values;
-        private Dictionary<DependencyPropertyKey, object> readonlyValues;
 
         public DumpDependencyObject(DependencyObject obj)
         {
             values = new Dictionary<DependencyProperty, object>();
-            readonlyValues = new Dictionary<DependencyPropertyKey, object>();
 
             this.Object = obj;
 
