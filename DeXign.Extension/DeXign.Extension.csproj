@@ -64,6 +64,7 @@
     <Compile Include="EnumEx.cs" />
     <Compile Include="Hardware.cs" />
     <Compile Include="IUISupport.cs" />
+    <Compile Include="ListEx.cs" />
     <Compile Include="LogicalTreeHelperEx.cs" />
     <Compile Include="MarshalEx.cs" />
     <Compile Include="ObjectContentTreeHelper.cs" />

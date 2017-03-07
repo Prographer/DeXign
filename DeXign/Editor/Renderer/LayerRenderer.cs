@@ -38,6 +38,10 @@ namespace DeXign.Editor.Renderer
         public TModel Model { get; set; }
         #endregion
 
+        #region [ Event ]
+        public event EventHandler ElementAttached;
+        #endregion
+
         #region [ Property ]
         public IList<IRenderer> RendererChildren { get; }
 
@@ -73,7 +77,7 @@ namespace DeXign.Editor.Renderer
             if (attr != null)
                 displayTypeName = attr.DisplayName;
         }
-        
+
         protected override void OnDisposed()
         {
             ObjectContentHelper.GetContent(
@@ -105,6 +109,7 @@ namespace DeXign.Editor.Renderer
             OnElementAttached(this.Element);
 
             IsElementAttached = true;
+            ElementAttached?.Invoke(this, EventArgs.Empty);
         }
 
         public bool IsContentParent()

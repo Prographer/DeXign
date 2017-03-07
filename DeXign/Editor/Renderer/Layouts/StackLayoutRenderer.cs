@@ -56,10 +56,13 @@ namespace DeXign.Editor.Renderer
         {
             base.OnAddedChild(child, position);
 
-            // position은 RootParent 기준이기 때문에 StackPanel 기준으로 다시 계산
-            position = RootParent.TranslatePoint(position, this);
+            if (IsLoaded)
+            {
+                // position은 RootParent 기준이기 때문에 StackPanel 기준으로 다시 계산
+                position = RootParent.TranslatePoint(position, this);
 
-            MoveToPosition(child.Element, position);
+                MoveToPosition(child.Element, position);
+            }
             
             if (Element.IsVertical)
             {

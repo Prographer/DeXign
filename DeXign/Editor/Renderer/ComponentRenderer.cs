@@ -13,6 +13,8 @@ namespace DeXign.Editor.Renderer
         where TModel : PComponent
         where TElement : FrameworkElement
     {
+        public event EventHandler ElementAttached;
+
         public TElement Element { get; }
 
         public TModel Model { get; set; }
@@ -44,6 +46,8 @@ namespace DeXign.Editor.Renderer
         protected override void OnLoaded(FrameworkElement adornedElement)
         {
             RendererParent = adornedElement.Parent.GetRenderer();
+
+            ElementAttached?.Invoke(this, EventArgs.Empty);
         }
 
         public virtual void OnAddedChild(IRenderer child, Point position)

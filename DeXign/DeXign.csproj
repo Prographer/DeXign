@@ -211,6 +211,8 @@
     <Compile Include="Task\TaskManager.cs" />
     <Compile Include="Themes\ThemeManager.cs" />
     <Compile Include="MVVM\ElementThicknessBinder.cs" />
+    <Compile Include="Utilities\DispatcherEx.cs" />
+    <Compile Include="Utilities\DumpDependencyObject.cs" />
     <Compile Include="Utilities\MathUtil.cs" />
     <Compile Include="Windows\Dialog\DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>

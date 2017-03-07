@@ -1,24 +1,65 @@
-﻿using DeXign.Core;
+﻿using System;
+using System.Diagnostics;
+using System.Windows.Controls;
+
+using DeXign.Core;
 using DeXign.Core.Controls;
 using DeXign.Editor.Renderer;
 using DeXign.Extension;
-using System;
-using System.Windows.Controls;
+using DeXign.Task;
+using DeXign.Utilities;
+using System.Collections.Generic;
 
 namespace DeXign.Editor.Controls
 {
     public partial class Storyboard
     {
+        private Dictionary<IRenderer, DumpDependencyObject> pendingDumps = 
+            new Dictionary<IRenderer, DumpDependencyObject>();
+
         internal void InitializeProject()
         {
+            var sw = new Stopwatch();
+            sw.Start();
+
             foreach (PContentPage screen in Model.Project.Screens)
             {
-                LoadScreenRenderer(screen);
+                var screenDump = new DumpDependencyObject(screen);
+                LoadScreenRenderer(screen); // Load Renderer
+                screenDump.RollBack();
 
-                foreach (PObject item in screen.FindContentChildrens<PObject>())
+                DispatcherEx.WaitForContextIdle();
+
+                // 모든 트리 탐색
+                foreach (var node in screen.FindContentChildrens<PObject, PObject>())
                 {
-                    Console.WriteLine(item.GetType().Name);
+                    var elementDump = new DumpDependencyObject(node.Child);
+
+                    LoadElementRenderer(node.Parent, node.Child); // Load Renderer
+
+                    IRenderer renderer = node.Child.GetRenderer();
+
+                    pendingDumps.Add(renderer, elementDump);
+                    renderer.ElementAttached += Storyboard_ElementAttached;
                 }
+            }
+
+            sw.Stop();
+        }
+
+        private void Storyboard_ElementAttached(object sender, EventArgs e)
+        {
+            var renderer = sender as IRenderer;
+
+            renderer.ElementAttached -= Storyboard_ElementAttached;
+
+            if (pendingDumps.ContainsKey(renderer))
+            {
+                // Property Rollback
+                pendingDumps[renderer].RollBack();
+
+                // Remove At Pending List
+                pendingDumps.Remove(renderer);
             }
         }
 
@@ -31,6 +72,19 @@ namespace DeXign.Editor.Controls
 
             AddElement(this, visual);
             AddScreenCore(visual as ContentControl);
+        }
+
+        private void LoadElementRenderer(PObject parent, PObject model)
+        {
+            var visual = RendererManager.CreateVisualRendererFromModel(model);
+
+            if (visual == null)
+                return;
+
+            IRenderer parentRenderer = parent.GetRenderer();
+            IRenderer modelRenderer = model.GetRenderer();
+
+            AddElement(parentRenderer.Element, visual);
         }
     }
 }

@@ -27,6 +27,8 @@ namespace DeXign.IO
         /// <param name="files"></param>
         public static void Packaging(Stream destination, IEnumerable<PackageFile> files)
         {
+            destination.SetLength(0);
+
             var za = new ZipArchive(destination, ZipArchiveMode.Create);
 
             foreach (var file in files)

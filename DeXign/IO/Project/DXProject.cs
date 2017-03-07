@@ -52,7 +52,7 @@ namespace DeXign.IO
                 LoadManifest();
                 LoadScreens();
             }
-            catch
+            catch (Exception ex)
             {
                 CanOpen = false;
             }

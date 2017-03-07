@@ -5,11 +5,14 @@ using DeXign.Core;
 using DeXign.Core.Logic;
 using DeXign.Core.Controls;
 using DeXign.Editor.Renderer;
+using System;
 
 namespace DeXign.Editor
 {
     public interface IRenderer : IBinderProvider
     {
+        event EventHandler ElementAttached;
+
         RendererMetadata Metadata { get; }
         IRenderer RendererParent { get; }
         IList<IRenderer> RendererChildren { get; }

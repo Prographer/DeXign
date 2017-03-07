@@ -104,11 +104,10 @@ namespace DeXign.Task
             if (CanRedo)
             {
                 TaskData task = UndoStack.Pop();
+                Update();
 
                 DoStack.Push(task);
                 task.Do();
-
-                Update();
 
                 return true;
             }

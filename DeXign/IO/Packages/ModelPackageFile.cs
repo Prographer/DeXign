@@ -1,8 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Windows;
 
 using DeXign.Core;
-using System;
-using System.Windows;
 
 namespace DeXign.IO
 {

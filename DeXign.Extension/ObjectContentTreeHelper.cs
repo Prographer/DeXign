@@ -5,6 +5,25 @@ using System.Reflection;
 
 namespace DeXign.Extension
 {
+    public class ObjectNode<TParent, TChild>
+    {
+        public TParent Parent { get; set; }
+        public TChild Child { get; set; }
+
+        public ObjectNode(TParent parent, TChild child)
+        {
+            this.Parent = parent;
+            this.Child = child;
+        }
+    }
+
+    public class ObjectNode : ObjectNode<object, object>
+    {
+        public ObjectNode(object parent, object child) : base(parent, child)
+        {
+        }
+    }
+
     public static class ObjectContentTreeHelper
     {
         public static IEnumerable<object> GetChildren(this object obj)
@@ -21,38 +40,45 @@ namespace DeXign.Extension
                     yield return item;
         }
 
-        public static IEnumerable<T> FindContentChildrens<T>(this object obj, bool findAll = true)
+        public static IEnumerable<ObjectNode<TParent, TChild>> FindContentChildrens<TParent, TChild>(this object obj, bool findAll = true)
         {
-            return Finds<T>(obj, ChildrenSetter, findAll);
+            return Finds<TParent, TChild>(obj, ChildrenSetter, findAll);
         }
 
-        private static void ChildrenSetter(object visual, Queue<object> visualQueue)
+        private static void ChildrenSetter(object parent, Queue<ObjectNode> visualQueue)
         {
-            foreach (object child in ObjectContentTreeHelper.GetChildren(visual))
-                visualQueue.Enqueue(child);
+            foreach (object child in ObjectContentTreeHelper.GetChildren(parent))
+            {
+                if (child == null)
+                    continue;
+
+                visualQueue.Enqueue(new ObjectNode(parent, child));
+            }
         }
 
-        private static IEnumerable<T> Finds<T>(
+        private static IEnumerable<ObjectNode<TParent, TChild>> Finds<TParent, TChild>(
             this object element,
-            Action<object, Queue<object>> elementSetter,
+            Action<object, Queue<ObjectNode>> elementSetter,
             bool findAll = true)
         {
-            var visualQueue = new Queue<object>();
-            visualQueue.Enqueue(element);
+            var objectQueue = new Queue<ObjectNode>();
+            objectQueue.Enqueue(new ObjectNode(element, element));
 
-            while (visualQueue.Count > 0)
+            while (objectQueue.Count > 0)
             {
-                object content = visualQueue.Dequeue();
+                var node = objectQueue.Dequeue();
                 
-                if (content is T && !ReferenceEquals(element, content))
+                if (node.Parent is TParent &&
+                    node.Child is TChild &&
+                    !ReferenceEquals(element, node.Child))
                 {
-                    yield return (T)content;
+                    yield return new ObjectNode<TParent, TChild>((TParent)node.Parent, (TChild)node.Child);
 
                     if (!findAll)
                         break;
                 }
 
-                elementSetter(content, visualQueue);
+                elementSetter(node.Child, objectQueue);
             }
         }
     }

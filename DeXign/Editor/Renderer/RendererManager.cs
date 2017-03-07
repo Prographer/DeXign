@@ -70,6 +70,9 @@ namespace DeXign.Editor.Renderer
         {
             var rendererAttr = FromModelType(model.GetType());
 
+            if (rendererAttr == null)
+                return null;
+
             return CreateVisualRendererCore(rendererAttr, model, default(Point));
         }
 

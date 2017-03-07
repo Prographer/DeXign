@@ -25,6 +25,7 @@ using DeXign.Controls;
 using DeXign.Converter;
 using DeXign.Task;
 using DeXign.IO;
+using System.Collections;
 
 namespace DeXign.Editor.Controls
 {
@@ -382,14 +383,14 @@ namespace DeXign.Editor.Controls
                 ObjectContentHelper.GetContent(
                     (DependencyObject)parent.DataContext,
                     pi => pi.SetValue(parent.DataContext, element.DataContext), // Single Content
-                    list => list.Add(element.DataContext));                     // List Content
+                    list => list.SafeAdd(element.DataContext));                     // List Content
             }
 
             // Add On WPF Parent
             ObjectContentHelper.GetContent(
                 parent,
                 pi => pi.SetValue(parent, element),  // Single Content
-                list => list.Add(element));          // List Content
+                list => list.SafeAdd(element));          // List Content
             
             // Notice child added
             parentRenderer?.OnAddedChild(childRenderer, childRenderer.Metadata.CreatedPosition);
@@ -428,13 +429,13 @@ namespace DeXign.Editor.Controls
             ObjectContentHelper.GetContent(
                 (DependencyObject)parent.DataContext,
                 pi => pi.SetValue(parent.DataContext, null), // Single Content
-                list => list.Remove(element.DataContext));   // List Content
+                list => list.SafeRemove(element.DataContext));   // List Content
 
             // Remove On WPF Parent
             ObjectContentHelper.GetContent(
                 parent,
                 pi => pi.SetValue(parent, null), // Single Content
-                list => list.Remove(element));   // List Content
+                list => list.SafeRemove(element));   // List Content
             
             // Notice child removed 
             parentRenderer?.OnRemovedChild(childRenderer);

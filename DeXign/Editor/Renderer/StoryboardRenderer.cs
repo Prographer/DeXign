@@ -10,6 +10,8 @@ namespace DeXign.Editor.Renderer
 {
     public class StoryboardRenderer : StoryboardLayer, IRenderer, IStoryboard
     {
+        public event EventHandler ElementAttached;
+
         public FrameworkElement Element => (FrameworkElement)AdornedElement;
 
         public PObject Model { get; set; }
@@ -35,6 +37,13 @@ namespace DeXign.Editor.Renderer
         public void OnRemovedChild(IRenderer child)
         {
             this.RendererChildren.Remove(child);
+        }
+
+        protected override void OnLoaded(FrameworkElement adornedElement)
+        {
+            base.OnLoaded(adornedElement);
+
+            ElementAttached?.Invoke(this, EventArgs.Empty);
         }
 
         #region [ IBinderProvider ]
