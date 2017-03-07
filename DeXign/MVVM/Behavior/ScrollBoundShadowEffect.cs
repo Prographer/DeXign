@@ -1,9 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Interactivity;
 using System.Windows.Media;
-using System;
 using System.Windows;
 
 using DeXign.Extension;
@@ -91,7 +91,6 @@ namespace DeXign.Behavior
                 InvalidateMasking();
             else if (e.Property.Name == nameof(Orientation))
                 InvalidateOrientation();
-
         }
 
         protected override void OnAttached()
@@ -163,16 +162,19 @@ namespace DeXign.Behavior
 
         private void OpacityMasking(ScrollBar scrollBar)
         {
+            if (scrollBar == null)
+                return;
+
             double value = 
                 (scrollBar.Value - scrollBar.Minimum) / (scrollBar.Maximum - scrollBar.Minimum);
 
             double size = 
                 Orientation == Orientation.Vertical ? AssociatedObject.RenderSize.Height : AssociatedObject.RenderSize.Width;
 
-            double maxOffset = ShadowSize / size;
+            double maxOffset = Math.Min(size / 2, ShadowSize) / size;
             double topOffset = Math.Min(value, maxOffset);
             double bottomOffset = Math.Min(1 - value, maxOffset);
-
+            
             topThumbStop.Offset = topOffset;
             bottomThumStop.Offset = 1 - bottomOffset;
         }
