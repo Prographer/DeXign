@@ -53,7 +53,7 @@ namespace DeXign.Windows
             {
                 project = DXProject.OpenDialog();
             }
-
+            
             if (project == null)
                 return;
 

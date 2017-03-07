@@ -176,6 +176,7 @@
     <Compile Include="IO\Project\DXProjectManifest.cs" />
     <Compile Include="IO\Xml\PModelXmlReader.cs" />
     <Compile Include="IO\Xml\PModelXmlWriter.cs" />
+    <Compile Include="MVVM\Behavior\ScrollBoundShadowEffect.cs" />
     <Compile Include="MVVM\Commands\ActionCommand.cs" />
     <Compile Include="MVVM\Commands\DialogCommands.cs" />
     <Compile Include="MVVM\Commands\RasableRoutedCommand.cs" />
@@ -398,9 +399,7 @@
       <Name>DeXign.Extension</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="MVVM\Behavior\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\Images\GridLayoutTooltip.png" />
     <Resource Include="Resources\Images\ScrollViewTooltip.png" />

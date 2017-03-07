@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DeXign"
         xmlns:c="clr-namespace:DeXign.Controls"
+        xmlns:b="clr-namespace:DeXign.Behavior"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:shell="clr-namespace:Microsoft.Windows.Shell"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
@@ -76,7 +78,7 @@
                                Width="25" Height="25"
                                CornerRadius="12.5" BorderThickness="0" 
                                Background="Transparent">
-                    <Path Data="{StaticResource Path.Close}" Width="15" Height="15" Stretch="Fill" Fill="#B1B1B1"/>
+                    <Path Data="{StaticResource Path.Close}" Width="15" Height="15" Stretch="Fill" Fill="#B1B1B1" IsHitTestVisible="False"/>
                 </c:RoundButton>
             </Grid>
             
@@ -114,11 +116,44 @@
 
                 <Rectangle Grid.Column="1" Fill="#525252" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
-                <StackPanel Grid.Column="2" Margin="40,0,0,0">
-                    <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
-                                           CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
-                                           Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
-                </StackPanel>
+                <ScrollViewer Grid.Column="2" Margin="40,0,0,0">
+                    <i:Interaction.Behaviors>
+                        <b:ScrollBoundShadowEffect/>
+                    </i:Interaction.Behaviors>
+                    
+                    <StackPanel>
+                        <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
+                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
+                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+                        <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
+                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
+                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+                        <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
+                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
+                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+                        <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
+                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
+                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+                        <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
+                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
+                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+                        <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
+                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
+                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+                        <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
+                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
+                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+                        <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
+                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
+                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+                        <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
+                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
+                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+                        <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
+                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
+                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+                    </StackPanel>
+                </ScrollViewer>
             </Grid>
             
             <!-- Bottom -->
