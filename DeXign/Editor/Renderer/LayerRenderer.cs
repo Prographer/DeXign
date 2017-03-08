@@ -232,14 +232,28 @@ namespace DeXign.Editor.Renderer
             #endregion
         }
 
-        public virtual void OnAddedChild(IRenderer child, Point position)
+        public void AddChild(IRenderer child, Point position)
         {
             this.RendererChildren.Add(child);
+
+            if (!DesignTime.IsLocked(this))
+                OnAddedChild(child, position);
         }
 
-        public virtual void OnRemovedChild(IRenderer child)
+        public void RemoveChild(IRenderer child)
         {
             this.RendererChildren.Remove(child);
+
+            if (!DesignTime.IsLocked(this))
+                OnRemovedChild(child);
+        }
+
+        protected virtual void OnAddedChild(IRenderer child, Point position)
+        { 
+        }
+
+        protected virtual void OnRemovedChild(IRenderer child)
+        {
         }
         
         protected override void OnRender(DrawingContext dc)

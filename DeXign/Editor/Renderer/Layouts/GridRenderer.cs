@@ -81,7 +81,7 @@ namespace DeXign.Editor.Renderer
             return item != null;
         }
 
-        public override void OnAddedChild(IRenderer child, Point position)
+        protected override void OnAddedChild(IRenderer child, Point position)
         {
             base.OnAddedChild(child, position);
 

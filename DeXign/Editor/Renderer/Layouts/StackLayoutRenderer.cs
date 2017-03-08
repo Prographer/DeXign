@@ -52,7 +52,7 @@ namespace DeXign.Editor.Renderer
             SetSize(100, 100);
         }
         
-        public override void OnAddedChild(IRenderer child, Point position)
+        protected override void OnAddedChild(IRenderer child, Point position)
         {
             base.OnAddedChild(child, position);
 

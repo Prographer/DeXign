@@ -19,9 +19,9 @@ namespace DeXign.Editor
 
         FrameworkElement Element { get; }
         PObject Model { get; set; }
-
-        void OnAddedChild(IRenderer child, Point position);
-        void OnRemovedChild(IRenderer child);
+        
+        void AddChild(IRenderer child, Point position);
+        void RemoveChild(IRenderer child);
     }
 
     public interface IRenderer<TModel, TElement> : IRenderer
