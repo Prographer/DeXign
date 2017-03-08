@@ -26,6 +26,7 @@ using DeXign.Converter;
 using DeXign.Task;
 using DeXign.IO;
 using System.Collections;
+using DeXign.Utilities;
 
 namespace DeXign.Editor.Controls
 {
@@ -444,6 +445,9 @@ namespace DeXign.Editor.Controls
         private void DestroyElement(FrameworkElement parent, FrameworkElement element)
         {
             IRenderer childRenderer = element.GetRenderer();
+
+            // Unregister On Shared model store
+            GlobalModels.UnRegister(childRenderer.Model);
 
             // Dispose
             if (childRenderer is IDisposable)

@@ -4,6 +4,7 @@ using WPFExtension;
 namespace DeXign.Core.Controls
 {
     [DesignElement(Category = Constants.Designer.Control, DisplayName = "진행바")]
+    [DesignElementIgnore("Background")]
     [XForms("Xamarin.Forms", "ProgressBar")]
     public class PProgressBar : PControl
     {

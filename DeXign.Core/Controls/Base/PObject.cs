@@ -12,7 +12,7 @@ namespace DeXign.Core
             DependencyHelper.Register();
 
         // for resources
-        public string Id { get; set; }
+        public Guid Guid { get; set; }
 
         [DesignElement(DisplayName = "이름", Visible = false)]
         public string Name

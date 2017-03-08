@@ -11,6 +11,7 @@ using DeXign.Editor.Layer;
 
 using WPFExtension;
 using DeXign.Core;
+using DeXign.Utilities;
 
 namespace DeXign.Editor.Renderer
 {
@@ -80,6 +81,11 @@ namespace DeXign.Editor.Renderer
         {
             var view = (FrameworkElement)Activator.CreateInstance(rendererAttr.ViewType);
             var renderer = (IRenderer)Activator.CreateInstance(rendererAttr.RendererType, view, model);
+            
+            if (model.Guid.Equals(Guid.Empty))
+                model.Guid = Guid.NewGuid();
+
+            GlobalModels.Register(model.Guid, model);
 
             // metadata setting
             renderer.Metadata.CreatedTime = DateTime.Now;

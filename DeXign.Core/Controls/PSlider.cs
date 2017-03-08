@@ -5,6 +5,7 @@ using WPFExtension;
 namespace DeXign.Core.Controls
 {
     [DesignElement(Category = Constants.Designer.Control, DisplayName = "슬라이더")]
+    [DesignElementIgnore("Background")]
     [XForms("Xamarin.Forms", "Slider")]
     public class PSlider : PControl
     {
