@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace DeXign.Editor
 {
@@ -12,6 +13,8 @@ namespace DeXign.Editor
 
     public class Guideline
     {
+        public bool IsVisible { get; set; }
+
         public Point Point1 { get; set; }
         public Point Point2 { get; set; }
 
@@ -43,6 +46,17 @@ namespace DeXign.Editor
             this.Point1 = point1;
             this.Point2 = point2;
             this.SnappedGuideline = null;
+        }
+
+        public static double Distance(Guideline gl1, Guideline gl2)
+        {
+            if (gl2.Slope != gl1.Slope)
+                return -1;
+
+            if (gl2.IsVertical)
+                return Math.Abs(gl2.Point1.X - gl1.Point1.X);
+            else
+                return Math.Abs(gl2.Point1.Y - gl1.Point1.Y);
         }
     }
 }

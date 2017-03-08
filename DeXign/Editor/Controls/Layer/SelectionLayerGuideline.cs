@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeXign.Extension;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -56,6 +57,17 @@ namespace DeXign.Editor.Layer
             };
         }
 
+        private bool IsAdjacent(Guideline gl1, Guideline gl2, Size size)
+        {
+            if (gl1 == null || gl2 == null)
+                return false;
+
+            double distnace = Guideline.Distance(gl1, gl2);
+            double length = gl1.IsVertical ? size.Width : size.Height;
+
+            return DoubleEx.EpsilonEqauls(distnace, length);
+        }
+
         private void MarginSnap(ref Thickness margin)
         {
             if (Keyboard.IsKeyDown(Key.LeftCtrl))
@@ -64,7 +76,6 @@ namespace DeXign.Editor.Layer
                 return;
             }
 
-            Guideline[] items = RootParent.GuideLayer.InvalidateSnappedGuidelines(this).ToArray();
             Size parentSize = Parent.Element.RenderSize;
             Size size = AdornedElement.RenderSize;
 
@@ -84,18 +95,63 @@ namespace DeXign.Editor.Layer
                     (stackPanel.Orientation == Orientation.Vertical);
             }
 
-            for (int i = 0; i < items.Length; i++)
+            Guideline guidedLeft = null;
+            Guideline guidedTop = null;
+            Guideline guidedRight = null;
+            Guideline guidedBottom = null;
+            
+            foreach (Guideline item in RootParent.GuideLayer.InvalidateSnappedGuidelines(this))
             {
-                Point pRelative = RootParent.TranslatePoint(items[i].Point1, Parent.Element);
-                GuidelineDirection direction = items[i].SnappedGuideline.Direction;
+                bool awHozitonal = false;
+                bool awVertical = false;
 
+                Point pRelative = RootParent.TranslatePoint(item.Point1, Parent.Element);
+                GuidelineDirection direction = item.SnappedGuideline.Direction;
+
+                // 대칭 가이드라인 탐색
+                switch (direction)
+                {
+                    case GuidelineDirection.Left:
+                        if (guidedRight == null || IsAdjacent(guidedRight, item, size))
+                        {
+                            guidedLeft = item;
+                            awHozitonal = true;
+                        }
+                        break;
+
+                    case GuidelineDirection.Top:
+                        if (guidedBottom == null || IsAdjacent(guidedBottom, item, size))
+                        {
+                            guidedTop = item;
+                            awVertical = true;
+                        }
+                        break;
+
+                    case GuidelineDirection.Right:
+                        if (guidedLeft == null || IsAdjacent(guidedLeft, item, size))
+                        {
+                            guidedRight = item;
+                            awHozitonal = true;
+                        }
+                        break;
+
+                    case GuidelineDirection.Bottom:
+                        if (guidedTop == null || IsAdjacent(guidedTop, item, size))
+                        {
+                            guidedBottom = item;
+                            awVertical = true;
+                        }
+                        break;
+                }
+
+                // 마진 처리
                 switch (direction)
                 {
                     case GuidelineDirection.Left:
                     case GuidelineDirection.Right:
-                        if (!allowHorizontal)
-                            break;
-
+                        if (!awHozitonal || !allowHorizontal)
+                            continue;
+                        
                         switch (ClipData.HorizontalAlignment)
                         {
                             case HorizontalAlignment.Left:
@@ -107,7 +163,7 @@ namespace DeXign.Editor.Layer
                             case HorizontalAlignment.Right:
                                 margin.Right = parentSize.Width - pRelative.X - size.Width;
                                 if (direction == GuidelineDirection.Right)
-                                    margin.Left += size.Width;
+                                    margin.Right += size.Width;
                                 break;
 
                             case HorizontalAlignment.Center:
@@ -134,9 +190,9 @@ namespace DeXign.Editor.Layer
 
                     case GuidelineDirection.Top:
                     case GuidelineDirection.Bottom:
-                        if (!allowVertical)
-                            break;
-
+                        if (!awVertical || !allowVertical)
+                            continue;
+                        
                         switch (ClipData.VerticalAlignment)
                         {
                             case VerticalAlignment.Top:
@@ -148,7 +204,7 @@ namespace DeXign.Editor.Layer
                             case VerticalAlignment.Bottom:
                                 margin.Bottom = parentSize.Height - pRelative.Y - size.Height;
                                 if (direction == GuidelineDirection.Bottom)
-                                    margin.Top += size.Height;
+                                    margin.Bottom += size.Height;
                                 break;
 
                             case VerticalAlignment.Center:
@@ -173,6 +229,8 @@ namespace DeXign.Editor.Layer
                         }
                         break;
                 }
+
+                item.IsVisible = true;
             }
         }
     }

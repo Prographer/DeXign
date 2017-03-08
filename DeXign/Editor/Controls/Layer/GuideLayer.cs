@@ -47,8 +47,20 @@ namespace DeXign.Editor.Layer
             // TODO
             var pen = new Pen(Brushes.Red, 1 / ScaleX);
 
+            int n = 0;
             foreach (Guideline item in SnapItems)
+            {
                 dc.DrawLine(pen, item.Point1, item.Point2);
+
+                var t = new FormattedText(
+                    (n++).ToString(), System.Globalization.CultureInfo.InvariantCulture,
+                    FlowDirection.LeftToRight,
+                    new Typeface("Verdana"),
+                    12,
+                    Brushes.Blue);
+
+                dc.DrawText(t, item.Point1);
+            }
 
             dc.Pop();
         }
@@ -68,30 +80,33 @@ namespace DeXign.Editor.Layer
                 if (gl.SnappedGuideline == null)
                     continue;
 
+                yield return gl;
+
+                if (!gl.IsVisible)
+                    continue;
+
                 if (gl.IsVertical)
                 {
                     SnapItems.Add(
                         new Guideline(
                             new Point(
-                                Math.Floor(gl.Point1.X),
-                                Math.Floor(Math.Min(gl.Point1.Y, gl.SnappedGuideline.Point1.Y))),
+                                gl.Point1.X,
+                                Math.Min(gl.Point1.Y, gl.SnappedGuideline.Point1.Y)),
                             new Point(
-                                Math.Floor(gl.Point1.X),
-                                Math.Floor(Math.Max(gl.Point2.Y, gl.SnappedGuideline.Point2.Y)))));
+                                gl.Point1.X,
+                                Math.Max(gl.Point2.Y, gl.SnappedGuideline.Point2.Y))));
                 }
                 else
                 {
                     SnapItems.Add(
                         new Guideline(
                             new Point(
-                                Math.Floor(Math.Min(gl.Point1.X, gl.SnappedGuideline.Point1.X)),
-                                Math.Floor(gl.Point1.Y)),
+                                Math.Min(gl.Point1.X, gl.SnappedGuideline.Point1.X),
+                                gl.Point1.Y),
                             new Point(
-                                Math.Floor(Math.Max(gl.Point2.X, gl.SnappedGuideline.Point2.X)),
-                                Math.Floor(gl.Point2.Y))));
+                                Math.Max(gl.Point2.X, gl.SnappedGuideline.Point2.X),
+                                gl.Point2.Y)));
                 }
-
-                yield return gl;
             }
 
             this.InvalidateVisual();
@@ -107,15 +122,10 @@ namespace DeXign.Editor.Layer
                         return target.GetGuidableLines()
                             .Count(tGl =>
                             {
-                                if (tGl.Slope != gl.Slope)
-                                    return false;
-                                
-                                double length;
+                                double length = Guideline.Distance(gl, tGl);
 
-                                if (tGl.IsVertical)
-                                    length = Math.Abs(tGl.Point1.X - gl.Point1.X);
-                                else
-                                    length = Math.Abs(tGl.Point1.Y - gl.Point1.Y);
+                                if (length == -1)
+                                    return false;
 
                                 if (length <= SnapThreshold / ScaleX)
                                 {
@@ -125,6 +135,10 @@ namespace DeXign.Editor.Layer
 
                                 return false;
                             }) > 0;
+                    }).
+                    OrderBy(gl =>
+                    {
+                        return Guideline.Distance(gl, gl.SnappedGuideline);
                     }))
                 {
                     yield return gl;
