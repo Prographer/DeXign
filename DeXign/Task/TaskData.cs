@@ -8,6 +8,10 @@ namespace DeXign.Task
         public Action DoAction { get; set; }
         public Action UndoAction { get; set; }
 
+        public bool IsStable { get { return moved % 2 == 0; } }
+
+        int moved = 0;
+
         public TaskData(object source, Action doAction, Action undoAction)
         {
             this.Source = source;
@@ -17,11 +21,13 @@ namespace DeXign.Task
 
         public virtual void Do()
         {
+            moved++;
             DoAction?.Invoke();
         }
 
         public virtual void Undo()
         {
+            moved++;
             UndoAction?.Invoke();
         }
 

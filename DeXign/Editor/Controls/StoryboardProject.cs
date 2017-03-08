@@ -84,7 +84,7 @@ namespace DeXign.Editor.Controls
             AddElement(this, visual);
             AddScreenCore(visual as ContentControl);
 
-            DesignTime.Lock(modelRenderer as ControlLayer);
+            DesignTime.Unlock(modelRenderer as ControlLayer);
         }
 
         private void LoadElementRenderer(PObject parent, PObject model)
@@ -103,7 +103,7 @@ namespace DeXign.Editor.Controls
 
             AddElement(parentRenderer.Element, visual);
 
-            DesignTime.Lock(modelRenderer as ControlLayer);
+            DesignTime.Unlock(modelRenderer as ControlLayer);
         }
 
         private void LoadRendererCore(IRenderer renderer)

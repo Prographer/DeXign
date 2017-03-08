@@ -137,7 +137,7 @@ namespace DeXign.Task
             foreach (TaskData task in UndoStack.ToArray().Reverse())
             {
                 // 삭제될 Task의 Source를 참조하고 있는지 확인함
-                if (DoStack.Count(t => t.Source.Equals(task.Source)) == 0)
+                if (!task.IsStable && DoStack.Count(t => t.Source.Equals(task.Source)) == 0)
                     task.Dispose();
             }
 
