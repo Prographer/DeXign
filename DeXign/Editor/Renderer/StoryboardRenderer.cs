@@ -29,12 +29,12 @@ namespace DeXign.Editor.Renderer
             this.RendererChildren = new List<IRenderer>();
         }
 
-        public void OnAddedChild(IRenderer child, Point position)
+        public void AddChild(IRenderer child, Point position)
         {
             this.RendererChildren.Add(child);
         }
 
-        public void OnRemovedChild(IRenderer child)
+        public void RemoveChild(IRenderer child)
         {
             this.RendererChildren.Remove(child);
         }

@@ -21,6 +21,9 @@ namespace DeXign.Editor
         public static readonly DependencyProperty DesignTagProperty =
             DependencyHelper.RegisterAttached<object>();
 
+        public static readonly DependencyProperty LockProperty =
+            DependencyHelper.RegisterAttached<bool>();
+
         #region [ Size ]
         public static void SetDesignWidth(this DependencyObject obj, double value)
         {
@@ -74,6 +77,23 @@ namespace DeXign.Editor
         public static object GetDesignTag(this DependencyObject obj)
         {
             return obj.GetValue(DesignTagProperty);
+        }
+        #endregion
+
+        #region [ Lock ]
+        public static void Lock(this DependencyObject obj)
+        {
+            obj.SetValue(LockProperty, true);
+        }
+
+        public static void Unlock(this DependencyObject obj)
+        {
+            obj.SetValue(LockProperty, false);
+        }
+
+        public static bool IsLocked(this DependencyObject obj)
+        {
+            return (bool)obj.GetValue(LockProperty);
         }
         #endregion
     }

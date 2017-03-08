@@ -76,7 +76,7 @@ namespace DeXign.Editor.Renderer
             return Theme.ThemeKeyStore.Screen;
         }
 
-        public override void OnAddedChild(IRenderer child, Point position)
+        protected override void OnAddedChild(IRenderer child, Point position)
         {
             base.OnAddedChild(child, position);
 

@@ -394,7 +394,7 @@ namespace DeXign.Editor.Controls
                 list => list.SafeAdd(element));          // List Content
             
             // Notice child added
-            parentRenderer?.OnAddedChild(childRenderer, childRenderer.Metadata.CreatedPosition);
+            parentRenderer?.AddChild(childRenderer, childRenderer.Metadata.CreatedPosition);
         }
 
         /// <summary>
@@ -439,7 +439,7 @@ namespace DeXign.Editor.Controls
                 list => list.SafeRemove(element));   // List Content
             
             // Notice child removed 
-            parentRenderer?.OnRemovedChild(childRenderer);
+            parentRenderer?.RemoveChild(childRenderer);
         }
 
         private void DestroyElement(FrameworkElement parent, FrameworkElement element)
