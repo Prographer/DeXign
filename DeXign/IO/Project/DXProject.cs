@@ -1,6 +1,7 @@
 ﻿using DeXign.Core;
 using DeXign.Core.Controls;
 using DeXign.Editor.Renderer;
+using DeXign.Extension;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ namespace DeXign.IO
 
         #region [ Local Variable ]
         List<PackageFile> packageFiles;
+        Dictionary<Guid, RendererSurface> rendererInfos;
         #endregion
 
         #region [ Constructor ]
@@ -54,6 +56,7 @@ namespace DeXign.IO
                 LoadPackages();
                 LoadManifest();
                 LoadScreens();
+                LoadScreenRenderers();
             }
             catch (Exception ex)
             {
@@ -114,6 +117,24 @@ namespace DeXign.IO
                 }
             }
         }
+
+        private void LoadScreenRenderers()
+        {
+            var rendererFiles = packageFiles
+                .Where(pf => pf.Name.StartsWith($"{ScreenRendererPackageFile.Path}\\"));
+
+            rendererInfos = new Dictionary<Guid, RendererSurface>();
+
+            foreach (PackageFile file in rendererFiles)
+            {
+                var reader = new ObjectXmlReader(file.Stream);
+
+                var container = reader.ReadObject() as RendererContainer;
+
+                foreach (var r in container.Items)
+                    rendererInfos[r.Guid] = r;
+            }
+        }
         #endregion
 
         #region [ Project Handling ]
@@ -147,6 +168,16 @@ namespace DeXign.IO
             // Save To File
             using (var fs = File.Open(FileName, FileMode.OpenOrCreate))
                 Package.Packaging(fs, packageFiles);
+        }
+        #endregion
+
+        #region [ Method ]
+        public RendererSurface GetRendererSurface(Guid guid)
+        {
+            if (BoolEx.Nomalize(rendererInfos?.ContainsKey(guid)))
+                return rendererInfos[guid];
+
+            return null;
         }
         #endregion
 

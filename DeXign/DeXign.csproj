@@ -172,7 +172,7 @@
     <Compile Include="Editor\Renderer\StoryboardRenderer.cs" />
     <Compile Include="IO\Packages\ManifestPackageFile.cs" />
     <Compile Include="IO\Packages\ModelPackageFile.cs" />
-    <Compile Include="IO\Packages\ScreenRenderer\Renderers.cs" />
+    <Compile Include="IO\Packages\ScreenRenderer\RendererContainer.cs" />
     <Compile Include="IO\Packages\ScreenRenderer\RendererSurface.cs" />
     <Compile Include="IO\Packages\ScreenRenderer\ScreenRendererPackageFile.cs" />
     <Compile Include="IO\Project\DXProject.cs" />

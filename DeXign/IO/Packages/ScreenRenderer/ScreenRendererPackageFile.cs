@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace DeXign.IO
 { 
-    internal class ScreenRendererPackageFile : ModelPackageFile<Renderers>
+    internal class ScreenRendererPackageFile : ModelPackageFile<RendererContainer>
     {
         public const string Path = "Renderers";
 
@@ -22,7 +22,7 @@ namespace DeXign.IO
 
             childrens.Insert(0, screenRenderer);
 
-            this.Model = new Renderers()
+            this.Model = new RendererContainer()
             {
                 Items = childrens
                     .Select(c => new RendererSurface()

@@ -11,6 +11,7 @@ using DeXign.Utilities;
 using System.Collections.Generic;
 using System.Windows;
 using DeXign.Editor.Layer;
+using DeXign.IO;
 
 namespace DeXign.Editor.Controls
 {
@@ -28,7 +29,7 @@ namespace DeXign.Editor.Controls
             {
                 var screenDump = new DumpDependencyObject(screen);
                 LoadScreenRenderer(screen); // Load Renderer
-                
+
                 // Roll Back
                 screenDump.RollBack();
                 
@@ -74,6 +75,8 @@ namespace DeXign.Editor.Controls
             if (visual == null)
                 return;
 
+            LoadRendererCore(visual.GetRenderer());
+
             AddElement(this, visual);
             AddScreenCore(visual as ContentControl);
         }
@@ -88,7 +91,17 @@ namespace DeXign.Editor.Controls
             IRenderer parentRenderer = parent.GetRenderer();
             IRenderer modelRenderer = model.GetRenderer();
 
+            LoadRendererCore(modelRenderer);
+
             AddElement(parentRenderer.Element, visual);
+        }
+
+        private void LoadRendererCore(IRenderer renderer)
+        {
+            RendererSurface surface = Model.Project.GetRendererSurface(renderer.Model.Guid);
+
+            renderer.Metadata.CreatedPosition = surface.Metadata.CreatedPosition;
+            renderer.Metadata.CreatedTime = surface.Metadata.CreatedTime;
         }
     }
 }

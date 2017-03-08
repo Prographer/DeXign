@@ -8,5 +8,10 @@ namespace DeXign.Extension
         {
             return value ? Visibility.Visible : invisible;
         }
+
+        public static bool Nomalize(this bool? value)
+        {
+            return value != null && value.Value;
+        }
     }
 }

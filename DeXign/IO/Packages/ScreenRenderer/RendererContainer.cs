@@ -2,7 +2,7 @@
 
 namespace DeXign.IO
 {
-    public class Renderers
+    public class RendererContainer
     {
         public List<RendererSurface> Items { get; set; }
     }
