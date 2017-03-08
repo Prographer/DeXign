@@ -1,5 +1,6 @@
 ﻿using DeXign.Core;
 using DeXign.Core.Controls;
+using DeXign.Editor.Renderer;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -98,9 +99,9 @@ namespace DeXign.IO
             foreach (PackageFile file in screenFiles)
             {
                 string name = Path.GetFileNameWithoutExtension(file.Name);
-                var reader = new PModelXmlReader(file.Stream);
+                var reader = new ObjectXmlReader(file.Stream);
 
-                object model = reader.ReadModel();
+                object model = reader.ReadObject();
 
                 if (model is PContentPage)
                 {
@@ -137,6 +138,11 @@ namespace DeXign.IO
             foreach (var screen in Screens)
                 packageFiles.Add(
                     new ScreenPackageFile(screen));
+
+            // Set Renderers
+            foreach (var screen in Screens)
+                packageFiles.Add(
+                    new ScreenRendererPackageFile(screen.GetRenderer() as ScreenRenderer));
 
             // Save To File
             using (var fs = File.Open(FileName, FileMode.OpenOrCreate))

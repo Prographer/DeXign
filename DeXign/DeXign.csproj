@@ -172,10 +172,13 @@
     <Compile Include="Editor\Renderer\StoryboardRenderer.cs" />
     <Compile Include="IO\Packages\ManifestPackageFile.cs" />
     <Compile Include="IO\Packages\ModelPackageFile.cs" />
+    <Compile Include="IO\Packages\ScreenRenderer\Renderers.cs" />
+    <Compile Include="IO\Packages\ScreenRenderer\RendererSurface.cs" />
+    <Compile Include="IO\Packages\ScreenRenderer\ScreenRendererPackageFile.cs" />
     <Compile Include="IO\Project\DXProject.cs" />
     <Compile Include="IO\Project\DXProjectManifest.cs" />
-    <Compile Include="IO\Xml\PModelXmlReader.cs" />
-    <Compile Include="IO\Xml\PModelXmlWriter.cs" />
+    <Compile Include="IO\Xml\ObjectXmlReader.cs" />
+    <Compile Include="IO\Xml\ObjectXmlWriter.cs" />
     <Compile Include="MVVM\Behavior\ScrollBoundShadowEffect.cs" />
     <Compile Include="MVVM\Commands\ActionCommand.cs" />
     <Compile Include="MVVM\Commands\DialogCommands.cs" />

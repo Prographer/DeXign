@@ -2,18 +2,15 @@
 using System.Xml;
 using System.Xaml;
 
-using DeXign.Core;
-using System;
-
 namespace DeXign.IO
 {
-    public class PModelXmlWriter : StreamWriter
+    public class ObjectXmlWriter : StreamWriter
     {
-        public PModelXmlWriter(Stream stream) : base(stream)
+        public ObjectXmlWriter(Stream stream) : base(stream)
         {
         }
 
-        public void WriteModel(PObject model)
+        public void WriteObject(object obj)
         {
             var settings = new XmlWriterSettings();
 
@@ -24,7 +21,7 @@ namespace DeXign.IO
 
             var writer = XmlWriter.Create(this.BaseStream, settings);
 
-            XamlServices.Save(writer, model);
+            XamlServices.Save(writer, obj);
         }
     }
 }

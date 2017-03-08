@@ -7,6 +7,8 @@ namespace DeXign.IO
 {
     internal class ScreenPackageFile : ModelPackageFile<PContentPage>
     {
+        public const string Path = "Screens";
+
         public ScreenPackageFile(PContentPage model) : base(model)
         {
         }
@@ -15,7 +17,7 @@ namespace DeXign.IO
         {
             base.CreateStream();
 
-            this.Name = $"Screens\\{LayoutExtension.GetPageName(this.Model)}.xml";
+            this.Name = $"{Path}\\{LayoutExtension.GetPageName(this.Model)}.xml";
         }
     }
 }

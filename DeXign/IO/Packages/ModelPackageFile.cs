@@ -2,14 +2,15 @@
 using System.IO;
 using System.Windows;
 
-using DeXign.Core;
-
 namespace DeXign.IO
 {
     internal abstract class ModelPackageFile<T> : PackageFile
-        where T : PObject
     {
         public T Model { get; set; }
+
+        public ModelPackageFile()
+        {
+        }
 
         public ModelPackageFile(T model)
         {
@@ -23,9 +24,9 @@ namespace DeXign.IO
             try
             {
                 var xmlStream = new MemoryStream();
-                var xmlWriter = new PModelXmlWriter(xmlStream);
+                var xmlWriter = new ObjectXmlWriter(xmlStream);
 
-                xmlWriter.WriteModel(this.Model);
+                xmlWriter.WriteObject(this.Model);
 
                 this.Stream = xmlStream;
             }
