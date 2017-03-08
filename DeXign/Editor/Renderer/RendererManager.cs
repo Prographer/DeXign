@@ -110,6 +110,18 @@ namespace DeXign.Editor.Renderer
         {
             return (IRenderer)element.GetValue(RendererProperty);
         }
+
+        public static IRenderer GetRendererFromGuid(this Guid guid)
+        {
+            if (GlobalModels.HasModel(guid))
+            {
+                PObject model = GlobalModels.GetModel<PObject>(guid);
+
+                return model.GetRenderer();
+            }
+
+            return null;
+        }
         #endregion
     }
 }
