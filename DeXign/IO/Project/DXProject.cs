@@ -185,7 +185,7 @@ namespace DeXign.IO
         #region [ Static Method ]
         public static DXProject Create(string path, DXProjectManifest manifest)
         {
-            RecentDB.AddFile(path);
+            RecentDB.AddFile(Path.GetFullPath(path));
 
             return new DXProject(path, manifest);
         }
@@ -198,7 +198,7 @@ namespace DeXign.IO
             var proj = new DXProject(path);
 
             if (proj.CanOpen)
-                RecentDB.AddFile(path);
+                RecentDB.AddFile(Path.GetFullPath(path));
 
             return proj;
         }
