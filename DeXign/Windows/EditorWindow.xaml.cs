@@ -132,7 +132,7 @@ namespace DeXign.Windows
         public void CreateNewProject()
         {
             var projDialog = new ProjectDialog();
-
+            
             if (projDialog.ShowDialog())
             {
                 var project = DXProject.Create(

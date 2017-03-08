@@ -63,6 +63,11 @@ namespace DeXign.Windows
                 new CommandBinding(
                     DialogCommands.CancelCommand, Cancel_Execute));
         }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+        }
         #endregion
 
         #region [ Commands ]

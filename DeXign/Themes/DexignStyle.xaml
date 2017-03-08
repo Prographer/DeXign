@@ -658,18 +658,38 @@
     </Style>
     
     <Style TargetType="{x:Type c:TextCell}" BasedOn="{StaticResource {x:Type c:ContentCell}}">
-        <Setter Property="Content">
+        <Setter Property="Template">
             <Setter.Value>
-                <TextBox Text="{Binding Text, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type c:TextCell}}}"/>
+                <ControlTemplate TargetType="{x:Type c:TextCell}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Bullet"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{TemplateBinding Header}" TextAlignment="Right"/>
+                        <TextBox Text="{Binding Text, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type c:TextCell}}}" Grid.Column="1" Margin="16,0,0,0"/>
+                    </Grid>
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
     <Style TargetType="{x:Type c:CheckBoxCell}">
-        <Setter Property="Content">
+        <Setter Property="Template">
             <Setter.Value>
-                <CheckBox IsChecked="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type c:CheckBoxCell}}}"
-                          Content="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type c:CheckBoxCell}}}"/>
+                <ControlTemplate TargetType="{x:Type c:CheckBoxCell}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Bullet"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{TemplateBinding Header}" TextAlignment="Right"/>
+                        <CheckBox IsChecked="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type c:CheckBoxCell}}}"
+                                  Content="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type c:CheckBoxCell}}}" Grid.Column="1" Margin="16,0,0,0"/>
+                    </Grid>
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>

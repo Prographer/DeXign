@@ -6,7 +6,7 @@ namespace DeXign.Windows.Pages
     public partial class NewProjectPage1 : DialogPage
     {
         public string AppName { get; set; }
-
+        
         public NewProjectPage1()
         {
             InitializeComponent();
