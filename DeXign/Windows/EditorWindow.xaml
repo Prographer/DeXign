@@ -104,34 +104,7 @@
 
         <GridSplitter Grid.Column="1" Background="#C0C0C0" Width="2" HorizontalAlignment="Center"/>
 
-        <TabControl x:Name="tabControl" Grid.Column="2" SelectionChanged="tabControl_SelectionChanged">
-            <c:ClosableTabItem Header="Welcome">
-                <Frame>
-                    <Frame.Content>
-                        <p:WelcomePage/>
-                    </Frame.Content>
-                </Frame>
-            </c:ClosableTabItem>
-            <c:ClosableTabItem Header="Debugging">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Text="Debugging Page" Foreground="Red" Margin="8" FontSize="24"/>
-
-                    <Grid Grid.Row="1">
-                        <!-- TODO Debug -->
-                        <c:ProtrudedScrollViewer Width="200" Height="200" HorizontalScrollBarVisibility="Auto">
-                            <StackPanel Orientation="Vertical">
-                                <Rectangle Width="1000" Height="1000"/>
-                            </StackPanel>
-                        </c:ProtrudedScrollViewer>
-                    </Grid>
-                </Grid>
-            </c:ClosableTabItem>
-        </TabControl>
+        <TabControl x:Name="tabControl" Grid.Column="2" SelectionChanged="tabControl_SelectionChanged"/>
 
         <GridSplitter Grid.Column="3" Background="#C0C0C0" Width="2" HorizontalAlignment="Center"/>
 

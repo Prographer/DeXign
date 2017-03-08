@@ -28,9 +28,19 @@ namespace DeXign.Windows
 
         private void NewProject_Execute(object sender, ExecutedRoutedEventArgs e)
         {
-            // TODO: Create New Project
-            this.Hide();
-            ShowEditorWindow(new EditorWindow());
+            var projDialog = new ProjectDialog();
+
+            if (!projDialog.ShowDialog())
+                return;
+
+            var project = DXProject.Create(
+                $"{projDialog.AppName}.dx",
+                new DXProjectManifest()
+                {
+                    ProjectName = projDialog.AppName
+                });
+
+            ShowEditorWindow(new EditorWindow(project));
         }
 
         private void OpenProject_Execute(object sender, ExecutedRoutedEventArgs e)
@@ -57,11 +67,13 @@ namespace DeXign.Windows
             if (project == null)
                 return;
 
-            // TODO: Open Project
+            ShowEditorWindow(new EditorWindow(project));
         }
 
         private void ShowEditorWindow(EditorWindow window)
         {
+            this.Hide();
+
             window.Closed += Window_Closed;
             window.Show();
         }

@@ -20,7 +20,7 @@ namespace DeXign.Windows
     {
         public MainModel Model { get; set; }
 
-        public EditorWindow()
+        public EditorWindow(DXProject project)
         {
             InitializeComponent();
             InitializeCommands();
@@ -29,8 +29,10 @@ namespace DeXign.Windows
             Model = new MainModel();
             this.DataContext = Model;
             
-            // test
             GroupSelector.SelectedItemChanged += GroupSelector_SelectedItemChanged;
+
+            // Load
+            OpenStoryboardPage(project);
         }
         
         private void GroupSelector_SelectedItemChanged(object sender, EventArgs e)

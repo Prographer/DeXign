@@ -9,6 +9,8 @@ using DeXign.Extension;
 using DeXign.Task;
 using DeXign.Utilities;
 using System.Collections.Generic;
+using System.Windows;
+using DeXign.Editor.Layer;
 
 namespace DeXign.Editor.Controls
 {
@@ -26,8 +28,10 @@ namespace DeXign.Editor.Controls
             {
                 var screenDump = new DumpDependencyObject(screen);
                 LoadScreenRenderer(screen); // Load Renderer
+                
+                // Roll Back
                 screenDump.RollBack();
-
+                
                 DispatcherEx.WaitForContextIdle();
 
                 // 모든 트리 탐색
@@ -38,7 +42,7 @@ namespace DeXign.Editor.Controls
                     LoadElementRenderer(node.Parent, node.Child); // Load Renderer
 
                     IRenderer renderer = node.Child.GetRenderer();
-
+                    
                     pendingDumps.Add(renderer, elementDump);
                     renderer.ElementAttached += Storyboard_ElementAttached;
                 }
@@ -56,7 +60,7 @@ namespace DeXign.Editor.Controls
             if (pendingDumps.ContainsKey(renderer))
             {
                 // Property Rollback
-                pendingDumps[renderer].RollBack();
+                pendingDumps[renderer].CopyTo(renderer.Model);
 
                 // Remove At Pending List
                 pendingDumps.Remove(renderer);

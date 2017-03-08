@@ -1,13 +1,16 @@
 ﻿using System.Windows;
 using System.Collections.Generic;
 using System.Windows.Markup.Primitives;
+using DeXign.Core.Controls;
+using System;
+using System.Linq;
 
 namespace DeXign.Utilities
 {
     public class DumpDependencyObject
     {
         public DependencyObject Object { get; }
-        
+
         private Dictionary<DependencyProperty, object> values;
 
         public DumpDependencyObject(DependencyObject obj)
@@ -41,10 +44,11 @@ namespace DeXign.Utilities
         {
             CopyTo(this.Object);
         }
-        
+
         public void CopyTo(DependencyObject destination)
         {
-            foreach (var kv in values)
+            foreach (var kv in values
+                .OrderBy(item => item.Key.Name.Contains("Alignment") ? 1 : 2))
             {
                 destination.SetValue(kv.Key, kv.Value);
             }

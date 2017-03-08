@@ -739,7 +739,7 @@ namespace DeXign.Editor.Layer
             }
         }
 
-        private void UpdateMarginClips()
+        internal void UpdateMarginClips()
         {
             ClipData.HorizontalAlignment = AdornedElement.HorizontalAlignment;
             ClipData.VerticalAlignment = AdornedElement.VerticalAlignment;

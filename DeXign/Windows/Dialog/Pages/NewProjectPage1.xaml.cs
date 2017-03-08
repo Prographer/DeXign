@@ -10,6 +10,7 @@ namespace DeXign.Windows.Pages
         public NewProjectPage1()
         {
             InitializeComponent();
+            string t = tcAppName.Text;
         }
 
         private void AppName_TextChanged(object sender, EventArgs e)

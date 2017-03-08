@@ -238,6 +238,10 @@
     <Compile Include="Windows\Pages\StoryboardPage.xaml.cs">
       <DependentUpon>StoryboardPage.xaml</DependentUpon>
     </Compile>
+    <Page Include="Resources\Assets.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\Converters.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -385,6 +389,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\Fonts\NotoSansCJKkr-DemiLight.otf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
