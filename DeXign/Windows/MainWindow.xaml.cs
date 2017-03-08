@@ -4,6 +4,9 @@ using System.Windows.Input;
 
 using DeXign.IO;
 using DeXign.Controls;
+using DeXign.Database;
+using System.IO;
+using DeXign.Models;
 
 namespace DeXign.Windows
 {
@@ -13,6 +16,15 @@ namespace DeXign.Windows
         {
             InitializeComponent();
             InitializeCommands();
+            InitializeRecents();
+        }
+
+        private void InitializeRecents()
+        {
+            foreach (RecentItem item in RecentDB.GetFiles())
+            {
+                recentList.Items.Add(item);
+            }
         }
 
         private void InitializeCommands()
@@ -39,18 +51,41 @@ namespace DeXign.Windows
                 {
                     ProjectName = projDialog.AppName
                 });
-
+            
             ShowEditorWindow(new EditorWindow(project));
         }
 
         private void OpenProject_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             DXProject project;
-            string fileName = e.Parameter?.ToString();
+            RecentItem item = null;
 
-            if (!string.IsNullOrWhiteSpace(fileName))
+            if (e.Parameter is RecentItem)
+                item = e.Parameter as RecentItem;
+
+            if (item != null)
             {
-                project = DXProject.Open(fileName);
+                // 파일 체크
+                if (!File.Exists(item.FileName))
+                {
+                    MessageBoxResult result =
+                        MessageBox.Show(
+                            $"'{item.FileName}' 파일을 열 수 없습니다. 이 파일에 대한 참조를 최근에 사용한 파일 목록에서 제거하시겠습니까?",
+                            "DeXign",
+                            MessageBoxButton.YesNo,
+                            MessageBoxImage.Information);
+
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        recentList.Items.Remove(item);
+                        RecentDB.RemoveFile(item.FileName);
+                    }
+
+                    return;
+                }
+
+                // 프로젝트 열기
+                project = DXProject.Open(item.FileName);
 
                 if (!project.CanOpen)
                 {

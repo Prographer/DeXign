@@ -1,5 +1,6 @@
 ﻿using DeXign.Core;
 using DeXign.Core.Controls;
+using DeXign.Database;
 using DeXign.Editor.Renderer;
 using DeXign.Extension;
 using Microsoft.Win32;
@@ -184,6 +185,8 @@ namespace DeXign.IO
         #region [ Static Method ]
         public static DXProject Create(string path, DXProjectManifest manifest)
         {
+            RecentDB.AddFile(path);
+
             return new DXProject(path, manifest);
         }
 
@@ -192,7 +195,12 @@ namespace DeXign.IO
             if (!File.Exists(path))
                 throw new FileNotFoundException();
 
-            return new DXProject(path);
+            var proj = new DXProject(path);
+
+            if (proj.CanOpen)
+                RecentDB.AddFile(path);
+
+            return proj;
         }
 
         public static DXProject OpenDialog()

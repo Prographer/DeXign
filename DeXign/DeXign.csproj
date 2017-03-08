@@ -36,6 +36,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LiteDB, Version=3.0.1.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiteDB.3.0.1\lib\net35\LiteDB.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Expression.Drawing, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
@@ -114,6 +118,7 @@
     <Compile Include="Controls\Cell\TextCell.cs" />
     <Compile Include="Controls\RecentFileTextBlock.cs" />
     <Compile Include="Controls\RoundButton.cs" />
+    <Compile Include="Database\RecentDB.cs" />
     <Compile Include="Editor\Connector\LineConnector.cs" />
     <Compile Include="Editor\Connector\LineConnectorBase.cs" />
     <Compile Include="Editor\Controls\ComponentBox\ComponentBoxItemView.cs" />
@@ -202,6 +207,7 @@
     <Compile Include="MVVM\Models\DialogWindowModel.cs" />
     <Compile Include="MVVM\Models\MainModel.cs" />
     <Compile Include="MVVM\Models\PropertyGridItemModel.cs" />
+    <Compile Include="MVVM\Models\RecentItem.cs" />
     <Compile Include="MVVM\Models\StoryboardModel.cs" />
     <Compile Include="MVVM\Rules\NameScopeRule.cs" />
     <Compile Include="MVVM\Rules\NamespaceRule.cs" />
