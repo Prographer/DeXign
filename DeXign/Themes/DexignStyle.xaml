@@ -649,7 +649,7 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="{TemplateBinding Header}" TextAlignment="Right"/>
+                        <TextBlock Text="{TemplateBinding Header}" HorizontalAlignment="{TemplateBinding HeaderHorizontalAlignment}" VerticalAlignment="{TemplateBinding HeaderVerticalAlignment}"/>
                         <ContentPresenter Content="{TemplateBinding Content}" Grid.Column="1" Margin="16,0,0,0"/>
                     </Grid>
                 </ControlTemplate>
@@ -667,7 +667,7 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="{TemplateBinding Header}" TextAlignment="Right"/>
+                        <TextBlock Text="{TemplateBinding Header}" HorizontalAlignment="{TemplateBinding HeaderHorizontalAlignment}" VerticalAlignment="{TemplateBinding HeaderVerticalAlignment}"/>
                         <TextBox Text="{Binding Text, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type c:TextCell}}}" Grid.Column="1" Margin="16,0,0,0"/>
                     </Grid>
                 </ControlTemplate>
@@ -685,7 +685,7 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="{TemplateBinding Header}" TextAlignment="Right"/>
+                        <TextBlock Text="{TemplateBinding Header}" HorizontalAlignment="{TemplateBinding HeaderHorizontalAlignment}" VerticalAlignment="{TemplateBinding HeaderVerticalAlignment}"/>
                         <CheckBox IsChecked="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type c:CheckBoxCell}}}"
                                   Content="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type c:CheckBoxCell}}}" Grid.Column="1" Margin="16,0,0,0"/>
                     </Grid>
@@ -1142,6 +1142,16 @@
                         <Trigger Property="IsPressed" Value="true">
                             <Setter TargetName="border" Property="Background" Value="{Binding MouseDownBrush, RelativeSource={RelativeSource TemplatedParent}}"/>
                         </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" Value="0.3"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsHighlight" Value="true"/>
+                                <Condition Property="IsEnabled" Value="true"/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="border" Property="BorderBrush" Value="{Binding HighlightBrush, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -1290,6 +1300,166 @@
                     <ControlTemplate.Triggers>
 
                     </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- #endregion -->
+    
+    <!-- #region Flat Style -->
+    <Style x:Key="FlatCheckBoxStyle" TargetType="{x:Type CheckBox}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <Grid SnapsToDevicePixels="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Border x:Name="border" Grid.Column="0" Width="16" Height="16" BorderThickness="1" Background="#3F3F3F" BorderBrush="#5B5B5B">
+                            <Path x:Name="path" Data="{StaticResource Path.Check}" Fill="#4C4C4C" Stretch="Uniform" Width="8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                        
+                        <ContentPresenter Grid.Column="1" Content="{TemplateBinding Content}" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Brush.Flat.Accent.Dark}"/>
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Brush.Flat.Accent.LightDark}"/>
+                            <Setter TargetName="path" Property="Fill" Value="White"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Brush.Flat.Accent.LightDark}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="border" Property="BorderBrush" Value="#343434"/>
+                            <Setter TargetName="border" Property="Background" Value="#3F3F3F"/>
+                            <Setter TargetName="path" Property="Fill" Value="#343434"/>
+                        </Trigger> 
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="FlatContentCellStyle" TargetType="{x:Type c:ContentCell}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Foreground" Value="#B7B7B7"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type c:ContentCell}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Bullet"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{TemplateBinding Header}" HorizontalAlignment="{TemplateBinding HeaderHorizontalAlignment}" VerticalAlignment="{TemplateBinding HeaderVerticalAlignment}"/>
+                        <ContentPresenter Content="{TemplateBinding Content}" Grid.Column="1" Margin="16,0,0,0"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="FlatTextCellStyle" TargetType="{x:Type c:TextCell}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Foreground" Value="#B7B7B7"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type c:TextCell}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Bullet"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{TemplateBinding Header}" HorizontalAlignment="{TemplateBinding HeaderHorizontalAlignment}" VerticalAlignment="{TemplateBinding HeaderVerticalAlignment}"/>
+                        <TextBox Style="{DynamicResource FlatTextBoxStyle}" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type c:TextCell}}}" Grid.Column="1" Margin="16,0,0,0"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="FlatTextBoxStyle" TargetType="{x:Type TextBox}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderBrush" Value="#5B5B5B"/>
+        <Setter Property="SelectionBrush" Value="{StaticResource Brush.Flat.Accent}"/>
+        <Setter Property="Background" Value="{StaticResource Brush.Flat.Input.Background}"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                        <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Brush.Flat.Accent}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="FlatButtonStyle" TargetType="{x:Type c:RoundButton}" BasedOn="{StaticResource {x:Type c:RoundButton}}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="TextBlock.Foreground" Value="White"/>
+        <Setter Property="TextBlock.FontSize" Value="12"/>
+        <Setter Property="Padding" Value="10,5"/>
+        <Setter Property="CornerRadius" Value="4"/>
+
+        <Setter Property="BorderBrush" Value="#6b6b6b"/>
+        <Setter Property="Background" Value="#4C4C4C"/>
+        <Setter Property="MouseOverBrush" Value="#626262"/>
+        <Setter Property="MouseDownBrush" Value="#3C3C3C"/>
+        <Setter Property="HighlightBrush" Value="{StaticResource Brush.Flat.Accent}"/>
+    </Style>
+    
+    <Style x:Key="FlatWindowStyle" TargetType="{x:Type c:ChromeWindow}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="CaptionHeight" Value="50"/>
+        <Setter Property="FontFamily" Value="{StaticResource Font.NotoSans.Thin}"/>
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type c:ChromeWindow}">
+                    <Border>
+                        <Border Background="{StaticResource Brush.Flat.Background}" CornerRadius="10" Margin="20" shell:WindowChrome.IsHitTestVisibleInChrome="False">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="0" BlurRadius="20" Opacity="0.4"/>
+                            </Border.Effect>
+
+                            <Grid>
+                                <c:RoundButton Style="{StaticResource FlatButtonStyle}" 
+                                               Command="{x:Static SystemCommands.CloseWindowCommand}"
+                                               shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                                               VerticalAlignment="Top" HorizontalAlignment="Right"
+                                               VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                                               Padding="0"
+                                               Width="25" Height="25"
+                                               CornerRadius="12.5" BorderThickness="0" 
+                                               Background="Transparent"
+                                               Margin="20">
+                                    <Path Data="{StaticResource Path.Close}" Width="15" Height="15" Stretch="Fill" Fill="#B1B1B1" IsHitTestVisible="False"/>
+                                </c:RoundButton>
+
+                                <ContentPresenter Content="{TemplateBinding Content}"/>
+                            </Grid>
+                        </Border>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -13,4 +13,5 @@
     <cvt:BoolToVisibilityConverter x:Key="Converter.BoolToVisibility"/>
     <cvt:BoolToVisibilityConverter x:Key="Converter.NotBoolToVisibility" TrueValue="Collapsed" FalseValue="Visible"/>
     <cvt:PathToImageConverter x:Key="Converter.PathToImage"/>
+    <cvt:LowercaseConverter x:Key="Converter.Lowercase"/>
 </ResourceDictionary>

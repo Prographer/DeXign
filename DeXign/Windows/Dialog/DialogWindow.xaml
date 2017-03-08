@@ -8,11 +8,10 @@
         xmlns:shell="clr-namespace:Microsoft.Windows.Shell"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="DialogWindow" Height="306" Width="452">
+        AllowsTransparency="True"
+        WindowStyle="None"
+        Title="DialogWindow" Height="507" Width="698"
+        Style="{StaticResource FlatWindowStyle}">
 
-    <Grid>
-        <Button shell:WindowChrome.IsHitTestVisibleInChrome="True" Content="X" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="8" Command="{x:Static SystemCommands.CloseWindowCommand}"/>
-
-        <Frame Content="{Binding Page}" Margin="16" NavigationUIVisibility="Hidden"/>
-    </Grid>
+    <Frame Content="{Binding Page}" NavigationUIVisibility="Hidden"/>
 </c:ChromeWindow>

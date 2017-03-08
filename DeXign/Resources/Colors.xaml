@@ -24,6 +24,13 @@
     <Color x:Key="Color.ToolBox.Item.Fill">#EEEEEE</Color>
     <Color x:Key="Color.ToolBox.Item.Border">#DBDBDB</Color>
 
+                    <!-- Flat -->
+    <Color x:Key="Color.Flat.Accent">#00fffb</Color>
+    <Color x:Key="Color.Flat.Accent.Dark">#1D8D93</Color>
+    <Color x:Key="Color.Flat.Accent.LightDark">#29A8AE</Color>
+    <Color x:Key="Color.Flat.Background">#454545</Color>
+    <Color x:Key="Color.Flat.Input.Background">#3F3F3F</Color>
+    
     <Color x:Key="Color.Logic.Event">#FF9900</Color>
     <Color x:Key="Color.Logic.Statement">#975EE7</Color>
     <Color x:Key="Color.Logic.Comopnent">#5E8BE7</Color>
@@ -60,7 +67,14 @@
     <SolidColorBrush x:Key="Brush.Logic.Event" Color="{StaticResource Color.Logic.Event}"/>
     <SolidColorBrush x:Key="Brush.Logic.Statement" Color="{StaticResource Color.Logic.Statement}"/>
     <SolidColorBrush x:Key="Brush.Logic.Comopnent" Color="{StaticResource Color.Logic.Comopnent}"/>
-    
+
+                    <!-- Flat -->
+    <SolidColorBrush x:Key="Brush.Flat.Accent" Color="{StaticResource Color.Flat.Accent}"/>
+    <SolidColorBrush x:Key="Brush.Flat.Accent.Dark" Color="{StaticResource Color.Flat.Accent.Dark}"/>
+    <SolidColorBrush x:Key="Brush.Flat.Accent.LightDark" Color="{StaticResource Color.Flat.Accent.LightDark}"/>
+    <SolidColorBrush x:Key="Brush.Flat.Background" Color="{StaticResource Color.Flat.Background}"/>
+    <SolidColorBrush x:Key="Brush.Flat.Input.Background" Color="{StaticResource Color.Flat.Input.Background}"/>
+
     <LinearGradientBrush x:Key="Brush.Header" StartPoint="0.5,0" EndPoint="0.5,1">
         <GradientStop Color="#717171" Offset="0"/>
         <GradientStop Color="#555555" Offset="1"/>

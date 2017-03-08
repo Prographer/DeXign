@@ -10,6 +10,8 @@ namespace DeXign.Controls
 {
     class LinkTextBlock : TextBlock, ICommandSource
     {
+        public event EventHandler Click;
+
         public static readonly DependencyProperty CommandProperty =
             DependencyHelper.Register();
 
@@ -48,6 +50,8 @@ namespace DeXign.Controls
 
             if (Link != null)
                 Process.Start(Link.ToString());
+
+            Click?.Invoke(this, EventArgs.Empty);
         }
     }
 }

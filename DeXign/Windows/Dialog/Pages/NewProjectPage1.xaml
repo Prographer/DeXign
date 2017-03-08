@@ -6,44 +6,64 @@
       xmlns:local="clr-namespace:DeXign.Windows.Pages"
       xmlns:c="clr-namespace:DeXign.Controls"
       xmlns:cmd="clr-namespace:DeXign.Commands"
+      xmlns:rule="clr-namespace:DeXign.Rules"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="400"
+      d:DesignHeight="490" d:DesignWidth="690"
       Title="NewProjectPage">
 
-    <Grid>
+    <local:DialogPage.Resources>
+        <Style TargetType="{x:Type c:RoundButton}" BasedOn="{StaticResource FlatButtonStyle}">
+            <Setter Property="Padding" Value="25,5"/>
+        </Style>
+
+        <Style TargetType="{x:Type c:TextCell}" BasedOn="{StaticResource FlatTextCellStyle}"/>
+        <Style TargetType="{x:Type c:ContentCell}" BasedOn="{StaticResource FlatContentCellStyle}"/>
+        <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource FlatCheckBoxStyle}"/>
+    </local:DialogPage.Resources>
+
+    <Grid Margin="31,0,31,25">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="11*"/>
+            <RowDefinition Height="24*"/>
+            <RowDefinition Height="9*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="New Project" Margin="10" FontSize="20"/>
+        <TextBlock Text="새로운 어플리케이션" Foreground="White" FontSize="25" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
 
-        <Grid Grid.Row="1" Margin="20" Grid.IsSharedSizeScope="True">
-            <c:SpacingStackPanel>
-                <c:TextCell x:Name="tcAppName" Header="어플리케이션 이름" Text="" TextChanged="AppName_TextChanged"/>
-                <c:ContentCell Header="대상 플랫폼">
-                    <c:SpacingStackPanel>
-                        <CheckBox IsChecked="True" Content="Android"/>
-                        <CheckBox IsChecked="True" Content="iOS"/>
-                        <CheckBox IsChecked="True" Content="Window"/>
-                        <CheckBox IsChecked="True" Content="Web"/>
-                    </c:SpacingStackPanel>
+        <Grid Grid.Row="1" Width="333" HorizontalAlignment="Center" Grid.IsSharedSizeScope="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1.5"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            <c:SpacingStackPanel VerticalAlignment="Center" Margin="23,0">
+                <c:TextCell x:Name="tcAppName" Header="앱 이름:" TextChanged="TextCell_TextChanged"/>
+                <c:TextCell x:Name="tcPackage" Header="패키지 이름:" TextChanged="TextCell_TextChanged"/>
+                <c:ContentCell>
+                    <TextBlock x:Name="packageName" Foreground="#636363"/>
                 </c:ContentCell>
             </c:SpacingStackPanel>
+            
+            <Rectangle Grid.Row="1" Fill="#555555" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+            <c:ContentCell Header="대상 플랫폼:" Grid.Row="2" VerticalAlignment="Top" HeaderVerticalAlignment="Top" Margin="0,35,0,0">
+                <UniformGrid Rows="2" Columns="2">
+                    <CheckBox Content="Android" TextBlock.Foreground="White"/>
+                    <CheckBox Content="iOS" TextBlock.Foreground="White"/>
+                    <CheckBox Content="Window" TextBlock.Foreground="White" Margin="0,6,0,0"/>
+                    <CheckBox Content="Web" TextBlock.Foreground="White" Margin="0,6,0,0"/>
+                </UniformGrid>
+            </c:ContentCell>
         </Grid>
 
         <Grid Grid.Row="2">
-            <Grid.Resources>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Padding" Value="8,4"/>
-                </Style>
-            </Grid.Resources>
-            <Button Content="취소" Command="{x:Static cmd:DialogCommands.CancelCommand}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8"/>
+            <c:RoundButton Content="취소" VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                           Command="{x:Static cmd:DialogCommands.CancelCommand}"/>
 
-            <c:SpacingStackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="8">
-                <Button Content="이전" Command="{x:Static cmd:DialogCommands.PreviousCommand}"/>
-                <Button Content="다음" Command="{x:Static cmd:DialogCommands.NextCommand}"/>
+            <c:SpacingStackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                <c:RoundButton Content="이전" Command="{x:Static cmd:DialogCommands.PreviousCommand}"/>
+                <c:RoundButton Content="다음" Command="{x:Static cmd:DialogCommands.NextCommand}"/>
             </c:SpacingStackPanel>
         </Grid>
     </Grid>

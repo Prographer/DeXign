@@ -13,6 +13,7 @@ using DeXign.Editor;
 using DeXign.IO;
 
 using Microsoft.Win32;
+using System.IO;
 
 namespace DeXign.Windows
 {
@@ -135,13 +136,15 @@ namespace DeXign.Windows
             
             if (projDialog.ShowDialog())
             {
+                string fileName = Path.Combine(projDialog.Directory, $"{projDialog.AppName}.dx");
+
                 var project = DXProject.Create(
-                    $"{projDialog.AppName}.dx",
+                    fileName,
                     new DXProjectManifest()
                     {
                         ProjectName = projDialog.AppName
                     });
-
+                
                 OpenStoryboardPage(project);
             }
         }

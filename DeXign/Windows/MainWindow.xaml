@@ -15,25 +15,13 @@
         AllowsTransparency="True"
         WindowStyle="None"
         ResizeMode="NoResize"
-        Height="530" Width="730"
+        Height="507" Width="698"
         shell:WindowChrome.IsHitTestVisibleInChrome="True"
         CaptionHeight="50"
         Foreground="White"
-        FontFamily="{StaticResource Font.NotoSans}">
+        Style="{StaticResource FlatWindowStyle}">
 
     <Window.Resources>
-        <Style x:Key="RoundButtonStyle" TargetType="{x:Type c:RoundButton}" BasedOn="{StaticResource {x:Type c:RoundButton}}">
-            <Setter Property="TextBlock.Foreground" Value="White"/>
-            <Setter Property="TextBlock.FontSize" Value="12"/>
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="CornerRadius" Value="4"/>
-
-            <Setter Property="BorderBrush" Value="#6b6b6b"/>
-            <Setter Property="Background" Value="#4C4C4C"/>
-            <Setter Property="MouseOverBrush" Value="#626262"/>
-            <Setter Property="MouseDownBrush" Value="#3C3C3C"/>
-        </Style>
-        
         <Style x:Key="BulletButtonStyle" TargetType="{x:Type c:RoundButton}" BasedOn="{StaticResource {x:Type c:RoundButton}}">
             <Setter Property="TextBlock.Foreground" Value="White"/>
             <Setter Property="TextBlock.FontSize" Value="12"/>
@@ -51,123 +39,115 @@
         </Style>
     </Window.Resources>
 
-    <Border Background="#454545" CornerRadius="10" Margin="20" shell:WindowChrome.IsHitTestVisibleInChrome="False">
-        <Border.Effect>
-            <DropShadowEffect ShadowDepth="0" BlurRadius="20" Opacity="0.4"/>
-        </Border.Effect>
+    <Grid Margin="24,22,24,28">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="14"/>
+            <!-- Just Blank -->
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="12*"/>
+            <RowDefinition Height="27*"/>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
 
-        <!-- Content -->
-        <Grid Margin="24,22,24,28">
+        <!-- Header -->
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Image Stretch="Uniform" Height="50" Margin="0,18,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Source="/DeXign;component/Resources/Images/logo.png"/>
+        </Grid>
+        
+        <!-- Body -->
+        <Grid Grid.Row="1" Grid.Column="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="14"/> <!-- Just Blank -->
-                <ColumnDefinition/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="1.5"/>
+                <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="12*"/>
-                <RowDefinition Height="27*"/>
-                <RowDefinition Height="5*"/>
-            </Grid.RowDefinitions>
-            
-            <!-- Header -->
-            <Grid Grid.Row="0" Grid.Column="1">
-                <TextBlock Text="DeXign" FontSize="44" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-                <c:RoundButton Style="{StaticResource RoundButtonStyle}" 
-                               Command="{x:Static SystemCommands.CloseWindowCommand}"
-                               shell:WindowChrome.IsHitTestVisibleInChrome="True"
-                               VerticalAlignment="Top" HorizontalAlignment="Right"
-                               VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-                               Padding="0"
-                               Width="25" Height="25"
-                               CornerRadius="12.5" BorderThickness="0" 
-                               Background="Transparent">
-                    <Path Data="{StaticResource Path.Close}" Width="15" Height="15" Stretch="Fill" Fill="#B1B1B1" IsHitTestVisible="False"/>
-                </c:RoundButton>
-            </Grid>
-            
-            <!-- Body -->
-            <Grid Grid.Row="1" Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="4*"/>
-                    <ColumnDefinition Width="1.5"/>
-                    <ColumnDefinition Width="5*"/>
-                </Grid.ColumnDefinitions>
 
-                <c:SpacingStackPanel Spacing="20" Margin="37,0,0,0">
-                    <BulletDecorator VerticalAlignment="Top">
-                        <BulletDecorator.Bullet>
-                            <Border Width="50" Height="50" Background="#4C4C4C" BorderBrush="#6b6b6b" BorderThickness="1" CornerRadius="25">
-                                <Grid>
-                                    <Rectangle Width="23" Height="1" Fill="#969696" SnapsToDevicePixels="True"/>
-                                    <Rectangle Width="1" Height="23" Fill="#969696" SnapsToDevicePixels="True"/>
-                                </Grid>
-                            </Border>
-                        </BulletDecorator.Bullet>
-                        <c:RoundButton Style="{StaticResource BulletButtonStyle}"
+            <c:SpacingStackPanel Spacing="20" Margin="37,0,0,0">
+                <BulletDecorator VerticalAlignment="Top">
+                    <BulletDecorator.Bullet>
+                        <Border Width="50" Height="50" Background="#4C4C4C" BorderBrush="#6b6b6b" BorderThickness="1" CornerRadius="25">
+                            <Grid>
+                                <Rectangle Width="23" Height="1" Fill="#969696" SnapsToDevicePixels="True"/>
+                                <Rectangle Width="1" Height="23" Fill="#969696" SnapsToDevicePixels="True"/>
+                            </Grid>
+                        </Border>
+                    </BulletDecorator.Bullet>
+                    <c:RoundButton Style="{StaticResource BulletButtonStyle}"
                                        Command="{x:Static local:DXCommands.NewProjectCommand}"
                                        Content="새로운 어플리케이션"/>
-                    </BulletDecorator>
-                    <BulletDecorator VerticalAlignment="Top">
-                        <BulletDecorator.Bullet>
-                            <Ellipse Width="50" Height="50" Fill="DimGray"/>
-                        </BulletDecorator.Bullet>
-                        <c:RoundButton Style="{StaticResource BulletButtonStyle}"
+                </BulletDecorator>
+                <BulletDecorator VerticalAlignment="Top">
+                    <BulletDecorator.Bullet>
+                        <Border Width="50" Height="50">
+                            <Path Data="{StaticResource Path.Directory}" Width="37" Stroke="#979797" StrokeThickness="1" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Path.Fill>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#fff19e" Offset="0"/>
+                                        <GradientStop Color="#ffdd75" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Path.Fill>
+                            </Path>
+                        </Border>
+                    </BulletDecorator.Bullet>
+                    <c:RoundButton Style="{StaticResource BulletButtonStyle}"
                                        Command="{x:Static local:DXCommands.OpenProjectCommand}"
                                        Content="불러오기"/>
-                    </BulletDecorator>
-                </c:SpacingStackPanel>
+                </BulletDecorator>
+            </c:SpacingStackPanel>
 
-                <Rectangle Grid.Column="1" Fill="#525252" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Rectangle Grid.Column="1" Fill="#555555" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
-                <ScrollViewer Grid.Column="2" Margin="40,0,0,0">
-                    <i:Interaction.Behaviors>
-                        <b:ScrollBoundShadowEffect/>
-                    </i:Interaction.Behaviors>
-                    
-                    <StackPanel>
-                        <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
-                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
-                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
-                        <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
-                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
-                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
-                        <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
-                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
-                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
-                        <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
-                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
-                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
-                        <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
-                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
-                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
-                        <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
-                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
-                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
-                        <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
-                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
-                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
-                        <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
-                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
-                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
-                        <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
-                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
-                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
-                        <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
-                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
-                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
-                    </StackPanel>
-                </ScrollViewer>
-            </Grid>
-            
-            <!-- Bottom -->
-            <Grid Grid.Row="2" Grid.Column="1">
-                <c:SpacingStackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left" Orientation="Horizontal">
-                    <c:RoundButton Style="{StaticResource RoundButtonStyle}" Content="도움" Foreground="#909090" Background="Transparent" BorderThickness="0"/>
-                    <c:RoundButton Style="{StaticResource RoundButtonStyle}" Content="DeXign 문서"/>
-                    <c:RoundButton Style="{StaticResource RoundButtonStyle}" Content="소개 동영상"/>
-                </c:SpacingStackPanel>
+            <ScrollViewer Grid.Column="2" Margin="40,0,0,0">
+                <i:Interaction.Behaviors>
+                    <b:ScrollBoundShadowEffect/>
+                </i:Interaction.Behaviors>
 
-                <TextBlock Text="Version 1.0.0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="#C4C4C4"/>
-            </Grid>
+                <StackPanel>
+                    <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
+                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
+                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+                    <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
+                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
+                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+                    <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
+                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
+                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+                    <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
+                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
+                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+                    <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
+                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
+                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+                    <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
+                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
+                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+                    <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
+                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
+                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+                    <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
+                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
+                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+                    <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
+                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
+                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+                    <c:RecentFileTextBlock FileName="C:\Users\Public\Desktop\Develop\vs\DeXign\DeXign.sln" 
+                                               CommandParameter="{Binding FileName, RelativeSource={RelativeSource Self}}"
+                                               Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+                </StackPanel>
+            </ScrollViewer>
         </Grid>
-    </Border>
+
+        <!-- Bottom -->
+        <Grid Grid.Row="2" Grid.Column="1">
+            <c:SpacingStackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left" Orientation="Horizontal">
+                <c:RoundButton Style="{StaticResource FlatButtonStyle}" Content="도움" Foreground="#909090" Background="Transparent" BorderThickness="0"/>
+                <c:RoundButton Style="{StaticResource FlatButtonStyle}" Content="DeXign 문서"/>
+                <c:RoundButton Style="{StaticResource FlatButtonStyle}" Content="소개 동영상"/>
+            </c:SpacingStackPanel>
+
+            <TextBlock Text="Version 1.0.0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="#C4C4C4"/>
+        </Grid>
+    </Grid>
 </c:ChromeWindow>

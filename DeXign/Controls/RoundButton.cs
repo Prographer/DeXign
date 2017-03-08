@@ -17,6 +17,12 @@ namespace DeXign.Controls
         public static readonly DependencyProperty MouseDownBrushProperty =
             DependencyHelper.Register(new PropertyMetadata(Brushes.Gray));
 
+        public static readonly DependencyProperty HighlightBrushProperty =
+            DependencyHelper.Register(new PropertyMetadata(Brushes.Blue));
+
+        public static readonly DependencyProperty IsHighlightProperty =
+            DependencyHelper.Register(new PropertyMetadata(false));
+
         public CornerRadius CornerRadius
         {
             get { return (CornerRadius)GetValue(CornerRadiusProperty); }
@@ -33,6 +39,18 @@ namespace DeXign.Controls
         {
             get { return (Brush)GetValue(MouseDownBrushProperty); }
             set { SetValue(MouseDownBrushProperty, value); }
+        }
+
+        public Brush HighlightBrush
+        {
+            get { return (Brush)GetValue(HighlightBrushProperty); }
+            set { SetValue(HighlightBrushProperty, value); }
+        }
+
+        public bool IsHighlight
+        {
+            get { return (bool)GetValue(IsHighlightProperty); }
+            set { SetValue(IsHighlightProperty, value); }
         }
     }
 }

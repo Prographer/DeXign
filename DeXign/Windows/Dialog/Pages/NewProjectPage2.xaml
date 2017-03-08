@@ -7,10 +7,62 @@
       xmlns:c="clr-namespace:DeXign.Controls"
       xmlns:cmd="clr-namespace:DeXign.Commands"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="400"
+      d:DesignHeight="490" d:DesignWidth="690"
       Title="NewProjectPage">
 
-    <Grid>
-        <Button Content="O! K!" Command="{x:Static cmd:DialogCommands.OkCommand}"/>
+    <local:DialogPage.Resources>
+        <Style TargetType="{x:Type c:RoundButton}" BasedOn="{StaticResource FlatButtonStyle}">
+            <Setter Property="Padding" Value="25,5"/>
+        </Style>
+
+        <Style TargetType="{x:Type c:TextCell}" BasedOn="{StaticResource FlatTextCellStyle}"/>
+        <Style TargetType="{x:Type c:ContentCell}" BasedOn="{StaticResource FlatContentCellStyle}"/>
+        <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource FlatCheckBoxStyle}"/>
+    </local:DialogPage.Resources>
+
+    <Grid Margin="31,0,31,25">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="11*"/>
+            <RowDefinition Height="24*"/>
+            <RowDefinition Height="9*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="새로운 어플리케이션" Foreground="White" FontSize="25" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+
+        <Grid Grid.Row="1" Width="333" HorizontalAlignment="Center" Grid.IsSharedSizeScope="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1.5"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            <c:SpacingStackPanel VerticalAlignment="Center" Margin="23,0">
+                <c:ContentCell Header="파일 위치:">
+                    <Grid>
+                        <TextBox x:Name="tbDirectory" Style="{StaticResource FlatTextBoxStyle}" IsReadOnly="True"/>
+                        <c:LinkTextBlock Text="찾아보기" Foreground="White" TextDecorations="Underline" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="65,0,-65,0" Click="LinkTextBlock_Click"/>
+                    </Grid>
+                </c:ContentCell>
+            </c:SpacingStackPanel>
+
+            <Rectangle Grid.Row="1" Fill="#555555" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+            <c:ContentCell Header="버전 제어:" Grid.Row="2" VerticalAlignment="Top" HeaderVerticalAlignment="Top" Margin="0,35,0,0">
+                <UniformGrid Rows="2">
+                    <CheckBox Content="버전제어에 git을 사용합니다." TextBlock.Foreground="White"/>
+                    <CheckBox Content=".gitignore 파일을 만듭니다." TextBlock.Foreground="White" Margin="0,6,0,0"/>
+                </UniformGrid>
+            </c:ContentCell>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <c:RoundButton Content="취소" VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                           Command="{x:Static cmd:DialogCommands.CancelCommand}"/>
+
+            <c:SpacingStackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                <c:RoundButton Content="이전" Command="{x:Static cmd:DialogCommands.PreviousCommand}"/>
+                <c:RoundButton Content="시작하기" Command="{x:Static cmd:DialogCommands.OkCommand}" IsHighlight="True"/>
+            </c:SpacingStackPanel>
+        </Grid>
     </Grid>
 </local:DialogPage>

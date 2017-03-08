@@ -186,6 +186,7 @@
     <Compile Include="MVVM\Converter\EnumToEnumConvereter.cs" />
     <Compile Include="MVVM\Converter\EqualConverter.cs" />
     <Compile Include="MVVM\Converter\GridViewColumnStarConverter.cs" />
+    <Compile Include="MVVM\Converter\LowercaseConverter.cs" />
     <Compile Include="MVVM\Converter\NullObjectToVisibilityConverter.cs" />
     <Compile Include="MVVM\Converter\EnumToStringConverter.cs" />
     <Compile Include="MVVM\Converter\PathToImageConverter.cs" />
@@ -200,6 +201,7 @@
     <Compile Include="MVVM\Models\PropertyGridItemModel.cs" />
     <Compile Include="MVVM\Models\StoryboardModel.cs" />
     <Compile Include="MVVM\Rules\NameScopeRule.cs" />
+    <Compile Include="MVVM\Rules\NamespaceRule.cs" />
     <Compile Include="MVVM\Rules\PercentageRule.cs" />
     <Compile Include="IO\Packages\ScreenPackageFile.cs" />
     <Compile Include="IO\Package.cs" />
@@ -389,6 +391,8 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\Fonts\NotoSansCJKkr-Thin.otf" />
+    <Resource Include="Resources\Fonts\NotoSansCJKkr-Light.otf" />
     <Resource Include="Resources\Fonts\NotoSansCJKkr-DemiLight.otf" />
   </ItemGroup>
   <ItemGroup>
@@ -404,7 +408,9 @@
       <Name>DeXign.Extension</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Images\Logo.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\GridLayoutTooltip.png" />
     <Resource Include="Resources\Images\ScrollViewTooltip.png" />
