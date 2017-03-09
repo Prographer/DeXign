@@ -61,7 +61,7 @@ namespace DeXign.IO
                 LoadScreens();
                 LoadScreenRenderers();
             }
-            catch (Exception ex)
+            catch
             {
                 CanOpen = false;
             }
