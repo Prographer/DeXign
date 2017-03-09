@@ -24,8 +24,6 @@ using DeXign.Core.Designer;
 using DeXign.Controls;
 using DeXign.Converter;
 using DeXign.Task;
-using DeXign.IO;
-using System.Collections;
 using DeXign.Utilities;
 
 namespace DeXign.Editor.Controls
@@ -308,9 +306,7 @@ namespace DeXign.Editor.Controls
             var metadata = DesignerManager.GetElementType(typeof(PContentPage));
             var control = this.GenerateToElement(this, metadata, pushTask: false) as ContentControl;
             var model = (PContentPage)control.GetRenderer().Model;
-
-            AddScreenCore(control);
-
+            
             // Add Screen To Project
             Screens?.Add(model);
 
@@ -322,20 +318,7 @@ namespace DeXign.Editor.Controls
 
             return control;
         }
-
-        private void AddScreenCore(ContentControl control)
-        {
-            control.Margin = new Thickness(0);
-            control.VerticalAlignment = VerticalAlignment.Top;
-            control.HorizontalAlignment = HorizontalAlignment.Left;
-
-            control.Width = 360;
-            control.Height = 615;
-
-            Canvas.SetTop(control, 80);
-            Canvas.SetLeft(control, 80);
-        }
-
+        
         /// <summary>
         /// 어셈블리의 <see cref="DesignElementAttribute"/> 특성으로 등록된 데이터 모델 <see cref="Type"/>의 <see cref="IRenderer{TModel, TElement}"/>를 생성 후 Parent의 자식으로 설정합니다.
         /// </summary>

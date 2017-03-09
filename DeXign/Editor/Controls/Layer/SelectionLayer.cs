@@ -235,7 +235,8 @@ namespace DeXign.Editor.Layer
             this.AddSelectedHandler(OnSelected);
             this.AddUnselectedHandler(OnUnselected);
 
-            GroupSelector.Select(this, true);
+            if (!DesignTime.IsLocked(this))
+                GroupSelector.Select(this, true);
         }
 
         private void InitializeComponents()

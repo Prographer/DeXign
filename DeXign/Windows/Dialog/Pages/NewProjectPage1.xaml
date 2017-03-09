@@ -11,7 +11,7 @@
       d:DesignHeight="490" d:DesignWidth="690"
       Title="NewProjectPage">
 
-    <local:DialogPage.Resources>
+    <Page.Resources>
         <Style TargetType="{x:Type c:RoundButton}" BasedOn="{StaticResource FlatButtonStyle}">
             <Setter Property="Padding" Value="25,5"/>
         </Style>
@@ -19,7 +19,7 @@
         <Style TargetType="{x:Type c:TextCell}" BasedOn="{StaticResource FlatTextCellStyle}"/>
         <Style TargetType="{x:Type c:ContentCell}" BasedOn="{StaticResource FlatContentCellStyle}"/>
         <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource FlatCheckBoxStyle}"/>
-    </local:DialogPage.Resources>
+    </Page.Resources>
 
     <Grid Margin="31,0,31,25">
         <Grid.RowDefinitions>

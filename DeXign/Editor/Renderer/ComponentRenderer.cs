@@ -52,7 +52,7 @@ namespace DeXign.Editor.Renderer
 
         public void AddChild(IRenderer child, Point position)
         {
-            this.RendererChildren.Add(child);
+            this.RendererChildren.SafeAdd(child);
 
             if (!DesignTime.IsLocked(this))
                 OnAddedChild(child, position);
@@ -60,7 +60,7 @@ namespace DeXign.Editor.Renderer
 
         public void RemoveChild(IRenderer child)
         {
-            this.RendererChildren.Remove(child);
+            this.RendererChildren.SafeRemove(child);
 
             if (!DesignTime.IsLocked(this))
                 OnRemovedChild(child);

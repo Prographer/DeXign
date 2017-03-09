@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Controls;
+using System.Collections.Generic;
 
 using DeXign.Core;
 using DeXign.Core.Controls;
 using DeXign.Editor.Renderer;
 using DeXign.Extension;
-using DeXign.Task;
 using DeXign.Utilities;
-using System.Collections.Generic;
-using System.Windows;
 using DeXign.Editor.Layer;
 using DeXign.IO;
 
@@ -22,34 +20,20 @@ namespace DeXign.Editor.Controls
 
         internal void InitializeProject()
         {
-            var sw = new Stopwatch();
-            sw.Start();
-
             foreach (PContentPage screen in Model.Project.Screens)
             {
-                var screenDump = new DumpDependencyObject(screen);
-                LoadScreenRenderer(screen); // Load Renderer
+                // Load Renderer
+                LoadScreenRenderer(screen);
 
-                // Roll Back
-                screenDump.RollBack();
-                
                 DispatcherEx.WaitForContextIdle();
 
                 // 모든 트리 탐색
                 foreach (var node in screen.FindContentChildrens<PObject, PObject>())
                 {
-                    var elementDump = new DumpDependencyObject(node.Child);
-
-                    LoadElementRenderer(node.Parent, node.Child); // Load Renderer
-
-                    IRenderer renderer = node.Child.GetRenderer();
-                    
-                    pendingDumps.Add(renderer, elementDump);
-                    renderer.ElementAttached += Storyboard_ElementAttached;
+                    // Load Renderer
+                    LoadElementRenderer(node.Parent, node.Child);
                 }
             }
-
-            sw.Stop();
         }
 
         private void Storyboard_ElementAttached(object sender, EventArgs e)
@@ -65,6 +49,9 @@ namespace DeXign.Editor.Controls
 
                 // Remove At Pending List
                 pendingDumps.Remove(renderer);
+
+                // Unlock
+                DesignTime.Unlock(renderer as ControlLayer);
             }
         }
 
@@ -77,14 +64,11 @@ namespace DeXign.Editor.Controls
 
             IRenderer modelRenderer = visual.GetRenderer();
 
+            // Create Renderer
             LoadRendererCore(modelRenderer);
 
-            DesignTime.Lock(modelRenderer as ControlLayer);
-
+            // Add to storyboard
             AddElement(this, visual);
-            AddScreenCore(visual as ContentControl);
-
-            DesignTime.Unlock(modelRenderer as ControlLayer);
         }
 
         private void LoadElementRenderer(PObject parent, PObject model)
@@ -97,21 +81,30 @@ namespace DeXign.Editor.Controls
             IRenderer parentRenderer = parent.GetRenderer();
             IRenderer modelRenderer = model.GetRenderer();
 
+            // Create Renderer
             LoadRendererCore(modelRenderer);
-
-            DesignTime.Lock(modelRenderer as ControlLayer);
-
+            
+            // Add to storyboard
             AddElement(parentRenderer.Element, visual);
-
-            DesignTime.Unlock(modelRenderer as ControlLayer);
         }
 
         private void LoadRendererCore(IRenderer renderer)
         {
             RendererSurface surface = Model.Project.GetRendererSurface(renderer.Model.Guid);
 
+            // * Lock
+            // 렌더러를 모델에 의해 생성하는경우 초기화를 방지하기 위해 잠굼
+            DesignTime.Lock(renderer as ControlLayer);
+
+            // Metadata mapping
             renderer.Metadata.CreatedPosition = surface.Metadata.CreatedPosition;
             renderer.Metadata.CreatedTime = surface.Metadata.CreatedTime;
+
+            // * Pending rollback
+            // 렌더러가 생성되고 WPF 컨트롤이 Load 될 때 바인딩을 진행하기 때문에
+            // 모델의 속성에 영향을 주지 않음 (덤프 가능 상태)
+            pendingDumps.Add(renderer, new DumpDependencyObject(renderer.Model));
+            renderer.ElementAttached += Storyboard_ElementAttached;
         }
     }
 }

@@ -5,6 +5,8 @@ using System.Windows;
 using DeXign.Core;
 using DeXign.Core.Logic;
 using DeXign.Editor.Layer;
+using DeXign.Extension;
+using System.Windows.Controls;
 
 namespace DeXign.Editor.Renderer
 {
@@ -31,12 +33,36 @@ namespace DeXign.Editor.Renderer
 
         public void AddChild(IRenderer child, Point position)
         {
-            this.RendererChildren.Add(child);
-        }
+            this.RendererChildren.SafeAdd(child);
 
+            OnAddedChild(child, position);
+        }
+        
         public void RemoveChild(IRenderer child)
         {
-            this.RendererChildren.Remove(child);
+            this.RendererChildren.SafeRemove(child);
+
+            OnRemovedChild(child);
+        }
+
+        protected virtual void OnAddedChild(IRenderer child, Point position)
+        {
+            if (child is ScreenRenderer)
+            {
+                child.Element.Margin = new Thickness(0);
+                child.Element.VerticalAlignment = VerticalAlignment.Top;
+                child.Element.HorizontalAlignment = HorizontalAlignment.Left;
+
+                child.Element.Width = 360;
+                child.Element.Height = 615;
+
+                Canvas.SetTop(child.Element, 80);
+                Canvas.SetLeft(child.Element, 80);
+            }
+        }
+
+        protected virtual void OnRemovedChild(IRenderer child)
+        {
         }
 
         protected override void OnLoaded(FrameworkElement adornedElement)
