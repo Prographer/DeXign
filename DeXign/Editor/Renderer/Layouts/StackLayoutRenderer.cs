@@ -110,8 +110,16 @@ namespace DeXign.Editor.Renderer
 
             if (index != -1)
             {
+                IRenderer childRenderer = element.GetRenderer();
+                var elementModel = childRenderer as PControl;
+
+                // WPF
                 this.Element.Children.Remove(element);
                 this.Element.Children.Insert(index, element);
+
+                // PModel
+                this.Model.Children.Remove(elementModel);
+                this.Model.Children.Insert(index, elementModel);
             }
         }
     }
