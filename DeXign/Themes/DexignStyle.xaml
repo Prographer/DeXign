@@ -669,7 +669,7 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Text="{TemplateBinding Header}" HorizontalAlignment="{TemplateBinding HeaderHorizontalAlignment}" VerticalAlignment="{TemplateBinding HeaderVerticalAlignment}"/>
-                        <TextBox Text="{Binding Text, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type c:TextCell}}}" Grid.Column="1" Margin="16,0,0,0"/>
+                        <TextBox x:Name="PART_textBox" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type c:TextCell}}}" Grid.Column="1" Margin="16,0,0,0"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -1343,7 +1343,7 @@
                             <Setter TargetName="border" Property="BorderBrush" Value="#343434"/>
                             <Setter TargetName="border" Property="Background" Value="#3F3F3F"/>
                             <Setter TargetName="path" Property="Fill" Value="#343434"/>
-                        </Trigger> 
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -1385,7 +1385,7 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Text="{TemplateBinding Header}" HorizontalAlignment="{TemplateBinding HeaderHorizontalAlignment}" VerticalAlignment="{TemplateBinding HeaderVerticalAlignment}"/>
-                        <TextBox Style="{DynamicResource FlatTextBoxStyle}" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type c:TextCell}}}" Grid.Column="1" Margin="16,0,0,0"/>
+                        <TextBox x:Name="PART_textBox" Style="{DynamicResource FlatTextBoxStyle}" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type c:TextCell}}}" Grid.Column="1" Margin="16,0,0,0"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

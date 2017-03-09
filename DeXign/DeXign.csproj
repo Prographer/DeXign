@@ -184,6 +184,7 @@
     <Compile Include="IO\Project\DXProjectManifest.cs" />
     <Compile Include="IO\Xml\ObjectXmlReader.cs" />
     <Compile Include="IO\Xml\ObjectXmlWriter.cs" />
+    <Compile Include="MVVM\Behavior\NamespaceTextBoxBehavior.cs" />
     <Compile Include="MVVM\Behavior\ScrollBoundShadowEffect.cs" />
     <Compile Include="MVVM\Commands\ActionCommand.cs" />
     <Compile Include="MVVM\Commands\DialogCommands.cs" />
@@ -228,6 +229,7 @@
     <Compile Include="Utilities\DispatcherEx.cs" />
     <Compile Include="Utilities\DumpDependencyObject.cs" />
     <Compile Include="Utilities\GlobalModels.cs" />
+    <Compile Include="Utilities\Masking.cs" />
     <Compile Include="Utilities\MathUtil.cs" />
     <Compile Include="Windows\Dialog\DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>

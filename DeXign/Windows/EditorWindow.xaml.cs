@@ -142,7 +142,8 @@ namespace DeXign.Windows
                     fileName,
                     new DXProjectManifest()
                     {
-                        ProjectName = projDialog.AppName
+                        ProjectName = projDialog.AppName,
+                        PackageName = projDialog.PackageName
                     });
                 
                 OpenStoryboardPage(project);

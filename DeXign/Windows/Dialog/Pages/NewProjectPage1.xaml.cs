@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Input;
 
 namespace DeXign.Windows.Pages
@@ -13,12 +12,14 @@ namespace DeXign.Windows.Pages
         {
             InitializeComponent();
         }
+
         protected override void OnKeyDown(KeyEventArgs e)
         {
             var o = e.OriginalSource;
 
             base.OnKeyDown(e);
         }
+
         private void TextCell_TextChanged(object sender, EventArgs e)
         {
             AppName = tcAppName.Text;

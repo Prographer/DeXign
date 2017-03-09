@@ -8,6 +8,7 @@ namespace DeXign.Windows
         NewProjectPage2 page2;
 
         public string AppName => page1?.AppName;
+        public string PackageName => page1?.PackageName;
         public string Directory => page2?.SelectedDirectory;
 
         public ProjectDialog() : base(new DialogPage[]

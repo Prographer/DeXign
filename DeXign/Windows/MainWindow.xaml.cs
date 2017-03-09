@@ -49,7 +49,8 @@ namespace DeXign.Windows
                 $"{projDialog.AppName}.dx",
                 new DXProjectManifest()
                 {
-                    ProjectName = projDialog.AppName
+                    ProjectName = projDialog.AppName,
+                    PackageName = projDialog.PackageName
                 });
             
             ShowEditorWindow(new EditorWindow(project));

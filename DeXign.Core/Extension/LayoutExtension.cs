@@ -12,7 +12,7 @@ namespace DeXign.Core
 
         public static void SetPageName(this PPage page, string name)
         {
-            if (!StringRule.CheckNamingRule(name))
+            if (!StringRule.IsValidName(name))
                 throw new Exception("이름 명명규칙에 어긋납니다.");
 
             names[page] = name;

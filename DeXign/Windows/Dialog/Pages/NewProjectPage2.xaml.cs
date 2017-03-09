@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO;
+
 using wf = System.Windows.Forms;
 
 namespace DeXign.Windows.Pages
@@ -11,6 +11,8 @@ namespace DeXign.Windows.Pages
         public NewProjectPage2()
         {
             InitializeComponent();
+
+            SetSelectedDirectory(Environment.CurrentDirectory);
         }
 
         // 찾아보기
@@ -19,12 +21,16 @@ namespace DeXign.Windows.Pages
             var dialog = new wf.FolderBrowserDialog();
 
             dialog.ShowNewFolderButton = true;
+            dialog.SelectedPath = SelectedDirectory;
 
             if (dialog.ShowDialog() == wf.DialogResult.OK)
-            {
-                SelectedDirectory = dialog.SelectedPath;
-                tbDirectory.Text = SelectedDirectory;
-            }
+                SetSelectedDirectory(dialog.SelectedPath);
+        }
+
+        private void SetSelectedDirectory(string selectedPath)
+        {
+            SelectedDirectory = selectedPath;
+            tbDirectory.Text = SelectedDirectory;
         }
 
         public override bool CanOk()

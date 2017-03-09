@@ -7,6 +7,8 @@
       xmlns:c="clr-namespace:DeXign.Controls"
       xmlns:cmd="clr-namespace:DeXign.Commands"
       xmlns:rule="clr-namespace:DeXign.Rules"
+      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+      xmlns:b="clr-namespace:DeXign.Behavior"
       mc:Ignorable="d" 
       d:DesignHeight="490" d:DesignWidth="690"
       Title="NewProjectPage">
@@ -39,9 +41,13 @@
 
             <c:SpacingStackPanel VerticalAlignment="Center" Margin="23,0">
                 <c:TextCell x:Name="tcAppName" Header="앱 이름:" TextChanged="TextCell_TextChanged"/>
-                <c:TextCell x:Name="tcPackage" Header="패키지 이름:" TextChanged="TextCell_TextChanged"/>
+                <c:TextCell x:Name="tcPackage" Header="패키지 이름:" TextChanged="TextCell_TextChanged">
+                    <i:Interaction.Behaviors>
+                        <b:NamespaceTextBoxBehavior/>
+                    </i:Interaction.Behaviors>
+                </c:TextCell>
                 <c:ContentCell>
-                    <TextBlock x:Name="packageName" Foreground="#636363"/>
+                    <TextBlock x:Name="packageName" Text="{Binding ElementName=tcPackage, Path=Text, StringFormat={}com.{0}, Converter={StaticResource Converter.Lowercase}}" Foreground="#636363"/>
                 </c:ContentCell>
             </c:SpacingStackPanel>
             

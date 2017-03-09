@@ -35,7 +35,7 @@ namespace DeXign.Rules
                     {
                         scope.Unregister(obj);
                     }
-                    else if (StringRule.CheckNamingRule(name ?? "", true))
+                    else if (StringRule.IsValidName(name ?? "", true))
                     {
                         if (scope.HasName(name))
                         {

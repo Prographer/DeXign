@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DeXign.IO
 {
@@ -10,5 +6,6 @@ namespace DeXign.IO
     public class DXProjectManifest
     {
         public string ProjectName { get; set; }
+        public string PackageName { get; set; }
     }
 }

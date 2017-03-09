@@ -9,7 +9,7 @@ namespace DeXign.Rules
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             return new ValidationResult(
-                StringRule.CheckNamespaceRule((string)value ?? ""), null);
+                StringRule.IsValidNamespace((string)value ?? ""), null);
         }
     }
 }
