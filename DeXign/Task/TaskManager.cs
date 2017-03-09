@@ -7,9 +7,13 @@ using System.Windows.Input;
 using DeXign.Commands;
 
 using WPFExtension;
+using System.Windows.Controls;
 
 namespace DeXign.Task
 {
+    /// <summary>
+    /// 작업관련 메서드를 제공하고 관리하는 클래스입니다.
+    /// </summary>
     public class TaskManager : DependencyObjectEx
     {
         private static readonly DependencyPropertyKey CanRedoPropertyKey =
@@ -18,7 +22,14 @@ namespace DeXign.Task
         private static readonly DependencyPropertyKey CanUndoPropertyKey =
             DependencyHelper.RegisterReadOnly();
 
+        /// <summary>
+        /// DeXign.Task.TaskManager.CanRedo 종속성입니다.
+        /// </summary>
         public static readonly DependencyProperty CanRedoProperty = CanRedoPropertyKey.DependencyProperty;
+
+        /// <summary>
+        /// DeXign.Task.TaskManager.CanUndo 종속성입니다.
+        /// </summary>
         public static readonly DependencyProperty CanUndoProperty = CanUndoPropertyKey.DependencyProperty;
 
         /// <summary>
@@ -49,9 +60,19 @@ namespace DeXign.Task
         /// </summary>
         public ActionCommand UndoCommand { get; }
 
+        /// <summary>
+        /// 지난 작업을 기록하고 있는 스택을 가져옵니다.
+        /// </summary>
         protected Stack<TaskData> DoStack { get; }
+
+        /// <summary>
+        /// 이전 작업으로 되돌린 작업을 기록하고 있는 스택을 가져옵니다.
+        /// </summary>
         protected Stack<TaskData> UndoStack { get; }
         
+        /// <summary>
+        /// 작업 관리자를 생성합니다.
+        /// </summary>
         public TaskManager()
         {
             DoStack = new Stack<TaskData>();
@@ -84,6 +105,10 @@ namespace DeXign.Task
             Undo();
         }
 
+        /// <summary>
+        /// 작업을 추가합니다.
+        /// </summary>
+        /// <param name="task"></param>
         public virtual void Push(TaskData task)
         {
             ClearUndoStack();
@@ -94,11 +119,21 @@ namespace DeXign.Task
             Update();
         }
 
+        /// <summary>
+        /// 작업을 추가합니다.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="doAction"></param>
+        /// <param name="undoAction"></param>
         public virtual void Push(object source, Action doAction, Action undoAction)
         {
             this.Push(new TaskData(source, doAction, undoAction));
         }
 
+        /// <summary>
+        /// 이전 상태로 되돌린 작업을 취소합니다.
+        /// </summary>
+        /// <returns></returns>
         public bool Redo()
         {
             if (CanRedo)
@@ -115,6 +150,10 @@ namespace DeXign.Task
             return false;
         }
 
+        /// <summary>
+        /// 이전 상태로 되돌아갑니다.
+        /// </summary>
+        /// <returns></returns>
         public bool Undo()
         {
             if (DoStack.Count > 0)

@@ -6,7 +6,6 @@
       xmlns:local="clr-namespace:DeXign.Windows.Pages"
       xmlns:c="clr-namespace:DeXign.Controls"
       xmlns:cmd="clr-namespace:DeXign.Commands"
-      xmlns:rule="clr-namespace:DeXign.Rules"
       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       xmlns:b="clr-namespace:DeXign.Behavior"
       mc:Ignorable="d" 

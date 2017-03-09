@@ -3,11 +3,8 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:shell="clr-namespace:Microsoft.Windows.Shell"
                     xmlns:c="clr-namespace:DeXign.Controls"
-                    xmlns:ex="clr-namespace:DeXign.Extension;assembly=DeXign.Extension"
                     xmlns:aero2="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
-                    xmlns:m="clr-namespace:DeXign.Models"
-                    xmlns:rule="clr-namespace:DeXign.Rules"
-                    xmlns:t="clr-namespace:DeXign.Task">
+                    xmlns:rule="clr-namespace:DeXign.Rules">
 
     <!-- Used 'XAML Region' Extension -->
 

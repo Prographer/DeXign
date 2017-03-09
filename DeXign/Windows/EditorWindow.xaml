@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:DeXign"
         xmlns:c="clr-namespace:DeXign.Controls"
         xmlns:m="clr-namespace:DeXign.Models"
-        xmlns:p="clr-namespace:DeXign.Windows.Pages"
         x:Class="DeXign.Windows.EditorWindow"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"

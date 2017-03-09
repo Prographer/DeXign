@@ -6,8 +6,19 @@ using System.Windows.Documents;
 
 namespace DeXign.Task
 {
+    /// <summary>
+    /// 렌더러의 작업 관련 데이터를 관리하는 클래스입니다.
+    /// </summary>
     public class LayoutTaskData : ElementTaskData
     {
+        /// <summary>
+        /// Layout 렌더러 작업 데이터를 생성합니다.
+        /// </summary>
+        /// <param name="taskType"></param>
+        /// <param name="source"></param>
+        /// <param name="doAction"></param>
+        /// <param name="undoAction"></param>
+        /// <param name="destroyAction"></param>
         public LayoutTaskData(
             RendererTaskType taskType,
             IRendererLayout source, 
@@ -18,6 +29,9 @@ namespace DeXign.Task
         {
         }
 
+        /// <summary>
+        /// 현재 작업을 실행합니다.
+        /// </summary>
         public override void Do()
         {
             base.Do();
@@ -29,6 +43,9 @@ namespace DeXign.Task
             }
         }
 
+        /// <summary>
+        /// 이전 작업으로 돌아갑니다.
+        /// </summary>
         public override void Undo()
         {
             base.Undo();

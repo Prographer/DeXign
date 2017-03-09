@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:DeXign.Resources">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <FontFamily x:Key="Font.NotoSans.DemiLight">/DeXign;component/Resources/FOnts/#Noto Sans CJK KR DemiLight</FontFamily>
     <FontFamily x:Key="Font.NotoSans.Light">/DeXign;component/Resources/FOnts/#Noto Sans CJK KR Light</FontFamily>
     <FontFamily x:Key="Font.NotoSans.Thin">/DeXign;component/Resources/FOnts/#Noto Sans CJK KR Thin</FontFamily>
