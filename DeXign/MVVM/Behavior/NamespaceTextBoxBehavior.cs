@@ -22,9 +22,9 @@ namespace DeXign.Behavior
             {
                 TextCell.TextBoxProperty.AddValueChanged(AssociatedObject, TextBox_Attached);
             }
-            else if (AssociatedObject is TextBox)
+            else if (AssociatedObject is TextBox textBox)
             {
-                AttachTextBox(AssociatedObject as TextBox);
+                AttachTextBox(textBox);
             }
         }
 

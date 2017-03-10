@@ -54,8 +54,8 @@ namespace DeXign.Core
             CodeComponent<XFormsAttribute> root = items[0];
             string pageName = null;
 
-            if (root.Element is PPage)
-                pageName = (root.Element as PPage).GetPageName();
+            if (root.Element is PPage page)
+                pageName = page.GetPageName();
 
             // 루트페이지는 항상 이름(파일, 클래스 이름)이 설정되어있어야 함
             if (pageName == null)

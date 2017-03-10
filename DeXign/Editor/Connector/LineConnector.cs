@@ -32,8 +32,8 @@ namespace DeXign.Editor
 
         private Point GetSourcePosition(LineConnectorBase connector)
         {
-            if (Source is IUISupport)
-                return (Source as IUISupport).GetLocation();
+            if (Source is IUISupport support)
+                return support.GetLocation();
 
             return Source.TranslatePoint(
                 new Point(
@@ -43,8 +43,8 @@ namespace DeXign.Editor
 
         private Point GetTargetPosition(LineConnectorBase connector)
         {
-            if (Target is IUISupport)
-                return (Target as IUISupport).GetLocation();
+            if (Target is IUISupport support)
+                return support.GetLocation();
 
             return Target.TranslatePoint(
                 new Point(

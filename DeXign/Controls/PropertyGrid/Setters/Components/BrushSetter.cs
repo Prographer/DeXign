@@ -24,10 +24,8 @@ namespace DeXign.Controls
 
             colorCanvas = GetTemplateChild<ColorCanvas>("PART_colorCanvas");
             
-            if (this.Value is SolidColorBrush)
+            if (this.Value is SolidColorBrush brush)
             {
-                var brush = (SolidColorBrush)this.Value;
-
                 colorCanvas.SelectedColor = brush.Color;
 
                 TargetDependencyProperty.AddValueChanged(Target, Brush_Changed);

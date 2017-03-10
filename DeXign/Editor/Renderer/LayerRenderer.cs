@@ -88,8 +88,8 @@ namespace DeXign.Editor.Renderer
                     foreach (FrameworkElement element in list)
                     {
                         IRenderer renderer = element.GetRenderer();
-                        if (renderer is IDisposable)
-                            (renderer as IDisposable).Dispose();
+                        if (renderer is IDisposable disposable)
+                            disposable.Dispose();
                     }
                 });
 
@@ -134,10 +134,8 @@ namespace DeXign.Editor.Renderer
 
             // Default Binding
             #region < PVisual >
-            if (Model is PVisual)
+            if (Model is PVisual model)
             {
-                var model = Model as PVisual;
-
                 // RenderTransformOrigin Binding
                 FrameworkElement.RenderTransformOriginProperty.AddValueChanged(
                     visual, (s, e) =>
@@ -149,30 +147,30 @@ namespace DeXign.Editor.Renderer
                 // Background Binding
                 BindingEx.TryBinding(
                     visual, "Background",
-                    model, PVisual.BackgroundProperty);
+                    Model, PVisual.BackgroundProperty);
 
                 // Size Binding
                 BindingEx.SetBinding(
                     visual, FrameworkElement.WidthProperty,
-                    model, PVisual.WidthProperty);
+                    Model, PVisual.WidthProperty);
 
                 BindingEx.SetBinding(
                     visual, FrameworkElement.HeightProperty,
-                    model, PVisual.HeightProperty);
+                    Model, PVisual.HeightProperty);
 
                 // Min Size Binding
                 BindingEx.SetBinding(
                     visual, FrameworkElement.MinWidthProperty,
-                    model, PVisual.MinWidthProperty);
+                    Model, PVisual.MinWidthProperty);
 
                 BindingEx.SetBinding(
-                    model, PVisual.MinHeightProperty,
+                    Model, PVisual.MinHeightProperty,
                     visual, FrameworkElement.MinHeightProperty);
 
                 // Opacity Binding
                 BindingEx.SetBinding(
                     visual, FrameworkElement.OpacityProperty,
-                    model, PVisual.OpacityProperty);
+                    Model, PVisual.OpacityProperty);
 
                 // * Transform Binding
                 // X, Y Binding
@@ -187,11 +185,11 @@ namespace DeXign.Editor.Renderer
 
                 BindingEx.SetBinding(
                     translate, TranslateTransform.XProperty,
-                    model, PVisual.XProperty);
+                    Model, PVisual.XProperty);
 
                 BindingEx.SetBinding(
                     translate, TranslateTransform.YProperty,
-                    model, PVisual.YProperty);
+                    Model, PVisual.YProperty);
 
                 // TODO: Rotation
                 // TODO: RotationX
@@ -202,20 +200,18 @@ namespace DeXign.Editor.Renderer
             #region < PControl >
             if (Model is PControl)
             {
-                var model = Model as PControl;
-
                 BindingEx.SetBinding(
                     visual, FrameworkElement.MarginProperty,
-                    model, PControl.MarginProperty);
+                    Model, PControl.MarginProperty);
 
                 BindingEx.SetBinding(
                     visual, FrameworkElement.VerticalAlignmentProperty,
-                    model, PControl.VerticalAlignmentProperty,
+                    Model, PControl.VerticalAlignmentProperty,
                     converter: vConverter);
 
                 BindingEx.SetBinding(
                     visual, FrameworkElement.HorizontalAlignmentProperty,
-                    model, PControl.HorizontalAlignmentProperty,
+                    Model, PControl.HorizontalAlignmentProperty,
                     converter: hConverter);
             }
             #endregion
@@ -223,10 +219,8 @@ namespace DeXign.Editor.Renderer
             #region < PLayout >
             if (Model is PLayout)
             {
-                var model = Model as PLayout;
-
                 BindingEx.TryBinding(
-                    model, PLayout.PaddingProperty,
+                    Model, PLayout.PaddingProperty,
                     visual, "Padding");
             }
             #endregion

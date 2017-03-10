@@ -39,7 +39,8 @@ namespace DeXign.Extension
         private static IEnumerable<T> Finds<T>(
             this Visual element, 
             Action<DependencyObject, Queue<DependencyObject>> elementSetter,
-            bool findAll = true) where T : Visual
+            bool findAll = true) 
+            where T : Visual
         {
             var visualQueue = new Queue<DependencyObject>();
             visualQueue.Enqueue(element);
@@ -48,12 +49,12 @@ namespace DeXign.Extension
             {
                 DependencyObject visual = visualQueue.Dequeue();
 
-                if (visual is FrameworkElement)
-                    (visual as FrameworkElement).ApplyTemplate();
+                if (visual is FrameworkElement frameworkElement)
+                    frameworkElement.ApplyTemplate();
 
-                if (visual is T)
+                if (visual is T result)
                 {
-                    yield return visual as T;
+                    yield return result;
 
                     if (!findAll)
                         break;

@@ -145,10 +145,8 @@ namespace DeXign.Editor.Controls
             bool allowVertical = true;
             bool allowHorizontal = true;
 
-            if (ParentLayer.Parent is IStackLayout)
+            if (ParentLayer.Parent is StackLayoutRenderer stackRenderer)
             {
-                var stackRenderer = ParentLayer.Parent as StackLayoutRenderer;
-
                 allowVertical =
                     (stackRenderer.Element.Orientation == Orientation.Horizontal);
 

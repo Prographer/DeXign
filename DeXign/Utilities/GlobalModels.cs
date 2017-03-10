@@ -44,8 +44,8 @@ namespace DeXign.Utilities
             {
                 PObject obj = dict[guid];
 
-                if (obj is T)
-                    return (T)obj;
+                if (obj is T model)
+                    return model;
             }
 
             return null;

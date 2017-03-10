@@ -22,10 +22,9 @@ namespace DeXign.Rules
             string name = (string)value;
             var expression = owner as BindingExpression;
             
-            if (expression.ResolvedSource is PObject)
+            if (expression.ResolvedSource is PObject pObj)
             {
-                var obj = expression.ResolvedSource as PObject;
-                var renderer = obj.GetRenderer();
+                var renderer = pObj.GetRenderer();
 
                 if (renderer != null)
                 {
@@ -33,7 +32,7 @@ namespace DeXign.Rules
 
                     if (string.IsNullOrEmpty(name))
                     {
-                        scope.Unregister(obj);
+                        scope.Unregister(pObj);
                     }
                     else if (StringRule.IsValidName(name ?? "", true))
                     {
@@ -44,7 +43,7 @@ namespace DeXign.Rules
                         }
                         else
                         {
-                            scope.Register(obj, name);
+                            scope.Register(pObj, name);
                             result = true;
                         }
                     }

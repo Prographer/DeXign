@@ -20,7 +20,7 @@ namespace DeXign.Extension
                 visualQueue.Enqueue(parent);
         }
 
-        public static IEnumerable<T> FindLogicalChildrens<T>(this DependencyObject element, bool findAll = true) 
+        public static IEnumerable<T> FindLogicalChildrens<T>(this DependencyObject element, bool findAll = true)
         {
             return Finds<T>(element, ChildrenSetter, findAll);
         }
@@ -43,8 +43,8 @@ namespace DeXign.Extension
             {
                 DependencyObject visual = visualQueue.Dequeue();
 
-                if (visual is FrameworkElement)
-                    (visual as FrameworkElement).ApplyTemplate();
+                if (visual is FrameworkElement frameworkElement)
+                    frameworkElement.ApplyTemplate();
 
                 if (visual is T)
                 {

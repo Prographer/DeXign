@@ -31,12 +31,12 @@ namespace DeXign.Extension
             object content = obj.GetContent();
 
             // Object
-            if (content is PropertyInfo)
-                yield return (content as PropertyInfo).GetValue(obj);
+            if (content is PropertyInfo pi)
+                yield return pi.GetValue(obj);
 
             // List
-            if (content is IList)
-                foreach (object item in content as IList)
+            if (content is IList list)
+                foreach (object item in list)
                     yield return item;
         }
 

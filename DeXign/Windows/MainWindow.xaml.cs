@@ -59,13 +59,9 @@ namespace DeXign.Windows
         private void OpenProject_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             DXProject project;
-            RecentItem item = null;
 
-            if (e.Parameter is RecentItem)
-                item = e.Parameter as RecentItem;
-
-            if (item != null)
-            {
+            if (e.Parameter is RecentItem item)
+            { 
                 // 파일 체크
                 if (!File.Exists(item.FileName))
                 {

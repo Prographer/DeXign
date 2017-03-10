@@ -74,9 +74,9 @@ namespace DeXign.Editor.Controls
 
         private void Storyboard_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (DataContext is StoryboardModel)
+            if (DataContext is StoryboardModel sbModel)
             {
-                Model = DataContext as StoryboardModel;
+                Model = sbModel;
             }
         }
 
@@ -207,22 +207,22 @@ namespace DeXign.Editor.Controls
                     }
 
                     // * Task *
-                    if (elementRenderer is IRendererLayout)
+                    if (elementRenderer is IRendererLayout lRenderer)
                     {
                         TaskManager?.Push(
                             new LayoutTaskData(
                                 RendererTaskType.Remove,
-                                (IRendererLayout)elementRenderer,
+                                lRenderer,
                                 () => RemoveElement(parent, element, true),
                                 () => AddElement(parent, element, true),
                                 () => RemoveElement(parent, element)));
                     }
-                    else
+                    else if (elementRenderer is IRendererElement eRenderer)
                     {
                         TaskManager?.Push(
                             new ElementTaskData(
                                 RendererTaskType.Remove,
-                                (IRendererElement)elementRenderer,
+                                eRenderer,
                                 () => RemoveElement(parent, element, true),
                                 () => AddElement(parent, element, true),
                                 () => RemoveElement(parent, element)));
@@ -279,9 +279,9 @@ namespace DeXign.Editor.Controls
             {
                 object item = items.First();
 
-                if (item is SelectionLayer)
+                if (item is SelectionLayer layer)
                 {
-                    return item as SelectionLayer;
+                    return layer;
                 }
             }
 
@@ -361,11 +361,11 @@ namespace DeXign.Editor.Controls
 
             element.AddAdorner((Adorner)childRenderer);
 
-            if (parent.DataContext != null && parent.DataContext is DependencyObject)
+            if (parent.DataContext != null && parent.DataContext is DependencyObject dataContext)
             {
                 // Add On PObject Parent
                 ObjectContentHelper.GetContent(
-                    (DependencyObject)parent.DataContext,
+                    dataContext,
                     pi => pi.SetValue(parent.DataContext, element.DataContext), // Single Content
                     list => list.SafeAdd(element.DataContext));                     // List Content
             }
@@ -433,8 +433,8 @@ namespace DeXign.Editor.Controls
             GlobalModels.UnRegister(childRenderer.Model);
 
             // Dispose
-            if (childRenderer is IDisposable)
-                ((IDisposable)childRenderer).Dispose();
+            if (childRenderer is IDisposable disposable)
+                disposable.Dispose();
 
             element.SetRenderer(null);
             childRenderer.Model.SetRenderer(null);

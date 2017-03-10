@@ -6,6 +6,7 @@ namespace DeXign.Editor.Renderer
     public static class RendererTreeHelper
     {
         public static IEnumerable<T> FindParents<T>(this IRenderer element, bool findAll = true)
+            where T : IRenderer
         {
             return Finds<T>(element, ParentSetter, findAll);
         }
@@ -17,6 +18,7 @@ namespace DeXign.Editor.Renderer
         }
 
         public static IEnumerable<T> FindChildrens<T>(this IRenderer renderer, bool findAll = true)
+            where T : IRenderer
         {
             return Finds<T>(renderer, ChildrenSetter, findAll);
         }
@@ -31,6 +33,7 @@ namespace DeXign.Editor.Renderer
             this IRenderer renderer,
             Action<IRenderer, Queue<IRenderer>> rendererSetter,
             bool findAll = true)
+            where T : IRenderer
         {
             var rendererQueue = new Queue<IRenderer>();
             rendererQueue.Enqueue(renderer);
@@ -39,9 +42,9 @@ namespace DeXign.Editor.Renderer
             {
                 IRenderer item = rendererQueue.Dequeue();
                 
-                if (item is T && !renderer.Equals(item))
+                if (item is T result && !renderer.Equals(item))
                 {
-                    yield return (T)item;
+                    yield return result;
 
                     if (!findAll)
                         break;

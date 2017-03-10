@@ -109,14 +109,12 @@ namespace DeXign.IO
 
                 object model = reader.ReadObject();
 
-                if (model is PContentPage)
+                if (model is PContentPage page)
                 {
-                    var screenModel = model as PContentPage;
-
                     // Name Setting
-                    LayoutExtension.SetPageName(screenModel, name);
+                    LayoutExtension.SetPageName(page, name);
 
-                    Screens.Add(screenModel);
+                    Screens.Add(page);
                 }
             }
         }

@@ -51,13 +51,11 @@ namespace DeXign.Extension
                 return;
             }
 
-            if (content is PropertyInfo)
-                singleContent?.Invoke(
-                    content as PropertyInfo);
+            if (content is PropertyInfo pi)
+                singleContent?.Invoke(pi);
 
-            if (content is IList)
-                listContent?.Invoke(
-                    (IList)content);
+            if (content is IList list)
+                listContent?.Invoke(list);
         }
     }
 }

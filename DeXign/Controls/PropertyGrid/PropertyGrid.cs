@@ -40,8 +40,8 @@ namespace DeXign.Controls
         private void SelectedObjects_Changed(object sender, EventArgs e)
         {
             foreach (PropertyGridItemModel item in this)
-                if (item.Setter is IDisposable)
-                    (item.Setter as IDisposable).Dispose();
+                if (item.Setter is IDisposable disposable)
+                    disposable.Dispose();
 
             this.Clear();
 
