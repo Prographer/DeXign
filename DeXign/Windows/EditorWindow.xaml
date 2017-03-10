@@ -32,20 +32,33 @@
         <Menu>
             <c:MenuItemEx Header="파일(F)" SnapsToDevicePixels="True" Foreground="White">
                 <c:MenuItemEx Header="새로 만들기(N)" InputGestureText="Ctrl+N"
-                          Command="{x:Static local:DXCommands.NewProjectCommand}"/>
+                              Command="{x:Static local:DXCommands.NewProjectCommand}"/>
 
                 <c:MenuItemEx Header="열기(O)" InputGestureText="Ctrl+O"
-                          Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+                              Command="{x:Static local:DXCommands.OpenProjectCommand}"/>
+
+                <Separator Style="{StaticResource DexignMenuSeparatorStyle}"/>
+
+                <c:MenuItemEx Header="프로젝트 저장" InputGestureText="Ctrl+S"
+                              Command="{x:Static local:DXCommands.SaveProjectCommand}"/>
+
+                <Separator Style="{StaticResource DexignMenuSeparatorStyle}"/>
+
+                <c:MenuItemEx x:Name="menuItemRecent" Header="최근에 사용한 파일" />
 
                 <Separator Style="{StaticResource DexignMenuSeparatorStyle}"/>
 
                 <c:MenuItemEx Header="끝내기(X)" InputGestureText="Alt+F4" 
-                          Command="{x:Static SystemCommands.CloseWindowCommand}"/>
+                              Command="{x:Static SystemCommands.CloseWindowCommand}"/>
             </c:MenuItemEx>
             <c:MenuItemEx Header="편집(E)" SnapsToDevicePixels="True" Foreground="White">
-                <c:MenuItemEx Header="1"/>
-                <c:MenuItemEx Header="2"/>
-                <c:MenuItemEx Header="3"/>
+                <c:MenuItemEx Header="실행 취소" InputGestureText="Ctrl+Z" 
+                              Command="{x:Static local:DXCommands.UndoCommand}"
+                              IsEnabled="{Binding StoryboardPage.Model.TaskManager.CanUndo}"/>
+                
+                <c:MenuItemEx Header="다시 실행" InputGestureText="Ctrl+Y"
+                              Command="{x:Static local:DXCommands.RedoCommand}"
+                              IsEnabled="{Binding StoryboardPage.Model.TaskManager.CanRedo}"/>
             </c:MenuItemEx>
             <c:MenuItemEx Header="빌드(B)" SnapsToDevicePixels="True" Foreground="White">
                 <c:MenuItemEx Header="1"/>

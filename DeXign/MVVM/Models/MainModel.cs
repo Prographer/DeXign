@@ -1,4 +1,6 @@
+using DeXign.IO;
 using DeXign.Windows.Pages;
+using System.Collections.Generic;
 
 namespace DeXign.Models
 {
@@ -14,6 +16,13 @@ namespace DeXign.Models
                 _storyboardPage = value;
                 RaisePropertyChanged();
             }
+        }
+
+        public List<DXProject> Projects { get; }
+
+        public MainModel()
+        {
+            Projects = new List<DXProject>();
         }
     }
 }

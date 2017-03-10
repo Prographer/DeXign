@@ -5,7 +5,6 @@ using System.Windows.Input;
 using DeXign.IO;
 using DeXign.Controls;
 using DeXign.Database;
-using System.IO;
 using DeXign.Models;
 
 namespace DeXign.Windows
@@ -40,13 +39,18 @@ namespace DeXign.Windows
 
         private void NewProject_Execute(object sender, ExecutedRoutedEventArgs e)
         {
+            this.Hide();
+
             var projDialog = new ProjectDialog();
 
             if (!projDialog.ShowDialog())
+            {
+                this.Show();
                 return;
-
+            }
+            
             var project = DXProject.Create(
-                $"{projDialog.AppName}.dx",
+                projDialog.FileName,
                 new DXProjectManifest()
                 {
                     ProjectName = projDialog.AppName,
@@ -61,29 +65,18 @@ namespace DeXign.Windows
             DXProject project;
 
             if (e.Parameter is RecentItem item)
-            { 
-                // 파일 체크
-                if (!File.Exists(item.FileName))
+            {
+                // 프로젝트 열기
+                project = item.OpenDXProject();
+
+                // 파일을 찾을 수 없음
+                if (project == null)
                 {
-                    MessageBoxResult result =
-                        MessageBox.Show(
-                            $"'{item.FileName}' 파일을 열 수 없습니다. 이 파일에 대한 참조를 최근에 사용한 파일 목록에서 제거하시겠습니까?",
-                            "DeXign",
-                            MessageBoxButton.YesNo,
-                            MessageBoxImage.Information);
-
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        recentList.Items.Remove(item);
-                        RecentDB.RemoveFile(item.FileName);
-                    }
-
+                    recentList.Items.Remove(item);
                     return;
                 }
 
-                // 프로젝트 열기
-                project = DXProject.Open(item.FileName);
-
+                // 프로젝트 열기 실패
                 if (!project.CanOpen)
                 {
                     // 메박 커스텀하고 내용 바꿀..

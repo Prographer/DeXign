@@ -13,7 +13,7 @@ namespace DeXign.Controls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-
+            
             shortcut = GetTemplateChild("PART_ShortCut") as ContentPresenter;
             UpdateShortcut();
         }

@@ -1,19 +1,17 @@
 using System;
 using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
+using DeXign.IO;
 using DeXign.Controls;
 using DeXign.Core.Designer;
 using DeXign.Models;
 using DeXign.Resources;
 using DeXign.Windows.Pages;
 using DeXign.Editor;
-using DeXign.IO;
-
-using Microsoft.Win32;
-using System.IO;
+using DeXign.Database;
+using DeXign.Extension;
 
 namespace DeXign.Windows
 {
@@ -26,7 +24,9 @@ namespace DeXign.Windows
             InitializeComponent();
             InitializeCommands();
             InitializeLayouts();
-            
+
+            UpdateRecentMenu();
+
             Model = new MainModel();
             this.DataContext = Model;
             
@@ -35,7 +35,25 @@ namespace DeXign.Windows
             // Load
             OpenStoryboardPage(project);
         }
-        
+
+        private void UpdateRecentMenu()
+        {
+            int n = 1;
+
+            menuItemRecent.Items.Clear();
+
+            foreach (RecentItem item in RecentDB.GetFiles())
+            {
+                menuItemRecent.Items.Add(
+                    new MenuItemEx()
+                    {
+                        Header = $"{n++} {item.FileName}",
+                        Command = DXCommands.OpenProjectCommand,
+                        CommandParameter = item
+                    });
+            }
+        }
+
         private void GroupSelector_SelectedItemChanged(object sender, EventArgs e)
         {
             propertyGrid.SelectedObjects = GroupSelector.GetSelectedItems()
@@ -101,7 +119,34 @@ namespace DeXign.Windows
 
         private void OpenProject_Execute(object sender, ExecutedRoutedEventArgs e)
         {
-            OpenProject();
+            if (e.Parameter is RecentItem item)
+            {
+                var openedProject = Model.Projects
+                    .FirstOrDefault(p => p.FileName.AnyEquals(item.FileName));
+
+                // Open
+                if (openedProject == null)
+                {
+                    DXProject project = item.OpenDXProject();
+
+                    // 파일을 찾을 수 없음
+                    if (project == null)
+                    {
+                        UpdateRecentMenu();
+                        return;
+                    }
+
+                    OpenProject(project);
+                    return;
+                }
+
+                // Select Tab
+                SelectProject(openedProject);
+            }
+            else
+            {
+                OpenProject();
+            }
         }
 
         private void SaveProject_Execute(object sender, ExecutedRoutedEventArgs e)
@@ -124,10 +169,17 @@ namespace DeXign.Windows
 
         private void OpenProject()
         {
-            DXProject project = DXProject.OpenDialog();
+            OpenProject(DXProject.OpenDialog());
+        }
 
-            if (project != null)
-                OpenStoryboardPage(project);
+        private void OpenProject(DXProject project)
+        {
+            if (project == null)
+                return;
+
+            UpdateRecentMenu();
+
+            OpenStoryboardPage(project);
         }
 
         public void CreateNewProject()
@@ -136,10 +188,8 @@ namespace DeXign.Windows
             
             if (projDialog.ShowDialog())
             {
-                string fileName = Path.Combine(projDialog.Directory, $"{projDialog.AppName}.dx");
-
                 var project = DXProject.Create(
-                    fileName,
+                    projDialog.FileName,
                     new DXProjectManifest()
                     {
                         ProjectName = projDialog.AppName,
@@ -152,24 +202,51 @@ namespace DeXign.Windows
         #endregion
 
         #region [ Storyboard Handling ]
+        private void SelectProject(DXProject project)
+        {
+            foreach (ClosableTabItem item in tabControl.Items)
+            {
+                var model = item.Tag as StoryboardModel;
+
+                if (model.Project.Equals(project))
+                    item.IsSelected = true;
+            }
+        }
+
         public void OpenStoryboardPage(DXProject project)
         {
-            var page = new StoryboardPage();
-
             // DeXign Project
+            var page = new StoryboardPage();
+            var tabItem = new ClosableTabItem()
+            {
+                Header = project.Manifest.ProjectName,
+                IsSelected = true,
+                Content = new Frame()
+                {
+                    Content = page
+                },
+                Tag = page.Model
+            };
+
+            tabItem.Closed += TabItem_Closed;
+
+            // Add project on managed collection
+            Model.Projects.SafeAdd(project);
+
+            // Set Storyboard Project
             page.Model.Project = project;
 
-            tabControl.Items.Add(
-                new ClosableTabItem()
-                {
-                    Header = project.Manifest.ProjectName,
-                    IsSelected = true,
-                    Content = new Frame()
-                    {
-                        Content = page
-                    },
-                    Tag = page.Model
-                });
+            // Add TabPage
+            tabControl.Items.Add(tabItem);
+        }
+
+        private void TabItem_Closed(object sender, EventArgs e)
+        {
+            var tabItem = sender as ClosableTabItem;
+            var model = tabItem.Tag as StoryboardModel;
+
+            // Remove project on managed collection
+            Model.Projects.SafeRemove(model.Project);
         }
         #endregion
 

@@ -7,6 +7,8 @@ namespace DeXign.Controls
 {
     public class ClosableTabItem : TabItem
     {
+        public event EventHandler Closed;
+
         public static RoutedCommand CloseCommand { get; }
 
         static ClosableTabItem()
@@ -29,6 +31,8 @@ namespace DeXign.Controls
             var tab = this.Parent as TabControl;
 
             tab.Items.Remove(this);
+
+            Closed?.Invoke(this, EventArgs.Empty);
         }
     }
 }

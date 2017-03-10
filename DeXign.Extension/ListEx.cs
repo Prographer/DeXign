@@ -17,13 +17,13 @@ namespace DeXign.Extension
                 list.Remove(item);
         }
 
-        public static void SafeAdd<T>(this IList list, T item)
+        public static void SafeAdd(this IList list, object item)
         {
             if (!list.Contains(item))
                 list.Add(item);
         }
 
-        public static void SafeRemove<T>(this IList list, T item)
+        public static void SafeRemove(this IList list, object item)
         {
             if (list.Contains(item))
                 list.Remove(item);
