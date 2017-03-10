@@ -8,6 +8,7 @@
         xmlns:b="clr-namespace:DeXign.Behavior"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:shell="clr-namespace:Microsoft.Windows.Shell"
+        Icon="/DeXign;component/Resources/Icons/IconLogo.ico"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="DX"
