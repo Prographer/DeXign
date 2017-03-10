@@ -9,6 +9,7 @@ using DeXign.Editor.Renderer;
 using DeXign.Extension;
 using DeXign.Models;
 using DeXign.Theme;
+using DeXign.Editor;
 
 namespace DeXign.Windows.Pages
 {
@@ -32,12 +33,6 @@ namespace DeXign.Windows.Pages
 
             // Task Manager Setting
             storyboard.TaskManager = Model.TaskManager;
-
-            // Test Code
-            updateTimer = new DispatcherTimer();
-            updateTimer.Interval = TimeSpan.FromMilliseconds(20);
-            updateTimer.Tick += UpdateTimer_Tick;
-            updateTimer.Start();
         }
 
         private void StoryboardPage_Loaded(object sender, RoutedEventArgs e)
@@ -66,39 +61,7 @@ namespace DeXign.Windows.Pages
             storyboard.Close();
         }
         #endregion
-
-        private void UpdateTimer_Tick(object sender, EventArgs e)
-        {
-            // 프로젝트 로드 구현후 개방
-            return;
-
-            var screenRenderer = storyboard.Screens[0].GetRenderer() as ScreenRenderer;
-            
-            // Generate
-            var codeUnit = new CodeGeneratorUnit<PObject>()
-            {
-                NodeIterating = true,
-                Items =
-                {
-                    screenRenderer.Model
-                }
-            };
-
-            var assemblyInfo = new CodeGeneratorAssemblyInfo();
-            var manifest = new CodeGeneratorManifest();
-
-            var xGenerator = new XFormsGenerator(
-                XFormsGenerateType.Xaml,
-                codeUnit,
-                manifest,
-                assemblyInfo);
-
-            foreach (string code in xGenerator.Generate())
-            {
-                codeBox.Text = code;
-            }
-        }
-
+        
         private void Storyboard_Loaded(object sender, RoutedEventArgs e)
         {
             storyboard.Loaded -= Storyboard_Loaded;
@@ -127,5 +90,19 @@ namespace DeXign.Windows.Pages
                 this.Resources = theme;
         }
         #endregion
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            IRenderer screenRenderer = Model.Project.Screens[0].GetRenderer();
+            FrameworkElement element = screenRenderer.Element;
+
+            Rect bound = new Rect(
+                    element.TranslatePoint(new Point(), storyboard),
+                    element.RenderSize);
+
+            bound.Inflate(100, 100);
+
+            zoomPanel.ZoomFit(bound, true);
+        }
     }
 }

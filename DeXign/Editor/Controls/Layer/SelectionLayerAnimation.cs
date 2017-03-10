@@ -1,8 +1,7 @@
 using System;
-using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
+
+using DeXign.Animation;
 
 namespace DeXign.Editor.Layer
 {
@@ -23,19 +22,14 @@ namespace DeXign.Editor.Layer
             AnimateFrameThickness(0, 250);
         }
 
-        protected void AnimateFrameThickness(double thickness, double duration = 300, Action completed = null)
+        protected void AnimateFrameThickness(double thickness, double duration = 300, EventHandler completed = null)
         {
-            var thicknessAnim = new DoubleAnimation(
-                thickness,
-                new Duration(TimeSpan.FromMilliseconds(duration)))
-            {
-                EasingFunction = new CircleEase()
-                {
-                    EasingMode = EasingMode.EaseOut
-                }
-            };
+            this.StopAnimation(
+                SelectionLayer.FrameThicknessProperty);
 
-            this.BeginAnimation(SelectionLayer.FrameThicknessProperty, thicknessAnim);
+            this.BeginDoubleAnimation(
+                SelectionLayer.FrameThicknessProperty, 
+                thickness, duration, EasingFactory.CircleOut, completed);
         }
     }
 }

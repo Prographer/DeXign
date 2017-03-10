@@ -15,6 +15,7 @@ using DeXign.Extension;
 using DeXign.Resources;
 
 using WPFExtension;
+using DeXign.Controls;
 
 namespace DeXign.Editor.Layer
 {
@@ -244,9 +245,7 @@ namespace DeXign.Editor.Layer
             AdornedElement.SetDesignMinWidth(5);
             AdornedElement.SetDesignMinHeight(5);
 
-            var scale = new ScaleTransform(
-                RootScale.ScaleX,
-                RootScale.ScaleY);
+            var scale = new ScaleTransform(Scale, Scale);
 
             #region < Add Move Thumb >
             Add(moveThumb = new LayerMoveThumb(this));
@@ -425,19 +424,19 @@ namespace DeXign.Editor.Layer
 
             // ParentScale X -> scale X
             BindingEx.SetBinding(
-                RootScale, ScaleTransform.ScaleXProperty,
+                Zoom, ZoomPanel.ScaleProperty,
                 scale, ScaleTransform.ScaleXProperty,
                 converter: reciprocalConverter);
 
             // ParentScale Y -> scale Y
             BindingEx.SetBinding(
-                RootScale, ScaleTransform.ScaleYProperty,
+                Zoom, ZoomPanel.ScaleProperty,
                 scale, ScaleTransform.ScaleYProperty,
                 converter: reciprocalConverter);
 
             // ParentScale X -> frame StrokeThickness
             BindingEx.SetBinding(
-                RootScale, ScaleTransform.ScaleXProperty,
+                Zoom, ZoomPanel.ScaleProperty,
                 frame, Shape.StrokeThicknessProperty,
                 converter: reciprocalConverter);
 

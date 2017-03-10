@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:DeXign"
       xmlns:dc="clr-namespace:DeXign.Editor.Controls"
+      xmlns:c="clr-namespace:DeXign.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="665" d:DesignWidth="977"
       Title="StoryboardPage">
@@ -14,23 +15,12 @@
     </Page.InputBindings>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="200"/>
-        </Grid.RowDefinitions>
+        <AdornerDecorator ClipToBounds="True">
+            <c:ZoomPanel x:Name="zoomPanel">
+                <dc:Storyboard x:Name="storyboard" Width="1920" Height="1080"/>
+            </c:ZoomPanel>
+        </AdornerDecorator>
 
-        <ScrollViewer>
-            <AdornerDecorator>
-                <dc:Storyboard x:Name="storyboard">
-                    <dc:Storyboard.RenderTransform>
-                        <ScaleTransform ScaleX="{Binding Value, ElementName=slider}" ScaleY="{Binding Value, ElementName=slider}"/>
-                    </dc:Storyboard.RenderTransform>
-                </dc:Storyboard>
-            </AdornerDecorator>
-        </ScrollViewer>
-        <Slider x:Name="slider" VerticalAlignment="Bottom" Margin="10" Maximum="8" Minimum="0.25" Value="1"/>
-
-        <GridSplitter Grid.Row="1" VerticalAlignment="Top" Height="5" Background="Gray" HorizontalAlignment="Stretch"/>
-        <TextBox x:Name="codeBox" Grid.Row="1" BorderThickness="0" IsReadOnly="True" Margin="0,5,0,0"/>
+        <Button Content="DEBUG: ZoomFit" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10" Padding="10" Click="Button_Click"/>
     </Grid>
 </Page>

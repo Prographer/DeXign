@@ -116,7 +116,24 @@
 
         <GridSplitter Grid.Column="1" Background="#C0C0C0" Width="2" HorizontalAlignment="Center"/>
 
-        <TabControl x:Name="tabControl" Grid.Column="2" SelectionChanged="tabControl_SelectionChanged"/>
+        <TabControl x:Name="tabControl" Grid.Column="2" SelectionChanged="tabControl_SelectionChanged">
+            <TabControl.Items>
+                <c:ClosableTabItem Header="Debug (ZoomPanel)">
+                    <Grid>
+                        <c:ZoomPanel x:Name="zoomPanel">
+                            <Image Source="/DeXign;component/Resources/Images/test.jpg" Width="1920" Height="1080" Stretch="Uniform"/>
+                        </c:ZoomPanel>
+                        
+                        <Button Content="ZoomFit" Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Padding="8" Click="Button_Click"/>
+
+                        <c:SpacingStackPanel Margin="10" VerticalAlignment="Top" HorizontalAlignment="Left" TextBlock.Foreground="Black">
+                            <TextBlock Text="Zoom: Ctrl + Wheel"/>
+                            <TextBlock Text="Drag: Ctrl + MouseDown"/>
+                        </c:SpacingStackPanel>
+                    </Grid>
+                </c:ClosableTabItem>
+            </TabControl.Items>
+        </TabControl>
 
         <GridSplitter Grid.Column="3" Background="#C0C0C0" Width="2" HorizontalAlignment="Center"/>
 

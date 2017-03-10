@@ -42,6 +42,8 @@ namespace DeXign.Editor.Controls
         public List<PContentPage> Screens => Model?.Project.Screens;
 
         public bool IsComponentBoxOpen { get { return componentBoxPopup.IsOpen; } }
+
+        internal ZoomPanel ZoomPanel { get; private set; }
         #endregion
 
         #region [ Local Variable ]
@@ -70,6 +72,14 @@ namespace DeXign.Editor.Controls
             this.Loaded += Storyboard_Loaded;
 
             Application.Current.MainWindow.Deactivated += Storyboard_Deactivated;
+        }
+
+        protected override void OnVisualParentChanged(DependencyObject oldParent)
+        {
+            base.OnVisualParentChanged(oldParent);
+
+            if (this.Parent is ZoomPanel zoomPanel)
+                this.ZoomPanel = zoomPanel;
         }
 
         private void Storyboard_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -501,11 +511,13 @@ namespace DeXign.Editor.Controls
         {
             var connector = new LineConnectorBase(this, startPosition, endPosition);
 
-            var scale = RenderTransform as ScaleTransform;
-            BindingEx.SetBinding(
-                scale, ScaleTransform.ScaleXProperty,
-                connector.Line, BezierLine.StrokeThicknessProperty,
-                converter: new ReciprocalConverter());
+            if (ZoomPanel != null)
+            {
+                BindingEx.SetBinding(
+                    ZoomPanel, ZoomPanel.ScaleProperty,
+                    connector.Line, BezierLine.StrokeThicknessProperty,
+                    converter: new ReciprocalConverter());
+            }
 
             LineLayer.Add(connector.Line);
             managedLines.Add(connector);
@@ -525,11 +537,13 @@ namespace DeXign.Editor.Controls
         {
             var connector = new LineConnector(this, source, target);
 
-            var scale = RenderTransform as ScaleTransform;
-            BindingEx.SetBinding(
-                scale, ScaleTransform.ScaleXProperty,
-                connector.Line, BezierLine.StrokeThicknessProperty,
-                converter: new ReciprocalConverter());
+            if (ZoomPanel != null)
+            {
+                BindingEx.SetBinding(
+                    ZoomPanel, ZoomPanel.ScaleProperty,
+                    connector.Line, BezierLine.StrokeThicknessProperty,
+                    converter: new ReciprocalConverter());
+            }
 
             LineLayer.Add(connector.Line);
             managedLines.Add(connector);

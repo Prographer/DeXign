@@ -17,9 +17,12 @@ namespace DeXign.Windows
 {
     public partial class EditorWindow : ChromeWindow, IViewModel<MainModel>
     {
+        #region [ Property ]
         public MainModel Model { get; set; }
+        #endregion
 
-        public EditorWindow(DXProject project)
+        #region [ Constructor ]
+        public EditorWindow()
         {
             InitializeComponent();
             InitializeCommands();
@@ -29,9 +32,12 @@ namespace DeXign.Windows
 
             Model = new MainModel();
             this.DataContext = Model;
-            
-            GroupSelector.SelectedItemChanged += GroupSelector_SelectedItemChanged;
 
+            GroupSelector.SelectedItemChanged += GroupSelector_SelectedItemChanged;
+        }
+
+        public EditorWindow(DXProject project) : this()
+        {
             // Load
             OpenStoryboardPage(project);
         }
@@ -71,7 +77,7 @@ namespace DeXign.Windows
                     continue;
 
                 var resource = ResourceManager.GetDesignerResource(element.Element);
-                
+
                 toolBox.AddItem(
                     new ToolBoxItemView(
                         new ToolBoxItemModel(element, resource)));
@@ -100,6 +106,7 @@ namespace DeXign.Windows
                 new CommandBinding(
                     DXCommands.RedoCommand, Redo_Execute));
         }
+        #endregion
 
         #region [ Commands ]
         private void Redo_Execute(object sender, ExecutedRoutedEventArgs e)
@@ -259,5 +266,10 @@ namespace DeXign.Windows
             Model.StoryboardPage = itemModel?.ViewModel;
         }
         #endregion
+
+        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            zoomPanel.ZoomFit(true);
+        }
     }
 }

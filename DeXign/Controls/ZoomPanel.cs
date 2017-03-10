@@ -1,149 +1,304 @@
-using System.Linq;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
+using DeXign.Animation;
+using DeXign.Extension;
+
+using WPFExtension;
+
 namespace DeXign.Controls
 {
-    public class ZoomPanel : Border
+    class ZoomPanel : ContentControl
     {
-        private UIElement child = null;
-        private Point origin;
-        private Point start;
+        #region [ Dependency Property ]
+        public static readonly DependencyProperty MinScaleProperty =
+            DependencyHelper.Register(
+                new FrameworkPropertyMetadata(0.1d, FrameworkPropertyMetadataOptions.AffectsRender));
 
-        private TranslateTransform GetTranslateTransform(UIElement element)
-        {
-            return (TranslateTransform)((TransformGroup)element.RenderTransform)
-              .Children.First(tr => tr is TranslateTransform);
-        }
+        public static readonly DependencyProperty MaxScaleProperty =
+            DependencyHelper.Register(
+                new FrameworkPropertyMetadata(8d, FrameworkPropertyMetadataOptions.AffectsRender));
 
-        private ScaleTransform GetScaleTransform(UIElement element)
-        {
-            return (ScaleTransform)((TransformGroup)element.RenderTransform)
-              .Children.First(tr => tr is ScaleTransform);
-        }
+        public static readonly DependencyProperty ScaleProperty =
+            DependencyHelper.Register(
+                new FrameworkPropertyMetadata(1d, FrameworkPropertyMetadataOptions.AffectsRender));
 
-        public override UIElement Child
-        {
-            get { return base.Child; }
-            set
-            {
-                if (value != null && value != this.Child)
-                    this.Initialize(value);
-                base.Child = value;
-            }
-        }
+        public static readonly DependencyProperty OffsetXProperty =
+            DependencyHelper.Register(
+                new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.AffectsRender));
 
-        public void Initialize(UIElement element)
-        {
-            this.child = element;
+        public static readonly DependencyProperty OffsetYProperty =
+            DependencyHelper.Register(
+                new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.AffectsRender));
 
-            if (child != null)
-            {
-                var group = new TransformGroup();
-
-                var st = new ScaleTransform();
-                group.Children.Add(st);
-
-                var tt = new TranslateTransform();
-                group.Children.Add(tt);
-
-                child.RenderTransform = group;
-                child.RenderTransformOrigin = new Point(0.0, 0.0);
-
-                this.MouseWheel += child_MouseWheel;
-                this.MouseLeftButtonDown += child_MouseLeftButtonDown;
-                this.MouseLeftButtonUp += child_MouseLeftButtonUp;
-                this.MouseMove += child_MouseMove;
-                this.PreviewMouseRightButtonDown += Child_PreviewMouseRightButtonDown;
-            }
-        }
-
-        public void Reset()
-        {
-            if (child != null)
-            {
-                // reset zoom
-                var st = GetScaleTransform(child);
-                st.ScaleX = 1.0;
-                st.ScaleY = 1.0;
-
-                // reset pan
-                var tt = GetTranslateTransform(child);
-                tt.X = 0.0;
-                tt.Y = 0.0;
-            }
-        }
-
-        #region Child Events
-
-        private void child_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            if (child != null)
-            {
-                var st = GetScaleTransform(child);
-                var tt = GetTranslateTransform(child);
-
-                double zoom = e.Delta > 0 ? .2 : -.2;
-                if (!(e.Delta > 0) && (st.ScaleX < .4 || st.ScaleY < .4))
-                    return;
-
-                Point relative = e.GetPosition(child);
-                double abosuluteX;
-                double abosuluteY;
-
-                abosuluteX = relative.X * st.ScaleX + tt.X;
-                abosuluteY = relative.Y * st.ScaleY + tt.Y;
-
-                st.ScaleX += zoom;
-                st.ScaleY += zoom;
-
-                tt.X = abosuluteX - relative.X * st.ScaleX;
-                tt.Y = abosuluteY - relative.Y * st.ScaleY;
-            }
-        }
-
-        private void child_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (child != null)
-            {
-                var tt = GetTranslateTransform(child);
-                start = e.GetPosition(this);
-                origin = new Point(tt.X, tt.Y);
-                this.Cursor = Cursors.Hand;
-                child.CaptureMouse();
-            }
-        }
-
-        private void child_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (child != null)
-            {
-                child.ReleaseMouseCapture();
-                this.Cursor = Cursors.Arrow;
-            }
-        }
-
-        void Child_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            this.Reset();
-        }
-
-        private void child_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (child != null)
-            {
-                if (child.IsMouseCaptured)
-                {
-                    var tt = GetTranslateTransform(child);
-                    Vector v = start - e.GetPosition(this);
-                    tt.X = origin.X - v.X;
-                    tt.Y = origin.Y - v.Y;
-                }
-            }
-        }
-
+        public static readonly DependencyProperty IsPanningProperty =
+            DependencyHelper.Register();
         #endregion
+        
+        #region [ Property ] 
+        public double Scale
+        {
+            get { return (double)GetValue(ScaleProperty); }
+            set { SetValue(ScaleProperty, value); }
+        }
+
+        public double MinScale
+        {
+            get { return (double)GetValue(MinScaleProperty); }
+            set { SetValue(MinScaleProperty, value); }
+        }
+
+        public double MaxScale
+        {
+            get { return (double)GetValue(MaxScaleProperty); }
+            set { SetValue(MaxScaleProperty, value); }
+        }
+
+        public double OffsetX
+        {
+            get { return (double)GetValue(OffsetXProperty); }
+            set { SetValue(OffsetXProperty, value); }
+        }
+
+        public double OffsetY
+        {
+            get { return (double)GetValue(OffsetYProperty); }
+            set { SetValue(OffsetYProperty, value); }
+        }
+
+        public bool IsPanning
+        {
+            get { return (bool)GetValue(IsPanningProperty); }
+            set { SetValue(IsPanningProperty, value); }
+        }
+        #endregion
+
+        #region [ Local Variable ]
+        private FrameworkElement contentElement;
+
+        private TransformGroup contentTransformGroup;
+        private ScaleTransform contentScaleTransform;
+        private TranslateTransform contentOffsetTransform;
+
+        // panning
+        private Point beginPosition;
+        #endregion
+
+        public ZoomPanel()
+        {
+            EventManager.RegisterClassHandler(typeof(Window), Window.PreviewMouseWheelEvent, new MouseWheelEventHandler(Global_PreviewMouseWheel));
+            EventManager.RegisterClassHandler(typeof(Window), Window.PreviewMouseDownEvent, new MouseButtonEventHandler(Global_PreviewMouseDown));
+            EventManager.RegisterClassHandler(typeof(Window), Window.PreviewMouseUpEvent, new MouseButtonEventHandler(Global_PreviewMouseUp));
+
+            this.Background = Brushes.Transparent;
+
+            contentTransformGroup = new TransformGroup();
+
+            contentOffsetTransform = new TranslateTransform();
+            contentScaleTransform = new ScaleTransform();
+
+            contentTransformGroup.Children.Add(contentOffsetTransform);
+            contentTransformGroup.Children.Add(contentScaleTransform);
+
+            // Scale X
+            BindingEx.SetBinding(
+                this, ScaleProperty,
+                contentScaleTransform, ScaleTransform.ScaleXProperty);
+
+            // Scale Y
+            BindingEx.SetBinding(
+                this, ScaleProperty,
+                contentScaleTransform, ScaleTransform.ScaleYProperty);
+            
+            // Offset X
+            BindingEx.SetBinding(
+                this, OffsetXProperty,
+                contentOffsetTransform, TranslateTransform.XProperty);
+
+            // Offset Y
+            BindingEx.SetBinding(
+                this, OffsetYProperty,
+                contentOffsetTransform, TranslateTransform.YProperty);
+        }
+
+        #region [ Mouse Handling ]
+        private void Global_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (!this.IsBoundHitted(e as MouseEventArgs))
+                return;
+
+            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                Point position = e.GetPosition(contentElement);
+
+                double delta = (this.Scale >= 1 ? Math.Floor(this.Scale) / 10f : 0.1);
+
+                if (e.Delta > 0)
+                {
+                    Zoom(this.Scale + delta, position);
+                }
+                else
+                {
+                    Zoom(this.Scale - delta, position);
+                }
+
+                e.Handled = true;
+            }
+        }
+        
+        private void Global_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (this.IsPanning)
+            {
+                this.IsPanning = false;
+
+                this.ReleaseMouseCapture();
+            }
+        }
+
+        private void Global_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!this.IsBoundHitted(e))
+                return;
+
+            if (!this.IsPanning &&
+                e.LeftButton == MouseButtonState.Pressed &&
+                Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                e.Handled = true;
+
+                beginPosition = e.GetPosition(contentElement);
+                this.IsPanning = true;
+
+                this.CaptureMouse();
+            }
+        }
+
+        protected override void OnPreviewMouseMove(MouseEventArgs e)
+        {
+            if (this.IsPanning && e.LeftButton == MouseButtonState.Pressed)
+            {
+                Vector delta = e.GetPosition(contentElement) - beginPosition;
+                
+                this.OffsetX += delta.X;
+                this.OffsetY += delta.Y;
+            }
+
+            base.OnPreviewMouseMove(e);
+        }
+        #endregion
+
+        public void ZoomFit(bool animate = false)
+        {
+            ZoomFit(
+                new Rect(
+                    new Point(0, 0),
+                    contentElement.RenderSize),
+                animate);
+        }
+
+        public void ZoomFit(Rect bound, bool animate = false)
+        {
+            double xScale = RenderSize.Width / bound.Width;
+            double yScale = RenderSize.Height / bound.Height;
+
+            double scale = Math.Min(xScale, yScale);
+
+            ScaleNormalize(ref scale);
+
+            double offsetX = RenderSize.Width / scale / 2 - bound.Width / 2 - bound.X;
+            double offsetY = RenderSize.Height / scale / 2 - bound.Height / 2 - bound.Y;
+
+            Zoom(scale, offsetX, offsetY, animate);
+        }
+
+        public void Zoom(double scale, bool animate = false)
+        {
+            var contentCenter = 
+                new Point(
+                    this.OffsetX - this.RenderSize.Width / 2,
+                    this.OffsetY - this.RenderSize.Height / 2);
+
+            Zoom(scale, contentCenter, animate);
+        }
+
+        public void Zoom(double scale, Point position, bool animate = false)
+        {
+            ScaleNormalize(ref scale);
+
+            double scaledScreenOffsetX = (position.X + this.OffsetX) * this.Scale;
+            double scaledScreenOffsetY = (position.Y + this.OffsetY) * this.Scale;
+
+            double offsetX = scaledScreenOffsetX / scale - position.X;
+            double offsetY = scaledScreenOffsetY / scale - position.Y;
+
+            Zoom(scale, offsetX, offsetY, animate);
+        }
+
+        public void Zoom(double scale, double offsetX, double offsetY, bool animate = false)
+        {
+            ScaleNormalize(ref scale);
+
+            Animator.StopAnimation(this, OffsetXProperty);
+            Animator.StopAnimation(this, OffsetYProperty);
+            Animator.StopAnimation(this, ScaleProperty);
+
+            if (animate)
+            {
+                this.BeginDoubleAnimation(OffsetXProperty, offsetX, 600, EasingFactory.CircleOut);
+                this.BeginDoubleAnimation(OffsetYProperty, offsetY, 600, EasingFactory.CircleOut);
+                this.BeginDoubleAnimation(ScaleProperty, scale, 400, EasingFactory.CircleOut);
+            }
+            else
+            {
+                this.Scale = scale;
+                this.OffsetX = offsetX;
+                this.OffsetY = offsetY;
+            }
+        }
+
+        private void ScaleNormalize(ref double scale)
+        {
+            scale = Math.Min(Math.Max(scale, MinScale), MaxScale);
+        }
+
+        protected override void OnContentChanged(object oldContent, object newContent)
+        {
+            base.OnContentChanged(oldContent, newContent);
+            
+            if (newContent is FrameworkElement content)
+            {
+                this.contentElement = content;
+
+                content.RenderTransform = contentTransformGroup;
+            }
+        }
+
+        protected override Size MeasureOverride(Size constraint)
+        {
+            Size childSize = base.MeasureOverride(
+                new Size(double.PositiveInfinity, double.PositiveInfinity));
+            
+            double width = constraint.Width;
+            double height = constraint.Height;
+
+            if (double.IsInfinity(width))
+                width = childSize.Width;
+
+            if (double.IsInfinity(height))
+                height = childSize.Height;
+
+            return new Size(width, height);
+        }
+
+        private Size GetScaledContentSize()
+        {
+            return new Size(
+                contentElement.RenderSize.Width * this.Scale,
+                contentElement.RenderSize.Height * this.Scale);
+        }
     }
 }

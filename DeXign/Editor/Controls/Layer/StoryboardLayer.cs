@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
 using System.Windows;
-using System.Windows.Media;
 
 using DeXign.Editor.Controls;
 using DeXign.Extension;
+using DeXign.Controls;
 
 namespace DeXign.Editor.Layer
 {
@@ -16,10 +16,9 @@ namespace DeXign.Editor.Layer
         bool IsDisposed = false;
 
         internal Storyboard RootParent;
-        internal ScaleTransform RootScale;
+        internal ZoomPanel Zoom => RootParent.ZoomPanel;
 
-        internal double ScaleX => RootScale.ScaleX;
-        internal double ScaleY => RootScale.ScaleY;
+        internal double Scale => Zoom.Scale;
 
         public StoryboardLayer(UIElement adornedElement) : base(adornedElement)
         {
@@ -33,8 +32,6 @@ namespace DeXign.Editor.Layer
             this.RootParent = AdornedElement
                 .FindLogicalParents<Storyboard>()
                 .FirstOrDefault();
-
-            this.RootScale = RootParent?.RenderTransform as ScaleTransform;
 
             OnLoaded((FrameworkElement)AdornedElement);
 
