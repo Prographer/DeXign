@@ -56,8 +56,10 @@ namespace DeXign.Editor.Renderer
                 child.Element.Width = 360;
                 child.Element.Height = 615;
 
-                Canvas.SetTop(child.Element, 80);
-                Canvas.SetLeft(child.Element, 80);
+                var screenSize = (Element.Parent as FrameworkElement).RenderSize;
+
+                Canvas.SetTop(child.Element, screenSize.Height / 2 - child.Element.Height / 2);
+                Canvas.SetLeft(child.Element, screenSize.Width / 2 - child.Element.Width / 2);
             }
         }
 

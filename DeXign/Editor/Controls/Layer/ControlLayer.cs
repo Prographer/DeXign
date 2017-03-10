@@ -1,12 +1,5 @@
-using DeXign.Editor.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 
@@ -61,11 +54,6 @@ namespace DeXign.Editor.Layer
                     new Rect(0, 0, AdornedElement.RenderSize.Width, AdornedElement.RenderSize.Height));
 
             return finalSize;
-        }
-
-        internal bool IsHitted(FrameworkElement element, MouseButtonEventArgs e)
-        {
-            return VisualTreeHelper.HitTest(element, e.GetPosition(element)) != null;
         }
     }
 

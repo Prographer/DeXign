@@ -107,6 +107,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Animation\Animator.cs" />
+    <Compile Include="Animation\EasingFactory.cs" />
     <Compile Include="Animation\SpringEase.cs" />
     <Compile Include="Controls\BezierLine.cs" />
     <Compile Include="Controls\Cell\ContentCell.cs" />
@@ -119,6 +121,7 @@
     <Compile Include="Controls\Cell\TextCell.cs" />
     <Compile Include="Controls\RecentFileTextBlock.cs" />
     <Compile Include="Controls\RoundButton.cs" />
+    <Compile Include="Controls\ZoomPanel.cs" />
     <Compile Include="Database\RecentDB.cs" />
     <Compile Include="Editor\Connector\LineConnector.cs" />
     <Compile Include="Editor\Connector\LineConnectorBase.cs" />
@@ -340,7 +343,6 @@
     <Compile Include="Controls\ToolBox\ToolBox.cs" />
     <Compile Include="Editor\Controls\Layer\SelectionLayer.cs" />
     <Compile Include="Editor\Controls\Storyboard.cs" />
-    <Compile Include="Controls\ZoomPanel.cs" />
     <Compile Include="Editor\Controls\Layer\StoryboardLayer.cs" />
     <Compile Include="Editor\DesignMode.cs" />
     <Compile Include="Editor\Interfaces\IDropHost.cs" />
@@ -470,7 +472,7 @@
     <Resource Include="Resources\Images\PaddingBackground.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Model\" />
+    <Resource Include="Resources\Images\test.jpg" />
   </ItemGroup>
   <Import Project="..\DeXign.Shared\DeXign.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

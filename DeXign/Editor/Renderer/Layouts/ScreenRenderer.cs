@@ -41,29 +41,29 @@ namespace DeXign.Editor.Renderer
 
             // Width
             dc.DrawLine(pen,
-                new Point(0, -1 / ScaleX),
-                new Point(0, -12 / ScaleX));
+                new Point(0, -1 / Scale),
+                new Point(0, -12 / Scale));
 
             dc.DrawLine(pen,
-                new Point(RenderSize.Width - 1 / ScaleX, -1 / ScaleX),
-                new Point(RenderSize.Width - 1 / ScaleX, -12 / ScaleX));
+                new Point(RenderSize.Width - 1 / Scale, -1 / Scale),
+                new Point(RenderSize.Width - 1 / Scale, -12 / Scale));
 
             dc.DrawLine(dashedPen,
-                new Point(0, -7 / ScaleX),
-                new Point(RenderSize.Width - 1 / ScaleX, -7 / ScaleX));
+                new Point(0, -7 / Scale),
+                new Point(RenderSize.Width - 1 / Scale, -7 / Scale));
 
             // Height
             dc.DrawLine(pen,
-                new Point(-1 / ScaleX, 0),
-                new Point(-12 / ScaleX, 0));
+                new Point(-1 / Scale, 0),
+                new Point(-12 / Scale, 0));
 
             dc.DrawLine(pen,
-                new Point(-1 / ScaleX, RenderSize.Height - 1 / ScaleX),
-                new Point(-12 / ScaleX, RenderSize.Height - 1 / ScaleX));
+                new Point(-1 / Scale, RenderSize.Height - 1 / Scale),
+                new Point(-12 / Scale, RenderSize.Height - 1 / Scale));
 
             dc.DrawLine(dashedPen,
-                new Point(-7 / ScaleX, 0),
-                new Point(-7 / ScaleX, RenderSize.Height - 1 / ScaleX));
+                new Point(-7 / Scale, 0),
+                new Point(-7 / Scale, RenderSize.Height - 1 / Scale));
         }
 
         public override bool CanDrop(AttributeTuple<DesignElementAttribute, Type> item, Point mouse)

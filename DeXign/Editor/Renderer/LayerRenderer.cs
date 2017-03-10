@@ -256,7 +256,7 @@ namespace DeXign.Editor.Renderer
 
             if (showModelName)
             {
-                double blank = 4 / ScaleX;
+                double blank = 4 / Scale;
                 double opacity = 8;
                 string name = Model.Name;
                 SolidColorBrush brush = Brushes.Black;
