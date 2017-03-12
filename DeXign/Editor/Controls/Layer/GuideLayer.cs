@@ -9,7 +9,7 @@ namespace DeXign.Editor.Layer
 {
     public class GuideLayer : StoryboardLayer, IGuideService
     {
-        public List<IGuideProvider> Items { get; }
+        private List<IGuideProvider> Items { get; }
 
         public double SnapThreshold { get; set; } = 10;
 
@@ -116,6 +116,12 @@ namespace DeXign.Editor.Layer
         {
             foreach (IGuideProvider provider in Items.Except(new[] { target }))
             {
+                if (provider is FrameworkElement frameworkElement &&
+                    !frameworkElement.IsVisible)
+                {
+                    continue;
+                }
+
                 foreach (Guideline gl in provider.GetGuidableLines()
                     .Where(gl =>
                     {

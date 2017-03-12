@@ -211,9 +211,9 @@ namespace DeXign.IO
                 Filter = "DeXign 프로젝트 파일(*.dx)|*.dx"
             };
 
-            bool? result = fileDialog.ShowDialog();
+            bool result = (fileDialog.ShowDialog()).Nomalize();
 
-            if (result != null && result.Value)
+            if (result)
             {
                 var project = DXProject.Open(fileDialog.FileName);
 

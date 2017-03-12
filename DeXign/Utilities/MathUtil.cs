@@ -5,6 +5,11 @@ namespace DeXign.Utilities
 {
     static class MathUtil
     {
+        public static double Length(Point p1, Point p2)
+        {
+            return Math.Sqrt(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2));
+        }
+
         public static Point IntersectsPoint(Rect rect, Point point)
         {
             //Center Point of Rect

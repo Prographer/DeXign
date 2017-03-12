@@ -27,19 +27,13 @@ namespace DeXign.Animation
 
             var animation = new DoubleAnimation()
             {
-                From = fromValue,
                 To = toValue,
                 Duration = TimeSpan.FromMilliseconds(duration),
                 EasingFunction = easing
             };
 
-            animation.Completed += (s, e) =>
-            {
-                element.SetValue(property, element.GetValue(property));
-                element.StopAnimation(property);
-
-                completedEvent?.Invoke(s, e);
-            };
+            if (completedEvent != null)
+                animation.Completed += completedEvent;
 
             element.BeginAnimation(property, animation);
         }

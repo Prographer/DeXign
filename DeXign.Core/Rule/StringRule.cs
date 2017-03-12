@@ -5,8 +5,8 @@ namespace DeXign.Core
 {
     public static class StringRule
     {
-        const string NamingRule = @"^[A-Z][A-Za-z_]+[A-Za-z0-9_]*";
-        const string NamingRuleSmall = @"^[A-Za-z_]+[A-Za-z0-9_]*";
+        const string NamingRule = @"^[A-Z][A-Za-z_]+[A-Za-z0-9_]*$";
+        const string NamingRuleSmall = @"^[A-Za-z_]+[A-Za-z0-9_]*$";
 
         const string NamespaceRule = @"[a-zA-Z][a-zA-Z0-9\._-]*";
 

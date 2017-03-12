@@ -8,6 +8,7 @@ namespace DeXign.Core
         void Unregister(PObject obj);
 
         string GetName(PObject obj);
+        PObject GetOwner(string name);
         bool HasName(string name);
     }
 }

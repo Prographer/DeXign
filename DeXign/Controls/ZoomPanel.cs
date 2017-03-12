@@ -248,9 +248,9 @@ namespace DeXign.Controls
 
             if (animate)
             {
-                this.BeginDoubleAnimation(OffsetXProperty, offsetX, 600, EasingFactory.CircleOut);
-                this.BeginDoubleAnimation(OffsetYProperty, offsetY, 600, EasingFactory.CircleOut);
-                this.BeginDoubleAnimation(ScaleProperty, scale, 400, EasingFactory.CircleOut);
+                this.BeginDoubleAnimation(OffsetXProperty, offsetX, 300, EasingFactory.CircleOut);
+                this.BeginDoubleAnimation(OffsetYProperty, offsetY, 300, EasingFactory.CircleOut);
+                this.BeginDoubleAnimation(ScaleProperty, scale, 600, EasingFactory.CircleOut);
             }
             else
             {

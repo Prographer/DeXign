@@ -200,8 +200,8 @@ namespace DeXign.Editor.Layer
 
             Parent = AdornedElement.Parent.GetRenderer();
 
-            SelectionBrush = ResourceManager.GetBrush("Accent");
-            FrameBrush = ResourceManager.GetBrush("Accent");
+            SelectionBrush = ResourceManager.GetBrush("Flat.Accent.Dark");
+            FrameBrush = ResourceManager.GetBrush("Flat.Accent.Light");
             
             // 스냅라인 등록
             RootParent.GuideLayer.Add(this);

@@ -30,7 +30,7 @@
 
     <c:ChromeWindow.Menu>
         <Menu>
-            <c:MenuItemEx Header="파일(F)" SnapsToDevicePixels="True" Foreground="White">
+            <c:MenuItemEx Header="파일(F)" SnapsToDevicePixels="True">
                 <c:MenuItemEx Header="새로 만들기(N)" InputGestureText="Ctrl+N"
                               Command="{x:Static local:DXCommands.NewProjectCommand}"/>
 
@@ -39,28 +39,28 @@
 
                 <Separator Style="{StaticResource DexignMenuSeparatorStyle}"/>
 
-                <c:MenuItemEx Header="프로젝트 저장" InputGestureText="Ctrl+S"
+                <c:MenuItemEx Header="프로젝트 저장(S)" InputGestureText="Ctrl+S"
                               Command="{x:Static local:DXCommands.SaveProjectCommand}"/>
 
                 <Separator Style="{StaticResource DexignMenuSeparatorStyle}"/>
 
-                <c:MenuItemEx x:Name="menuItemRecent" Header="최근에 사용한 파일" />
+                <c:MenuItemEx x:Name="menuItemRecent" Header="최근에 사용한 파일" InputGestureText=" "/>
 
                 <Separator Style="{StaticResource DexignMenuSeparatorStyle}"/>
 
                 <c:MenuItemEx Header="끝내기(X)" InputGestureText="Alt+F4" 
                               Command="{x:Static SystemCommands.CloseWindowCommand}"/>
             </c:MenuItemEx>
-            <c:MenuItemEx Header="편집(E)" SnapsToDevicePixels="True" Foreground="White">
-                <c:MenuItemEx Header="실행 취소" InputGestureText="Ctrl+Z" 
+            <c:MenuItemEx Header="편집(E)" SnapsToDevicePixels="True">
+                <c:MenuItemEx Header="실행 취소(Z)" InputGestureText="Ctrl+Z" 
                               Command="{x:Static local:DXCommands.UndoCommand}"
                               IsEnabled="{Binding StoryboardPage.Model.TaskManager.CanUndo}"/>
                 
-                <c:MenuItemEx Header="다시 실행" InputGestureText="Ctrl+Y"
+                <c:MenuItemEx Header="다시 실행(Y)" InputGestureText="Ctrl+Y"
                               Command="{x:Static local:DXCommands.RedoCommand}"
                               IsEnabled="{Binding StoryboardPage.Model.TaskManager.CanRedo}"/>
             </c:MenuItemEx>
-            <c:MenuItemEx Header="빌드(B)" SnapsToDevicePixels="True" Foreground="White">
+            <c:MenuItemEx Header="빌드(B)" SnapsToDevicePixels="True">
                 <c:MenuItemEx Header="1"/>
                 <c:MenuItemEx Header="2"/>
                 <c:MenuItemEx Header="3"/>
@@ -100,23 +100,22 @@
     <Grid Background="{StaticResource Brush.ContentBackground}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="210"/>
-            <ColumnDefinition Width="2"/>
+            <ColumnDefinition Width="1"/>
             <ColumnDefinition/>
-            <ColumnDefinition Width="2"/>
             <ColumnDefinition Width="270"/>
         </Grid.ColumnDefinitions>
 
         <c:HeaderLayout Grid.Column="0" Header="도구 상자" Style="{StaticResource DeXignHeaderLayoutStyle}">
             <DockPanel Visibility="{Binding StoryboardPage, Converter={StaticResource Converter.NullObjectToVisibility}}" HorizontalAlignment="Stretch">
-                <c:HintTextBox x:Name="toolBoxSearchBar" DockPanel.Dock="Top" Style="{DynamicResource SearchBarStyle}" TextHint="도구 검색" Margin="-1,0"/>
+                <c:HintTextBox x:Name="toolBoxSearchBar" DockPanel.Dock="Top" Style="{StaticResource SearchBarStyle}" TextHint="도구 검색"/>
                 <c:ToolBox x:Name="toolBox" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                            FilterKeyword="{Binding Text, ElementName=toolBoxSearchBar, UpdateSourceTrigger=PropertyChanged}"/>
             </DockPanel>
         </c:HeaderLayout>
 
-        <GridSplitter Grid.Column="1" Background="#C0C0C0" Width="2" HorizontalAlignment="Center"/>
+        <Rectangle Grid.Column="1" Fill="{StaticResource Brush.Expander.Seperator}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
 
-        <TabControl x:Name="tabControl" Grid.Column="2" SelectionChanged="tabControl_SelectionChanged">
+        <TabControl x:Name="tabControl" Grid.Column="2" Margin="0,0,1,0" SelectionChanged="tabControl_SelectionChanged">
             <TabControl.Items>
                 <c:ClosableTabItem Header="Debug (ZoomPanel)">
                     <Grid>
@@ -135,9 +134,10 @@
             </TabControl.Items>
         </TabControl>
 
-        <GridSplitter Grid.Column="3" Background="#C0C0C0" Width="2" HorizontalAlignment="Center"/>
+        <Rectangle Grid.Column="2" Fill="{StaticResource Brush.Expander.Seperator}" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="1"/>
+        <GridSplitter Grid.Column="2" Background="Transparent" Width="4" HorizontalAlignment="Right"/>
 
-        <c:HeaderLayout Grid.Column="4" Header="속성" Style="{StaticResource DeXignHeaderLayoutStyle}">
+        <c:HeaderLayout Grid.Column="3" Header="속성" Style="{StaticResource DeXignHeaderLayoutStyle}">
             <DockPanel Visibility="{Binding StoryboardPage, Converter={StaticResource Converter.NullObjectToVisibility}}">
                 <c:PropertyGrid x:Name="propertyGrid" Visibility="{Binding StoryboardPage, Converter={StaticResource Converter.NullObjectToVisibility}}"/>
             </DockPanel>

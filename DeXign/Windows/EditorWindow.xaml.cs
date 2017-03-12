@@ -183,9 +183,7 @@ namespace DeXign.Windows
         {
             if (project == null)
                 return;
-
-            UpdateRecentMenu();
-
+            
             OpenStoryboardPage(project);
         }
 
@@ -209,15 +207,26 @@ namespace DeXign.Windows
         #endregion
 
         #region [ Storyboard Handling ]
-        private void SelectProject(DXProject project)
+        private bool SelectProject(string projectFileName)
         {
             foreach (ClosableTabItem item in tabControl.Items)
             {
-                var model = item.Tag as StoryboardModel;
-
-                if (model.Project.Equals(project))
-                    item.IsSelected = true;
+                if (item.Tag is StoryboardModel model)
+                {
+                    if (model.Project.FileName.AnyEquals(projectFileName))
+                    {
+                        item.IsSelected = true;
+                        return true;
+                    }
+                }
             }
+
+            return false;
+        }
+
+        private bool SelectProject(DXProject project)
+        {
+            return SelectProject(project.FileName);
         }
 
         public void OpenStoryboardPage(DXProject project)
@@ -245,6 +254,9 @@ namespace DeXign.Windows
 
             // Add TabPage
             tabControl.Items.Add(tabItem);
+
+            // Update Recent
+            UpdateRecentMenu();
         }
 
         private void TabItem_Closed(object sender, EventArgs e)

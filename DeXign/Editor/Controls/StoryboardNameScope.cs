@@ -1,6 +1,7 @@
 ﻿using System;
 using DeXign.Core;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DeXign.Editor.Controls
 {
@@ -31,6 +32,14 @@ namespace DeXign.Editor.Controls
         public bool HasName(string name)
         {
             return nameDict.ContainsValue(name);
+        }
+
+        public PObject GetOwner(string name)
+        {
+            return nameDict
+                .Where(kv => kv.Value == name)
+                .Select(kv => kv.Key)
+                .FirstOrDefault();
         }
     }
 }

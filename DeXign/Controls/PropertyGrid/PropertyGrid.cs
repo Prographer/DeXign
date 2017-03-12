@@ -36,7 +36,7 @@ namespace DeXign.Controls
             
             SelectedObjectsProperty.AddValueChanged(this, SelectedObjects_Changed);
         }
-
+        
         private void SelectedObjects_Changed(object sender, EventArgs e)
         {
             foreach (PropertyGridItemModel item in this)

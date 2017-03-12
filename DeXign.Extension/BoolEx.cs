@@ -11,7 +11,7 @@ namespace DeXign.Extension
 
         public static bool Nomalize(this bool? value)
         {
-            return value != null && value.Value;
+            return value.HasValue ? value.Value : false;
         }
     }
 }

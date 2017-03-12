@@ -54,7 +54,7 @@
 
         <!-- Header -->
         <Grid Grid.Row="0" Grid.Column="1">
-            <Image Stretch="Uniform" Height="50" Margin="0,18,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Source="/DeXign;component/Resources/Images/logo.png"/>
+            <Image Stretch="Uniform" Height="50" Margin="0,18,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Source="/DeXign;component/Resources/Images/TitleLogo.png"/>
         </Grid>
         
         <!-- Body -->

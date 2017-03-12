@@ -18,6 +18,7 @@
                 <ResourceDictionary Source="Resources/PropertyGridResources.xaml"/>
                 
                 <ResourceDictionary Source="Themes/DexignStyle.xaml"/>
+                <ResourceDictionary Source="Themes/DexignTemplate.xaml"/>
                 <ResourceDictionary Source="Themes/DesignerStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

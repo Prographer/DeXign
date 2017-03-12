@@ -19,5 +19,34 @@ namespace DeXign.Extension
         {
             return Math.Abs(value1 - value2) <= double.Epsilon;
         }
+
+        public static double ToDouble(this string value)
+        {
+            if (TryToDouble(value, out double result))
+                return result;
+
+            throw new Exception();
+        }
+
+        public static bool TryToDouble(this string value, out double result)
+        {
+            value = value.ToLower();
+
+            if (value == "auto" || value == "nan")
+            {
+                result = double.NaN;
+                return true;
+            }
+
+            if (double.TryParse(value, out double dValue))
+            {
+                result = dValue;
+                return true;
+            }
+
+            result = -1;
+
+            return false;
+        }
     }
 }

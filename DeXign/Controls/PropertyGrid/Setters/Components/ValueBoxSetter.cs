@@ -1,7 +1,10 @@
 ﻿using DeXign.Extension;
+using DeXign.Resources;
+using DeXign.Rules;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace DeXign.Controls
@@ -15,15 +18,32 @@ namespace DeXign.Controls
         {
         }
 
+        protected override void OnSelected()
+        {
+            Keyboard.Focus(valueBox);
+        }
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
             valueBox = GetTemplateChild<TextBox>("PART_valueBox");
-            
-            BindingEx.SetBinding(
-                this, ValueProperty,
-                valueBox, TextBox.TextProperty);
+
+            if (TargetProperty.PropertyType == typeof(double))
+            {
+                Binding b = BindingEx.SetBinding(
+                    this, ValueProperty,
+                    valueBox, TextBox.TextProperty,
+                    converter: ResourceManager.GetConverter("DoubleToString"));
+
+                b.ValidationRules.Add(new DoubleRule());
+            }
+            else
+            {
+                BindingEx.SetBinding(
+                    this, ValueProperty,
+                    valueBox, TextBox.TextProperty);
+            }
         }
 
         protected override void OnDispose()

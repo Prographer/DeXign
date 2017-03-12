@@ -7,7 +7,8 @@ namespace DeXign.Extension
 {
     public static class VisualTreeHelperEx
     {
-        public static IEnumerable<T> FindVisualParents<T>(this Visual element, bool findAll = true) where T : Visual
+        public static IEnumerable<T> FindVisualParents<T>(this Visual element, bool findAll = true) 
+            where T : Visual
         {
             return Finds<T>(element, ParentSetter, findAll);
         }
@@ -20,7 +21,8 @@ namespace DeXign.Extension
                 visualQueue.Enqueue(parent);
         }
 
-        public static IEnumerable<T> FindVisualChildrens<T>(this Visual element, bool findAll = true) where T : Visual
+        public static IEnumerable<T> FindVisualChildrens<T>(this Visual element, bool findAll = true) 
+            where T : Visual
         {
             return Finds<T>(element, ChildrenSetter, findAll);
         }

@@ -6,6 +6,8 @@ using System.Windows.Controls;
 using DeXign.Extension;
 
 using WPFExtension;
+using System.Linq;
+using System.Windows.Media;
 
 namespace DeXign.Controls
 {
@@ -39,6 +41,7 @@ namespace DeXign.Controls
 
         public DependencyProperty TargetDependencyProperty { get; private set; }
 
+        ListViewItem listViewItem;
         bool isDisposed = false;
 
         public BaseSetter(DependencyObject target, PropertyInfo pi)
@@ -55,8 +58,28 @@ namespace DeXign.Controls
 
             // Target Binding
             OnTargetPropertyBinding();
+
+            this.Loaded += BaseSetter_Loaded;
+            this.Unloaded += BaseSetter_Unloaded;
         }
 
+        private void BaseSetter_Unloaded(object sender, RoutedEventArgs e)
+        {
+            listViewItem.PreviewMouseLeftButtonDown -= ListViewItem_MouseLeftButtonDown;
+            listViewItem = null;
+        }
+
+        private void BaseSetter_Loaded(object sender, RoutedEventArgs e)
+        {
+            listViewItem = this.FindVisualParents<ListViewItem>().FirstOrDefault();
+            listViewItem.PreviewMouseLeftButtonDown += ListViewItem_MouseLeftButtonDown;
+        }
+
+        private void ListViewItem_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            OnSelected();
+        }
+        
         protected virtual void OnTargetPropertyBinding()
         {
             SetValue(ValueProperty, GetTargetValue());
@@ -74,6 +97,10 @@ namespace DeXign.Controls
         public virtual void SetTargetValue(object value)
         {
             TargetProperty.SetValue(Target, value);
+        }
+
+        protected virtual void OnSelected()
+        {
         }
 
         protected T GetTemplateChild<T>(string name)
@@ -97,7 +124,7 @@ namespace DeXign.Controls
         }
 
         protected virtual void OnDispose()
-        {   
+        {
         }
     }
 }

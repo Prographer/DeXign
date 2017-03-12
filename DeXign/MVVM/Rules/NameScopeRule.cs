@@ -18,7 +18,6 @@ namespace DeXign.Rules
 
         public override ValidationResult Validate(object value, CultureInfo cultureInfo, BindingExpressionBase owner)
         {
-            bool result = false;
             string name = (string)value;
             var expression = owner as BindingExpression;
             
@@ -30,21 +29,30 @@ namespace DeXign.Rules
                 {
                     var scope = LogicalTreeHelperEx.FindLogicalParents<INameScope>(renderer.Element).FirstOrDefault();
 
+                    if (pObj.Equals(scope.GetOwner(name)))
+                    {
+                        return base.Validate(true, cultureInfo, owner);
+                    }
+
                     if (string.IsNullOrEmpty(name))
                     {
                         scope.Unregister(pObj);
+
+                        return base.Validate(true, cultureInfo, owner);
                     }
-                    else if (StringRule.IsValidName(name ?? "", true))
+
+                    if (StringRule.IsValidName(name ?? "", true))
                     {
                         if (scope.HasName(name))
                         {
-                            MessageBox.Show($"'{name}'는 이미 정의된 이름입니다.", "DeXign");
+                            MessageBox.Show($"'{name}'는 이미 정의된 이름입니다.", "DeXign", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                             expression.UpdateTarget();
                         }
                         else
                         {
                             scope.Register(pObj, name);
-                            result = true;
+
+                            return base.Validate(true, cultureInfo, owner);
                         }
                     }
                 }
@@ -54,7 +62,7 @@ namespace DeXign.Rules
                 }
             }
 
-            return base.Validate(result, cultureInfo, owner);
+            return base.Validate(false, cultureInfo, owner);
         }
     }
 }
