@@ -1,11 +1,11 @@
-﻿using DeXign.Core.Controls;
-using DeXign.Core.Logic;
+﻿using System;
+using System.Collections.Generic;
+
 using DeXign.Editor;
 using DeXign.Editor.Layer;
 using DeXign.Editor.Renderer;
+using DeXign.Core.Logic;
 using DeXign.Extension;
-using System;
-using System.Collections.Generic;
 
 namespace DeXign.Task
 {
@@ -41,8 +41,8 @@ namespace DeXign.Task
         public RendererTaskType TaskType { get; }
 
         private int index = -1;
-        private List<IRenderer> inputs;
-        private List<IRenderer> outputs;
+        private Dictionary<IRenderer, List<IRenderer>> inputs;
+        private Dictionary<IRenderer, List<IRenderer>> outputs;
 
         /// <summary>
         /// Element 렌더러 작업 데이터를 생성합니다.
@@ -60,8 +60,8 @@ namespace DeXign.Task
             Action destroyAction) :
             base(source, doAction, undoAction, destroyAction)
         {
-            inputs = new List<IRenderer>();
-            outputs = new List<IRenderer>();
+            inputs = new Dictionary<IRenderer, List<IRenderer>>();
+            outputs = new Dictionary<IRenderer, List<IRenderer>>();
 
             this.TaskType = taskType;
         }
@@ -82,7 +82,7 @@ namespace DeXign.Task
 
             base.Do();
         }
-        
+
         /// <summary>
         /// 이전 작업으로 돌아갑니다.
         /// </summary>
@@ -98,6 +98,17 @@ namespace DeXign.Task
             {
                 OnAddRestore();
             }
+        }
+        
+        public override void Dispose()
+        {
+            base.Dispose();
+
+            inputs.Clear();
+            outputs.Clear();
+
+            inputs = null;
+            outputs = null;
         }
 
         private void OnAdd()
@@ -126,80 +137,99 @@ namespace DeXign.Task
 
         private void OnRemoveRestore()
         {
-            if (index == -1)
-                return;
-
-            if (Source.RendererParent.Model != null)
+            if (index != -1)
             {
-                // On PObject
+                if (Source.RendererParent.Model != null)
+                {
+                    // On PObject
+                    ObjectContentHelper.GetContent(
+                        Source.RendererParent.Model,
+                        null,
+                        list =>
+                        {
+                            list.Remove(Source.Model);
+                            list.Insert(index, Source.Model);
+                        });
+                }
+
+                // On WPF
                 ObjectContentHelper.GetContent(
-                    Source.RendererParent.Model,
+                    Source.RendererParent.Element,
                     null,
                     list =>
                     {
-                        list.Remove(Source.Model);
-                        list.Insert(index, Source.Model);
+                        list.Remove(Source.Element);
+                        list.Insert(index, Source.Element);
                     });
             }
-
-            // On WPF
-            ObjectContentHelper.GetContent(
-                Source.RendererParent.Element,
-                null,
-                list =>
-                {
-                    list.Remove(Source.Element);
-                    list.Insert(index, Source.Element);
-                });
 
             RestoreBinders();
         }
 
+        // 소스 및 하위의 모든 렌더러의 연결되었던 바인더를 복구합니다.
         private void RestoreBinders()
         {
             // Binder
             var layer = Source as StoryboardLayer;
-
-            foreach (IRenderer inputRenerer in inputs)
+            
+            foreach (IRenderer renderer in RendererTreeHelper.FindChildrens<IRenderer>(Source, true))
             {
-                layer.Storyboard.ConnectComponent(inputRenerer, Source, BinderOptions.Trigger);
-            }
+                if (inputs.ContainsKey(renderer))
+                {
+                    foreach (IRenderer inputRenderer in inputs[renderer])
+                    {
+                        layer.Storyboard.ConnectComponent(inputRenderer, renderer, BinderOptions.Trigger);
+                    }
+                }
 
-            foreach (IRenderer outputRenderer in outputs)
-            {
-                layer.Storyboard.ConnectComponent(Source, outputRenderer, BinderOptions.Trigger);
+                if (outputs.ContainsKey(renderer))
+                {
+                    foreach (IRenderer outputRenderer in outputs[renderer])
+                    {
+                        layer.Storyboard.ConnectComponent(renderer, outputRenderer, BinderOptions.Trigger);
+                    }
+                }
             }
         }
 
+        // 소스 및 하위의 모든 렌더러와 연결된 바인더를 해제합니다.
         private void ReleaseBinders()
         {
-            // Binder
-            var binder = RendererManager.ResolveBinder(Source);
-
-            outputs.Clear();
-            inputs.Clear();
-
-            // 나가는 연결
-            foreach (BinderExpression expression in binder.GetOutputExpression())
+            foreach (IRenderer renderer in RendererTreeHelper.FindChildrens<IRenderer>(Source, true))
             {
-                IRenderer inputRenderer = expression.Input.GetRenderer();
+                BaseBinder binder = RendererManager.ResolveBinder(renderer);
 
-                outputs.Add(inputRenderer);
-            }
+                if (!inputs.ContainsKey(renderer))
+                    inputs[renderer] = new List<IRenderer>();
 
-            // 들어오는 연결
-            //  * 들어오는 연결(Input)은 Component만 가질 수 있음
-            if (Source is IRendererComponent)
-            {
-                foreach (BinderExpression expression in binder.GetInputExpression())
+                if (!outputs.ContainsKey(renderer))
+                    outputs[renderer] = new List<IRenderer>();
+
+                inputs[renderer].Clear();
+                outputs[renderer].Clear();
+
+                // 나가는 연결
+                foreach (BinderExpression expression in binder.GetOutputExpression())
                 {
-                    IRenderer outputRenderer = expression.Output.GetRenderer();
+                    IRenderer inputRenderer = expression.Input.GetRenderer();
 
-                    inputs.Add(outputRenderer);
+                    outputs[renderer].Add(inputRenderer);
                 }
-            }
 
-            binder.ReleaseAll();
+                // 들어오는 연결
+                //  * 들어오는 연결(Input)은 Component만 가질 수 있음
+                if (Source is IRendererComponent)
+                {
+                    foreach (BinderExpression expression in binder.GetInputExpression())
+                    {
+                        IRenderer outputRenderer = expression.Output.GetRenderer();
+
+                        inputs[renderer].Add(outputRenderer);
+                    }
+                }
+
+                binder.ReleaseAll();
+            }
         }
     }
 }

@@ -5,10 +5,10 @@ namespace DeXign.Editor.Renderer
 {
     public static class RendererTreeHelper
     {
-        public static IEnumerable<T> FindParents<T>(this IRenderer element, bool findAll = true)
+        public static IEnumerable<T> FindParents<T>(this IRenderer renderer, bool withSource = false, bool findAll = true)
             where T : IRenderer
         {
-            return Finds<T>(element, ParentSetter, findAll);
+            return Finds<T>(renderer, ParentSetter, withSource, findAll);
         }
 
         private static void ParentSetter(IRenderer renderer, Queue<IRenderer> rendererQueue)
@@ -17,10 +17,10 @@ namespace DeXign.Editor.Renderer
                 rendererQueue.Enqueue(renderer.RendererParent);
         }
 
-        public static IEnumerable<T> FindChildrens<T>(this IRenderer renderer, bool findAll = true)
+        public static IEnumerable<T> FindChildrens<T>(this IRenderer renderer, bool withSource = false, bool findAll = true)
             where T : IRenderer
         {
-            return Finds<T>(renderer, ChildrenSetter, findAll);
+            return Finds<T>(renderer, ChildrenSetter, withSource, findAll);
         }
 
         private static void ChildrenSetter(IRenderer renderer, Queue<IRenderer> rendererQueue)
@@ -31,7 +31,8 @@ namespace DeXign.Editor.Renderer
 
         private static IEnumerable<T> Finds<T>(
             this IRenderer renderer,
-            Action<IRenderer, Queue<IRenderer>> rendererSetter,
+            Action<IRenderer, Queue<IRenderer>> rendererSetter, 
+            bool withSource = false,
             bool findAll = true)
             where T : IRenderer
         {
@@ -42,7 +43,7 @@ namespace DeXign.Editor.Renderer
             {
                 IRenderer item = rendererQueue.Dequeue();
                 
-                if (item is T result && !renderer.Equals(item))
+                if (item is T result && (withSource || !renderer.Equals(item)))
                 {
                     yield return result;
 
