@@ -775,6 +775,11 @@ namespace DeXign.Editor.Layer
                 AdornedElement.Height = Math.Round(height, 2);
         }
         #endregion
+
+        public void DragMove()
+        {
+            moveThumb.CaptureMouse();
+        }
     }
 
     internal struct MarginClipHolder

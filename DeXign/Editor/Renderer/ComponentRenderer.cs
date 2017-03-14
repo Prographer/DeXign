@@ -161,7 +161,14 @@ namespace DeXign.Editor.Renderer
         protected override void OnRender(DrawingContext drawingContext)
         {
             base.OnRender(drawingContext);
-            drawingContext.DrawLine(new Pen(Brushes.Red, 1), new Point(), new Point(this.RenderSize.Width, this.RenderSize.Height));
+
+            drawingContext.PushOpacity(0.5);
+
+            drawingContext.DrawRoundedRectangle(
+                null, 
+                new Pen(Brushes.LightGray, 1 / Zoom.Scale),
+                new Rect(0, 0, this.RenderSize.Width, this.RenderSize.Height),
+                2, 2);
         }
     }
 }

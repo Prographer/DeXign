@@ -8,7 +8,6 @@ using DeXign.Core.Controls;
 using DeXign.Core.Designer;
 using DeXign.Editor;
 using DeXign.Editor.Renderer;
-using DeXign.Extension;
 
 [assembly: ExportRenderer(typeof(PContentPage), typeof(ContentControl), typeof(ScreenRenderer))]
 
@@ -18,15 +17,12 @@ namespace DeXign.Editor.Renderer
     {
         public ScreenRenderer(ContentControl adornedElement, PContentPage model) : base(adornedElement, model)
         {
+            adornedElement.PreviewMouseLeftButtonDown += AdornedElement_PreviewMouseLeftButtonDown;
         }
 
-        protected override void OnElementAttached(ContentControl element)
+        private void AdornedElement_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            base.OnElementAttached(element);
-
-            //BindingEx.SetBinding(
-            //    Model, PContentPage.ContentProperty,
-            //    element, ContentControl.ContentProperty);
+            this.DragMove();
         }
 
         protected override void OnDispatchRender(DrawingContext dc)
