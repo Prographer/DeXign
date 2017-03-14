@@ -4,6 +4,7 @@ using System.Windows;
 using DeXign.Editor.Controls;
 using DeXign.Extension;
 using DeXign.Editor.Logic;
+using DeXign.Editor.Renderer;
 
 namespace DeXign.Editor
 {
@@ -11,7 +12,7 @@ namespace DeXign.Editor
     {
         public new BindThumb Output { get; }
         public new BindThumb Input { get; }
-
+        
         internal LineConnector(
             Storyboard parent,
             Func<LineConnectorBase, Point> output,
@@ -21,12 +22,14 @@ namespace DeXign.Editor
 
         internal LineConnector(
             Storyboard parent,
-            BindThumb source,
-            BindThumb target) : base(parent)
+            BindThumb output,
+            BindThumb input) : base(parent)
         {
-            this.Output = source;
-            this.Input = target;
+            // Instance
+            this.Output = output;
+            this.Input = input;
 
+            // Func
             base.Output = GetOutputPosition;
             base.Input = GetInputPosition;
         }

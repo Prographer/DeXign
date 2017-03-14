@@ -25,7 +25,7 @@ namespace DeXign.Editor.Controls
             this.ParentLayer = layer;
             this.Target = layer.AdornedElement;
 
-            this.RelativeTarget = layer.RootParent;
+            this.RelativeTarget = layer.Storyboard;
         }
 
         private IEnumerable<Guideline> GetSizeGuidableLines()
@@ -38,7 +38,7 @@ namespace DeXign.Editor.Controls
             {
                 Point vPosition = Point.Add(beginPosition, (Vector)PreviousDelta);
                 Rect vBound = new Rect(
-                    ParentLayer.Parent.Element.TranslatePoint(vPosition, ParentLayer.RootParent),
+                    ParentLayer.Parent.Element.TranslatePoint(vPosition, ParentLayer.Storyboard),
                     Target.RenderSize);
 
                 // top

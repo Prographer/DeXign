@@ -22,7 +22,7 @@ namespace DeXign.Editor.Layer
 
         internal IEnumerable<Guideline> GetSizeGuidableLines()
         {
-            Point relative = AdornedElement.TranslatePoint(new Point(), RootParent);
+            Point relative = AdornedElement.TranslatePoint(new Point(), Storyboard);
 
             // left
             yield return new Guideline(
@@ -72,7 +72,7 @@ namespace DeXign.Editor.Layer
         {
             if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
-                RootParent.GuideLayer.ClearSnappedGuidelines();
+                Storyboard.GuideLayer.ClearSnappedGuidelines();
                 return;
             }
 
@@ -100,12 +100,12 @@ namespace DeXign.Editor.Layer
             Guideline guidedRight = null;
             Guideline guidedBottom = null;
             
-            foreach (Guideline item in RootParent.GuideLayer.InvalidateSnappedGuidelines(this))
+            foreach (Guideline item in Storyboard.GuideLayer.InvalidateSnappedGuidelines(this))
             {
                 bool awHozitonal = false;
                 bool awVertical = false;
 
-                Point pRelative = RootParent.TranslatePoint(item.Point1, Parent.Element);
+                Point pRelative = Storyboard.TranslatePoint(item.Point1, Parent.Element);
                 GuidelineDirection direction = item.SnappedGuideline.Direction;
 
                 // 대칭 가이드라인 탐색

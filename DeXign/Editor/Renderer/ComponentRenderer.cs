@@ -7,11 +7,11 @@ using DeXign.Core.Logic;
 using DeXign.Editor.Layer;
 using DeXign.Extension;
 using DeXign.Editor.Logic;
-using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace DeXign.Editor.Renderer
 {
-    public class ComponentRenderer<TModel, TElement> : StoryboardLayer, IRenderer<TModel, TElement>, IUISupport
+    public class ComponentRenderer<TModel, TElement> : StoryboardLayer, IRenderer<TModel, TElement>, IRendererComponent, IUISupport
         where TModel : PComponent
         where TElement : ComponentElement
     {
@@ -46,13 +46,24 @@ namespace DeXign.Editor.Renderer
             this.Element.Binded += Element_Binded;
 
             this.RendererChildren = new List<IRenderer>();
+
+            // Binder
+            RendererManager.ResolveBinder(this).Released += ComponentRenderer_Released;
+        }
+
+        private void ComponentRenderer_Released(object sender, BinderReleasedEventArgs e)
+        {
+            IRenderer outputRenderer = e.Expression.Output.GetRenderer();
+            IRenderer inputRenderer = e.Expression.Input.GetRenderer();
+
+            Storyboard.DisconnectComponentLine(outputRenderer, inputRenderer);
         }
 
         private void Element_Binded(object sender, BindExpression e)
         {
             // 이미 바인딩된 후 이벤트가 발생하기 때문에,
             // 시각적으로 연결만 해줌
-            RootParent.ConnectComponentLine(e.Output.Renderer, e.Input.Renderer, BinderOptions.Trigger);
+            Storyboard.ConnectComponentLine(e.Output.Renderer, e.Input.Renderer, BinderOptions.Trigger);
         }
 
         protected override void OnLoaded(FrameworkElement adornedElement)
@@ -121,7 +132,7 @@ namespace DeXign.Editor.Renderer
         #region [ IUISupport ]
         public Rect GetBound()
         {
-            Point position = Element.TranslatePoint(new Point(), RootParent);
+            Point position = Element.TranslatePoint(new Point(), Storyboard);
 
             return new Rect(
                 position,
@@ -134,7 +145,7 @@ namespace DeXign.Editor.Renderer
                 new Point(
                     0,
                     Element.DesiredSize.Height / 2),
-                RootParent);
+                Storyboard);
         }
         #endregion
 
@@ -146,5 +157,11 @@ namespace DeXign.Editor.Renderer
             base.OnDisposed();
         }
         #endregion
+
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            base.OnRender(drawingContext);
+            drawingContext.DrawLine(new Pen(Brushes.Red, 1), new Point(), new Point(this.RenderSize.Width, this.RenderSize.Height));
+        }
     }
 }

@@ -76,6 +76,17 @@ namespace DeXign.Editor.Renderer
             var attr = model.GetAttribute<DesignElementAttribute>();
             if (attr != null)
                 displayTypeName = attr.DisplayName;
+
+            // Binder
+            RendererManager.ResolveBinder(this).Released += LayerRenderer_Released;
+        }
+
+        private void LayerRenderer_Released(object sender, BinderReleasedEventArgs e)
+        {
+            IRenderer outputRenderer = e.Expression.Output.GetRenderer();
+            IRenderer inputRenderer = e.Expression.Input.GetRenderer();
+
+            Storyboard.DisconnectComponentLine(outputRenderer, inputRenderer);
         }
 
         protected override void OnDisposed()
@@ -353,12 +364,12 @@ namespace DeXign.Editor.Renderer
                 new Point(
                     element.RenderSize.Width,
                     element.RenderSize.Height / 2),
-                RootParent);
+                Storyboard);
         }
 
         public Rect GetBound()
         {
-            var point = Element.TranslatePoint(new Point(), RootParent);
+            var point = Element.TranslatePoint(new Point(), Storyboard);
 
             return new Rect(
                 point,

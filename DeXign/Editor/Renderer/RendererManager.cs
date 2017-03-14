@@ -12,6 +12,7 @@ using DeXign.Editor.Layer;
 using WPFExtension;
 using DeXign.Core;
 using DeXign.Utilities;
+using DeXign.Core.Logic;
 
 namespace DeXign.Editor.Renderer
 {
@@ -96,8 +97,24 @@ namespace DeXign.Editor.Renderer
 
             view.SetRenderer(renderer);
             model.SetRenderer(renderer);
+            ResolveBinder(renderer).SetRenderer(renderer);
 
             return view;
+        }
+
+        public static BaseBinder ResolveBinder(IRenderer renderer)
+        {
+            if (renderer.Model is PVisual visual)
+            {
+                return visual.Binder;
+            }
+
+            if (renderer.Model is PComponent model)
+            {
+                return model;
+            }
+
+            return null;
         }
 
         #region [ Extension ]

@@ -71,7 +71,7 @@ namespace DeXign.Editor.Logic
                 return;
 
             var renderer = this.Renderer as StoryboardLayer;
-            var storyboard = renderer.RootParent;
+            var storyboard = renderer.Storyboard;
 
             dragLine = storyboard
                 .CreatePendingConnectedLine(
@@ -97,7 +97,7 @@ namespace DeXign.Editor.Logic
             dragLine = null;
 
             var renderer = Renderer as StoryboardLayer;
-            var storyboard = renderer.RootParent;
+            var storyboard = renderer.Storyboard;
 
             // Pop Pending Drag Line
             storyboard.PopPendingConnectedLine();
@@ -159,7 +159,7 @@ namespace DeXign.Editor.Logic
             base.OnMouseLeftButtonDown(e);
 
             var renderer = this.Renderer as StoryboardLayer;
-            var storyboard = renderer.RootParent;
+            var storyboard = renderer.Storyboard;
 
             OnDragStarting();
 
@@ -218,8 +218,8 @@ namespace DeXign.Editor.Logic
         {
             var thumb = GetThumbExpression(request);
 
-            return (ResolveBinder(thumb.Output.Renderer), 
-                    ResolveBinder(thumb.Input.Renderer));
+            return (RendererManager.ResolveBinder(thumb.Output.Renderer),
+                    RendererManager.ResolveBinder(thumb.Input.Renderer));
         }
 
         private (BindThumb Output, BindThumb Input) GetThumbExpression(BindRequest request)
@@ -232,21 +232,6 @@ namespace DeXign.Editor.Logic
             {
                 return (this, request.Source);
             }
-        }
-
-        private BaseBinder ResolveBinder(IRenderer renderer)
-        {
-            if (renderer.Model is PVisual visual)
-            {
-                return visual.Binder;
-            }
-
-            if (renderer.Model is PComponent model)
-            {
-                return model;
-            }
-
-            return null;
         }
 
         protected virtual bool CanBind(BindRequest request)

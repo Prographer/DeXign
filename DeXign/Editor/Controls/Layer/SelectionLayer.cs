@@ -204,7 +204,7 @@ namespace DeXign.Editor.Layer
             FrameBrush = ResourceManager.GetBrush("Flat.Accent.Light");
             
             // 스냅라인 등록
-            RootParent.GuideLayer.Add(this);
+            Storyboard.GuideLayer.Add(this);
 
             UpdateParentState();
         }
@@ -217,7 +217,7 @@ namespace DeXign.Editor.Layer
         protected override void OnDisposed()
         {
             // 스냅라인 등록 해제
-            RootParent.GuideLayer.Remove(this);
+            Storyboard.GuideLayer.Remove(this);
 
             // GroupSelector
             this.RemoveSelectedHandler(OnSelected);
@@ -479,7 +479,7 @@ namespace DeXign.Editor.Layer
 
         private void MoveThumb_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Keyboard.Focus(RootParent);
+            Keyboard.Focus(Storyboard);
 
             if (!GroupSelector.IsSelected(this))
             {
@@ -540,7 +540,7 @@ namespace DeXign.Editor.Layer
         private void ThumbOnDragCompleted(object sender, DragCompletedEventArgs e)
         {
             // Clear Snapped Guidelines
-            RootParent.GuideLayer.ClearSnappedGuidelines();
+            Storyboard.GuideLayer.ClearSnappedGuidelines();
 
             DisplayWidthTop = false;
             DisplayWidthBottom = false;

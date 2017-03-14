@@ -15,8 +15,8 @@ namespace DeXign.Editor.Layer
 
         bool IsDisposed = false;
 
-        internal Storyboard RootParent;
-        internal ZoomPanel Zoom => RootParent.ZoomPanel;
+        internal Storyboard Storyboard;
+        internal ZoomPanel Zoom => Storyboard.ZoomPanel;
 
         internal double Scale => Zoom.Scale;
 
@@ -29,7 +29,7 @@ namespace DeXign.Editor.Layer
         {
             ((FrameworkElement)sender).Loaded -= Element_Loaded;
 
-            this.RootParent = AdornedElement
+            this.Storyboard = AdornedElement
                 .FindLogicalParents<Storyboard>()
                 .FirstOrDefault();
 

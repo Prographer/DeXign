@@ -43,8 +43,7 @@ namespace DeXign.Editor.Layer
             guidelines.GuidelinesY.Add(1 / Scale / 2);
 
             dc.PushGuidelineSet(guidelines);
-
-            // TODO
+            
             var pen = new Pen(Brushes.Red, 1 / Scale);
 
             int n = 0;

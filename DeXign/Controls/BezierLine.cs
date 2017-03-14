@@ -39,6 +39,10 @@ namespace DeXign.Controls
             DependencyHelper.Register(
                 new FrameworkPropertyMetadata(1d, FrameworkPropertyMetadataOptions.AffectsRender));
 
+        public static readonly DependencyProperty LineBrushProperty =
+            DependencyHelper.Register(
+                new FrameworkPropertyMetadata(Brushes.Black, FrameworkPropertyMetadataOptions.AffectsArrange));
+
         public double X1
         {
             get { return (double)GetValue(X1Property); }
@@ -87,6 +91,12 @@ namespace DeXign.Controls
             set { SetValue(StrokeThicknessProperty, value); }
         }
 
+        public Brush LineBrush
+        {
+            get { return (Brush)GetValue(LineBrushProperty); }
+            set { SetValue(LineBrushProperty, value); }
+        }
+
         PathGeometry geometry;
         PathFigure figure;
         BezierSegment segment;
@@ -132,7 +142,7 @@ namespace DeXign.Controls
             segment.Point2 = BezierPoint2;
             segment.Point3 = endPoint;
 
-            var p = new Pen(Brushes.Black, StrokeThickness);
+            var p = new Pen(LineBrush, StrokeThickness);
 
             dc.DrawGeometry(null, p, geometry);
 

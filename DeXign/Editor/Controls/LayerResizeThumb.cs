@@ -43,7 +43,7 @@ namespace DeXign.Editor.Controls
             this.Layer = layer;
             this.Target = layer.AdornedElement;
 
-            this.RelativeTarget = layer.RootParent;
+            this.RelativeTarget = layer.Storyboard;
         }
        
         protected override void OnDragDelta(double horizontalChange, double verticalChange)

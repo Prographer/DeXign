@@ -59,7 +59,7 @@ namespace DeXign.Editor.Renderer
             if (IsLoaded)
             {
                 // position은 RootParent 기준이기 때문에 StackPanel 기준으로 다시 계산
-                position = RootParent.TranslatePoint(position, this);
+                position = Storyboard.TranslatePoint(position, this);
 
                 MoveToPosition(child.Element, position);
             }

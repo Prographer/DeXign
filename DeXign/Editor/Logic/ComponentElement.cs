@@ -55,6 +55,10 @@ namespace DeXign.Editor.Logic
         private Point beginPosition;
         #endregion
 
+        public ComponentElement()
+        {
+        }
+
         public void SetComponentModel(PComponent model)
         {
             InitializeSelector();
@@ -71,13 +75,13 @@ namespace DeXign.Editor.Logic
         {
             base.OnContentChanged(oldContent, newContent);
 
-            OnApplyTemplate();
+            OnApplyContentTemplate();
         }
-
+        
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            
+
             inputThumb = GetTemplateChild<BindThumb>("PART_input");
             outputThumb = GetTemplateChild<BindThumb>("PART_output");
             moveThumb = GetTemplateChild<RelativeThumb>("PART_moveThumb");
@@ -98,7 +102,7 @@ namespace DeXign.Editor.Logic
 
             if (moveThumb != null)
             {
-                moveThumb.RelativeTarget = (this.GetRenderer() as StoryboardLayer).RootParent;
+                moveThumb.RelativeTarget = (this.GetRenderer() as StoryboardLayer).Storyboard;
 
                 moveThumb.DragStarted += MoveThumb_DragStarted;
                 moveThumb.DragDelta += MoveThumb_DragDelta;
@@ -165,6 +169,9 @@ namespace DeXign.Editor.Logic
 
         internal BindThumb GetThumb(BindType type)
         {
+            if (inputThumb == null || outputThumb == null)
+                this.ApplyTemplate();
+
             if (type == BindType.Input)
                 return inputThumb;
 

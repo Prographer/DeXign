@@ -56,7 +56,7 @@ namespace DeXign.Editor.Controls
         private ComponentBox componentBox;
         
         private Stack<LineConnectorBase> pendingLines;
-        private List<LineConnectorBase> managedLines;
+        private LineConnectorCollection lineCollection;
         #endregion
 
         #region [ Constructor ]
@@ -103,7 +103,7 @@ namespace DeXign.Editor.Controls
 
         private void UpdateTimer_Tick(object sender, EventArgs e)
         {
-            foreach (var line in managedLines)
+            foreach (var line in lineCollection)
                 line.Update();
 
             LineLayer.InvalidateArrange();
@@ -112,7 +112,7 @@ namespace DeXign.Editor.Controls
         private void InitializeComponents()
         {
             pendingLines = new Stack<LineConnectorBase>();
-            managedLines = new List<LineConnectorBase>();
+            lineCollection = new LineConnectorCollection();
 
             componentBox = new ComponentBox();
             componentBoxPopup = new Popup()
@@ -206,37 +206,37 @@ namespace DeXign.Editor.Controls
             {
                 foreach (var item in items)
                 {
-                    if (item is SelectionLayer layer)
-                        DeleteLayer(layer);
+                    IRenderer targetRenderer = null;
+
+                    if (item is IRenderer renderer)
+                        targetRenderer = renderer;
 
                     if (item is ComponentElement element)
-                    {
-                        IRenderer renderer = item.GetRenderer();
-                        // 로직
-                    }
+                        targetRenderer = item.GetRenderer();
+
+                    if (targetRenderer != null)
+                        DeleteLayer(targetRenderer);
                 }
 
                 GroupSelector.UnselectAll();
             }
         }
-
-        private void DeleteLayer(SelectionLayer layer)
+        
+        private void DeleteLayer(IRenderer renderer)
         {
-            var element = layer.AdornedElement;
-            var parent = (FrameworkElement)element.Parent;
-
-            IRenderer elementRenderer = element.GetRenderer();
+            var element = renderer.Element;
+            var parent = renderer.RendererParent.Element;
 
             // Check Selected Parent
             if (RendererTreeHelper
-                .FindParents<IRenderer>(elementRenderer)
+                .FindParents<IRenderer>(renderer)
                 .Count(r => GroupSelector.IsSelected(r as FrameworkElement)) > 0)
             {
                 return;
             }
 
             // * Task *
-            if (elementRenderer is IRendererLayout lRenderer)
+            if (renderer is IRendererLayout lRenderer)
             {
                 TaskManager?.Push(
                     new LayoutTaskData(
@@ -246,7 +246,7 @@ namespace DeXign.Editor.Controls
                         () => AddElement(parent, element, true),
                         () => RemoveElement(parent, element)));
             }
-            else if (elementRenderer is IRendererElement eRenderer)
+            else if (renderer is IRendererElement eRenderer)
             {
                 TaskManager?.Push(
                     new ElementTaskData(
@@ -394,7 +394,7 @@ namespace DeXign.Editor.Controls
                 // Add On PObject Parent
                 ObjectContentHelper.GetContent(
                     dataContext,
-                    pi => pi.SetValue(parent.DataContext, element.DataContext), // Single Content
+                    pi => pi.SetValue(dataContext, element.DataContext), // Single Content
                     list => list.SafeAdd(element.DataContext));                     // List Content
             }
 
@@ -418,10 +418,6 @@ namespace DeXign.Editor.Controls
             IRenderer parentRenderer = parent.GetRenderer();
             IRenderer childRenderer = element.GetRenderer();
 
-            if (parent.DataContext == null ||
-                (parent.DataContext != null && !(parent.DataContext is PObject)))
-                return;
-
             // Selection Check
             if (GroupSelector.IsSelected(childRenderer as FrameworkElement))
             {
@@ -437,16 +433,19 @@ namespace DeXign.Editor.Controls
                 DestroyElement(parent, element);
             }
 
-            // Remove On PObject Parent
-            ObjectContentHelper.GetContent(
-                (DependencyObject)parent.DataContext,
-                pi => pi.SetValue(parent.DataContext, null), // Single Content
-                list => list.SafeRemove(element.DataContext));   // List Content
+            if (parent.DataContext != null && parent.DataContext is DependencyObject dataContext)
+            {
+                // Remove On PObject Parent
+                ObjectContentHelper.GetContent(
+                    dataContext,
+                    pi => pi.SetValue(dataContext, null),     // Single Content
+                    list => list.SafeRemove(element.DataContext));   // List Content
+            }
 
             // Remove On WPF Parent
             ObjectContentHelper.GetContent(
                 parent,
-                pi => pi.SetValue(parent, null), // Single Content
+                pi => pi.SetValue(parent, null),     // Single Content
                 list => list.SafeRemove(element));   // List Content
             
             // Notice child removed 
@@ -466,6 +465,7 @@ namespace DeXign.Editor.Controls
 
             element.SetRenderer(null);
             childRenderer.Model.SetRenderer(null);
+            RendererManager.ResolveBinder(childRenderer).SetRenderer(null);
         }
         #endregion
 
@@ -491,7 +491,7 @@ namespace DeXign.Editor.Controls
 
             // add pending line
             pendingLines.Push(connector);
-            managedLines.Remove(connector);
+            lineCollection.Remove(connector);
 
             connector.Updated += Connector_Updated;
 
@@ -512,7 +512,7 @@ namespace DeXign.Editor.Controls
             
             // add pending line
             pendingLines.Push(connector);
-            managedLines.Remove(connector);
+            lineCollection.Remove(connector);
 
             connector.Updated += Connector_Updated;
 
@@ -520,7 +520,7 @@ namespace DeXign.Editor.Controls
         }
 
         /// <summary>
-        /// 연결점을 시각적으로 동기화시켜주는 임시 <see cref="LineConnectorBase"/>를 생성합니다.
+        /// 연결점을 시각적으로 동기화시켜주는 <see cref="LineConnectorBase"/>를 생성합니다.
         /// </summary>
         /// <param name="startPosition"></param>
         /// <param name="endPosition"></param>
@@ -540,13 +540,13 @@ namespace DeXign.Editor.Controls
             }
 
             LineLayer.Add(connector.Line);
-            managedLines.Add(connector);
+            lineCollection.Add(connector);
 
             return connector;
         }
 
         /// <summary>
-        /// 두 <see cref="FrameworkElement"/>를 시각적으로 이어주는 임시 <see cref="LineConnector"/>를 생성합니다.
+        /// 두 <see cref="FrameworkElement"/>를 시각적으로 이어주는 <see cref="LineConnector"/>를 생성합니다.
         /// </summary>
         /// <param name="output"></param>
         /// <param name="input"></param>
@@ -556,7 +556,7 @@ namespace DeXign.Editor.Controls
             BindThumb input)
         {
             var connector = new LineConnector(this, output, input);
-
+            
             if (ZoomPanel != null)
             {
                 BindingEx.SetBinding(
@@ -566,13 +566,26 @@ namespace DeXign.Editor.Controls
             }
 
             LineLayer.Add(connector.Line);
-            managedLines.Add(connector);
+            lineCollection.Add(connector);
 
             return connector;
         }
 
         /// <summary>
-        /// 임시로 생성된 <see cref="LineConnectorBase"/>를 삭제합니다.
+        /// 연결된 <see cref="LineConnector"/>를 삭제합니다.
+        /// </summary>
+        /// <param name="lineConnector"></param>
+        public void DeleteConnectedLine(LineConnector lineConnector)
+        {
+            if (!lineCollection.Contains(lineConnector))
+                return;
+
+            LineLayer.Remove(lineConnector.Line);
+            lineCollection.Remove(lineConnector);
+        }
+
+        /// <summary>
+        /// 임시로 연결된 <see cref="LineConnectorBase"/>를 삭제합니다.
         /// </summary>
         public void PopPendingConnectedLine()
         {
@@ -584,7 +597,7 @@ namespace DeXign.Editor.Controls
             connector.Updated -= Connector_Updated;
 
             LineLayer.Remove(connector.Line);
-            managedLines.Remove(connector);
+            lineCollection.Remove(connector);
 
             connector.Release();
         }
@@ -707,25 +720,24 @@ namespace DeXign.Editor.Controls
         {
             var layer = (inputRenderer as StoryboardLayer);
 
-            if (layer.IsLoaded)
-            {
-                ConnectRendererBezierLine(outputRenderer, inputRenderer);
-                return;
-            }
-
-            layer.RendererLoaded += (s, e) =>
-            {
-                ConnectRendererBezierLine(outputRenderer, inputRenderer);
-            };
+            ConnectRendererBezierLine(outputRenderer, inputRenderer);
         }
-
+        
         private void ConnectRendererBezierLine(IRenderer outputRenderer, IRenderer inputRenderer)
         {
             BindThumb outputThumb = ResolveBindThumb(outputRenderer, BindType.Output);
             BindThumb inputThumb = ResolveBindThumb(inputRenderer, BindType.Input);
 
-            var connector = CreateConnectedLine(outputThumb, inputThumb);
+            LineConnector connector = CreateConnectedLine(outputThumb, inputThumb);
             connector.Update();
+        }
+
+        internal void DisconnectComponentLine(IRenderer outputRenderer, IRenderer inputRenderer)
+        {
+            foreach (LineConnector line in lineCollection.FromRenderer(outputRenderer, inputRenderer).ToArray())
+            {
+                DeleteConnectedLine(line);
+            }
         }
 
         private BindThumb ResolveBindThumb(IRenderer renderer, BindType type)

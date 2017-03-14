@@ -89,7 +89,7 @@ namespace DeXign.Editor.Renderer
                 return;
 
             // position은 RootParent 기준이기 때문에 Grid 기준으로 다시 계산
-            position = RootParent.TranslatePoint(position, this);
+            position = Storyboard.TranslatePoint(position, this);
 
             child.Element.Width = 100;
             child.Element.Height = 100;

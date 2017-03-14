@@ -4,13 +4,11 @@ namespace DeXign.Core.Logic
 {
     public class BinderReleasedEventArgs : EventArgs
     {
-        public IBinder ReleasedItem { get; }
-        public BinderOptions BinderOptions { get; }
+        public BinderExpression Expression { get; }
 
-        public BinderReleasedEventArgs(IBinder item, BinderOptions options)
+        public BinderReleasedEventArgs(BinderExpression expression)
         {
-            this.ReleasedItem = item;
-            this.BinderOptions = options;
+            this.Expression = expression;
         }
     }
 }

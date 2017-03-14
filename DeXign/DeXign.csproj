@@ -162,6 +162,7 @@
     <Compile Include="Editor\DesignTime.cs" />
     <Compile Include="Editor\Guideline.cs" />
     <Compile Include="Editor\Interfaces\IContentLayout.cs" />
+    <Compile Include="Editor\Interfaces\IRendererComponent.cs" />
     <Compile Include="Editor\Interfaces\IRendererElement.cs" />
     <Compile Include="Editor\Interfaces\IGridLayout.cs" />
     <Compile Include="Editor\Interfaces\IGuideProvider.cs" />
@@ -247,6 +248,7 @@
     <Compile Include="Utilities\DispatcherEx.cs" />
     <Compile Include="Utilities\DumpDependencyObject.cs" />
     <Compile Include="Utilities\GlobalModels.cs" />
+    <Compile Include="Utilities\LineConnectorCollection.cs" />
     <Compile Include="Utilities\Masking.cs" />
     <Compile Include="Utilities\MathUtil.cs" />
     <Compile Include="Windows\Dialog\DialogWindow.xaml.cs">

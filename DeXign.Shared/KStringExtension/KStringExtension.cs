@@ -173,9 +173,7 @@ namespace Moda.KString
             {
                 return (lastChar.IsLevel3Char()) ? s + josaAfterJongsung : s + josaAfterNonJongsung;
             }
-
-            // TODO 숫자 + 조사도 처리?
-
+            
             return s;
         }
 
@@ -371,14 +369,9 @@ namespace Moda.KString
         {
             public static SpecialIndexOfFinder Default = KoreanJamoIndexOfFinder;
             public static SpecialIndexOfFinder Jamo = KoreanJamoIndexOfFinder;
-            // public static SpecialIndexOfFinder ChosungOnly 
-            // public static SpecialIndexOfFinder JoongsungOnly
 
-            // TODO Enhance scalability by using delegate
             private static int KoreanJamoIndexOfFinder(string s, string keyword)
             {
-                // algorithms are benchmarked from Java.lang.String.contains(...) / indexOf(...)
-
                 if (keyword.Length > s.Length)
                 {
                     return -1;

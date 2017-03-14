@@ -31,13 +31,13 @@ namespace DeXign.Editor.Controls
         {
             if (parentLayer.DesignMode != DesignMode.Trigger)
             {
-                parentLayer.RootParent.CloseComponentBox();
+                parentLayer.Storyboard.CloseComponentBox();
             }
         }
 
         protected override void OnDragEnd()
         {
-            Storyboard storyboard = parentLayer.RootParent;
+            Storyboard storyboard = parentLayer.Storyboard;
 
             storyboard.OpenComponentBox(this.Renderer.Model);
         }
@@ -60,7 +60,7 @@ namespace DeXign.Editor.Controls
 
             return element.TranslatePoint(
                 position,
-                parentLayer.RootParent);
+                parentLayer.Storyboard);
         }
 
         public Rect GetBound()

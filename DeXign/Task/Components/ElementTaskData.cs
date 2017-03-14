@@ -1,6 +1,11 @@
-﻿using DeXign.Editor;
+﻿using DeXign.Core.Controls;
+using DeXign.Core.Logic;
+using DeXign.Editor;
+using DeXign.Editor.Layer;
+using DeXign.Editor.Renderer;
 using DeXign.Extension;
 using System;
+using System.Collections.Generic;
 
 namespace DeXign.Task
 {
@@ -36,6 +41,8 @@ namespace DeXign.Task
         public RendererTaskType TaskType { get; }
 
         private int index = -1;
+        private List<IRenderer> inputs;
+        private List<IRenderer> outputs;
 
         /// <summary>
         /// Element 렌더러 작업 데이터를 생성합니다.
@@ -53,6 +60,9 @@ namespace DeXign.Task
             Action destroyAction) :
             base(source, doAction, undoAction, destroyAction)
         {
+            inputs = new List<IRenderer>();
+            outputs = new List<IRenderer>();
+
             this.TaskType = taskType;
         }
 
@@ -71,6 +81,34 @@ namespace DeXign.Task
                     {
                         index = list.IndexOf(Source.Element);
                     });
+
+                // Binder
+                var binder = RendererManager.ResolveBinder(Source);
+
+                outputs.Clear();
+                inputs.Clear();
+
+                // 나가는 연결
+                foreach (BinderExpression expression in binder.GetOutputExpression())
+                {
+                    IRenderer inputRenderer = expression.Input.GetRenderer();
+
+                    outputs.Add(inputRenderer);
+                }
+
+                // 들어오는 연결
+                //  * 들어오는 연결(Input)은 Component만 가질 수 있음
+                if (Source is IRendererComponent)
+                {
+                    foreach (BinderExpression expression in binder.GetInputExpression())
+                    {
+                        IRenderer outputRenderer = expression.Output.GetRenderer();
+
+                        inputs.Add(outputRenderer);
+                    }
+                }
+
+                binder.ReleaseAll();
             }
 
             base.Do();
@@ -88,15 +126,18 @@ namespace DeXign.Task
                 if (index == -1)
                     return;
 
-                // On PObject
-                ObjectContentHelper.GetContent(
-                    Source.RendererParent.Model,
-                    null,
-                    list =>
-                    {
-                        list.Remove(Source.Model);
-                        list.Insert(index, Source.Model);
-                    });
+                if (Source.RendererParent.Model != null)
+                {
+                    // On PObject
+                    ObjectContentHelper.GetContent(
+                        Source.RendererParent.Model,
+                        null,
+                        list =>
+                        {
+                            list.Remove(Source.Model);
+                            list.Insert(index, Source.Model);
+                        });
+                }
 
                 // On WPF
                 ObjectContentHelper.GetContent(
@@ -107,6 +148,19 @@ namespace DeXign.Task
                         list.Remove(Source.Element);
                         list.Insert(index, Source.Element);
                     });
+
+                // Binder
+                var layer = Source as StoryboardLayer;
+
+                foreach (IRenderer inputRenerer in inputs)
+                {
+                    layer.Storyboard.ConnectComponent(inputRenerer, Source, BinderOptions.Trigger);
+                }
+
+                foreach (IRenderer outputRenderer in outputs)
+                {
+                    layer.Storyboard.ConnectComponent(Source, outputRenderer, BinderOptions.Trigger);
+                }
             }
         }
     }
