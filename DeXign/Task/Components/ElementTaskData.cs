@@ -73,47 +73,16 @@ namespace DeXign.Task
         {
             if (TaskType == RendererTaskType.Remove)
             {
-                // On WPF
-                ObjectContentHelper.GetContent(
-                    Source.RendererParent.Element,
-                    null,
-                    list =>
-                    {
-                        index = list.IndexOf(Source.Element);
-                    });
-
-                // Binder
-                var binder = RendererManager.ResolveBinder(Source);
-
-                outputs.Clear();
-                inputs.Clear();
-
-                // 나가는 연결
-                foreach (BinderExpression expression in binder.GetOutputExpression())
-                {
-                    IRenderer inputRenderer = expression.Input.GetRenderer();
-
-                    outputs.Add(inputRenderer);
-                }
-
-                // 들어오는 연결
-                //  * 들어오는 연결(Input)은 Component만 가질 수 있음
-                if (Source is IRendererComponent)
-                {
-                    foreach (BinderExpression expression in binder.GetInputExpression())
-                    {
-                        IRenderer outputRenderer = expression.Output.GetRenderer();
-
-                        inputs.Add(outputRenderer);
-                    }
-                }
-
-                binder.ReleaseAll();
+                OnRemove();
+            }
+            else
+            {
+                OnAdd();
             }
 
             base.Do();
         }
-
+        
         /// <summary>
         /// 이전 작업으로 돌아갑니다.
         /// </summary>
@@ -123,45 +92,114 @@ namespace DeXign.Task
 
             if (TaskType == RendererTaskType.Remove)
             {
-                if (index == -1)
-                    return;
+                OnRemoveRestore();
+            }
+            else
+            {
+                OnAddRestore();
+            }
+        }
 
-                if (Source.RendererParent.Model != null)
+        private void OnAdd()
+        {
+            RestoreBinders();
+        }
+
+        private void OnAddRestore()
+        {
+            ReleaseBinders();
+        }
+
+        private void OnRemove()
+        {
+            // On WPF
+            ObjectContentHelper.GetContent(
+                Source.RendererParent.Element,
+                null,
+                list =>
                 {
-                    // On PObject
-                    ObjectContentHelper.GetContent(
-                        Source.RendererParent.Model,
-                        null,
-                        list =>
-                        {
-                            list.Remove(Source.Model);
-                            list.Insert(index, Source.Model);
-                        });
-                }
+                    index = list.IndexOf(Source.Element);
+                });
 
-                // On WPF
+            ReleaseBinders();
+        }
+
+        private void OnRemoveRestore()
+        {
+            if (index == -1)
+                return;
+
+            if (Source.RendererParent.Model != null)
+            {
+                // On PObject
                 ObjectContentHelper.GetContent(
-                    Source.RendererParent.Element,
+                    Source.RendererParent.Model,
                     null,
                     list =>
                     {
-                        list.Remove(Source.Element);
-                        list.Insert(index, Source.Element);
+                        list.Remove(Source.Model);
+                        list.Insert(index, Source.Model);
                     });
+            }
 
-                // Binder
-                var layer = Source as StoryboardLayer;
-
-                foreach (IRenderer inputRenerer in inputs)
+            // On WPF
+            ObjectContentHelper.GetContent(
+                Source.RendererParent.Element,
+                null,
+                list =>
                 {
-                    layer.Storyboard.ConnectComponent(inputRenerer, Source, BinderOptions.Trigger);
-                }
+                    list.Remove(Source.Element);
+                    list.Insert(index, Source.Element);
+                });
 
-                foreach (IRenderer outputRenderer in outputs)
+            RestoreBinders();
+        }
+
+        private void RestoreBinders()
+        {
+            // Binder
+            var layer = Source as StoryboardLayer;
+
+            foreach (IRenderer inputRenerer in inputs)
+            {
+                layer.Storyboard.ConnectComponent(inputRenerer, Source, BinderOptions.Trigger);
+            }
+
+            foreach (IRenderer outputRenderer in outputs)
+            {
+                layer.Storyboard.ConnectComponent(Source, outputRenderer, BinderOptions.Trigger);
+            }
+        }
+
+        private void ReleaseBinders()
+        {
+            // Binder
+            var binder = RendererManager.ResolveBinder(Source);
+
+            outputs.Clear();
+            inputs.Clear();
+
+            // 나가는 연결
+            foreach (BinderExpression expression in binder.GetOutputExpression())
+            {
+                IRenderer inputRenderer = expression.Input.GetRenderer();
+
+                outputs.Add(inputRenderer);
+            }
+
+            // 들어오는 연결
+            //  * 들어오는 연결(Input)은 Component만 가질 수 있음
+            if (Source is IRendererComponent)
+            {
+                foreach (BinderExpression expression in binder.GetInputExpression())
                 {
-                    layer.Storyboard.ConnectComponent(Source, outputRenderer, BinderOptions.Trigger);
+                    IRenderer outputRenderer = expression.Output.GetRenderer();
+
+                    inputs.Add(outputRenderer);
                 }
             }
+
+            binder.ReleaseAll();
         }
     }
 }

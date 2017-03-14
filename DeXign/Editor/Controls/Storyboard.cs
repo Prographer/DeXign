@@ -368,11 +368,29 @@ namespace DeXign.Editor.Controls
             // * Task *
             if (pushTask)
             {
-                TaskManager?.Push(
-                    visual.GetRenderer(),                      // Source
-                    () => AddElement(parent, visual, true),    // Do Action
-                    () => RemoveElement(parent, visual, true), // Undo Action
-                    () => DestroyElement(parent, visual));     // Dispose Action
+                IRenderer renderer = visual.GetRenderer();
+
+                // * Task *
+                if (renderer is IRendererLayout lRenderer)
+                {
+                    TaskManager?.Push(
+                        new LayoutTaskData(
+                            RendererTaskType.Add,
+                            lRenderer,
+                            () => AddElement(parent, visual, true),
+                            () => RemoveElement(parent, visual, true),
+                            () => DestroyElement(parent, visual)));
+                }
+                else if (renderer is IRendererElement eRenderer)
+                {
+                    TaskManager?.Push(
+                        new ElementTaskData(
+                            RendererTaskType.Add,
+                            eRenderer,
+                            () => AddElement(parent, visual, true),
+                            () => RemoveElement(parent, visual, true),
+                            () => DestroyElement(parent, visual)));
+                }
             }
             else
             {

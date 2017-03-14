@@ -21,6 +21,9 @@
             </c:ZoomPanel>
         </AdornerDecorator>
 
-        <Button Content="DEBUG: ZoomFit" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10" Padding="10" Click="Button_Click"/>
+        <c:SpacingStackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10" Orientation="Horizontal">
+            <Button Content="DEBUG: ZoomFit" Click="Button_Click" Padding="10"/>
+            <Button Content="Binder Tree" Padding="10" Click="Button_Click_1"/>
+        </c:SpacingStackPanel>
     </Grid>
 </Page>

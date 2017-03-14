@@ -10,6 +10,10 @@ using DeXign.Extension;
 using DeXign.Models;
 using DeXign.Theme;
 using DeXign.Editor;
+using System.Linq;
+using DeXign.Core.Logic;
+using DeXign.Editor.Layer;
+using DeXign.Editor.Logic;
 
 namespace DeXign.Windows.Pages
 {
@@ -103,6 +107,44 @@ namespace DeXign.Windows.Pages
             bound.Inflate(100, 100);
 
             zoomPanel.ZoomFit(bound, true);
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            IRenderer r = null;
+            object item = GroupSelector.GetSelectedItems().FirstOrDefault();
+
+            if (item is StoryboardLayer l)
+                r = (IRenderer)l;
+
+            if (item is ComponentElement ce)
+                r = ce.GetRenderer();
+
+            if (r == null)
+                return;
+
+            var rb = RendererManager.ResolveBinder(r);
+
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+            sb.AppendLine($"Source: {r.GetType().Name}");
+            sb.AppendLine();
+            sb.AppendLine("Inputs:");
+
+            foreach (BaseBinder input in rb.Inputs)
+            {
+                sb.AppendLine($"  {input.GetRenderer().GetType().Name}");
+            }
+
+            sb.AppendLine();
+            sb.AppendLine("Outputs:");
+
+            foreach (BaseBinder output in rb.Outputs)
+            {
+                sb.AppendLine($"  {output.GetRenderer().GetType().Name}");
+            }
+
+            MessageBox.Show(sb.ToString());
         }
     }
 }
