@@ -97,7 +97,7 @@ namespace DeXign.Editor.Controls
 
             beginPosition = Target.TranslatePoint(new Point(), ParentLayer.Parent.Element);
 
-            if (!(ParentLayer.Parent is IStoryboard))
+            if (ParentLayer.Parent is IStoryboard == false)
                 beginMargin = Target.Margin;
         }
 
@@ -135,7 +135,7 @@ namespace DeXign.Editor.Controls
 
         private Point ApplyPositionDelta(Point delta)
         {
-            return Point.Add(beginPosition, (Vector)PreviousDelta);
+            return Point.Add(beginPosition, (Vector)delta);
         }
 
         private Thickness ApplyMarginDelta(Point delta)

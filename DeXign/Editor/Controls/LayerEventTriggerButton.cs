@@ -1,82 +1,71 @@
+using System;
 using System.Windows;
-using System.Windows.Input;
-using System.Windows.Controls;
 
-using DeXign.OS;
 using DeXign.Editor.Layer;
+using DeXign.Editor.Logic;
+using DeXign.Extension;
 
 namespace DeXign.Editor.Controls
 {
-    class LayerEventTriggerButton : Control
+    class LayerEventTriggerButton : BindThumb, IUISupport
     {
-        public SelectionLayer ParentLayer { get; set; }
-
-        private LineConnectorBase dragLine;
+        SelectionLayer parentLayer;
 
         public LayerEventTriggerButton(SelectionLayer parentLayer)
         {
-            this.ParentLayer = parentLayer;
-        }
-
-        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonDown(e);
-
-            if (ParentLayer is IRenderer == false)
-                return;
-
-            var renderer = ParentLayer as IRenderer;
-            var storyboard = ParentLayer.RootParent;
-
-            storyboard.CloseComponentBox();
-
-            dragLine = storyboard
-                .CreatePendingConnectedLine(
-                    c =>
-                    {
-                        return this.TranslatePoint(
-                            new Point(this.RenderSize.Width, this.RenderSize.Height / 2),
-                            c.Parent);
-                    },
-                    c =>
-                    {
-                        return c.Parent.PointFromScreen(SystemMouse.Position);
-                    });
-            
-            ParentLayer.DesignModeChanged += ParentLayer_DesignModeChanged;
-            dragLine.Released += DragLine_Released;
-
-            // 드래그
-            DragDrop.DoDragDrop(this, renderer.Model, DragDropEffects.None);
-            
-            // 컴포넌트박스 Open
-            storyboard.OpenComponentBox(renderer.Model);
-        }
-
-        private void ParentLayer_DesignModeChanged(object sender, System.EventArgs e)
-        {
-            if (ParentLayer.DesignMode != DesignMode.Trigger && dragLine != null)
+            if (parentLayer is IRenderer renderer)
             {
-                ParentLayer.RootParent.CloseComponentBox();
+                this.parentLayer = parentLayer;
+                this.Renderer = renderer;
             }
         }
 
-        private void DragLine_Released(object sender, System.EventArgs e)
+        protected override void OnDragStarting()
         {
-            // Released Connector on Renderer
+            base.OnDragStarting();
 
-            if (dragLine == null)
-                return;
-            
-            ParentLayer.DesignModeChanged -= ParentLayer_DesignModeChanged;
-            dragLine.Released -= DragLine_Released;
-            dragLine = null;
+            parentLayer.DesignModeChanged += Layer_DesignModeChanged;
         }
 
-        protected override void OnGiveFeedback(GiveFeedbackEventArgs e)
+        private void Layer_DesignModeChanged(object sender, EventArgs e)
         {
-            dragLine.Update();
-            e.Handled = true;
+            if (parentLayer.DesignMode != DesignMode.Trigger)
+            {
+                parentLayer.RootParent.CloseComponentBox();
+            }
+        }
+
+        protected override void OnDragEnd()
+        {
+            Storyboard storyboard = parentLayer.RootParent;
+
+            storyboard.OpenComponentBox(this.Renderer.Model);
+        }
+
+        protected override void OnDragLineReleased()
+        {
+            base.OnDragLineReleased();
+
+            parentLayer.DesignModeChanged -= Layer_DesignModeChanged;
+        }
+
+        public Point GetLocation()
+        {
+            UIElement element = this;
+
+            if (parentLayer.DesignMode != DesignMode.Trigger)
+                element = parentLayer.AdornedElement;
+
+            var position = new Point(element.RenderSize.Width, element.RenderSize.Height / 2);
+
+            return element.TranslatePoint(
+                position,
+                parentLayer.RootParent);
+        }
+
+        public Rect GetBound()
+        {
+            throw new NotImplementedException();
         }
     }
 }

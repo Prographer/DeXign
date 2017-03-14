@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 
 using DeXign.Core;
 using DeXign.Core.Logic;
 using DeXign.Editor.Layer;
 using DeXign.Extension;
-using System.Windows.Controls;
 
 namespace DeXign.Editor.Renderer
 {
@@ -60,6 +60,7 @@ namespace DeXign.Editor.Renderer
 
                 Canvas.SetTop(child.Element, screenSize.Height / 2 - child.Element.Height / 2);
                 Canvas.SetLeft(child.Element, screenSize.Width / 2 - child.Element.Width / 2);
+                Canvas.SetZIndex(child.Element, 10);
             }
         }
 

@@ -25,6 +25,7 @@ using DeXign.Controls;
 using DeXign.Converter;
 using DeXign.Task;
 using DeXign.Utilities;
+using DeXign.Editor.Logic;
 
 namespace DeXign.Editor.Controls
 {
@@ -190,56 +191,70 @@ namespace DeXign.Editor.Controls
         {
             var selectedLayer = GetSelectedLayer();
 
-            selectedLayer?.Select();
+            if (selectedLayer is SelectionLayer selection)
+            {
+                selection.Select();
+            }
         }
 
         private void Delete_Execute(object sender, ExecutedRoutedEventArgs e)
         {
-            var layers = GroupSelector.GetSelectedItems()
-                .Cast<SelectionLayer>()
+            var items = GroupSelector.GetSelectedItems()
                 .ToArray();
 
-            if (layers.Length > 0)
+            if (items.Length > 0)
             {
-                foreach (var layer in layers)
+                foreach (var item in items)
                 {
-                    var element = layer.AdornedElement;
-                    var parent = (FrameworkElement)element.Parent;
+                    if (item is SelectionLayer layer)
+                        DeleteLayer(layer);
 
-                    IRenderer elementRenderer = element.GetRenderer();
-
-                    // Check Selected Parent
-                    if (RendererTreeHelper
-                        .FindParents<IRenderer>(elementRenderer)
-                        .Count(r => GroupSelector.IsSelected(r)) > 0)
+                    if (item is ComponentElement element)
                     {
-                        continue;
-                    }
-
-                    // * Task *
-                    if (elementRenderer is IRendererLayout lRenderer)
-                    {
-                        TaskManager?.Push(
-                            new LayoutTaskData(
-                                RendererTaskType.Remove,
-                                lRenderer,
-                                () => RemoveElement(parent, element, true),
-                                () => AddElement(parent, element, true),
-                                () => RemoveElement(parent, element)));
-                    }
-                    else if (elementRenderer is IRendererElement eRenderer)
-                    {
-                        TaskManager?.Push(
-                            new ElementTaskData(
-                                RendererTaskType.Remove,
-                                eRenderer,
-                                () => RemoveElement(parent, element, true),
-                                () => AddElement(parent, element, true),
-                                () => RemoveElement(parent, element)));
+                        IRenderer renderer = item.GetRenderer();
+                        // 로직
                     }
                 }
 
                 GroupSelector.UnselectAll();
+            }
+        }
+
+        private void DeleteLayer(SelectionLayer layer)
+        {
+            var element = layer.AdornedElement;
+            var parent = (FrameworkElement)element.Parent;
+
+            IRenderer elementRenderer = element.GetRenderer();
+
+            // Check Selected Parent
+            if (RendererTreeHelper
+                .FindParents<IRenderer>(elementRenderer)
+                .Count(r => GroupSelector.IsSelected(r as FrameworkElement)) > 0)
+            {
+                return;
+            }
+
+            // * Task *
+            if (elementRenderer is IRendererLayout lRenderer)
+            {
+                TaskManager?.Push(
+                    new LayoutTaskData(
+                        RendererTaskType.Remove,
+                        lRenderer,
+                        () => RemoveElement(parent, element, true),
+                        () => AddElement(parent, element, true),
+                        () => RemoveElement(parent, element)));
+            }
+            else if (elementRenderer is IRendererElement eRenderer)
+            {
+                TaskManager?.Push(
+                    new ElementTaskData(
+                        RendererTaskType.Remove,
+                        eRenderer,
+                        () => RemoveElement(parent, element, true),
+                        () => AddElement(parent, element, true),
+                        () => RemoveElement(parent, element)));
             }
         }
 
@@ -263,7 +278,10 @@ namespace DeXign.Editor.Controls
             var layer = GetSelectedLayer();
 
             if (layer == null)
+            {
+                GroupSelector.UnselectAll();
                 return;
+            }
 
             var prevLayer = layer.AdornedElement
                 .FindVisualParents<FrameworkElement>()
@@ -281,7 +299,7 @@ namespace DeXign.Editor.Controls
         /// 선택된 레이어를 가져옵니다.
         /// </summary>
         /// <returns></returns>
-        protected SelectionLayer GetSelectedLayer()
+        protected StoryboardLayer GetSelectedLayer()
         {
             var items = GroupSelector.GetSelectedItems();
 
@@ -289,7 +307,7 @@ namespace DeXign.Editor.Controls
             {
                 object item = items.First();
 
-                if (item is SelectionLayer layer)
+                if (item is StoryboardLayer layer)
                 {
                     return layer;
                 }
@@ -405,7 +423,7 @@ namespace DeXign.Editor.Controls
                 return;
 
             // Selection Check
-            if (GroupSelector.IsSelected(childRenderer))
+            if (GroupSelector.IsSelected(childRenderer as FrameworkElement))
             {
                 GroupSelector.Select(childRenderer as SelectionLayer, false);
             }
@@ -469,6 +487,8 @@ namespace DeXign.Editor.Controls
         {
             var connector = CreateConnectedLine(startPosition, endPosition);
 
+            connector.Line.IsHitTestVisible = false;
+
             // add pending line
             pendingLines.Push(connector);
             managedLines.Remove(connector);
@@ -481,14 +501,14 @@ namespace DeXign.Editor.Controls
         /// <summary>
         /// 두 <see cref="FrameworkElement"/>를 시각적으로 이어주는 임시 <see cref="LineConnector"/>를 생성합니다.
         /// </summary>
-        /// <param name="source"></param>
+        /// <param name="output"></param>
         /// <param name="target"></param>
         /// <returns></returns>
         public LineConnector CreatePendingConnectedLine(
-            FrameworkElement source,
-            FrameworkElement target)
+            BindThumb output,
+            BindThumb target)
         {
-            var connector = CreateConnectedLine(source, target);
+            var connector = CreateConnectedLine(output, target);
             
             // add pending line
             pendingLines.Push(connector);
@@ -528,14 +548,14 @@ namespace DeXign.Editor.Controls
         /// <summary>
         /// 두 <see cref="FrameworkElement"/>를 시각적으로 이어주는 임시 <see cref="LineConnector"/>를 생성합니다.
         /// </summary>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
+        /// <param name="output"></param>
+        /// <param name="input"></param>
         /// <returns></returns>
         public LineConnector CreateConnectedLine(
-            FrameworkElement source,
-            FrameworkElement target)
+            BindThumb output,
+            BindThumb input)
         {
-            var connector = new LineConnector(this, source, target);
+            var connector = new LineConnector(this, output, input);
 
             if (ZoomPanel != null)
             {
@@ -608,7 +628,7 @@ namespace DeXign.Editor.Controls
             }
 
             var metadata = DesignerManager.GetElementType(pType);
-            var control = this.GenerateToElement(this, metadata) as FrameworkElement;
+            var control = this.GenerateToElement(this, metadata) as ComponentElement;
 
             // Trigger Setting
             if (model.ComponentType == ComponentType.Event)
@@ -623,8 +643,9 @@ namespace DeXign.Editor.Controls
             control.VerticalAlignment = VerticalAlignment.Top;
             control.HorizontalAlignment = HorizontalAlignment.Left;
 
-            Canvas.SetLeft(control, position.X);
-            Canvas.SetTop(control, position.Y);
+            Canvas.SetLeft(control, control.SnapToGrid(position.X));
+            Canvas.SetTop(control, control.SnapToGrid(position.Y));
+            Canvas.SetZIndex(control, 0);
 
             return control;
         }
@@ -664,8 +685,6 @@ namespace DeXign.Editor.Controls
 
         internal void ConnectComponent(IRenderer outputRenderer, IRenderer inputRenderer, BinderOptions option)
         {
-            var layer = (inputRenderer as StoryboardLayer);
-
             BinderOperation.SetBind(outputRenderer, inputRenderer, option);
 
 #if DEBUG
@@ -681,6 +700,13 @@ namespace DeXign.Editor.Controls
 #endif
 
             // Connect
+            ConnectComponentLine(outputRenderer, inputRenderer, option);
+        }
+
+        internal void ConnectComponentLine(IRenderer outputRenderer, IRenderer inputRenderer, BinderOptions option)
+        {
+            var layer = (inputRenderer as StoryboardLayer);
+
             if (layer.IsLoaded)
             {
                 ConnectRendererBezierLine(outputRenderer, inputRenderer);
@@ -695,10 +721,31 @@ namespace DeXign.Editor.Controls
 
         private void ConnectRendererBezierLine(IRenderer outputRenderer, IRenderer inputRenderer)
         {
-            var connector = CreateConnectedLine((FrameworkElement)outputRenderer, (FrameworkElement)inputRenderer);
+            BindThumb outputThumb = ResolveBindThumb(outputRenderer, BindType.Output);
+            BindThumb inputThumb = ResolveBindThumb(inputRenderer, BindType.Input);
+
+            var connector = CreateConnectedLine(outputThumb, inputThumb);
             connector.Update();
         }
-        
+
+        private BindThumb ResolveBindThumb(IRenderer renderer, BindType type)
+        {
+            if (renderer is SelectionLayer layer)
+            {
+                if (type == BindType.Output)
+                    return layer.TriggerButton;
+
+                return null;
+            }
+
+            if (renderer.Element is ComponentElement componentElement)
+            {
+                return componentElement.GetThumb(type);
+            }
+
+            return null;
+        }
+
         private void ComponentBox_ItemSelected(object sender, ComponentBoxItemModel model)
         {
             if (IsComponentBoxOpen)

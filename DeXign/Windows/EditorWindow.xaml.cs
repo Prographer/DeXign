@@ -12,6 +12,9 @@ using DeXign.Windows.Pages;
 using DeXign.Editor;
 using DeXign.Database;
 using DeXign.Extension;
+using System.Windows;
+using System.IO;
+using System.Windows.Media;
 
 namespace DeXign.Windows
 {
@@ -44,8 +47,6 @@ namespace DeXign.Windows
 
         private void UpdateRecentMenu()
         {
-            int n = 1;
-
             menuItemRecent.Items.Clear();
 
             foreach (RecentItem item in RecentDB.GetFiles())
@@ -53,7 +54,7 @@ namespace DeXign.Windows
                 menuItemRecent.Items.Add(
                     new MenuItemEx()
                     {
-                        Header = $"{n++} {item.FileName}",
+                        Header = $"{menuItemRecent.Items.Count + 1} {item.FileName}",
                         Command = DXCommands.OpenProjectCommand,
                         CommandParameter = item
                     });
@@ -63,8 +64,8 @@ namespace DeXign.Windows
         private void GroupSelector_SelectedItemChanged(object sender, EventArgs e)
         {
             propertyGrid.SelectedObjects = GroupSelector.GetSelectedItems()
-                .Cast<IRenderer>()
-                .Select(r => (object)r.Model)
+                .Where(obj => obj is IRenderer)
+                .Select(r => (object)(r as IRenderer).Model)
                 .ToArray();
         }
 

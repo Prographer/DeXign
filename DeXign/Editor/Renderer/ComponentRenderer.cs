@@ -6,12 +6,14 @@ using DeXign.Core;
 using DeXign.Core.Logic;
 using DeXign.Editor.Layer;
 using DeXign.Extension;
+using DeXign.Editor.Logic;
+using System.Windows.Controls;
 
 namespace DeXign.Editor.Renderer
 {
     public class ComponentRenderer<TModel, TElement> : StoryboardLayer, IRenderer<TModel, TElement>, IUISupport
         where TModel : PComponent
-        where TElement : FrameworkElement
+        where TElement : ComponentElement
     {
         public event EventHandler ElementAttached;
 
@@ -40,7 +42,17 @@ namespace DeXign.Editor.Renderer
             this.Model = model;
             this.Element = adornedElement;
 
+            this.Element.SetComponentModel(this.Model);
+            this.Element.Binded += Element_Binded;
+
             this.RendererChildren = new List<IRenderer>();
+        }
+
+        private void Element_Binded(object sender, BindExpression e)
+        {
+            // 이미 바인딩된 후 이벤트가 발생하기 때문에,
+            // 시각적으로 연결만 해줌
+            RootParent.ConnectComponentLine(e.Output.Renderer, e.Input.Renderer, BinderOptions.Trigger);
         }
 
         protected override void OnLoaded(FrameworkElement adornedElement)
@@ -123,6 +135,15 @@ namespace DeXign.Editor.Renderer
                     0,
                     Element.DesiredSize.Height / 2),
                 RootParent);
+        }
+        #endregion
+
+        #region [ Dispose ]
+        protected override void OnDisposed()
+        {
+            this.Element.Binded -= Element_Binded;
+
+            base.OnDisposed();
         }
         #endregion
     }

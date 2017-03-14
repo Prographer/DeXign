@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
+using WPFExtension;
 
 namespace DeXign.Editor
 {
@@ -14,6 +16,11 @@ namespace DeXign.Editor
 
     public static class GroupSelector
     {
+        #region [ Dependency Property ]
+        public static readonly DependencyProperty IsSelectedProperty =
+            DependencyHelper.RegisterAttached<bool>();
+        #endregion
+
         #region [ Global Event ]
         public static event EventHandler SelectedItemChanged;
         #endregion
@@ -36,11 +43,13 @@ namespace DeXign.Editor
             if (!groups.ContainsKey(group))
                 groups[group] = new List<FrameworkElement>();
 
+            obj.SetValue(IsSelectedProperty, select);
+
             if (!select)
             {
                 if (!groups[group].Contains(obj))
                     return;
-                
+
                 groups[group].Remove(obj);
 
                 obj.RaiseEvent(new SelectionChangedEventArgs(UnselectedEvent));
@@ -68,6 +77,8 @@ namespace DeXign.Editor
 
             foreach (var item in GetSelectedItems(group).Except(ignorElements).ToArray())
             {
+                item.SetValue(IsSelectedProperty, false);
+
                 groups[group].Remove(item);
                 item.RaiseEvent(new SelectionChangedEventArgs(UnselectedEvent));
             }
@@ -75,7 +86,7 @@ namespace DeXign.Editor
             SelectedItemChanged?.Invoke(null, null);
         }
 
-        public static bool IsSelected(object obj, string group = "default")
+        public static bool IsSelected(FrameworkElement obj, string group = "default")
         {
             if (groups.ContainsKey(group))
                 return groups[group].Contains(obj);
@@ -115,6 +126,21 @@ namespace DeXign.Editor
         public static void RemoveUnselectedHandler(this UIElement element, SelectorEventHandler handler)
         {
             element.RemoveHandler(UnselectedEvent, handler);
+        }
+        #endregion
+
+        #region [ Dependency Extension ]
+        public static bool GetIsSelected(this FrameworkElement obj)
+        {
+            return (bool)obj.GetValue(IsSelectedProperty);
+        }
+
+        public static void SetIsSelected(this FrameworkElement obj, bool value)
+        {
+            if (value)
+                Select(obj, value, multiSelect: Keyboard.IsKeyDown(Key.LeftShift));
+
+            obj.SetValue(IsSelectedProperty, value);
         }
         #endregion
     }

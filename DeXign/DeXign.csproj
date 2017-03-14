@@ -170,6 +170,12 @@
     <Compile Include="Editor\Interfaces\IStackLayout.cs" />
     <Compile Include="Editor\Interfaces\IStoryboard.cs" />
     <Compile Include="Editor\Direction.cs" />
+    <Compile Include="Editor\Logic\Controls\BindType.cs" />
+    <Compile Include="Editor\Logic\Controls\BindRequest.cs" />
+    <Compile Include="Editor\Logic\Controls\BindThumb.cs" />
+    <Compile Include="Editor\Logic\Statement\BaseStatement.cs" />
+    <Compile Include="Editor\Logic\ComponentElement.cs" />
+    <Compile Include="Editor\Logic\Trigger.cs" />
     <Compile Include="Editor\Renderer\ComponentRenderer.cs" />
     <Compile Include="Editor\Renderer\Components\TriggerRenderer.cs" />
     <Compile Include="Editor\Renderer\Controls\ButtonRenderer.cs" />
@@ -297,6 +303,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\DexignTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\LogicStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

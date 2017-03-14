@@ -15,8 +15,8 @@ namespace DeXign.Editor
         
         public Storyboard Parent { get; }
 
-        public Func<LineConnectorBase, Point> Source { get; protected set; }
-        public Func<LineConnectorBase, Point> Target { get; protected set; }
+        public Func<LineConnectorBase, Point> Output { get; protected set; }
+        public Func<LineConnectorBase, Point> Input { get; protected set; }
 
         public BezierLine Line { get; }
 
@@ -36,11 +36,11 @@ namespace DeXign.Editor
 
         internal LineConnectorBase(
             Storyboard parent,
-            Func<LineConnectorBase, Point> source,
-            Func<LineConnectorBase, Point> target) : this(parent)
+            Func<LineConnectorBase, Point> output,
+            Func<LineConnectorBase, Point> input) : this(parent)
         {
-            this.Source = source;
-            this.Target = target;
+            this.Output = output;
+            this.Input = input;
 
             Update();
         }
@@ -51,8 +51,8 @@ namespace DeXign.Editor
             {
                 IsConnected = false;
                 
-                Source = null;
-                Target = null;
+                Output = null;
+                Input = null;
 
                 OnRelease();
                 Released?.Invoke(this, null);
@@ -68,8 +68,8 @@ namespace DeXign.Editor
             if (!IsConnected)
                 return;
             
-            Point sourcePosition = Source(this);
-            Point targetPosition = Target(this);
+            Point sourcePosition = Output(this);
+            Point targetPosition = Input(this);
 
             // Line Size
             Vector size = targetPosition - sourcePosition;

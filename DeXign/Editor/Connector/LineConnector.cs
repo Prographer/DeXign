@@ -3,53 +3,54 @@ using System.Windows;
 
 using DeXign.Editor.Controls;
 using DeXign.Extension;
+using DeXign.Editor.Logic;
 
 namespace DeXign.Editor
 {
     public class LineConnector : LineConnectorBase
     {
-        public new FrameworkElement Source { get; }
-        public new FrameworkElement Target { get; }
+        public new BindThumb Output { get; }
+        public new BindThumb Input { get; }
 
         internal LineConnector(
             Storyboard parent,
-            Func<LineConnectorBase, Point> source,
-            Func<LineConnectorBase, Point> target) : base(parent, source, target)
+            Func<LineConnectorBase, Point> output,
+            Func<LineConnectorBase, Point> input) : base(parent, output, input)
         {
         }
 
         internal LineConnector(
             Storyboard parent,
-            FrameworkElement source,
-            FrameworkElement target) : base(parent)
+            BindThumb source,
+            BindThumb target) : base(parent)
         {
-            this.Source = source;
-            this.Target = target;
+            this.Output = source;
+            this.Input = target;
 
-            base.Source = GetSourcePosition;
-            base.Target = GetTargetPosition;
+            base.Output = GetOutputPosition;
+            base.Input = GetInputPosition;
         }
 
-        private Point GetSourcePosition(LineConnectorBase connector)
+        private Point GetOutputPosition(LineConnectorBase connector)
         {
-            if (Source is IUISupport support)
+            if (Output is IUISupport support)
                 return support.GetLocation();
 
-            return Source.TranslatePoint(
+            return Output.TranslatePoint(
                 new Point(
-                    Source.RenderSize.Width,
-                    Source.RenderSize.Height / 2), Parent);
+                    Output.RenderSize.Width,
+                    Output.RenderSize.Height / 2), Parent);
         }
 
-        private Point GetTargetPosition(LineConnectorBase connector)
+        private Point GetInputPosition(LineConnectorBase connector)
         {
-            if (Target is IUISupport support)
+            if (Input is IUISupport support)
                 return support.GetLocation();
 
-            return Target.TranslatePoint(
+            return Input.TranslatePoint(
                 new Point(
                     0,
-                    Target.RenderSize.Height / 2), Parent);
+                    Input.RenderSize.Height / 2), Parent);
         }
 
         protected override void OnRelease()

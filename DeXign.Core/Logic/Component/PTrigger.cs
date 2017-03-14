@@ -1,5 +1,7 @@
-﻿using System.Reflection;
-using System.Windows;
+﻿using System.Windows;
+using System.Reflection;
+
+using DeXign.Extension;
 
 using WPFExtension;
 
@@ -10,6 +12,12 @@ namespace DeXign.Core.Logic.Component
     {
         public static readonly DependencyProperty EventInfoProperty =
             DependencyHelper.Register();
+
+        private static readonly DependencyPropertyKey ParameterInfosPropertyKey =
+            DependencyHelper.RegisterReadOnly();
+
+        public static readonly DependencyProperty ParameterInfosProperty =
+            ParameterInfosPropertyKey.DependencyProperty;
 
         public EventInfo EventInfo
         {
@@ -26,10 +34,15 @@ namespace DeXign.Core.Logic.Component
                     .GetParameters();
 
                 SetValue(EventInfoProperty, value);
+                InvalidateTitle();
             }
         }
         
-        public ParameterInfo[] ParameterInfos { get; private set; }
+        public ParameterInfo[] ParameterInfos
+        {
+            get { return GetValue< ParameterInfo[]>(ParameterInfosProperty); }
+            private set { SetValue(ParameterInfosPropertyKey, value); }
+        }
 
         public PTrigger()
         {
@@ -38,6 +51,16 @@ namespace DeXign.Core.Logic.Component
         public PTrigger(EventInfo ei)
         {
             this.EventInfo = ei;
+        }
+
+        private void InvalidateTitle()
+        {
+            this.Title = this.EventInfo.Name;
+            
+            if (this.EventInfo.HasAttribute<DesignElementAttribute>())
+            {
+                this.Title = this.EventInfo.GetAttribute<DesignElementAttribute>().DisplayName;
+            }
         }
     }
 }
