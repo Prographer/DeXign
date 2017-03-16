@@ -26,6 +26,7 @@
         <!-- Undo / Redo -->
         <KeyBinding Modifiers="Ctrl" Key="Z" Command="{x:Static local:DXCommands.UndoCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="Y" Command="{x:Static local:DXCommands.RedoCommand}"/>
+        <KeyBinding Modifiers="Ctrl+Shift" Key="Z" Command="{x:Static local:DXCommands.RedoCommand}"/>
     </c:ChromeWindow.InputBindings>
 
     <c:ChromeWindow.Menu>

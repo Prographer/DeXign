@@ -410,7 +410,6 @@ namespace DeXign.Editor.Layer
             #region < Add Event Trigger Button >
             Add(TriggerButton = new LayerEventTriggerButton(this)
             {
-                BindType = Logic.BindType.Output,
                 Visibility = Visibility.Collapsed,
                 Margin = new Thickness(10, 0, -10, 0),
                 HorizontalAlignment = HorizontalAlignment.Right,

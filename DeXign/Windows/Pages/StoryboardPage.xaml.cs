@@ -111,40 +111,40 @@ namespace DeXign.Windows.Pages
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            IRenderer r = null;
-            object item = GroupSelector.GetSelectedItems().FirstOrDefault();
+            //IRenderer r = null;
+            //object item = GroupSelector.GetSelectedItems().FirstOrDefault();
 
-            if (item is StoryboardLayer l)
-                r = (IRenderer)l;
+            //if (item is StoryboardLayer l)
+            //    r = (IRenderer)l;
 
-            if (item is ComponentElement ce)
-                r = ce.GetRenderer();
+            //if (item is ComponentElement ce)
+            //    r = ce.GetRenderer();
 
-            if (r == null)
-                return;
+            //if (r == null)
+            //    return;
 
-            var rb = RendererManager.ResolveBinder(r);
+            //var rb = RendererManager.ResolveBinder(r);
 
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            //System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
-            sb.AppendLine($"Source: {r.GetType().Name}");
-            sb.AppendLine();
-            sb.AppendLine("Inputs:");
+            //sb.AppendLine($"Source: {r.GetType().Name}");
+            //sb.AppendLine();
+            //sb.AppendLine("Inputs:");
 
-            foreach (BaseBinder input in rb.Inputs)
-            {
-                sb.AppendLine($"  {input.GetRenderer().GetType().Name}");
-            }
+            //foreach (PBinder input in rb.Inputs)
+            //{
+            //    sb.AppendLine($"  {input.GetRenderer().GetType().Name}");
+            //}
 
-            sb.AppendLine();
-            sb.AppendLine("Outputs:");
+            //sb.AppendLine();
+            //sb.AppendLine("Outputs:");
 
-            foreach (BaseBinder output in rb.Outputs)
-            {
-                sb.AppendLine($"  {output.GetRenderer().GetType().Name}");
-            }
+            //foreach (PBinder2 output in rb.Outputs)
+            //{
+            //    sb.AppendLine($"  {output.GetRenderer().GetType().Name}");
+            //}
 
-            MessageBox.Show(sb.ToString());
+            //MessageBox.Show(sb.ToString());
         }
     }
 }

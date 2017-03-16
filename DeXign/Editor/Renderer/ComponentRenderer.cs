@@ -35,35 +35,74 @@ namespace DeXign.Editor.Renderer
 
         public RendererMetadata Metadata { get; }
 
+        // 렌더러가 로드되기전 선을 생성 및 삭제하려는 경우 큐에 쌓아둠
+        private Queue<(BindThumb Output, BindThumb Input)> pendingConnectLine;
+        private Queue<(BindThumb Output, BindThumb Input)> pendingDisconnectLine;
+
         public ComponentRenderer(TElement adornedElement, TModel model) : base(adornedElement)
         {
-            Metadata = new RendererMetadata();
-
+            this.Metadata = new RendererMetadata();
+            
             this.Model = model;
             this.Element = adornedElement;
 
             this.Element.SetComponentModel(this.Model);
-            this.Element.Binded += Element_Binded;
 
             this.RendererChildren = new List<IRenderer>();
 
+            // Pending Visual Line Queue
+            pendingConnectLine = new Queue<(BindThumb Output, BindThumb Input)>();
+            pendingDisconnectLine = new Queue<(BindThumb Output, BindThumb Input)>();
+
             // Binder
             RendererManager.ResolveBinder(this).Released += ComponentRenderer_Released;
+            RendererManager.ResolveBinder(this).Binded += ComponentRenderer_Binded;
         }
 
-        private void ComponentRenderer_Released(object sender, BinderReleasedEventArgs e)
+        protected void ConnectVisualLine(BindThumb outputThumb, BindThumb inputThumb)
         {
-            IRenderer outputRenderer = e.Expression.Output.GetRenderer();
-            IRenderer inputRenderer = e.Expression.Input.GetRenderer();
-
-            Storyboard.DisconnectComponentLine(outputRenderer, inputRenderer);
+            if (this.IsLoaded)
+            {
+                Storyboard.ConnectComponentLine(outputThumb, inputThumb);
+            }
+            else
+            {
+                pendingConnectLine.Enqueue((outputThumb, inputThumb));
+            }
         }
 
-        private void Element_Binded(object sender, BindExpression e)
+        protected void DisconnectVisualLine(BindThumb outputThumb, BindThumb inputThumb)
         {
-            // 이미 바인딩된 후 이벤트가 발생하기 때문에,
-            // 시각적으로 연결만 해줌
-            Storyboard.ConnectComponentLine(e.Output.Renderer, e.Input.Renderer, BinderOptions.Trigger);
+            if (this.IsLoaded)
+            {
+                Storyboard.DisconnectComponentLine(outputThumb, inputThumb);
+            }
+            else
+            {
+                pendingDisconnectLine.Enqueue((outputThumb, inputThumb));
+            }
+        }
+
+        private void ComponentRenderer_Binded(object sender, BinderBindedEventArgs e)
+        {
+            var outputBinder = e.Expression.Output as PBinder;
+            var inputBinder = e.Expression.Input as PBinder;
+
+            var outputThumb = outputBinder.GetView<BindThumb>();
+            var inputThumb = inputBinder.GetView<BindThumb>();
+
+            ConnectVisualLine(outputThumb, inputThumb);
+        }
+
+        private void ComponentRenderer_Released(object sender, BinderBindedEventArgs e)
+        {
+            var outputBinder = e.Expression.Output as PBinder;
+            var inputBinder = e.Expression.Output as PBinder;
+
+            var outputThumb = outputBinder.GetView<BindThumb>();
+            var inputThumb = inputBinder.GetView<BindThumb>();
+
+            DisconnectVisualLine(outputThumb, inputThumb);
         }
 
         protected override void OnLoaded(FrameworkElement adornedElement)
@@ -71,6 +110,22 @@ namespace DeXign.Editor.Renderer
             RendererParent = adornedElement.Parent.GetRenderer();
 
             ElementAttached?.Invoke(this, EventArgs.Empty);
+
+            // 대기중인 연결 처리
+            while (pendingConnectLine.Count > 0)
+            {
+                var expression = pendingConnectLine.Dequeue();
+
+                Storyboard.ConnectComponentLine(expression.Output, expression.Input);
+            }
+
+            // 대기중인 연결 해제 처리
+            while (pendingDisconnectLine.Count > 0)
+            {
+                var expression = pendingDisconnectLine.Dequeue();
+
+                Storyboard.DisconnectComponentLine(expression.Output, expression.Input);
+            }
         }
 
         public void AddChild(IRenderer child, Point position)
@@ -98,32 +153,7 @@ namespace DeXign.Editor.Renderer
         }
 
         #region [ IBinderProvider Interface ]
-        public virtual bool CanBind(BaseBinder outputBinder, BinderOptions options)
-        {
-            return Model.CanBind(outputBinder, options);
-        }
-
-        public virtual void Bind(BaseBinder outputBinder, BinderOptions options)
-        {
-            Model.Bind(outputBinder, options);
-        }
-
-        public virtual void ReleaseInput(BaseBinder outputBinder)
-        {
-            Model.ReleaseInput(outputBinder);
-        }
-
-        public virtual void ReleaseOutput(BaseBinder inputBinder)
-        {
-            Model.ReleaseOutput(inputBinder);
-        }
-
-        public virtual void ReleaseAll()
-        {
-            Model.ReleaseAll();
-        }
-
-        public virtual BaseBinder ProvideValue()
+        public virtual IBinderHost ProvideValue()
         {
             return Model;
         }
@@ -152,8 +182,6 @@ namespace DeXign.Editor.Renderer
         #region [ Dispose ]
         protected override void OnDisposed()
         {
-            this.Element.Binded -= Element_Binded;
-
             base.OnDisposed();
         }
         #endregion

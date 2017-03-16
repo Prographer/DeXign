@@ -1,7 +1,7 @@
 ﻿
+using DeXign.Core.Logic;
 using DeXign.Editor;
 using DeXign.Editor.Renderer;
-using DeXign.Core.Logic.Component;
 
 using l = DeXign.Editor.Logic;
 

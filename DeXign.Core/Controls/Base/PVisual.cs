@@ -9,7 +9,7 @@ using WPFExtension;
 
 namespace DeXign.Core.Controls
 {
-    public class PVisual : PObject, IBinderProvider
+    public class PVisual : PObject, IBinderHostProvider
     {
         public static readonly DependencyProperty AnchorXProperty =
             DependencyHelper.Register(new PropertyMetadata(0.5d));
@@ -155,40 +155,19 @@ namespace DeXign.Core.Controls
             set { SetValue(YProperty, value); }
         }
 
+        public PVisual()
+        {
+            Binder = new PBinderHost();
+            Binder.AddNewBinder(BindOptions.Output);
+        }
+
         #region [ IBinder Interface ]
         // virtual binder
-        public BaseBinder Binder { get; } = new BaseBinder();
-        
-        public bool CanBind(BaseBinder outputBinder, BinderOptions options)
-        {
-            // 논리적으론 가능하지만
-            // PVisual은 Trigger와 연결하는것밖에 안됨.
-            return false;
-        }
+        public PBinderHost Binder { get; }
 
-        public void Bind(BaseBinder outputBinder, BinderOptions options)
+        public IBinderHost ProvideValue()
         {
-            throw new Exception("PVisual에 Output을 연결할 수 없습니다.");
-        }
-
-        public void ReleaseInput(BaseBinder outputBinder)
-        {
-            throw new Exception("PVisual에 Output을 연결할 수 없습니다.");
-        }
-
-        public void ReleaseOutput(BaseBinder inputBinder)
-        {
-            Binder.ReleaseOutput(inputBinder);
-        }
-
-        public void ReleaseAll()
-        {
-            Binder.ReleaseAll();
-        }
-
-        public BaseBinder ProvideValue()
-        {
-            return Binder;
+            return this.Binder;
         }
         #endregion
     }

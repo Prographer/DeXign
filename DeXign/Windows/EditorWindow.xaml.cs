@@ -15,6 +15,7 @@ using DeXign.Extension;
 using System.Windows;
 using System.IO;
 using System.Windows.Media;
+using DeXign.Core.Logic;
 
 namespace DeXign.Windows
 {
@@ -72,7 +73,8 @@ namespace DeXign.Windows
         private void InitializeLayouts()
         {
             // ToolBox
-            foreach (var element in DesignerManager.GetElementTypes())
+            foreach (var element in DesignerManager.GetElementTypes()
+                .OrderBy(data => data.Element.CanCastingTo<PComponent>() ? 1 : 0))
             {
                 if (!element.Attribute.Visible)
                     continue;

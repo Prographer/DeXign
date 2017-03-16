@@ -172,64 +172,64 @@ namespace DeXign.Task
             // Binder
             var layer = Source as StoryboardLayer;
             
-            foreach (IRenderer renderer in RendererTreeHelper.FindChildrens<IRenderer>(Source, true))
-            {
-                if (inputs.ContainsKey(renderer))
-                {
-                    foreach (IRenderer inputRenderer in inputs[renderer])
-                    {
-                        layer.Storyboard.ConnectComponent(inputRenderer, renderer, BinderOptions.Trigger);
-                    }
-                }
+            //foreach (IRenderer renderer in RendererTreeHelper.FindChildrens<IRenderer>(Source, true))
+            //{
+            //    if (inputs.ContainsKey(renderer))
+            //    {
+            //        foreach (IRenderer inputRenderer in inputs[renderer])
+            //        {
+            //            layer.Storyboard.ConnectComponent(inputRenderer, renderer, null, null, BindOptions.Trigger, BindOptions.Trigger);
+            //        }
+            //    }
 
-                if (outputs.ContainsKey(renderer))
-                {
-                    foreach (IRenderer outputRenderer in outputs[renderer])
-                    {
-                        layer.Storyboard.ConnectComponent(renderer, outputRenderer, BinderOptions.Trigger);
-                    }
-                }
-            }
+            //    if (outputs.ContainsKey(renderer))
+            //    {
+            //        foreach (IRenderer outputRenderer in outputs[renderer])
+            //        {
+            //            layer.Storyboard.ConnectComponent(renderer, outputRenderer, null, null, BindOptions.Trigger, BindOptions.Trigger);
+            //        }
+            //    }
+            //}
         }
 
         // 소스 및 하위의 모든 렌더러와 연결된 바인더를 해제합니다.
         private void ReleaseBinders()
         {
-            foreach (IRenderer renderer in RendererTreeHelper.FindChildrens<IRenderer>(Source, true))
-            {
-                BaseBinder binder = RendererManager.ResolveBinder(renderer);
+            //foreach (IRenderer renderer in RendererTreeHelper.FindChildrens<IRenderer>(Source, true))
+            //{
+            //    PBinder2 binder = RendererManager.ResolveBinder(renderer);
 
-                if (!inputs.ContainsKey(renderer))
-                    inputs[renderer] = new List<IRenderer>();
+            //    if (!inputs.ContainsKey(renderer))
+            //        inputs[renderer] = new List<IRenderer>();
 
-                if (!outputs.ContainsKey(renderer))
-                    outputs[renderer] = new List<IRenderer>();
+            //    if (!outputs.ContainsKey(renderer))
+            //        outputs[renderer] = new List<IRenderer>();
 
-                inputs[renderer].Clear();
-                outputs[renderer].Clear();
+            //    inputs[renderer].Clear();
+            //    outputs[renderer].Clear();
 
-                // 나가는 연결
-                foreach (BinderExpression expression in binder.GetOutputExpression())
-                {
-                    IRenderer inputRenderer = expression.Input.GetRenderer();
+            //    // 나가는 연결
+            //    foreach (BinderExpression expression in binder.GetOutputExpression())
+            //    {
+            //        IRenderer inputRenderer = expression.Input.GetRenderer();
 
-                    outputs[renderer].Add(inputRenderer);
-                }
+            //        outputs[renderer].Add(inputRenderer);
+            //    }
 
-                // 들어오는 연결
-                //  * 들어오는 연결(Input)은 Component만 가질 수 있음
-                if (Source is IRendererComponent)
-                {
-                    foreach (BinderExpression expression in binder.GetInputExpression())
-                    {
-                        IRenderer outputRenderer = expression.Output.GetRenderer();
+            //    // 들어오는 연결
+            //    //  * 들어오는 연결(Input)은 Component만 가질 수 있음
+            //    if (Source is IRendererComponent)
+            //    {
+            //        foreach (BinderExpression expression in binder.GetInputExpression())
+            //        {
+            //            IRenderer outputRenderer = expression.Output.GetRenderer();
 
-                        inputs[renderer].Add(outputRenderer);
-                    }
-                }
+            //            inputs[renderer].Add(outputRenderer);
+            //        }
+            //    }
 
-                binder.ReleaseAll();
-            }
+            //    binder.ReleaseAll();
+            //}
         }
     }
 }

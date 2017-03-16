@@ -12,8 +12,8 @@ namespace DeXign.Core
     [XForms("RowDefinition")]
     public class PRowDefinition : PObject, IDefinition
     {
-        public static DependencyProperty HeightProperty
-            = DependencyHelper.Register();
+        public static readonly DependencyProperty HeightProperty = 
+            DependencyHelper.Register();
 
         [XForms("Height")]
         public PGridLength Height

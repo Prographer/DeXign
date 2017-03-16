@@ -11,6 +11,7 @@ namespace DeXign.Core.Controls
     public class PButton : PControl
     {
         [DesignElement(Category = Constants.Event.Gesture, DisplayName = "클릭했을 때")]
+        [DesignDescription("#(발생자, !e)")]
         public event EventHandler Clicked;
 
         public static readonly DependencyProperty TextProperty =

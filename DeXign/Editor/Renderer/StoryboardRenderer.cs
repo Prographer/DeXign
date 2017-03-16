@@ -76,32 +76,7 @@ namespace DeXign.Editor.Renderer
         }
 
         #region [ IBinderProvider ]
-        public bool CanBind(BaseBinder outputBinder, BinderOptions options)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Bind(BaseBinder outputBinder, BinderOptions options)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ReleaseInput(BaseBinder outputBinder)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ReleaseOutput(BaseBinder inputBinder)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ReleaseAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public BaseBinder ProvideValue()
+        public IBinderHost ProvideValue()
         {
             throw new NotImplementedException();
         }

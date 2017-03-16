@@ -1,29 +1,23 @@
 ﻿using System;
 using DeXign.Core.Collections;
+using System.Collections;
 
 namespace DeXign.Core.Logic
 {
-    //
-    //                                       +---------+
-    //                          +--->(Input) | IBinder | (Output)...
-    //                          |            +---------+
-    //                          |
-    //   +---------+            |            +---------+
-    //   | IBinder | (Outputs)==+--->(Input) | IBinder | (Output)...
-    //   +---------+            |            +---------+
-    //                          |
-    //                          |            +---------+
-    //                          +--->(Input) | IBinder | (Output)...
-    //                                       +---------+
-    //
-    public interface IBinder : IBinderProvider
+    public interface IBinder : IBinderHostProvider
     {
-        event EventHandler<BinderBindedEventArgs> Binded;
-        event EventHandler<BinderReleasedEventArgs> Released;
+        event EventHandler<IBinder> Binded;
+        event EventHandler<IBinder> Released;
 
-        BinderCollection Inputs { get; } // inputs
-        BinderCollection Parameters { get; } // input parameters
+        IBinderHost Host { get; }
 
-        BinderCollection Outputs { get; }
+        BindOptions BindOption { get; }
+
+        BinderCollection Items { get; }
+
+        bool CanBind(IBinder targetBinder);
+        void Bind(IBinder targetBinder);
+        void Release(IBinder targetBinder);
+        void ReleaseAll();
     }
 }

@@ -6,6 +6,8 @@ using DeXign.Core;
 using DeXign.Core.Designer;
 using DeXign.Editor;
 using System.Windows.Input;
+using DeXign.Extension;
+using DeXign.Core.Logic;
 
 namespace DeXign.Editor.Layer
 {
@@ -17,17 +19,6 @@ namespace DeXign.Editor.Layer
         public DropSelectionLayer(UIElement adornedElement) : base(adornedElement)
         {
             this.AllowDrop = true;
-        }
-
-        protected override void OnPreviewDragEnter(DragEventArgs e)
-        {
-            object data = e.Data.GetData(typeof(AttributeTuple<DesignElementAttribute, Type>));
-            dragCanceled = !this.CanDrop((AttributeTuple<DesignElementAttribute, Type>)data, e.GetPosition(Storyboard));
-
-            if (data == null)
-                return;
-
-            ShowFrame(!dragCanceled);
         }
 
         private void ShowFrame(bool allowed)
@@ -42,6 +33,27 @@ namespace DeXign.Editor.Layer
         {
             AnimateFrameThickness(0, 0);
             FrameBrush = frameBrushBackup;
+        }
+
+        protected override void OnPreviewDragEnter(DragEventArgs e)
+        {
+            object data = e.Data.GetData(typeof(AttributeTuple<DesignElementAttribute, Type>));
+            dragCanceled = !this.CanDrop((AttributeTuple<DesignElementAttribute, Type>)data, e.GetPosition(Storyboard));
+            
+            if (data is AttributeTuple<DesignElementAttribute, Type> tuple)
+            {
+                if (tuple.Element.CanCastingTo<PComponent>())
+                {
+                    dragCanceled = true;
+                    return;
+                }
+            }
+            else
+            {
+                return;
+            }
+
+            ShowFrame(!dragCanceled);
         }
 
         protected override void OnDragLeave(DragEventArgs e)

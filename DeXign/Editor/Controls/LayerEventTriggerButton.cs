@@ -1,9 +1,12 @@
 using System;
+using System.Linq;
 using System.Windows;
 
 using DeXign.Editor.Layer;
 using DeXign.Editor.Logic;
 using DeXign.Extension;
+using DeXign.Core.Logic;
+using DeXign.Editor.Renderer;
 
 namespace DeXign.Editor.Controls
 {
@@ -11,12 +14,21 @@ namespace DeXign.Editor.Controls
     {
         SelectionLayer parentLayer;
 
-        public LayerEventTriggerButton(SelectionLayer parentLayer)
+        public PBinder Binder => (PBinder)this.DataContext;
+
+        public LayerEventTriggerButton(SelectionLayer layer) : base()
         {
-            if (parentLayer is IRenderer renderer)
+            parentLayer = layer;
+            
+            if (layer is IRenderer renderer)
             {
-                this.parentLayer = parentLayer;
                 this.Renderer = renderer;
+
+                this.DataContext = renderer.ProvideValue()[BindOptions.Output].First() as PBinder;
+                this.BindOption = this.Binder.BindOption;
+
+                this.Binder.SetView(this);
+                this.Binder.SetRenderer(renderer);
             }
         }
 

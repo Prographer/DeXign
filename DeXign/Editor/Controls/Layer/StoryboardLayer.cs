@@ -5,6 +5,7 @@ using System.Windows;
 using DeXign.Editor.Controls;
 using DeXign.Extension;
 using DeXign.Controls;
+using DeXign.Editor.Renderer;
 
 namespace DeXign.Editor.Layer
 {
@@ -28,7 +29,7 @@ namespace DeXign.Editor.Layer
         private void Element_Loaded(object sender, RoutedEventArgs e)
         {
             ((FrameworkElement)sender).Loaded -= Element_Loaded;
-
+            
             this.Storyboard = AdornedElement
                 .FindLogicalParents<Storyboard>()
                 .FirstOrDefault();

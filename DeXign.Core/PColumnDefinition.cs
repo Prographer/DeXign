@@ -11,8 +11,8 @@ namespace DeXign.Core
     [XForms("ColumnDefinition")]
     public class PColumnDefinition : PObject, IDefinition
     {
-        public static DependencyProperty WidthProperty
-            = DependencyHelper.Register();
+        public static readonly DependencyProperty WidthProperty = 
+            DependencyHelper.Register();
 
         [XForms("Width")]
         public PGridLength Width

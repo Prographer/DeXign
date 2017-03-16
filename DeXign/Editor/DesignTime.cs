@@ -1,3 +1,4 @@
+using DeXign.Core;
 using System.Windows;
 
 using WPFExtension;
@@ -20,6 +21,12 @@ namespace DeXign.Editor
 
         public static readonly DependencyProperty DesignTagProperty =
             DependencyHelper.RegisterAttached<object>();
+
+        public static readonly DependencyProperty DesignViewProperty =
+            DependencyHelper.RegisterAttached<FrameworkElement>();
+
+        public static readonly DependencyProperty DesignModelProperty =
+            DependencyHelper.RegisterAttached<PObject>();
 
         public static readonly DependencyProperty LockProperty =
             DependencyHelper.RegisterAttached<bool>();
@@ -94,6 +101,32 @@ namespace DeXign.Editor
         public static bool IsLocked(this DependencyObject obj)
         {
             return (bool)obj.GetValue(LockProperty);
+        }
+        #endregion
+
+        #region [ View ]
+        public static void SetView(this PObject obj, FrameworkElement view)
+        {
+            obj.SetValue(DesignViewProperty, view);
+        }
+
+        public static T GetView<T>(this PObject obj)
+            where T : FrameworkElement
+        {
+            return obj.GetValue<T>(DesignViewProperty);
+        }
+        #endregion
+
+        #region [ Model ]
+        public static void SetModel(this FrameworkElement view, PObject model)
+        {
+            view.SetValue(DesignModelProperty, model);
+        }
+
+        public static T GetModel<T>(this FrameworkElement view)
+            where T : PObject
+        {
+            return (T)view.GetValue(DesignModelProperty);
         }
         #endregion
     }

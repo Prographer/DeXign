@@ -79,6 +79,11 @@ namespace DeXign.Extension
             return typeof(T).IsAssignableFrom(pi.PropertyType);
         }
 
+        public static bool CanCastingTo<T>(this Type type)
+        {
+            return typeof(T).IsAssignableFrom(type);
+        }
+
         public static DependencyProperty FindDependencyProperty(this DependencyObject obj, string propertyName)
         {
             return obj

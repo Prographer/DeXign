@@ -22,5 +22,10 @@ namespace DeXign.Core
         {
             public const string Gesture = "행동";
         }
+
+        public sealed class Logic
+        {
+            public const string Default = "기본 로직";
+        }
     }
 }

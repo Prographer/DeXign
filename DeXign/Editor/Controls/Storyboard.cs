@@ -14,7 +14,6 @@ using System.Windows.Threading;
 using DeXign.Core;
 using DeXign.Core.Controls;
 using DeXign.Core.Logic;
-using DeXign.Core.Logic.Component;
 using DeXign.Editor.Layer;
 using DeXign.Editor.Renderer;
 using DeXign.OS;
@@ -64,49 +63,19 @@ namespace DeXign.Editor.Controls
         {
             if (DesignerProperties.GetIsInDesignMode(this))
                 return;
-
+            
             InitializeLayer();
             InitializeComponents();
             InitializeBindings();
+
+            this.AllowDrop = true;
 
             this.DataContextChanged += Storyboard_DataContextChanged;
             this.Loaded += Storyboard_Loaded;
 
             Application.Current.MainWindow.Deactivated += Storyboard_Deactivated;
-        }
 
-        protected override void OnVisualParentChanged(DependencyObject oldParent)
-        {
-            base.OnVisualParentChanged(oldParent);
-
-            if (this.Parent is ZoomPanel zoomPanel)
-                this.ZoomPanel = zoomPanel;
-        }
-
-        private void Storyboard_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (DataContext is StoryboardModel sbModel)
-            {
-                Model = sbModel;
-            }
-        }
-
-        private void Storyboard_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.Loaded -= Storyboard_Loaded;
-
-            var frame = VisualTreeHelperEx.FindVisualParents<Frame>(this).FirstOrDefault();
-
-            if (frame != null)
-                mangedTabItem = frame.Parent as ClosableTabItem;
-        }
-
-        private void UpdateTimer_Tick(object sender, EventArgs e)
-        {
-            foreach (var line in lineCollection)
-                line.Update();
-
-            LineLayer.InvalidateArrange();
+            var z = ZoomPanel;
         }
 
         private void InitializeComponents()
@@ -183,6 +152,42 @@ namespace DeXign.Editor.Controls
             Renderer.SetAdornerIndex(2);
 
             this.SetRenderer(Renderer);
+        }
+
+        protected override void OnVisualParentChanged(DependencyObject oldParent)
+        {
+            base.OnVisualParentChanged(oldParent);
+
+            if (this.Parent is ZoomPanel zoomPanel)
+            {
+                this.ZoomPanel = zoomPanel;
+            }
+        }
+        
+        private void Storyboard_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (DataContext is StoryboardModel sbModel)
+            {
+                Model = sbModel;
+            }
+        }
+
+        private void Storyboard_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.Loaded -= Storyboard_Loaded;
+
+            var frame = VisualTreeHelperEx.FindVisualParents<Frame>(this).FirstOrDefault();
+
+            if (frame != null)
+                mangedTabItem = frame.Parent as ClosableTabItem;
+        }
+
+        private void UpdateTimer_Tick(object sender, EventArgs e)
+        {
+            foreach (var line in lineCollection)
+                line.Update();
+
+            LineLayer.InvalidateArrange();
         }
         #endregion
 
@@ -314,13 +319,6 @@ namespace DeXign.Editor.Controls
             }
 
             return null;
-        }
-
-        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonDown(e);
-
-            GroupSelector.UnselectAll();
         }
         #endregion
 
@@ -551,10 +549,15 @@ namespace DeXign.Editor.Controls
 
             if (ZoomPanel != null)
             {
+                connector.Line.LineBrush = Brushes.DimGray;
+
                 BindingEx.SetBinding(
                     ZoomPanel, ZoomPanel.ScaleProperty,
                     connector.Line, BezierLine.StrokeThicknessProperty,
-                    converter: new ReciprocalConverter());
+                    converter: new ReciprocalConverter()
+                    {
+                        Factor = 2
+                    });
             }
 
             LineLayer.Add(connector.Line);
@@ -564,23 +567,29 @@ namespace DeXign.Editor.Controls
         }
 
         /// <summary>
-        /// 두 <see cref="FrameworkElement"/>를 시각적으로 이어주는 <see cref="LineConnector"/>를 생성합니다.
+        /// 두 쌍의 <see cref="BindThumb"/>를 시각적으로 이어주는 <see cref="LineConnector"/>를 생성합니다.
         /// </summary>
         /// <param name="output"></param>
         /// <param name="input"></param>
         /// <returns></returns>
-        public LineConnector CreateConnectedLine(
-            BindThumb output,
-            BindThumb input)
+        public LineConnector CreateConnectedLine(BindThumb output, BindThumb input)
         {
+            if (lineCollection.HasThumbExpression(output, input))
+                return null;
+
             var connector = new LineConnector(this, output, input);
             
             if (ZoomPanel != null)
             {
+                connector.Line.LineBrush = Brushes.DimGray;
+
                 BindingEx.SetBinding(
                     ZoomPanel, ZoomPanel.ScaleProperty,
                     connector.Line, BezierLine.StrokeThicknessProperty,
-                    converter: new ReciprocalConverter());
+                    converter: new ReciprocalConverter()
+                    {
+                        Factor = 2
+                    });
             }
 
             LineLayer.Add(connector.Line);
@@ -654,7 +663,7 @@ namespace DeXign.Editor.Controls
 
             if (pType == null)
             {
-                MessageBox.Show("Coming soon!");
+                MessageBox.Show("Coming soon! (Logic)");
                 return null;
             }
 
@@ -714,67 +723,28 @@ namespace DeXign.Editor.Controls
             componentBoxPopup.IsOpen = false;
         }
 
-        internal void ConnectComponent(IRenderer outputRenderer, IRenderer inputRenderer, BinderOptions option)
+        internal void ConnectComponent(BindThumb outputThumb, BindThumb inputThumb)
         {
-            BinderOperation.SetBind(outputRenderer, inputRenderer, option);
-
-#if DEBUG
-            // output check
-            System.Diagnostics.Debug.Assert(
-                outputRenderer.ProvideValue()
-                    .Outputs.Contains(inputRenderer.ProvideValue()));
-
-            // input check
-            System.Diagnostics.Debug.Assert(
-                inputRenderer.ProvideValue()
-                    .Inputs.Contains(outputRenderer.ProvideValue()));
-#endif
+            outputThumb.Binder.Bind(inputThumb.Binder);
 
             // Connect
-            ConnectComponentLine(outputRenderer, inputRenderer, option);
+            ConnectComponentLine(outputThumb, inputThumb);
         }
 
-        internal void ConnectComponentLine(IRenderer outputRenderer, IRenderer inputRenderer, BinderOptions option)
+        internal void ConnectComponentLine(BindThumb outputThumb, BindThumb inputThumb)
         {
-            var layer = (inputRenderer as StoryboardLayer);
-
-            ConnectRendererBezierLine(outputRenderer, inputRenderer);
-        }
-        
-        private void ConnectRendererBezierLine(IRenderer outputRenderer, IRenderer inputRenderer)
-        {
-            BindThumb outputThumb = ResolveBindThumb(outputRenderer, BindType.Output);
-            BindThumb inputThumb = ResolveBindThumb(inputRenderer, BindType.Input);
-
             LineConnector connector = CreateConnectedLine(outputThumb, inputThumb);
-            connector.Update();
+            connector?.Update();
         }
 
-        internal void DisconnectComponentLine(IRenderer outputRenderer, IRenderer inputRenderer)
+        internal void DisconnectComponentLine(BindThumb outputThumb, BindThumb inputThumb)
         {
-            foreach (LineConnector line in lineCollection.FromRenderer(outputRenderer, inputRenderer).ToArray())
+            foreach (LineConnector line in lineCollection.FromThumb(outputThumb, inputThumb).ToArray())
             {
                 DeleteConnectedLine(line);
             }
         }
-
-        private BindThumb ResolveBindThumb(IRenderer renderer, BindType type)
-        {
-            if (renderer is SelectionLayer layer)
-            {
-                if (type == BindType.Output)
-                    return layer.TriggerButton;
-
-                return null;
-            }
-
-            if (renderer.Element is ComponentElement componentElement)
-            {
-                return componentElement.GetThumb(type);
-            }
-
-            return null;
-        }
+        
 
         private void ComponentBox_ItemSelected(object sender, ComponentBoxItemModel model)
         {
@@ -793,7 +763,12 @@ namespace DeXign.Editor.Controls
                     return;
 
                 // * Logic Binding *
-                ConnectComponent(sourceRenderer, targetRenderer, BinderOptions.Trigger);
+                var sourceBinder = sourceRenderer.ProvideValue()[BindOptions.Output].First() as PBinder;
+                var targetBinder = targetRenderer.ProvideValue()[BindOptions.Input].First() as PBinder;
+
+                ConnectComponent(
+                    sourceBinder.GetView<BindThumb>(),
+                    targetBinder.GetView<BindThumb>());
             }
         }
         #endregion
@@ -817,6 +792,6 @@ namespace DeXign.Editor.Controls
         public FrameworkElement VisualBinderSource { get; set; }
 
         public IRenderer BinderSource { get; set; }
-        public BinderOptions BinderOption { get; set; }
+        public BindOptions BindType { get; set; }
     }
 }

@@ -16,9 +16,9 @@
 
     <Grid>
         <AdornerDecorator ClipToBounds="True">
-            <c:ZoomPanel x:Name="zoomPanel">
+            <dc:StoryboardZoomPanel x:Name="zoomPanel">
                 <dc:Storyboard x:Name="storyboard" Width="1920" Height="1080"/>
-            </c:ZoomPanel>
+            </dc:StoryboardZoomPanel>
         </AdornerDecorator>
 
         <c:SpacingStackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10" Orientation="Horizontal">

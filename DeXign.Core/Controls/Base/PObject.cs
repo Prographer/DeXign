@@ -26,7 +26,7 @@ namespace DeXign.Core
         public PObject()
         {
         }
-
+        
         public T GetValue<T>(DependencyProperty dp)
         {
             return (T)GetValue(dp);

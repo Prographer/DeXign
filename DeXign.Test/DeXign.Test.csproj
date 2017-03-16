@@ -36,6 +36,9 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DeXign.Core\DeXign.Core.csproj">
@@ -59,10 +63,6 @@
     <ProjectReference Include="..\DeXign.Extension\DeXign.Extension.csproj">
       <Project>{d5964727-2cf5-42c1-a40e-7d6cdc8f6fb5}</Project>
       <Name>DeXign.Extension</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DeXign\DeXign.csproj">
-      <Project>{80216f96-ee7f-4e28-99b9-dc250c266c7d}</Project>
-      <Name>DeXign</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -35,6 +35,9 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -49,6 +52,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\ComponentParameterAttribute.cs" />
+    <Compile Include="Attributes\DesignDescriptionAttribute.cs" />
     <Compile Include="Attributes\DesignElementAttribute.cs" />
     <Compile Include="Attributes\DesignElementIgnoreAttribute.cs" />
     <Compile Include="Attributes\XFormsAttribute.cs" />
@@ -93,6 +98,7 @@
     <Compile Include="Controls\Cell\PViewCell.cs" />
     <Compile Include="Controls\PWebView.cs" />
     <Compile Include="DataTreeHelper.cs" />
+    <Compile Include="DesignDescriptionDescriptor.cs" />
     <Compile Include="Designer\AttributeTuple.cs" />
     <Compile Include="Designer\DesignerManager.cs" />
     <Compile Include="Designer\DesignerResource.cs" />
@@ -109,18 +115,25 @@
     <Compile Include="Generator\XFormsGenerator.cs" />
     <Compile Include="Generator\XMLGenerator.cs" />
     <Compile Include="Interfaces\INameScope.cs" />
+    <Compile Include="Logic\BindDirection.cs" />
     <Compile Include="Logic\BinderBindedEventArgs.cs" />
     <Compile Include="Logic\BinderExpression.cs" />
-    <Compile Include="Logic\BinderOperation.cs" />
-    <Compile Include="Logic\BinderOptions.cs" />
+    <Compile Include="Logic\Binder\PNamedBinder.cs" />
+    <Compile Include="Logic\Binder\PParameterBinder.cs" />
+    <Compile Include="Logic\Binder\PReturnBinder.cs" />
+    <Compile Include="Logic\BindOptions.cs" />
     <Compile Include="Logic\BinderReleasedEventArgs.cs" />
-    <Compile Include="Logic\Binder\BaseBinder.cs" />
+    <Compile Include="Logic\Binder\PBinder.cs" />
     <Compile Include="Logic\Collections\BinderCollection.cs" />
-    <Compile Include="Logic\Collections\BinderExpressionCollection.cs" />
+    <Compile Include="Logic\Binder\PBinderHost.cs" />
     <Compile Include="Logic\Component\PComponent.cs" />
     <Compile Include="Logic\Component\PTrigger.cs" />
+    <Compile Include="Logic\Component\Statement\PGetter.cs" />
+    <Compile Include="Logic\Component\PSelector.cs" />
+    <Compile Include="Logic\Component\Statement\PSetter.cs" />
     <Compile Include="Logic\Interfaces\IBinder.cs" />
-    <Compile Include="Logic\Interfaces\IBinderProvider.cs" />
+    <Compile Include="Logic\Interfaces\IBinderHost.cs" />
+    <Compile Include="Logic\Interfaces\IBinderHostProvider.cs" />
     <Compile Include="PFontAttributes.cs" />
     <Compile Include="Interfaces\IDefinition.cs" />
     <Compile Include="PColumnDefinition.cs" />
@@ -146,6 +159,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

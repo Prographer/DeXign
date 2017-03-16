@@ -159,6 +159,7 @@
     <Compile Include="Editor\Controls\StoryboardNameScope.cs" />
     <Compile Include="Controls\SubmitTextBox.cs" />
     <Compile Include="Editor\Controls\StoryboardProject.cs" />
+    <Compile Include="Editor\Controls\StoryboardZoomPanel.cs" />
     <Compile Include="Editor\DesignTime.cs" />
     <Compile Include="Editor\Guideline.cs" />
     <Compile Include="Editor\Interfaces\IContentLayout.cs" />
@@ -172,13 +173,16 @@
     <Compile Include="Editor\Interfaces\IStoryboard.cs" />
     <Compile Include="Editor\Direction.cs" />
     <Compile Include="Editor\Logic\BinderTreeHelper.cs" />
-    <Compile Include="Editor\Logic\Controls\BindType.cs" />
     <Compile Include="Editor\Logic\Controls\BindRequest.cs" />
     <Compile Include="Editor\Logic\Controls\BindThumb.cs" />
+    <Compile Include="Editor\Logic\Getter.cs" />
+    <Compile Include="Editor\Logic\Setter.cs" />
     <Compile Include="Editor\Logic\Statement\BaseStatement.cs" />
     <Compile Include="Editor\Logic\ComponentElement.cs" />
     <Compile Include="Editor\Logic\Trigger.cs" />
     <Compile Include="Editor\Renderer\ComponentRenderer.cs" />
+    <Compile Include="Editor\Renderer\Components\SetterRenderer.cs" />
+    <Compile Include="Editor\Renderer\Components\GetterRenderer.cs" />
     <Compile Include="Editor\Renderer\Components\TriggerRenderer.cs" />
     <Compile Include="Editor\Renderer\Controls\ButtonRenderer.cs" />
     <Compile Include="Editor\Renderer\Controls\ImageRenderer.cs" />

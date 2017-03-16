@@ -4,7 +4,6 @@
     {
         public Trigger()
         {
-            this.Header = "이벤트";
         }
     }
 }

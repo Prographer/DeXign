@@ -1,4 +1,6 @@
 ﻿using DeXign.Editor;
+using DeXign.Editor.Logic;
+using DeXign.Editor.Renderer;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,12 +20,17 @@ namespace DeXign.Utilities
         {
         }
 
-        public IEnumerable<LineConnector> FromRenderer(IRenderer outputRenderer, IRenderer inputRenderer)
+        public IEnumerable<LineConnector> FromThumb(BindThumb outputThumb, BindThumb inputThumb)
         {
             return this
                 .Where(lc => lc is LineConnector)
                 .Select(lc => (LineConnector)lc)
-                .Where(lc => lc.Output.Renderer.Equals(outputRenderer) && lc.Input.Renderer.Equals(inputRenderer));
+                .Where(lc => lc.Output.Equals(outputThumb) && lc.Input.Equals(inputThumb));
+        }
+
+        public bool HasThumbExpression(BindThumb outputThumb, BindThumb inputThumb)
+        {
+            return this.FromThumb(outputThumb, inputThumb).Count() > 0;
         }
     }
 }

@@ -7,49 +7,65 @@ using DeXign.OS;
 using DeXign.Editor.Layer;
 using DeXign.Editor.Renderer;
 using DeXign.Core.Logic;
-using DeXign.Core.Controls;
 
 using WPFExtension;
+using DeXign.Extension;
+using System.Linq;
+using System.Collections.Generic;
+
+using t = System.Threading.Tasks;
 
 namespace DeXign.Editor.Logic
 {
-    public class BindEventArgs : EventArgs
+    public class ThumbBindedEventArgs : EventArgs
     {
-        public BindType BindType { get; set; }
+        public BindThumb OutputThumb { get; }
+        public BindThumb InputThumb { get; }
 
-        public BindThumb Target { get; set; }
-
-        public BindEventArgs(BindThumb thumb, BindType type)
+        public ThumbBindedEventArgs(BindThumb output, BindThumb input)
         {
-            this.Target = thumb;
-            this.BindType = type;
+            this.OutputThumb = output;
+            this.InputThumb = input;
         }
     }
 
     public class BindThumb : Control
     {
-        public event EventHandler<BindEventArgs> Binded;
-
-        public static readonly DependencyProperty BindTypeProperty =
-            DependencyHelper.Register();
+        public event EventHandler<ThumbBindedEventArgs> Binded;
 
         public static readonly DependencyProperty HasBindErrorProperty =
             DependencyHelper.Register(
                 new PropertyMetadata(false));
 
-        public BindType BindType
-        {
-            get { return (BindType)GetValue(BindTypeProperty); }
-            set { SetValue(BindTypeProperty, value); }
-        }
+        public static readonly DependencyProperty BindOptionProperty =
+            DependencyHelper.Register();
+
+#if DEBUG
+        public static readonly DependencyProperty IsDebugProperty =
+            DependencyHelper.Register();
+#endif
 
         public bool HasBindError
         {
             get { return (bool)GetValue(HasBindErrorProperty); }
             set { SetValue(HasBindErrorProperty, value); }
         }
+
+        public BindOptions BindOption
+        {
+            get { return (BindOptions)GetValue(BindOptionProperty); }
+            set { SetValue(BindOptionProperty, value); }
+        }
         
-        public IRenderer Renderer { get; protected set; }
+        public bool IsDebug
+        {
+            get { return (bool)GetValue(IsDebugProperty); }
+            set { SetValue(IsDebugProperty, value); }
+        }
+
+        public IRenderer Renderer { get; protected internal set; }
+
+        public PBinder Binder => (PBinder)this.DataContext;
         
         private LineConnectorBase dragLine;
         private bool dragCanceled = false;
@@ -59,7 +75,24 @@ namespace DeXign.Editor.Logic
             this.AllowDrop = true;
         }
 
-        #region [ Drag ]
+        public BindThumb(PBinder binder) : this()
+        {
+            this.DataContext = binder;
+
+            this.BindOption = binder.BindOption;
+        }
+
+        protected override void OnVisualParentChanged(DependencyObject oldParent)
+        {
+            base.OnVisualParentChanged(oldParent);
+
+            var componentElement = this.FindVisualParents<ComponentElement>(true).FirstOrDefault();
+
+            if (componentElement != null)
+                this.Renderer = componentElement.GetRenderer();
+        }
+        
+        #region [ Drag Line ]
         public BindRequest CreateBindRequest()
         {
             return new BindRequest(this);
@@ -70,8 +103,8 @@ namespace DeXign.Editor.Logic
             if (dragLine != null)
                 return;
 
-            var renderer = this.Renderer as StoryboardLayer;
-            var storyboard = renderer.Storyboard;
+            var layer = this.Renderer as StoryboardLayer;
+            var storyboard = layer.Storyboard;
 
             dragLine = storyboard
                 .CreatePendingConnectedLine(
@@ -96,14 +129,15 @@ namespace DeXign.Editor.Logic
             dragLine.Released -= DragLine_Released;
             dragLine = null;
 
-            var renderer = Renderer as StoryboardLayer;
-            var storyboard = renderer.Storyboard;
+            var layer = this.Renderer as StoryboardLayer;
+            var storyboard = layer.Storyboard;
 
             // Pop Pending Drag Line
             storyboard.PopPendingConnectedLine();
         }
         #endregion
 
+        #region [ Drag ]
         protected override void OnPreviewDragEnter(DragEventArgs e)
         {
             object data = e.Data.GetData(typeof(BindRequest));
@@ -129,7 +163,7 @@ namespace DeXign.Editor.Logic
         protected override void OnDrop(DragEventArgs e)
         {
             object data = e.Data.GetData(typeof(BindRequest));
-            
+
             if (data is BindRequest request)
             {
                 request.Handled = true;
@@ -143,16 +177,7 @@ namespace DeXign.Editor.Logic
                 OnBind(request);
             }
         }
-
-        protected override void OnVisualParentChanged(DependencyObject oldParent)
-        {
-            base.OnVisualParentChanged(oldParent);
-            
-            if (this.TemplatedParent is ComponentElement element)
-            {
-                this.Renderer = element.GetRenderer();
-            }
-        }
+        #endregion
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
@@ -188,67 +213,101 @@ namespace DeXign.Editor.Logic
 
         private void OnBind(BindRequest request)
         {
-            var thumb = GetThumbExpression(request);
-            var binder = GetBinderExpression(request);
-
             // Release Pending Drag Line
             dragLine?.Release();
 
             // Bind To Data Model
-            binder.Input.Bind(binder.Output, BinderOptions.Trigger);
+            this.Binder.Bind(request.Source.Binder);
 
             // Notice
-            thumb.Output.OnOutputBind(thumb.Input);
-            thumb.Input.OnInputBind(thumb.Output);
+            this.OnBind(request.Source);
+
+            // Propagate
+            var expression = ResolveThumbExpression(request);
+
+            expression.Output.PropagateBind(expression.Output, expression.Input);
         }
 
-        protected virtual void OnInputBind(BindThumb outputThumb)
+        // TODO: Ref
+        // Core 라이브러리와 IDE 프로젝트의 의존성이 너무 강함.
+        // 전파 수준을 Core단으로 변경 필요
+        private void PropagateBind(BindThumb outputThumb, BindThumb inputThumb)
+        {
+            var nextHosts = new List<IBinderHost>();
+            var hostQueue = new Queue<(IBinderHost Host, int Level)>(
+                new[]
+                {
+                    (outputThumb.Binder.Host, 0)
+                });
+            
+            while (hostQueue.Count > 0)
+            {
+                var data = hostQueue.Dequeue();
+
+                nextHosts.Clear();
+
+                // Output Binders
+                foreach (IBinder binder in data.Host.Items.Find(BindOptions.Output | BindOptions.Return))
+                {
+                    if (data.Level == 0 && !binder.Equals(outputThumb.Binder as IBinder))
+                        continue;
+
+                    EnsurePropagateBindCore(binder);
+                }
+
+                // Output - Input Binders
+                foreach (IBinder binder in data.Host.Items.Find(BindOptions.Output | BindOptions.Return))
+                {
+                    foreach (IBinder inputBinder in binder.Items)
+                    {
+                        if (data.Level == 0 && !inputBinder.Equals(inputThumb.Binder))
+                            continue;
+
+                        EnsurePropagateBindCore(inputBinder);
+
+                        nextHosts.Add(inputBinder.Host);
+                    }
+                }
+                
+                foreach (IBinderHost inputHost in nextHosts.Distinct())
+                {
+                    hostQueue.Enqueue((inputHost, data.Level + 1));
+                }
+            }
+
+            // Ensure Propagate
+            void EnsurePropagateBindCore(IBinder binder)
+            {
+                if (binder is PBinder binderModel)
+                {
+                    var thumb = binderModel.GetView<BindThumb>();
+
+                    // Model
+                    thumb.Binder.PropagateBind(outputThumb.Binder, inputThumb.Binder);
+                    
+                    // Visual
+                    thumb.OnPropagateBind(outputThumb, inputThumb);
+                }
+            }
+        }
+
+        protected virtual void OnPropagateBind(BindThumb outputThumb, BindThumb inputThumb)
+        {
+        }
+
+        protected virtual void OnBind(BindThumb outputThumb)
         {
             // Raise Event
-            Binded?.Invoke(this, new BindEventArgs(outputThumb, BindType.Input));
+            Binded?.Invoke(this, new ThumbBindedEventArgs(this, outputThumb));
         }
-
-        protected virtual void OnOutputBind(BindThumb inputThumb)
-        {
-            // Raise Event
-            Binded?.Invoke(this, new BindEventArgs(inputThumb, BindType.Output));
-        }
-
-        private (BaseBinder Output, BaseBinder Input) GetBinderExpression(BindRequest request)
-        {
-            var thumb = GetThumbExpression(request);
-
-            return (RendererManager.ResolveBinder(thumb.Output.Renderer),
-                    RendererManager.ResolveBinder(thumb.Input.Renderer));
-        }
-
-        private (BindThumb Output, BindThumb Input) GetThumbExpression(BindRequest request)
-        {
-            if (this.BindType == BindType.Input)
-            {
-                return (request.Source, this);
-            }
-            else
-            {
-                return (this, request.Source);
-            }
-        }
-
+        
         protected virtual bool CanBind(BindRequest request)
         {
-            var thumb = GetThumbExpression(request);
-            var binder = GetBinderExpression(request);
-
             // 같은 렌더러 확인
-            if (thumb.Output.Renderer.Equals(thumb.Input.Renderer))
+            if (this.Renderer.Equals(request.Source.Renderer))
                 return false;
 
-            // 바인드 방향 확인
-            if (thumb.Output.BindType == thumb.Input.BindType)
-                return false;
-
-            // 연결 확인
-            return binder.Input.CanBind(binder.Output, BinderOptions.Trigger);
+            return this.Binder.CanBind(request.Source.Binder);
         }
 
         protected virtual void OnDragStarting()
@@ -274,7 +333,7 @@ namespace DeXign.Editor.Logic
 
         protected virtual Point GetDragLineStartPosition(LineConnectorBase lineConnectorBase)
         {
-            if (BindType == BindType.Input)
+            if (this.Binder.GetDirection() == BindDirection.Input)
                 return MousePositionFromConnector(lineConnectorBase);
 
             return GetEdgePosition(lineConnectorBase);
@@ -282,7 +341,7 @@ namespace DeXign.Editor.Logic
 
         protected virtual Point GetDragLineEndPosition(LineConnectorBase lineConnectorBase)
         {
-            if (BindType == BindType.Output)
+            if (this.Binder.GetDirection() == BindDirection.Output)
                 return MousePositionFromConnector(lineConnectorBase);
 
             return GetEdgePosition(lineConnectorBase);
@@ -297,12 +356,22 @@ namespace DeXign.Editor.Logic
         {
             Point position = new Point(this.RenderSize.Width, this.RenderSize.Height / 2);
 
-            if (BindType == BindType.Input)
+            if (this.Binder.GetDirection() == BindDirection.Input)
                 position.X = 0;
 
             return this.TranslatePoint(
                 position,
                 lineConnectorBase.Parent);
+        }
+
+        private (BindThumb Output, BindThumb Input) ResolveThumbExpression(BindRequest request)
+        {
+            if (BindDirection.Output.HasFlag((BindDirection)request.Source.BindOption))
+            {
+                return (request.Source, this);
+            }
+
+            return (this, request.Source);
         }
     }
 }

@@ -1,15 +1,14 @@
+using System;
 using System.Windows;
 using System.Collections.Generic;
 
 using DeXign.Core;
 using DeXign.Core.Logic;
-using DeXign.Core.Controls;
 using DeXign.Editor.Renderer;
-using System;
 
 namespace DeXign.Editor
 {
-    public interface IRenderer : IBinderProvider
+    public interface IRenderer : IBinderHostProvider
     {
         event EventHandler ElementAttached;
 
@@ -22,6 +21,7 @@ namespace DeXign.Editor
         
         void AddChild(IRenderer child, Point position);
         void RemoveChild(IRenderer child);
+        bool Equals(object outputRenderer);
     }
 
     public interface IRenderer<TModel, TElement> : IRenderer

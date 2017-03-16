@@ -1,7 +1,7 @@
 using System;
+using System.Linq;
 using System.Diagnostics;
 
-using DeXign.IO;
 using DeXign.Core;
 using DeXign.Core.Logic;
 using DeXign.Core.Designer;
@@ -13,44 +13,67 @@ namespace DeXign.Test
     {
         static void Main(string[] args)
         {
-            var c1 = new PComponent() { Tag = "c1" };
-            var c2 = new PComponent() { Tag = "c2" };
-            var c3 = new PComponent() { Tag = "c3" };
+            var binder1 = new PBinderHost();
+            var binder2 = new PBinderHost();
+            var binder3 = new PBinderHost();
 
-            // c1 -> c2 -> c3
+            binder1.AddNewBinder(BindOptions.Output);
+            binder1.AddNewBinder(BindOptions.Input);
+            binder1.AddNewBinder(BindOptions.Return);
 
-            c2.Bind(c1, BinderOptions.Trigger);
-            c3.Bind(c2, BinderOptions.Trigger);
+            binder2.AddNewBinder(BindOptions.Output);
+            binder2.AddNewBinder(BindOptions.Input);
+            binder2.AddNewBinder(BindOptions.Parameter);
 
-            var printAction = new Action<PComponent>((PComponent c) =>
-            {
-                Console.WriteLine($"# {c.Tag}.Outputs");
-                foreach (PComponent binder in c.Outputs)
-                    Console.WriteLine($"{c.Tag} -> {binder.Tag}");
+            binder3.AddNewBinder(BindOptions.Output);
+            binder3.AddNewBinder(BindOptions.Input);
+            binder3.AddNewBinder(BindOptions.Parameter);
 
-                Console.WriteLine($"# {c.Tag}.Parameters");
-                foreach (PComponent binder in c.Parameters)
-                    Console.WriteLine($"{c.Tag} -> {binder.Tag}");
+            // Binder1 -> Binder2
+            binder1[BindOptions.Output].First()
+                .Bind(binder2[BindOptions.Input].First());
 
-                Console.WriteLine($"# {c.Tag}.Inputs");
-                foreach (PComponent binder in c.Inputs)
-                    Console.WriteLine($"{c.Tag} -> {binder.Tag}");
+            binder1[BindOptions.Return].First()
+                .Bind(binder2[BindOptions.Parameter].First());
 
-                Console.WriteLine();
-            });
+            binder1[BindOptions.Return].First()
+                .Bind(binder3[BindOptions.Parameter].First());
 
-            printAction(c1);
-            printAction(c2);
-            printAction(c3);
+            // Binder2 -> Binder3
+            binder2[BindOptions.Output].First()
+                .Bind(binder3[BindOptions.Input].First());
 
-            c1.ReleaseAll();
-            c2.ReleaseAll();
+            var print = new Action<string, PBinderHost>(
+                (name, host) =>
+                {
+                    Console.WriteLine($" # {name} # ");
 
-            Console.WriteLine(new string('-', 30) + "\r\n");
-            
-            printAction(c1);
-            printAction(c2);
-            printAction(c3);
+                    foreach (var binder in host.Items)
+                    {
+                        foreach (var expression in binder.Items.GetExpressions())
+                        {
+                            bool n1 = expression.Output.Equals(binder);
+                            bool n2 = expression.Input.Equals(binder);
+
+                            Console.WriteLine($"{(n1 ? name : "Output")}({expression.Output.BindOption.ToString()}) -> {(n2 ? name : "Input")}({expression.Input.BindOption.ToString()})");
+                        }
+                    }
+
+                    Console.WriteLine();
+                });
+
+            print("Binder1", binder1);
+            print("Binder2", binder2);
+            print("Binder3", binder3);
+
+            binder1.ReleaseAll();
+            binder2.ReleaseAll();
+
+            Console.WriteLine(" ** Released ** \r\n");
+
+            print("Binder1", binder1);
+            print("Binder2", binder2);
+            print("Binder3", binder3);
         }
 
         private static void DesignerTest()

@@ -95,14 +95,21 @@ namespace DeXign.Editor.Renderer
             view.DataContext = model;
             view.AddAdorner((Adorner)renderer);
 
+            // View <-> Model
+            view.SetModel(model);
+            model.SetView(view);
+
+            // View, Model -> Renderer
             view.SetRenderer(renderer);
             model.SetRenderer(renderer);
+
+            // BinderHost -> Renderer
             ResolveBinder(renderer).SetRenderer(renderer);
 
             return view;
         }
 
-        public static BaseBinder ResolveBinder(IRenderer renderer)
+        public static PBinderHost ResolveBinder(IRenderer renderer)
         {
             if (renderer.Model is PVisual visual)
             {

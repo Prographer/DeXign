@@ -2,21 +2,18 @@
 {
     public class BinderExpression
     {
-        public BaseBinder Input { get; }
-        public BaseBinder Output { get; }
+        public IBinder Output { get; }
+        public IBinder Input { get; }
 
-        public BinderOptions BindOptions { get; }
-
-        internal BinderExpression(BaseBinder input, BaseBinder output, BinderOptions bindOptions)
+        internal BinderExpression(IBinder output, IBinder input)
         {
-            this.Input = input;
             this.Output = output;
-            this.BindOptions = bindOptions;
+            this.Input = input;
         }
 
         public void Release()
         {
-            Input.ReleaseInput(Output);
+            this.Output.Release(this.Input);
         }
     }
 }

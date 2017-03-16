@@ -30,11 +30,7 @@ namespace DeXign.Controls
         public static readonly DependencyProperty BezierPoint2Property =
             DependencyHelper.Register(
                 new FrameworkPropertyMetadata(new Point(1, 0.5), FrameworkPropertyMetadataOptions.AffectsRender));
-
-        public static readonly DependencyProperty IsDebugProperty =
-            DependencyHelper.Register(
-                new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender));
-
+        
         public static readonly DependencyProperty StrokeThicknessProperty =
             DependencyHelper.Register(
                 new FrameworkPropertyMetadata(1d, FrameworkPropertyMetadataOptions.AffectsRender));
@@ -42,6 +38,12 @@ namespace DeXign.Controls
         public static readonly DependencyProperty LineBrushProperty =
             DependencyHelper.Register(
                 new FrameworkPropertyMetadata(Brushes.Black, FrameworkPropertyMetadataOptions.AffectsArrange));
+
+#if DEBUG
+        public static readonly DependencyProperty IsDebugProperty =
+            DependencyHelper.Register(
+                new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender));
+#endif
 
         public double X1
         {
@@ -79,12 +81,6 @@ namespace DeXign.Controls
             set { SetValue(BezierPoint2Property, value); }
         }
         
-        public bool IsDebug
-        {
-            get { return (bool)GetValue(IsDebugProperty); }
-            set { SetValue(IsDebugProperty, value); }
-        }
-
         public double StrokeThickness
         {
             get { return (double)GetValue(StrokeThicknessProperty); }
@@ -96,6 +92,14 @@ namespace DeXign.Controls
             get { return (Brush)GetValue(LineBrushProperty); }
             set { SetValue(LineBrushProperty, value); }
         }
+
+#if DEBUG
+        public bool IsDebug
+        {
+            get { return (bool)GetValue(IsDebugProperty); }
+            set { SetValue(IsDebugProperty, value); }
+        }
+#endif
 
         PathGeometry geometry;
         PathFigure figure;
@@ -146,6 +150,7 @@ namespace DeXign.Controls
 
             dc.DrawGeometry(null, p, geometry);
 
+#if DEBUG
             if (IsDebug)
             {
                 debugFigure.StartPoint = startPoint;
@@ -158,6 +163,7 @@ namespace DeXign.Controls
                 dc.PushOpacity(0.5);
                 dc.DrawGeometry(null, rp, debugGeometry);
             }
+#endif
         }
 
         private Point Multiply(Point p1, Point p2)

@@ -1,43 +1,70 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Collections.ObjectModel;
 
-using DeXign.Extension;
+
+using DeXign.Core;
 using DeXign.Core.Logic;
+using DeXign.Controls;
+using DeXign.Editor.Layer;
+using DeXign.Editor.Renderer;
+using DeXign.Extension;
 
 using WPFExtension;
-using System;
-using DeXign.Controls;
-using DeXign.Editor.Renderer;
-using DeXign.Editor.Layer;
-using DeXign.OS;
-using System.Windows.Controls.Primitives;
 
 namespace DeXign.Editor.Logic
 {
-    public class BindExpression
+    public class BindedEventArgs : EventArgs
     {
         public BindThumb Output { get; set; }
         public BindThumb Input { get; set; }
+        
+        public BinderExpression BinderExpression { get; set; }
 
-        public BindExpression(BindThumb output, BindThumb input)
+        public BindedEventArgs(BindThumb output, BindThumb input)
         {
             this.Output = output;
             this.Input = input;
         }
     }
 
-    [TemplatePart(Name = "PART_input", Type = typeof(BindThumb))]
-    [TemplatePart(Name = "PART_output", Type = typeof(BindThumb))]
     [TemplatePart(Name = "PART_moveThumb", Type = typeof(RelativeThumb))]
     public class ComponentElement : ContentControl
     {
         const double GridSnap = 16;
 
-        public event EventHandler<BindExpression> Binded;
+        public event EventHandler<BindedEventArgs> Binded;
 
         public static readonly DependencyProperty HeaderProperty =
-            DependencyHelper.Register();
+            DependencyHelper.Register(
+                new PropertyMetadata("< Component >"));
+
+        private static readonly DependencyPropertyKey InputThumbsPropertyKey =
+            DependencyHelper.RegisterReadOnly();
+
+        private static readonly DependencyPropertyKey OutputThumbsPropertyKey =
+            DependencyHelper.RegisterReadOnly();
+
+        private static readonly DependencyPropertyKey ParameterThumbsPropertyKey =
+            DependencyHelper.RegisterReadOnly();
+
+        private static readonly DependencyPropertyKey ReturnThumbsPropertyKey =
+            DependencyHelper.RegisterReadOnly();
+
+        public static readonly DependencyProperty InputThumbsProperty =
+            InputThumbsPropertyKey.DependencyProperty;
+
+        public static readonly DependencyProperty OutputThumbsProperty =
+            OutputThumbsPropertyKey.DependencyProperty;
+
+        public static readonly DependencyProperty ParameterThumbsProperty =
+            ParameterThumbsPropertyKey.DependencyProperty;
+
+        public static readonly DependencyProperty ReturnThumbsProperty =
+            ReturnThumbsPropertyKey.DependencyProperty;
 
         public string Header
         {
@@ -45,11 +72,29 @@ namespace DeXign.Editor.Logic
             set { SetValue(HeaderProperty, value); }
         }
 
+        public ObservableCollection<BindThumb> InputThumbs
+        {
+            get { return (ObservableCollection<BindThumb>)GetValue(InputThumbsProperty); }
+        }
+
+        public ObservableCollection<BindThumb> OutputThumbs
+        {
+            get { return (ObservableCollection<BindThumb>)GetValue(OutputThumbsProperty); }
+        }
+
+        public ObservableCollection<BindThumb> ParameterThumbs
+        {
+            get { return (ObservableCollection<BindThumb>)GetValue(ParameterThumbsProperty); }
+        }
+
+        public ObservableCollection<BindThumb> ReturnThumbs
+        {
+            get { return (ObservableCollection<BindThumb>)GetValue(ReturnThumbsProperty); }
+        }
+
         public PComponent Model => (PComponent)this.DataContext;
 
         #region [ Local Variable ]
-        private BindThumb inputThumb;
-        private BindThumb outputThumb;
         private RelativeThumb moveThumb;
 
         private Point beginPosition;
@@ -57,12 +102,28 @@ namespace DeXign.Editor.Logic
 
         public ComponentElement()
         {
+            this.SetValue(InputThumbsPropertyKey, new ObservableCollection<BindThumb>());
+            this.SetValue(OutputThumbsPropertyKey, new ObservableCollection<BindThumb>());
+            this.SetValue(ParameterThumbsPropertyKey, new ObservableCollection<BindThumb>());
+            this.SetValue(ReturnThumbsPropertyKey, new ObservableCollection<BindThumb>());
         }
 
         public void SetComponentModel(PComponent model)
         {
-            InitializeSelector();
             this.Content = model;
+            this.DataContext = model;
+
+            if (this.Model.HasAttribute<DesignElementAttribute>())
+                this.Header = this.Model.GetAttribute<DesignElementAttribute>().DisplayName;
+
+            InitializeSelector();
+            InitializeBinders();
+
+            OnAttachedComponentModel();
+        }
+
+        protected virtual void OnAttachedComponentModel()
+        {
         }
 
         private void InitializeSelector()
@@ -70,7 +131,127 @@ namespace DeXign.Editor.Logic
             this.AddSelectedHandler(OnSelected);
             this.AddUnselectedHandler(OnUnselected);
         }
-        
+
+        private void InitializeBinders()
+        {
+            foreach (IBinder binder in this.Model.Items)
+            {
+                EnsureAddThumb(binder);
+            }
+
+            this.Model.Items.CollectionChanged += Items_CollectionChanged;
+        }
+
+        private void EnsureAddThumb(IBinder binder)
+        {
+            switch (binder.BindOption)
+            {
+                case BindOptions.Input:
+                case BindOptions.Output:
+                    AddTriggerThumb(binder as PBinder);
+                    break;
+
+                case BindOptions.Parameter:
+                    AddParameterThumb(binder as PParameterBinder);
+                    break;
+
+                case BindOptions.Return:
+                    AddReturnThumb(binder as PReturnBinder);
+                    break;
+            }
+        }
+
+        private void EnsureRemoveThumb(IBinder binder)
+        {
+            if (binder is PBinder binderModel)
+            {
+                var thumb = binderModel.GetView<BindThumb>();
+
+                if (thumb != null)
+                {
+                    switch (binder.BindOption)
+                    {
+                        case BindOptions.Input:
+                            InputThumbs.Remove(thumb);
+                            break;
+
+                        case BindOptions.Output:
+                            OutputThumbs.Remove(thumb);
+                            break;
+
+                        case BindOptions.Parameter:
+                            ParameterThumbs.Remove(thumb);
+                            break;
+
+                        case BindOptions.Return:
+                            ReturnThumbs.Remove(thumb);
+                            break;
+                    }
+                }
+            }
+        }
+
+        private void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems != null)
+            {
+                foreach (PBinder binder in e.OldItems)
+                {
+                    EnsureRemoveThumb(binder);
+                }
+            }
+
+            if (e.NewItems != null)
+            {
+                foreach (IBinder binder in e.NewItems)
+                {
+                    EnsureAddThumb(binder);
+                }
+            }
+        }
+
+        // Trigger In / Out Thumb
+        private void AddTriggerThumb(PBinder binder)
+        {
+            var thumb = new BindThumb(binder);
+
+            if (binder.BindOption == BindOptions.Input)
+                InputThumbs.Add(thumb);
+            else
+                OutputThumbs.Add(thumb);
+
+            AddThumbCore(thumb);
+        }
+
+        // Parameter Thumb
+        private void AddParameterThumb(PParameterBinder parameterBinder)
+        {
+            BindThumb thumb;
+
+            ParameterThumbs.Add(
+                thumb = new BindThumb(parameterBinder));
+
+            AddThumbCore(thumb);
+        }
+
+        // Return Thumb
+        private void AddReturnThumb(PReturnBinder returnBinder)
+        {
+            BindThumb thumb;
+
+            ReturnThumbs.Add(
+                thumb = new BindThumb(returnBinder));
+
+            AddThumbCore(thumb);
+        }
+
+        private void AddThumbCore(BindThumb thumb)
+        {
+            thumb.Binder.SetView(thumb);
+
+            thumb.Binded += Thumb_Binded;
+        }
+
         protected override void OnContentChanged(object oldContent, object newContent)
         {
             base.OnContentChanged(oldContent, newContent);
@@ -82,24 +263,23 @@ namespace DeXign.Editor.Logic
         {
             base.OnApplyTemplate();
 
-            inputThumb = GetTemplateChild<BindThumb>("PART_input");
-            outputThumb = GetTemplateChild<BindThumb>("PART_output");
             moveThumb = GetTemplateChild<RelativeThumb>("PART_moveThumb");
 
-            if (inputThumb != null)
-                inputThumb.Binded += InputThumb_Binded;
-
-            if (outputThumb != null)
-                outputThumb.Binded += OutputThumb_Binded;
-
-            if (moveThumb != null)
-                Model.GetRenderer().ElementAttached += ComponentElement_ElementAttached;
+            if (this.IsLoaded)
+                InitializeMoveThumb();
+            else
+                this.Loaded += ComponentElement_Loaded;
         }
 
-        private void ComponentElement_ElementAttached(object sender, EventArgs e)
+        private void ComponentElement_Loaded(object sender, RoutedEventArgs e)
         {
-            Model.GetRenderer().ElementAttached -= ComponentElement_ElementAttached;
+            this.Loaded -= ComponentElement_Loaded;
 
+            InitializeMoveThumb();
+        }
+
+        private void InitializeMoveThumb()
+        {
             if (moveThumb != null)
             {
                 moveThumb.RelativeTarget = (this.GetRenderer() as StoryboardLayer).Storyboard;
@@ -109,16 +289,11 @@ namespace DeXign.Editor.Logic
             }
         }
 
-        private void OutputThumb_Binded(object sender, BindEventArgs e)
+        private void Thumb_Binded(object sender, ThumbBindedEventArgs e)
         {
-            Binded?.Invoke(this, new BindExpression(outputThumb, e.Target));
-        }
 
-        private void InputThumb_Binded(object sender, BindEventArgs e)
-        {
-            Binded?.Invoke(this, new BindExpression(e.Target, inputThumb));
         }
-
+        
         private void OnUnselected(object sender, SelectionChangedEventArgs e)
         {
             
@@ -128,6 +303,27 @@ namespace DeXign.Editor.Logic
         {
             
         }
+
+
+        public virtual void OnApplyContentTemplate()
+        {
+        }
+
+        #region [ Template Method ]
+        protected internal T GetTemplateChild<T>(string name)
+            where T : DependencyObject
+        {
+            return (T)GetTemplateChild(name);
+        }
+
+        protected internal T GetContentTemplateChild<T>(string name)
+            where T : FrameworkElement
+        {
+            return this.FindVisualChildrens<T>()
+                .Where(tb => tb.Name == name)
+                .FirstOrDefault();
+        }
+        #endregion
 
         #region [ Drag ] 
         private void MoveThumb_DragDelta(object sender, DragDeltaEventArgs e)
@@ -160,37 +356,6 @@ namespace DeXign.Editor.Logic
         public double SnapToGrid(double value)
         {
             return Math.Floor(value / GridSnap) * GridSnap;
-        }
-        #endregion
-
-        public virtual void OnApplyContentTemplate()
-        {
-        }
-
-        internal BindThumb GetThumb(BindType type)
-        {
-            if (inputThumb == null || outputThumb == null)
-                this.ApplyTemplate();
-
-            if (type == BindType.Input)
-                return inputThumb;
-
-            return outputThumb;
-        }
-
-        #region [ Template Method ]
-        protected internal T GetTemplateChild<T>(string name)
-            where T : DependencyObject
-        {
-            return (T)GetTemplateChild(name);
-        }
-
-        protected internal T GetContentTemplateChild<T>(string name)
-            where T : FrameworkElement
-        {
-            return this.FindVisualChildrens<T>()
-                .Where(tb => tb.Name == name)
-                .FirstOrDefault();
         }
         #endregion
     }

@@ -11,7 +11,7 @@ using WPFExtension;
 
 namespace DeXign.Controls
 {
-    class ZoomPanel : ContentControl
+    public class ZoomPanel : ContentControl
     {
         #region [ Dependency Property ]
         public static readonly DependencyProperty MinScaleProperty =

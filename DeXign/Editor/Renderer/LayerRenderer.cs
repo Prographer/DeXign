@@ -12,6 +12,7 @@ using DeXign.Editor.Layer;
 using WPFExtension;
 using DeXign.Core.Logic;
 using System.Collections.Generic;
+using DeXign.Editor.Logic;
 
 namespace DeXign.Editor.Renderer
 {
@@ -81,12 +82,13 @@ namespace DeXign.Editor.Renderer
             RendererManager.ResolveBinder(this).Released += LayerRenderer_Released;
         }
 
-        private void LayerRenderer_Released(object sender, BinderReleasedEventArgs e)
+        private void LayerRenderer_Released(object sender, BinderBindedEventArgs e)
         {
-            IRenderer outputRenderer = e.Expression.Output.GetRenderer();
-            IRenderer inputRenderer = e.Expression.Input.GetRenderer();
-
-            Storyboard.DisconnectComponentLine(outputRenderer, inputRenderer);
+            var outputBinder = e.Expression.Output as PBinder;
+            var inputBinder = e.Expression.Input as PBinder;
+            
+            Storyboard.DisconnectComponentLine(
+                outputBinder.GetView<BindThumb>(), inputBinder.GetView<BindThumb>());
         }
 
         protected override void OnDisposed()
@@ -267,7 +269,7 @@ namespace DeXign.Editor.Renderer
 
             if (showModelName)
             {
-                double blank = 4 / Scale;
+                double blank = 4;
                 double opacity = 8;
                 string name = Model.Name;
                 SolidColorBrush brush = Brushes.Black;
@@ -321,32 +323,7 @@ namespace DeXign.Editor.Renderer
         }
 
         #region [ IBinderProvider Interface ]
-        public bool CanBind(BaseBinder outputBinder, BinderOptions options)
-        {
-            return Model.Binder.CanBind(outputBinder, options);
-        }
-
-        public void Bind(BaseBinder outputBinder, BinderOptions options)
-        {
-            Model.Binder.Bind(outputBinder, options);
-        }
-
-        public void ReleaseInput(BaseBinder outputBinder)
-        {
-            Model.Binder.ReleaseInput(outputBinder);
-        }
-
-        public void ReleaseOutput(BaseBinder inputBinder)
-        {
-            Model.Binder.ReleaseOutput(inputBinder);
-        }
-
-        public void ReleaseAll()
-        {
-            Model.Binder.ReleaseAll();
-        }
-
-        public BaseBinder ProvideValue()
+        public IBinderHost ProvideValue()
         {
             return Model.Binder;
         }
