@@ -30,10 +30,15 @@ namespace DeXign.Core.Logic
             {
                 var triggerReturn = triggerReturnBinder as PReturnBinder;
                 var trigger = triggerReturnBinder.Host as PTrigger;
-
-                if (this.Host is PGetter getter)
+                
+                if (this.Host is PGetter getter && input.Equals(getter.TargetBinder))
                 {
                     getter.TargetType = triggerReturn.ReturnType;
+                }
+
+                if (this.Host is PSetter setter && input.Equals(setter.TargetBinder))
+                {
+                    setter.TargetType = triggerReturn.ReturnType;
                 }
             }
         }

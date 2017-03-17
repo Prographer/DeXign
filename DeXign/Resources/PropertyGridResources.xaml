@@ -51,10 +51,11 @@
     </Style>
     
     <Style x:Key="ValueBoxSetterStyle" TargetType="{x:Type c:ValueBoxSetter}">
+        <Setter Property="Background" Value="{x:Null}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type c:ValueBoxSetter}">
-                    <c:SubmitTextBox x:Name="PART_valueBox" Style="{StaticResource ValueBoxStyle}"/>
+                    <c:SubmitTextBox x:Name="PART_valueBox" Style="{StaticResource ValueBoxStyle}" Foreground="{TemplateBinding Foreground}" Background="{TemplateBinding Background}"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

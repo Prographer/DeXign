@@ -34,6 +34,11 @@
                             <Setter TargetName="titleBlock" Property="Foreground" Value="#DC3522"/>
                             <Setter TargetName="titleBlock" Property="FontWeight" Value="Bold"/>
                         </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="rect" Property="Opacity" Value="0.28"/>
+                            <Setter TargetName="ellipse" Property="Opacity" Value="0.28"/>
+                        </Trigger>
                         
                         <Trigger Property="HasBindError" Value="true">
                             <Setter TargetName="rect" Property="Stroke" Value="Red"/>
@@ -204,7 +209,14 @@
                         </DataTemplate>
                     </DataTemplate.Resources>
 
-                    <ComboBox x:Name="PART_propertyBox" ItemsSource="{Binding PropertyList, RelativeSource={RelativeSource AncestorType={x:Type el:Setter}}}" ItemTemplate="{StaticResource PropertyItemTempalte}"/>
+                    <c:SpacingStackPanel>
+                        <ComboBox x:Name="PART_propertyBox" ItemsSource="{Binding PropertyList, RelativeSource={RelativeSource AncestorType={x:Type el:Setter}}}" ItemTemplate="{StaticResource PropertyItemTempalte}"/>
+
+                        <CheckBox x:Name="PART_valueCheckBox">
+                            <ContentPresenter Content="{Binding ValueSetter, RelativeSource={RelativeSource AncestorType={x:Type el:Setter}}}"
+                                              Visibility="{Binding IsChecked, ElementName=PART_valueCheckBox, Converter={StaticResource Converter.BoolToVisibility}}"/>
+                        </CheckBox>
+                    </c:SpacingStackPanel>
                 </DataTemplate>
             </Setter.Value>
         </Setter>

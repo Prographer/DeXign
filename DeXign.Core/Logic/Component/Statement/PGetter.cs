@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 
 using WPFExtension;
@@ -27,12 +28,16 @@ namespace DeXign.Core.Logic
             set { SetValue(TargetTypeProperty, value); }
         }
 
+        public PParameterBinder TargetBinder { get; }
+        
         public PGetter() : base()
         {
             this.AddNewBinder(BindOptions.Input);
             this.AddNewBinder(BindOptions.Output);
 
             this.AddReturnBinder("값", typeof(object));
+
+            this.TargetBinder = this[BindOptions.Parameter].First() as PParameterBinder;
         }
     }
 }

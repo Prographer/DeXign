@@ -11,13 +11,13 @@ using System.Windows.Media;
 
 namespace DeXign.Controls
 {
-    public interface ISetter
+    public interface ISetter : IDisposable
     {
         object GetTargetValue();
         void SetTargetValue(object value);
     }
 
-    public class BaseSetter : Control, ISetter, IDisposable
+    public class BaseSetter : Control, ISetter
     {
         public static readonly DependencyProperty ValueProperty =
             DependencyHelper.Register();
@@ -65,14 +65,19 @@ namespace DeXign.Controls
 
         private void BaseSetter_Unloaded(object sender, RoutedEventArgs e)
         {
-            listViewItem.PreviewMouseLeftButtonDown -= ListViewItem_MouseLeftButtonDown;
-            listViewItem = null;
+            if (listViewItem != null)
+            {
+                listViewItem.PreviewMouseLeftButtonDown -= ListViewItem_MouseLeftButtonDown;
+                listViewItem = null;
+            }
         }
 
         private void BaseSetter_Loaded(object sender, RoutedEventArgs e)
         {
             listViewItem = this.FindVisualParents<ListViewItem>().FirstOrDefault();
-            listViewItem.PreviewMouseLeftButtonDown += ListViewItem_MouseLeftButtonDown;
+
+            if (listViewItem != null)
+                listViewItem.PreviewMouseLeftButtonDown += ListViewItem_MouseLeftButtonDown;
         }
 
         private void ListViewItem_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

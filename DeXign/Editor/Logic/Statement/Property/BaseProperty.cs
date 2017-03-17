@@ -58,8 +58,9 @@ namespace DeXign.Editor.Logic
             SetValue(PropertyListPropertyKey, new ObservableCollection<PropertyItem>());
 
             TargetTypeProperty.AddValueChanged(this, TargetType_Changed);
+            SelectedPropertyProperty.AddValueChanged(this, SelectedProperty_Changed);
         }
-
+        
         protected override void OnAttachedComponentModel()
         {
             base.OnAttachedComponentModel();
@@ -94,6 +95,15 @@ namespace DeXign.Editor.Logic
             {
                 this.SelectedProperty = item.Property;
             }
+        }
+
+        private void SelectedProperty_Changed(object sender, EventArgs e)
+        {
+            OnSelectedPropertyChanged();
+        }
+
+        protected virtual void OnSelectedPropertyChanged()
+        {
         }
 
         private void TargetType_Changed(object sender, EventArgs e)

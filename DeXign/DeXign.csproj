@@ -220,6 +220,7 @@
     <Compile Include="MVVM\Converter\EqualConverter.cs" />
     <Compile Include="MVVM\Converter\GridViewColumnStarConverter.cs" />
     <Compile Include="MVVM\Converter\LowercaseConverter.cs" />
+    <Compile Include="MVVM\Converter\NotConverter.cs" />
     <Compile Include="MVVM\Converter\NullObjectToVisibilityConverter.cs" />
     <Compile Include="MVVM\Converter\EnumToStringConverter.cs" />
     <Compile Include="MVVM\Converter\PathToImageConverter.cs" />

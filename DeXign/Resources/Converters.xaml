@@ -15,4 +15,5 @@
     <cvt:PathToImageConverter x:Key="Converter.PathToImage"/>
     <cvt:LowercaseConverter x:Key="Converter.Lowercase"/>
     <cvt:DoubleToStringConverter x:Key="Converter.DoubleToString"/>
+    <cvt:NotConverter x:Key="Converter.Not"/>
 </ResourceDictionary>
