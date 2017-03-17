@@ -231,7 +231,7 @@ namespace DeXign.Editor.Logic
         // TODO: Ref
         // Core 라이브러리와 IDE 프로젝트의 의존성이 너무 강함.
         // 전파 수준을 Core단으로 변경 필요
-        private void PropagateBind(BindThumb outputThumb, BindThumb inputThumb)
+        private async void PropagateBind(BindThumb outputThumb, BindThumb inputThumb)
         {
             var nextHosts = new List<IBinderHost>();
             var hostQueue = new Queue<(IBinderHost Host, int Level)>(
@@ -268,6 +268,8 @@ namespace DeXign.Editor.Logic
                         nextHosts.Add(inputBinder.Host);
                     }
                 }
+
+                await t.Task.Delay(500);
                 
                 foreach (IBinderHost inputHost in nextHosts.Distinct())
                 {
@@ -291,8 +293,13 @@ namespace DeXign.Editor.Logic
             }
         }
 
-        protected virtual void OnPropagateBind(BindThumb outputThumb, BindThumb inputThumb)
+        protected virtual async void OnPropagateBind(BindThumb outputThumb, BindThumb inputThumb)
         {
+            this.IsDebug = true;
+
+            await t.Task.Delay(1000);
+
+            this.IsDebug = false;
         }
 
         protected virtual void OnBind(BindThumb outputThumb)

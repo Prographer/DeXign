@@ -122,7 +122,8 @@ namespace DeXign.Editor.Logic
             InitializeSelector();
             InitializeBinders();
 
-            OnAttachedComponentModel();
+            if (!this.IsFloating())
+                OnAttachedComponentModel();
         }
 
         protected virtual void OnAttachedComponentModel()
@@ -131,6 +132,9 @@ namespace DeXign.Editor.Logic
 
         private void InitializeSelector()
         {
+            if (this.IsFloating())
+                return;
+
             this.AddSelectedHandler(OnSelected);
             this.AddUnselectedHandler(OnUnselected);
         }
@@ -265,6 +269,9 @@ namespace DeXign.Editor.Logic
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+
+            if (this.IsFloating())
+                return;
 
             moveThumb = GetTemplateChild<RelativeThumb>("PART_moveThumb");
 

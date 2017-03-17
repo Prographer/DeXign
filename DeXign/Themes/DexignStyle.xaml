@@ -452,7 +452,7 @@
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
 
-                                <ContentPresenter Grid.Row="0" Content="{Binding Content}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="32" Height="32"/>
+                                <ContentPresenter x:Name="PART_contentPresenter" Grid.Row="0" Content="{Binding Content}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="32" Height="32"/>
 
                                 <TextBlock Grid.Row="1" Margin="0,6,0,0" Text="{Binding Title}" HorizontalAlignment="Center" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" FontSize="12"/>
                             </Grid>

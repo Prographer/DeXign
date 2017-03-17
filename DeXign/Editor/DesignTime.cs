@@ -31,6 +31,9 @@ namespace DeXign.Editor
         public static readonly DependencyProperty LockProperty =
             DependencyHelper.RegisterAttached<bool>();
 
+        public static readonly DependencyProperty IsFloatingProperty =
+            DependencyHelper.RegisterAttached<bool>();
+
         #region [ Size ]
         public static void SetDesignWidth(this DependencyObject obj, double value)
         {
@@ -101,6 +104,18 @@ namespace DeXign.Editor
         public static bool IsLocked(this DependencyObject obj)
         {
             return (bool)obj.GetValue(LockProperty);
+        }
+        #endregion
+
+        #region [ IsFloating ]
+        public static void SetIsFloating(this DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsFloatingProperty, value);
+        }
+
+        public static bool IsFloating(this DependencyObject obj)
+        {
+            return (bool)obj.GetValue(IsFloatingProperty);
         }
         #endregion
 

@@ -15,6 +15,12 @@ namespace DeXign.Interop
         [DllImport(ExternDll.User32)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetCursorPos(out NativeMethods.Point lpPoint);
+
+        [DllImport(ExternDll.User32)]
+        public static extern NativeMethods.WS GetWindowLong(IntPtr hWnd, NativeMethods.GWL nIndex);
+
+        [DllImport(ExternDll.User32)]
+        public static extern int SetWindowLong(IntPtr hWnd, NativeMethods.GWL nIndex, NativeMethods.WS dwNewLong);
         #endregion
 
         #region [ Kernel32 ]

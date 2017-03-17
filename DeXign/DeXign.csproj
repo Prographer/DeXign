@@ -270,6 +270,7 @@
       <DependentUpon>NewProjectPage1.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Dialog\ProjectDialog.cs" />
+    <Compile Include="Windows\FloatingWindow.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
