@@ -112,6 +112,8 @@ namespace DeXign.Editor.Logic
                     GetDragLineStartPosition,
                     GetDragLineEndPosition);
 
+            dragLine.Line.Opacity = 0.5;
+
             dragLine.Released += DragLine_Released;
         }
 
@@ -350,6 +352,8 @@ namespace DeXign.Editor.Logic
 
         protected override void OnGiveFeedback(GiveFeedbackEventArgs e)
         {
+            dragLine.Line.Opacity = (dragSnapTarget != null ? 1 : 0.5);
+
             dragLine.Update();
             e.Handled = true;
         }

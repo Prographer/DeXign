@@ -1,19 +1,8 @@
-﻿using System;
-using System.Windows;
-using System.Reflection;
-using System.Collections.ObjectModel;
-
-using DeXign.Core;
-using DeXign.Extension;
-using DeXign.Core.Designer;
-
-using WPFExtension;
+﻿using DeXign.Extension;
 using DeXign.Core.Logic;
-using System.Linq;
-using System.Windows.Controls;
 
 namespace DeXign.Editor.Logic
-{    
+{
     public class Getter : BaseProperty
     {
         protected PReturnBinder ReturnBinder { get; private set; }
