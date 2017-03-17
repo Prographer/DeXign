@@ -505,13 +505,13 @@
     <Resource Include="Resources\Images\PaddingBackground.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\test.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Icons\IconLogo.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\WaterMark.png" />
   </ItemGroup>
   <Import Project="..\DeXign.Shared\DeXign.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

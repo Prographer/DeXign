@@ -114,26 +114,12 @@
             </DockPanel>
         </c:HeaderLayout>
 
-        <Rectangle Grid.Column="1" Fill="{StaticResource Brush.Expander.Seperator}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        <Rectangle Grid.Column="1" Fill="{StaticResource Brush.Expander.Seperator}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsHitTestVisible="False"/>
 
-        <TabControl x:Name="tabControl" Grid.Column="2" Margin="0,0,1,0" SelectionChanged="tabControl_SelectionChanged">
-            <TabControl.Items>
-                <c:ClosableTabItem Header="Debug (ZoomPanel)">
-                    <Grid>
-                        <c:ZoomPanel x:Name="zoomPanel">
-                            <Image Source="/DeXign;component/Resources/Images/test.jpg" Width="1920" Height="1080" Stretch="Uniform"/>
-                        </c:ZoomPanel>
-                        
-                        <Button Content="ZoomFit" Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Padding="8" Click="Button_Click"/>
-
-                        <c:SpacingStackPanel Margin="10" VerticalAlignment="Top" HorizontalAlignment="Left" TextBlock.Foreground="Black">
-                            <TextBlock Text="Zoom: Ctrl + Wheel"/>
-                            <TextBlock Text="Drag: Ctrl + MouseDown"/>
-                        </c:SpacingStackPanel>
-                    </Grid>
-                </c:ClosableTabItem>
-            </TabControl.Items>
-        </TabControl>
+        <Grid Grid.Column="2" Margin="0,0,1,0" Background="White">
+            <Image Height="64" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Uniform" Source="/DeXign;component/Resources/Images/WaterMark.png"/>
+            <TabControl x:Name="tabControl" Background="Transparent" SelectionChanged="tabControl_SelectionChanged"/>
+        </Grid>
 
         <Rectangle Grid.Column="2" Fill="{StaticResource Brush.Expander.Seperator}" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="1"/>
         <GridSplitter Grid.Column="2" Background="Transparent" Width="4" HorizontalAlignment="Right"/>

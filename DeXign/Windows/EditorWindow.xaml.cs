@@ -282,9 +282,9 @@ namespace DeXign.Windows
         }
         #endregion
 
-        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void Rectangle_GiveFeedback(object sender, GiveFeedbackEventArgs e)
         {
-            zoomPanel.ZoomFit(true);
+
         }
     }
 }

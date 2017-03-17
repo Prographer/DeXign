@@ -7,6 +7,7 @@ using DeXign.Core.Logic;
 using DeXign.Core.Designer;
 using DeXign.Controls;
 using DeXign.Extension;
+using System.Windows.Media;
 
 namespace DeXign.Editor.Controls
 {
@@ -17,6 +18,7 @@ namespace DeXign.Editor.Controls
         public StoryboardZoomPanel() : base()
         {
             this.AllowDrop = true;
+            this.Background = Brushes.White;
         }
 
         protected override void OnContentChanged(object oldContent, object newContent)

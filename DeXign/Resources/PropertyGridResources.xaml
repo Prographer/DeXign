@@ -5,10 +5,10 @@
                     xmlns:core="clr-namespace:DeXign.Core;assembly=DeXign.Core"
                     xmlns:rule="clr-namespace:DeXign.Rules"
                     xmlns:cvt="clr-namespace:DeXign.Converter">
-    
+
     <Style x:Key="EnumIconStyle" TargetType="{x:Type Image}">
-        <Setter Property="Width" Value="24"/>
-        <Setter Property="Height" Value="20"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
     </Style>
 
@@ -79,16 +79,24 @@
                 <ControlTemplate TargetType="{x:Type c:VerticalAlignmentSetter}">
                     <c:EnumRadioBox x:Name="PART_valueRadioBox" EnumType="{x:Type core:PVerticalAlignment}">
                         <c:EnumContent Value="Top">
-                            <Image ToolTip="위쪽 정렬" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconVerticalTop.png"/>
+                            <Border Width="20" Height="20">
+                                <Image ToolTip="위쪽 정렬" Height="16" Width="20" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconVerticalTop.png"/>
+                            </Border>
                         </c:EnumContent>
                         <c:EnumContent Value="Bottom">
-                            <Image ToolTip="아래쪽 정렬" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconVerticalBottom.png"/>
+                            <Border Width="20" Height="20">
+                                <Image ToolTip="아래쪽 정렬" Height="16" Width="20" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconVerticalBottom.png"/>
+                            </Border>
                         </c:EnumContent>
                         <c:EnumContent Value="Center">
-                            <Image ToolTip="가운데 정렬" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconVerticalCenter.png"/>
+                            <Border Width="20" Height="21">
+                                <Image ToolTip="가운데 정렬" Height="17" Width="20" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconVerticalCenter.png"/>
+                            </Border>
                         </c:EnumContent>
                         <c:EnumContent Value="Stretch">
-                            <Image ToolTip="양쪽 맞춤" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconVerticalStretch.png"/>
+                            <Border Width="20" Height="20">
+                                <Image ToolTip="양쪽 맞춤" Height="16" Width="20" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconVerticalStretch.png"/>
+                            </Border>
                         </c:EnumContent>
                     </c:EnumRadioBox>
                 </ControlTemplate>
@@ -100,18 +108,26 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type c:HorizontalAlignmentSetter}">
-                    <c:EnumRadioBox x:Name="PART_valueRadioBox" EnumType="{x:Type core:PHorizontalAlignment}">
+                    <c:EnumRadioBox x:Name="PART_valueRadioBox" EnumType="{x:Type core:PHorizontalAlignment}" SnapsToDevicePixels="True">
                         <c:EnumContent Value="Left">
-                            <Image ToolTip="왼쪽 정렬" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconHorizontalLeft.png"/>
+                            <Border Width="20" Height="20">
+                                <Image ToolTip="왼쪽 정렬" Width="16" Height="20" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconHorizontalLeft.png"/>
+                            </Border>
                         </c:EnumContent>
                         <c:EnumContent Value="Right">
-                            <Image ToolTip="오른쪽 정렬" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconHorizontalRight.png"/>
+                            <Border Width="20" Height="20">
+                                <Image ToolTip="오른쪽 정렬" Width="16" Height="20" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconHorizontalRight.png"/>
+                            </Border>
                         </c:EnumContent>
                         <c:EnumContent Value="Center">
-                            <Image ToolTip="가운데 정렬" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconHorizontalCenter.png"/>
+                            <Border Width="21" Height="20">
+                                <Image ToolTip="가운데 정렬" Width="17" Height="20" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconHorizontalCenter.png"/>
+                            </Border>
                         </c:EnumContent>
                         <c:EnumContent Value="Stretch">
-                            <Image ToolTip="양쪽 맞춤" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconHorizontalStretch.png"/>
+                            <Border Width="20" Height="20">
+                                <Image ToolTip="양쪽 맞춤" Width="16" Height="20" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconHorizontalStretch.png"/>
+                            </Border>
                         </c:EnumContent>
                     </c:EnumRadioBox>
                 </ControlTemplate>
@@ -126,13 +142,19 @@
                 <ControlTemplate TargetType="{x:Type c:VerticalTextAlignmentSetter}">
                     <c:EnumRadioBox x:Name="PART_valueRadioBox" EnumType="{x:Type core:PVerticalTextAlignment}">
                         <c:EnumContent Value="Top">
-                            <Image ToolTip="위쪽 정렬" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconVerticalTop.png"/>
+                            <Border Width="20" Height="20">
+                                <Image ToolTip="위쪽 정렬" Height="16" Width="20" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconVerticalTop.png"/>
+                            </Border>
                         </c:EnumContent>
                         <c:EnumContent Value="Bottom">
-                            <Image ToolTip="아래쪽 정렬" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconVerticalBottom.png"/>
+                            <Border Width="20" Height="20">
+                                <Image ToolTip="아래쪽 정렬" Height="16" Width="20" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconVerticalBottom.png"/>
+                            </Border>
                         </c:EnumContent>
                         <c:EnumContent Value="Center">
-                            <Image ToolTip="가운데 정렬" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconVerticalCenter.png"/>
+                            <Border Width="21" Height="20">
+                                <Image ToolTip="가운데 정렬" Height="17" Width="20" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconVerticalCenter.png"/>
+                            </Border>
                         </c:EnumContent>
                     </c:EnumRadioBox>
                 </ControlTemplate>
@@ -146,13 +168,19 @@
                 <ControlTemplate TargetType="{x:Type c:HorizontalTextAlignmentSetter}">
                     <c:EnumRadioBox x:Name="PART_valueRadioBox" EnumType="{x:Type core:PHorizontalTextAlignment}">
                         <c:EnumContent Value="Left">
-                            <Image ToolTip="왼쪽 정렬" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconHorizontalLeft.png"/>
+                            <Border Width="20" Height="20">
+                                <Image ToolTip="왼쪽 정렬" Width="16" Height="20" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconHorizontalLeft.png"/>
+                            </Border>
                         </c:EnumContent>
                         <c:EnumContent Value="Right">
-                            <Image ToolTip="오른쪽 정렬" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconHorizontalRight.png"/>
+                            <Border Width="20" Height="20">
+                                <Image ToolTip="오른쪽 정렬" Width="16" Height="20" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconHorizontalRight.png"/>
+                            </Border>
                         </c:EnumContent>
                         <c:EnumContent Value="Center">
-                            <Image ToolTip="가운데 정렬" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconHorizontalCenter.png"/>
+                            <Border Width="21" Height="20">
+                                <Image ToolTip="가운데 정렬" Width="17" Height="20" Style="{StaticResource EnumIconStyle}" Source="pack://application:,,,/DeXign;component/Resources/Icons/IconHorizontalCenter.png"/>
+                            </Border>
                         </c:EnumContent>
                     </c:EnumRadioBox>
                 </ControlTemplate>
