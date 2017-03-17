@@ -6,6 +6,7 @@ using DeXign.Editor.Layer;
 using DeXign.Editor.Renderer;
 using DeXign.Core.Logic;
 using DeXign.Extension;
+using DeXign.Editor.Logic;
 
 namespace DeXign.Task
 {
@@ -41,8 +42,7 @@ namespace DeXign.Task
         public RendererTaskType TaskType { get; }
 
         private int index = -1;
-        private Dictionary<IRenderer, List<IRenderer>> inputs;
-        private Dictionary<IRenderer, List<IRenderer>> outputs;
+        private Dictionary<IRenderer, List<(BindThumb Output, BindThumb Input)>> expressions;
 
         /// <summary>
         /// Element 렌더러 작업 데이터를 생성합니다.
@@ -60,8 +60,7 @@ namespace DeXign.Task
             Action destroyAction) :
             base(source, doAction, undoAction, destroyAction)
         {
-            inputs = new Dictionary<IRenderer, List<IRenderer>>();
-            outputs = new Dictionary<IRenderer, List<IRenderer>>();
+            expressions = new Dictionary<IRenderer, List<(BindThumb Output, BindThumb Input)>>();
 
             this.TaskType = taskType;
         }
@@ -99,16 +98,14 @@ namespace DeXign.Task
                 OnAddRestore();
             }
         }
-        
+
         public override void Dispose()
         {
             base.Dispose();
 
-            inputs.Clear();
-            outputs.Clear();
+            expressions.Clear();
 
-            inputs = null;
-            outputs = null;
+            expressions = null;
         }
 
         private void OnAdd()
@@ -162,7 +159,7 @@ namespace DeXign.Task
                         list.Insert(index, Source.Element);
                     });
             }
-
+            
             RestoreBinders();
         }
 
@@ -171,65 +168,46 @@ namespace DeXign.Task
         {
             // Binder
             var layer = Source as StoryboardLayer;
-            
-            //foreach (IRenderer renderer in RendererTreeHelper.FindChildrens<IRenderer>(Source, true))
-            //{
-            //    if (inputs.ContainsKey(renderer))
-            //    {
-            //        foreach (IRenderer inputRenderer in inputs[renderer])
-            //        {
-            //            layer.Storyboard.ConnectComponent(inputRenderer, renderer, null, null, BindOptions.Trigger, BindOptions.Trigger);
-            //        }
-            //    }
 
-            //    if (outputs.ContainsKey(renderer))
-            //    {
-            //        foreach (IRenderer outputRenderer in outputs[renderer])
-            //        {
-            //            layer.Storyboard.ConnectComponent(renderer, outputRenderer, null, null, BindOptions.Trigger, BindOptions.Trigger);
-            //        }
-            //    }
-            //}
+            foreach (IRenderer renderer in RendererTreeHelper.FindChildrens<IRenderer>(Source, true))
+            {
+                if (expressions.ContainsKey(renderer))
+                {
+                    foreach (var expression in expressions[renderer])
+                    {
+                        layer.Storyboard.ConnectComponent(expression.Output, expression.Input);
+                    }
+                }
+            }
         }
 
         // 소스 및 하위의 모든 렌더러와 연결된 바인더를 해제합니다.
         private void ReleaseBinders()
         {
-            //foreach (IRenderer renderer in RendererTreeHelper.FindChildrens<IRenderer>(Source, true))
-            //{
-            //    PBinder2 binder = RendererManager.ResolveBinder(renderer);
+            foreach (IRenderer renderer in RendererTreeHelper.FindChildrens<IRenderer>(Source, true))
+            {
+                var binderHost = renderer.ProvideValue() as PBinderHost;
 
-            //    if (!inputs.ContainsKey(renderer))
-            //        inputs[renderer] = new List<IRenderer>();
+                if (!expressions.ContainsKey(renderer))
+                    expressions[renderer] = new List<(BindThumb Output, BindThumb Input)>();
 
-            //    if (!outputs.ContainsKey(renderer))
-            //        outputs[renderer] = new List<IRenderer>();
+                var list = expressions[renderer];
+                list.Clear();
 
-            //    inputs[renderer].Clear();
-            //    outputs[renderer].Clear();
+                // 모든 연결
+                foreach (var expression in binderHost.Items.GetExpressions())
+                {
+                    var outputBinder = expression.Output as PBinder;
+                    var inputBinder = expression.Input as PBinder;
 
-            //    // 나가는 연결
-            //    foreach (BinderExpression expression in binder.GetOutputExpression())
-            //    {
-            //        IRenderer inputRenderer = expression.Input.GetRenderer();
+                    var outputThumb = outputBinder.GetView<BindThumb>();
+                    var inputThumb = inputBinder.GetView<BindThumb>();
 
-            //        outputs[renderer].Add(inputRenderer);
-            //    }
+                    list.Add((outputThumb, inputThumb));
+                }
 
-            //    // 들어오는 연결
-            //    //  * 들어오는 연결(Input)은 Component만 가질 수 있음
-            //    if (Source is IRendererComponent)
-            //    {
-            //        foreach (BinderExpression expression in binder.GetInputExpression())
-            //        {
-            //            IRenderer outputRenderer = expression.Output.GetRenderer();
-
-            //            inputs[renderer].Add(outputRenderer);
-            //        }
-            //    }
-
-            //    binder.ReleaseAll();
-            //}
+                binderHost.ReleaseAll();
+            }
         }
     }
 }

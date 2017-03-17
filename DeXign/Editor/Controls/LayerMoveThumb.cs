@@ -111,6 +111,12 @@ namespace DeXign.Editor.Controls
 
         protected override void OnDragDelta(double horizontalChange, double verticalChange)
         {
+            if (!ParentLayer.IsLoaded)
+            {
+                this.ReleaseMouseCapture();
+                return;
+            }
+
             ParentLayer.CancelNextSelect();
 
             if (ParentLayer.Parent is IStoryboard)

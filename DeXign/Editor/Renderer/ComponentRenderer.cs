@@ -97,11 +97,11 @@ namespace DeXign.Editor.Renderer
         private void ComponentRenderer_Released(object sender, BinderBindedEventArgs e)
         {
             var outputBinder = e.Expression.Output as PBinder;
-            var inputBinder = e.Expression.Output as PBinder;
+            var inputBinder = e.Expression.Input as PBinder;
 
             var outputThumb = outputBinder.GetView<BindThumb>();
             var inputThumb = inputBinder.GetView<BindThumb>();
-
+            
             DisconnectVisualLine(outputThumb, inputThumb);
         }
 
