@@ -141,6 +141,19 @@ namespace DeXign.Editor.Layer
 
         protected virtual void OnDispatchRender(DrawingContext dc)
         {
+            if (IsHighlight)
+            {
+                int dash = 4;
+                var dashedPen = CreatePen(HighlightBrush, 2d);
+
+                dashedPen.DashStyle = new DashStyle(new double[] { dash, dash }, 0);
+
+                var bound = new Rect(0, 0, this.RenderSize.Width, this.RenderSize.Height);
+
+                Inflate(ref bound, 2, 2);
+                
+                dc.DrawRectangle(null, dashedPen, bound);
+            }
         }
 
         private void DrawGuidLineMargin(DrawingContext dc)

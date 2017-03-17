@@ -225,4 +225,64 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style TargetType="{x:Type el:ObjectSelector}" BasedOn="{StaticResource {x:Type el:ComponentElement}}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type el:ObjectSelector}">
+                    <Border x:Name="border" Background="White" CornerRadius="2">
+                        <Grid Grid.IsSharedSizeScope="False">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <c:RelativeThumb x:Name="PART_moveThumb" Grid.ColumnSpan="3" Background="Transparent"/>
+
+                            <Image Grid.Column="0" Width="24" Height="24" Margin="8" Source="{Binding TargetVisual, Converter={StaticResource Converter.ToolboxIcon}}"/>
+                            
+                            <ContentPresenter Grid.Column="1" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" VerticalAlignment="Center" IsHitTestVisible="False"/>
+
+                            <ItemsControl Grid.Column="2" MinWidth="10" MinHeight="10" Margin="8" VerticalAlignment="Center">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <c:SpacingStackPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+
+                                <ItemsControl.Resources>
+                                    <CollectionViewSource x:Key="OutputThumbsViewSource" Source="{Binding OutputThumbs, RelativeSource={RelativeSource AncestorType={x:Type el:ComponentElement}}}" />
+                                    <CollectionViewSource x:Key="ReturnThumbsViewSource" Source="{Binding ReturnThumbs, RelativeSource={RelativeSource AncestorType={x:Type el:ComponentElement}}}" />
+                                </ItemsControl.Resources>
+
+                                <ItemsControl.ItemsSource>
+                                    <CompositeCollection>
+                                        <CollectionContainer Collection="{Binding Source={StaticResource OutputThumbsViewSource}}" />
+                                        <CollectionContainer Collection="{Binding Source={StaticResource ReturnThumbsViewSource}}" />
+                                    </CompositeCollection>
+                                </ItemsControl.ItemsSource>
+                            </ItemsControl>
+
+                            <Border x:Name="frameBorder" Grid.ColumnSpan="3" BorderThickness="0" Opacity="0.9" IsHitTestVisible="False" BorderBrush="{StaticResource Brush.Flat.Accent.DeepDark}" CornerRadius="3"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="e:GroupSelector.IsSelected" Value="true">
+                            <Setter TargetName="frameBorder" Property="BorderThickness" Value="2"/>
+                            <Setter TargetName="frameBorder" Property="Margin" Value="-2"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate DataType="{x:Type l:PSelector}">
+                    <TextBlock Text="{Binding Title}" Foreground="#535353" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

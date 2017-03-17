@@ -31,8 +31,7 @@ namespace DeXign.Editor.Logic
 
         private PObject dummyObject;
         private CheckBox valueCheckBox;
-
-
+        
         protected override void OnAttachedComponentModel()
         {
             base.OnAttachedComponentModel();

@@ -182,7 +182,10 @@ namespace DeXign.Controls
             if (this.IsPanning && e.LeftButton == MouseButtonState.Pressed)
             {
                 Vector delta = e.GetPosition(contentElement) - beginPosition;
-                
+
+                Animator.StopAnimation(this, OffsetXProperty);
+                Animator.StopAnimation(this, OffsetYProperty);
+
                 this.OffsetX += delta.X;
                 this.OffsetY += delta.Y;
             }

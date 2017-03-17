@@ -40,7 +40,7 @@ namespace DeXign.Core
                         if (NodeIterating || (!NodeIterating && cc.Depth == 0))
                             yield return cc;
 
-                        if (cc.ElementType == ComponentType.Instance)
+                        if (cc.ElementType == CodeComponentType.Instance)
                         {
                             // 클래스 인경우
                             Type eType = cc.Element.GetType();

@@ -1,4 +1,5 @@
 ﻿using DeXign.Core;
+
 using System;
 using System.Collections.Generic;
 
@@ -49,6 +50,11 @@ namespace DeXign.Utilities
             }
 
             return null;
+        }
+
+        public static IEnumerable<PObject> Items
+        {
+            get { return dict.Values; }
         }
     }
 }

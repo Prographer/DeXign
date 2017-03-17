@@ -104,7 +104,7 @@ namespace DeXign.Editor
             if (groups.ContainsKey("default"))
                 return groups["default"];
 
-            return default(IEnumerable<FrameworkElement>);
+            return Enumerable.Empty<FrameworkElement>();
         }
 
         #region [ Routed Event Extension ]

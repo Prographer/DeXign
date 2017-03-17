@@ -14,7 +14,7 @@ namespace DeXign.Editor.Renderer
         public GetterRenderer(Getter adornedElement, PGetter model) : base(adornedElement, model)
         {
         }
-        
+
         protected override void OnLoaded(FrameworkElement adornedElement)
         {
             base.OnLoaded(adornedElement);

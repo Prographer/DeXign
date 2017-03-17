@@ -26,19 +26,25 @@ namespace DeXign.Core.Logic
             IBinder triggerReturnBinder = this.Items
                 .FirstOrDefault(b => b.Host is PTrigger && b.BindOption == BindOptions.Return);
 
-            if (triggerReturnBinder != null)
+            IBinder selectorReturnBinder = this.Items
+                .FirstOrDefault(b => b.Host is PSelector && b.BindOption == BindOptions.Return);
+
+            if (this.Host is PTargetable targetable && input.Equals(targetable.TargetBinder))
             {
-                var triggerReturn = triggerReturnBinder as PReturnBinder;
-                var trigger = triggerReturnBinder.Host as PTrigger;
-                
-                if (this.Host is PGetter getter && input.Equals(getter.TargetBinder))
+                if (triggerReturnBinder != null)
                 {
-                    getter.TargetType = triggerReturn.ReturnType;
+                    var triggerReturn = triggerReturnBinder as PReturnBinder;
+                    var trigger = triggerReturnBinder.Host as PTrigger;
+
+                    targetable.TargetType = triggerReturn.ReturnType;
                 }
 
-                if (this.Host is PSetter setter && input.Equals(setter.TargetBinder))
+                if (selectorReturnBinder != null)
                 {
-                    setter.TargetType = triggerReturn.ReturnType;
+                    var selectorReturn = selectorReturnBinder as PReturnBinder;
+                    var selector = selectorReturnBinder.Host as PSelector;
+
+                    targetable.TargetType = selectorReturn.ReturnType;
                 }
             }
         }

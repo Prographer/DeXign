@@ -96,7 +96,7 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type ec:ComponentBox}">
+    <Style TargetType="{x:Type el:ComponentBox}">
         <Setter Property="MaxHeight" Value="140"/>
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
@@ -108,11 +108,28 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ListViewItem}">
                                 <Border x:Name="border" Padding="2" Background="Transparent">
-                                    <Border BorderBrush="{StaticResource Brush.Logic.Event}" BorderThickness="3,0,0,0">
-                                        <TextBlock Text="{Binding Title}" Margin="6,0,0,0"/>
+                                    <Border x:Name="header" BorderBrush="{StaticResource Brush.Logic.Event}" BorderThickness="3,0,0,0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Image x:Name="icon" Visibility="Collapsed" Grid.Column="0" Source="{Binding Data, Converter={StaticResource Converter.ToolboxIcon}}" Width="20" Height="20"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding Title}" Margin="6,0,0,0" VerticalAlignment="Center"/>
+                                        </Grid>
                                     </Border>
                                 </Border>
                                 <ControlTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding ComponentType}" Value="Component">
+                                        <Setter TargetName="header" Property="BorderBrush" Value="{StaticResource Brush.Logic.Component}"/>
+                                    </DataTrigger>
+                                    
+                                    <DataTrigger Binding="{Binding ComponentType}" Value="Instance">
+                                        <Setter TargetName="icon" Property="Visibility" Value="Visible"/>
+                                        <Setter TargetName="header" Property="BorderThickness" Value="0"/>
+                                    </DataTrigger>
+                                    
                                     <Trigger Property="IsMouseOver" Value="true">
                                         <Setter TargetName="border" Property="Background" Value="#D7D7D7"/>
                                     </Trigger>
@@ -129,7 +146,7 @@
         </Setter>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ec:ComponentBox}">
+                <ControlTemplate TargetType="{x:Type el:ComponentBox}">
                     <Border Padding="6">
                         <Border.Effect>
                             <DropShadowEffect ShadowDepth="0" Opacity="0.28" BlurRadius="6"/>

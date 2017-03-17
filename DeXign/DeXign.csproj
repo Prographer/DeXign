@@ -131,7 +131,7 @@
     <Compile Include="Database\RecentDB.cs" />
     <Compile Include="Editor\Connector\LineConnector.cs" />
     <Compile Include="Editor\Connector\LineConnectorBase.cs" />
-    <Compile Include="Editor\Controls\ComponentBox\ComponentBoxItemView.cs" />
+    <Compile Include="Editor\Logic\Controls\ComponentBox\ComponentBoxItemView.cs" />
     <Compile Include="Controls\LabelEx.cs" />
     <Compile Include="Controls\LinkTextBlock.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\BaseSetter.cs" />
@@ -150,7 +150,8 @@
     <Compile Include="Controls\RectangleEx.cs" />
     <Compile Include="Controls\StarGridViewColumn.cs" />
     <Compile Include="Controls\RelativeThumb.cs" />
-    <Compile Include="Editor\Controls\ComponentBox\ComponentBox.cs" />
+    <Compile Include="Editor\Logic\Controls\ComponentBox\ComponentBox.cs" />
+    <Compile Include="Editor\Logic\Controls\ComponentBox\ComponentType.cs" />
     <Compile Include="Editor\Controls\Layer\AbsoluteLayer.cs" />
     <Compile Include="Editor\Controls\Layer\AttachedAdorner.cs" />
     <Compile Include="Editor\Controls\Layer\DropSelectionLayer.cs" />
@@ -178,11 +179,13 @@
     <Compile Include="Editor\Logic\Statement\Property\BaseProperty.cs" />
     <Compile Include="Editor\Logic\Statement\Property\Getter.cs" />
     <Compile Include="Editor\Logic\Statement\Property\PropertyItem.cs" />
+    <Compile Include="Editor\Logic\Statement\Property\ObjectSelector.cs" />
     <Compile Include="Editor\Logic\Statement\Property\Setter.cs" />
     <Compile Include="Editor\Logic\Statement\BaseStatement.cs" />
     <Compile Include="Editor\Logic\ComponentElement.cs" />
     <Compile Include="Editor\Logic\Trigger.cs" />
     <Compile Include="Editor\Renderer\ComponentRenderer.cs" />
+    <Compile Include="Editor\Renderer\Components\SelectorRenderer.cs" />
     <Compile Include="Editor\Renderer\Components\SetterRenderer.cs" />
     <Compile Include="Editor\Renderer\Components\GetterRenderer.cs" />
     <Compile Include="Editor\Renderer\Components\TriggerRenderer.cs" />

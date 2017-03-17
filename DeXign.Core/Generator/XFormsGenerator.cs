@@ -87,7 +87,7 @@ namespace DeXign.Core
 
                     // property
                     foreach (var child in com.Children
-                        .Where(c => c.ElementType == ComponentType.Property))
+                        .Where(c => c.ElementType == CodeComponentType.Property))
                     {
                         if (content == child)
                             continue;
@@ -198,7 +198,7 @@ namespace DeXign.Core
 
         private void SetXamlName(XmlElement element, CodeComponent<XFormsAttribute> component)
         {
-            if (component.ElementType == ComponentType.Instance)
+            if (component.ElementType == CodeComponentType.Instance)
             {
                 var pObj = (PObject)component.Element;
 

@@ -14,7 +14,7 @@ namespace DeXign.Core
         public object Element { get; }
 
         // Element Type
-        public ComponentType ElementType { get; }
+        public CodeComponentType ElementType { get; }
 
         // 노드 부모
         public CodeComponent<TAttribute> Parent { get; set; }
@@ -39,9 +39,9 @@ namespace DeXign.Core
                 throw new ArgumentException();
 
             if (this.Element is PropertyInfo)
-                this.ElementType = ComponentType.Property;
+                this.ElementType = CodeComponentType.Property;
             else
-                this.ElementType = ComponentType.Instance;
+                this.ElementType = CodeComponentType.Instance;
         }
 
         public void Add(CodeComponent<TAttribute> component)

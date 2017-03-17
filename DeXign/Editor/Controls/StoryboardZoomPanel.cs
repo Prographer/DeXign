@@ -65,5 +65,12 @@ namespace DeXign.Editor.Controls
             if (this.Storyboard != null)
                 Keyboard.Focus(this.Storyboard);
         }
+
+        protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseRightButtonDown(e);
+
+            this.Storyboard.OpenComponentBox(this.Storyboard);
+        }
     }
 }

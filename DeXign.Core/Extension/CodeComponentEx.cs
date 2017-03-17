@@ -24,7 +24,7 @@ namespace DeXign.Core
             if (component.Children != null && !string.IsNullOrEmpty(contentProperty))
             {
                 return component.Children
-                    .Where(c => c.ElementType == ComponentType.Property)
+                    .Where(c => c.ElementType == CodeComponentType.Property)
                     .Where(c => (c.Element as PropertyInfo).Name == contentProperty)
                     .FirstOrDefault();
             }

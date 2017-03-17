@@ -10,12 +10,10 @@ using System.Collections.ObjectModel;
 using DeXign.Core;
 using DeXign.Core.Logic;
 using DeXign.Controls;
-using DeXign.Editor.Layer;
-using DeXign.Editor.Renderer;
 using DeXign.Extension;
+using DeXign.Editor.Controls;
 
 using WPFExtension;
-using DeXign.Editor.Controls;
 
 namespace DeXign.Editor.Logic
 {
@@ -147,8 +145,8 @@ namespace DeXign.Editor.Logic
             if (this.IsFloating())
                 return;
 
-            this.AddSelectedHandler(OnSelected);
-            this.AddUnselectedHandler(OnUnselected);
+            this.AddSelectedHandler(Selected);
+            this.AddUnselectedHandler(Unselected);
         }
 
         private void InitializeBinders()
@@ -304,17 +302,27 @@ namespace DeXign.Editor.Logic
 
         }
         
-        private void OnUnselected(object sender, SelectionChangedEventArgs e)
+        private void Unselected(object sender, SelectionChangedEventArgs e)
         {
-            
+            OnUnSelected();
         }
 
-        private void OnSelected(object sender, SelectionChangedEventArgs e)
+        private void Selected(object sender, SelectionChangedEventArgs e)
         {
             if (this.ParentStoryboard != null)
                 Keyboard.Focus(this.ParentStoryboard);
+
+            OnSelected();
         }
         
+        protected virtual void OnSelected()
+        {
+        }
+
+        protected virtual void OnUnSelected()
+        {
+        }
+
         public virtual void OnApplyContentTemplate()
         {
         }
@@ -332,6 +340,27 @@ namespace DeXign.Editor.Logic
             return this.FindVisualChildrens<T>()
                 .Where(tb => tb.Name == name)
                 .FirstOrDefault();
+        }
+        #endregion
+
+        #region [ Focusing ]
+        protected override void OnPreviewMouseDoubleClick(MouseButtonEventArgs e)
+        {
+            base.OnPreviewMouseDoubleClick(e);
+
+            if (this.ParentStoryboard != null)
+            {
+                e.Handled = true;
+
+                Point position = this.TranslatePoint(new Point(), this.ParentStoryboard);
+                Point size = this.TranslatePoint((Point)this.RenderSize, this.ParentStoryboard);
+
+                Rect bound = new Rect(position, size);
+
+                bound.Inflate(this.RenderSize.Width * 2, this.RenderSize.Height * 2);
+
+                this.ParentStoryboard.ZoomPanel.ZoomFit(bound, true);
+            }
         }
         #endregion
 

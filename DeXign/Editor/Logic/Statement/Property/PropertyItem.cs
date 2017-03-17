@@ -1,13 +1,9 @@
-﻿using DeXign.Core;
+﻿using System.Windows;
+using System.Reflection;
+
+using DeXign.Core;
 using DeXign.Core.Designer;
 using DeXign.Extension;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace DeXign.Editor.Logic
 {

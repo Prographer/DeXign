@@ -29,11 +29,9 @@ namespace DeXign.Animation
             {
                 To = toValue,
                 Duration = TimeSpan.FromMilliseconds(duration),
-                EasingFunction = easing
+                EasingFunction = easing,
+                FillBehavior = FillBehavior.HoldEnd
             };
-
-            if (completedEvent != null)
-                animation.Completed += completedEvent;
 
             element.BeginAnimation(property, animation);
         }
@@ -45,6 +43,7 @@ namespace DeXign.Animation
         /// <param name="property"></param>
         public static void StopAnimation(this UIElement element, DependencyProperty property)
         {
+            element.SetValue(property, element.GetValue(property));
             element.BeginAnimation(property, null);
         }
     }

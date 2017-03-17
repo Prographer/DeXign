@@ -59,6 +59,14 @@ namespace DeXign.Editor.Layer
         public static readonly DependencyProperty DesignModeProperty =
             DependencyHelper.Register(
                 new FrameworkPropertyMetadata(DesignMode.None, FrameworkPropertyMetadataOptions.AffectsRender));
+
+        public static readonly DependencyProperty IsHighlightProperty =
+            DependencyHelper.Register(
+                new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender));
+
+        public static readonly DependencyProperty HighlightBrushProperty =
+            DependencyHelper.Register(
+                new FrameworkPropertyMetadata(Brushes.Red, FrameworkPropertyMetadataOptions.AffectsRender));
         #endregion
 
         #region [ Property ]
@@ -151,6 +159,18 @@ namespace DeXign.Editor.Layer
             set { SetValue(DesignModeProperty, value); }
         }
 
+        public bool IsHighlight
+        {
+            get { return (bool)GetValue(IsHighlightProperty); }
+            set { SetValue(IsHighlightProperty, value); }
+        }
+
+        public Brush HighlightBrush
+        {
+            get { return (Brush)GetValue(HighlightBrushProperty); }
+            set { SetValue(HighlightBrushProperty, value); }
+        }
+
         /// <summary>
         /// 부모 레이어 렌더러를 가져옵니다.
         /// </summary>
@@ -202,7 +222,8 @@ namespace DeXign.Editor.Layer
 
             SelectionBrush = ResourceManager.GetBrush("Flat.Accent.Dark");
             FrameBrush = ResourceManager.GetBrush("Flat.Accent.Light");
-            
+            HighlightBrush = ResourceManager.GetBrush("Flat.Accent.DeepDark");
+
             // 스냅라인 등록
             Storyboard.GuideLayer.Add(this);
 

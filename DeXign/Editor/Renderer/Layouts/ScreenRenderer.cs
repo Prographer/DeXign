@@ -27,6 +27,8 @@ namespace DeXign.Editor.Renderer
 
         protected override void OnDispatchRender(DrawingContext dc)
         {
+            base.OnDispatchRender(dc);
+
             if (DesignMode == DesignMode.Trigger)
                 return;
 

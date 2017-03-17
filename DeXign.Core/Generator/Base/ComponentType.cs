@@ -1,8 +1,8 @@
 namespace DeXign.Core
 {
-    public enum ComponentType
+    public enum CodeComponentType
     {
-        Instance, 
+        Instance,
         Property,
         Event
     }

@@ -7,16 +7,24 @@ using DeXign.Core.Designer;
 using DeXign.Models;
 
 using WPFExtension;
+using DeXign.Utilities;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using DeXign.Editor.Renderer;
+using DeXign.Editor.Controls;
+using DeXign.Core.Controls;
 
-namespace DeXign.Editor.Controls
+namespace DeXign.Editor.Logic
 {
     class ComponentBox : FilterListView
     {
         public event EventHandler<ComponentBoxItemModel> ItemSelected;
 
         public static readonly DependencyProperty TargetObjectProperty =
-            DependencyHelper.Register();
-
+            DependencyHelper.Register(
+                new PropertyMetadata(TargetObject_Changed));
+        
         public static readonly DependencyProperty PlaceDirectionProperty =
             DependencyHelper.Register(
                 new PropertyMetadata(Direction.Left));
@@ -24,9 +32,15 @@ namespace DeXign.Editor.Controls
         public static readonly DependencyProperty IsEmptyProperty =
             DependencyHelper.Register();
 
-        public PObject TargetObject
+        private static void TargetObject_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            get { return (PObject)GetValue(TargetObjectProperty); }
+            if (d is ComponentBox box)
+                box.InvlidateTargetObject();
+        }
+
+        public object TargetObject
+        {
+            get { return GetValue(TargetObjectProperty); }
             set { SetValue(TargetObjectProperty, value); }
         }
 
@@ -42,11 +56,8 @@ namespace DeXign.Editor.Controls
             set { SetValue(IsEmptyProperty, value); }
         }
         
-        private PObject presentedObject = null;
-
         public ComponentBox()
         {
-            TargetObjectProperty.AddValueChanged(this, TargetObject_Changed);
         }
 
         protected override void OnSelectionChanged(System.Windows.Controls.SelectionChangedEventArgs e)
@@ -61,24 +72,60 @@ namespace DeXign.Editor.Controls
             this.UnselectAll();
         }
 
-        private void TargetObject_Changed(object sender, EventArgs e)
+        private void InvlidateTargetObject()
         {
-            if (TargetObject != null && !TargetObject.Equals(presentedObject))
+            this.Clear();
+
+            if (TargetObject != null)
             {
-                presentedObject = TargetObject;
+                if (TargetObject is PObject)
+                    AddEventItems(TargetObject.GetType());
 
-                this.Clear();
-
-                foreach (var ev in DesignerManager.GetEvents(TargetObject.GetType()))
+                if (TargetObject is Storyboard)
                 {
-                    var item = new ComponentBoxItemView(
-                        new ComponentBoxItemModel(ev));
-                    
-                    this.AddItem(item);
+                    AddRendererItems(
+                        GlobalModels.Items
+                            .Select(obj => obj.GetRenderer())
+                            .Where(r =>
+                            {
+                                if (r == null)
+                                    return false;
+
+                                // 렌더러가 태스크에 의해 삭제된 상태 (파괴되기전)
+                                if (!r.Element.IsVisible)
+                                    return false;
+                                
+                                if (r.Model is PVisual == false)
+                                    return false;
+
+                                return true;
+                            }));
                 }
             }
 
             IsEmpty = this.ItemCount == 0;
+        }
+
+        private void AddRendererItems(IEnumerable<IRenderer> renderers)
+        {
+            foreach (IRenderer renderer in renderers)
+            {
+                var item = new ComponentBoxItemView(
+                    new ComponentBoxItemModel(renderer));
+
+                this.AddItem(item);
+            }
+        }
+
+        private void AddEventItems(Type pObjType)
+        {
+            foreach (var ev in DesignerManager.GetEvents(pObjType))
+            {
+                var item = new ComponentBoxItemView(
+                    new ComponentBoxItemModel(ev));
+
+                this.AddItem(item);
+            }
         }
 
         public override void Clear()

@@ -91,9 +91,12 @@ namespace DeXign.Editor.Controls
                 AllowsTransparency = true,
                 Child = componentBox,
                 PopupAnimation = PopupAnimation.None,
-                Placement = PlacementMode.Relative
+                Placement = PlacementMode.Custom,
+                StaysOpen = false,
+                CustomPopupPlacementCallback = new CustomPopupPlacementCallback(ComponentBoxPlaceCallback)
             };
-            
+
+            componentBoxPopup.Closed += ComponentBoxPopup_Closed;
             componentBox.ItemSelected += ComponentBox_ItemSelected;
 
             // Line Update Timer
@@ -674,6 +677,10 @@ namespace DeXign.Editor.Controls
                     break;
 
                 case ComponentType.Instance:
+                    pType = typeof(PSelector);
+                    break;
+
+                case ComponentType.Component:
                     pType = model.Data as Type;
                     break;
             }
@@ -695,6 +702,15 @@ namespace DeXign.Editor.Controls
                 triggerRenderer.Model.EventInfo = model.Data as EventInfo;
             }
 
+            // Selector Setting
+            if (model.ComponentType == ComponentType.Instance)
+            {
+                var selectorRenderer = control.GetRenderer() as SelectorRenderer;
+                
+                selectorRenderer.Model.Title = model.Title;
+                selectorRenderer.Model.TargetVisual = model.Data as PVisual;
+            }
+
             // Add Visual
             control.Margin = new Thickness(0);
             control.VerticalAlignment = VerticalAlignment.Top;
@@ -712,7 +728,12 @@ namespace DeXign.Editor.Controls
             CloseComponentBox();
         }
 
-        internal void OpenComponentBox(PObject componentTarget)
+        private void ComponentBoxPopup_Closed(object sender, EventArgs e)
+        {
+            CloseComponentBox();
+        }
+
+        internal void OpenComponentBox(object componentTarget)
         {
             // Set Target
             componentBox.TargetObject = componentTarget;
@@ -723,20 +744,27 @@ namespace DeXign.Editor.Controls
             // Popup Child Force Measure
             componentBox.Measure(
                 new Size(componentBox.MaxWidth, componentBox.MaxHeight));
-
-            // Popup Place Area
-            componentBoxPopup.PlacementRectangle =
-                new Rect(
-                    new Point(componentBoxPosition.X - 6, componentBoxPosition.Y - componentBox.DesiredSize.Height / 2),
-                    componentBox.DesiredSize);
-
+            
             // Popup Open
             componentBoxPopup.IsOpen = true;
         }
 
+        private CustomPopupPlacement[] ComponentBoxPlaceCallback(Size popupSize, Size targetSize, Point offset)
+        {
+            var position = new Point(componentBoxPosition.X - 6, componentBoxPosition.Y - componentBox.DesiredSize.Height / 2);
+
+            return new CustomPopupPlacement[]
+            {
+                new CustomPopupPlacement(position, PopupPrimaryAxis.Horizontal | PopupPrimaryAxis.Vertical)
+            };
+        }
+
         internal void CloseComponentBox()
         {
+            componentBox.TargetObject = null;
+
             PopPendingConnectedLine();
+
             componentBoxPopup.IsOpen = false;
         }
 
@@ -767,8 +795,8 @@ namespace DeXign.Editor.Controls
         {
             if (IsComponentBoxOpen)
             {
-                IRenderer sourceRenderer = componentBox.TargetObject.GetRenderer();
-                
+                //IRenderer sourceRenderer = componentBox.TargetObject.GetRenderer();
+
                 // Close Opened Box
                 CloseComponentBox();
 
@@ -779,13 +807,13 @@ namespace DeXign.Editor.Controls
                 if (visual == null)
                     return;
 
-                // * Logic Binding *
-                var sourceBinder = sourceRenderer.ProvideValue()[BindOptions.Output].First() as PBinder;
-                var targetBinder = targetRenderer.ProvideValue()[BindOptions.Input].First() as PBinder;
+                //// * Logic Binding *
+                //var sourceBinder = sourceRenderer.ProvideValue()[BindOptions.Output].First() as PBinder;
+                //var targetBinder = targetRenderer.ProvideValue()[BindOptions.Input].First() as PBinder;
 
-                ConnectComponent(
-                    sourceBinder.GetView<BindThumb>(),
-                    targetBinder.GetView<BindThumb>());
+                //ConnectComponent(
+                //    sourceBinder.GetView<BindThumb>(),
+                //    targetBinder.GetView<BindThumb>());
             }
         }
         #endregion

@@ -1,7 +1,7 @@
 ﻿using DeXign.Models;
 using System.Windows.Controls;
 
-namespace DeXign.Editor.Controls
+namespace DeXign.Editor.Logic
 {
     internal class ComponentBoxItemView : ListViewItem
     {
