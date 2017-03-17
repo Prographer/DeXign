@@ -3,8 +3,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
 
 using DeXign.Core;
 using DeXign.Core.Logic;
@@ -14,9 +15,7 @@ using DeXign.Editor.Renderer;
 using DeXign.Extension;
 
 using WPFExtension;
-using System.Collections.Generic;
-using DeXign.Converter;
-using System.Windows.Media;
+using DeXign.Editor.Controls;
 
 namespace DeXign.Editor.Logic
 {
@@ -98,6 +97,8 @@ namespace DeXign.Editor.Logic
         public PComponent Model => (PComponent)this.DataContext;
 
         #region [ Local Variable ]
+        internal Storyboard ParentStoryboard { get; private set; }
+
         private RelativeThumb moveThumb;
 
         private Point beginPosition;
@@ -109,6 +110,17 @@ namespace DeXign.Editor.Logic
             this.SetValue(OutputThumbsPropertyKey, new ObservableCollection<BindThumb>());
             this.SetValue(ParameterThumbsPropertyKey, new ObservableCollection<BindThumb>());
             this.SetValue(ReturnThumbsPropertyKey, new ObservableCollection<BindThumb>());
+
+            this.Loaded += ComponentElement_Loaded;
+        }
+
+        private void ComponentElement_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.Loaded -= ComponentElement_Loaded;
+
+            this.ParentStoryboard = this.FindVisualParents<Storyboard>().FirstOrDefault();
+            
+            InitializeMoveThumb();
         }
 
         public void SetComponentModel(PComponent model)
@@ -147,6 +159,17 @@ namespace DeXign.Editor.Logic
             }
 
             this.Model.Items.CollectionChanged += Items_CollectionChanged;
+        }
+
+        private void InitializeMoveThumb()
+        {
+            if (moveThumb != null)
+            {
+                moveThumb.RelativeTarget = this.ParentStoryboard;
+                
+                moveThumb.DragStarted += MoveThumb_DragStarted;
+                moveThumb.DragDelta += MoveThumb_DragDelta;
+            }
         }
 
         private void EnsureAddThumb(IBinder binder)
@@ -258,7 +281,7 @@ namespace DeXign.Editor.Logic
 
             thumb.Binded += Thumb_Binded;
         }
-
+        
         protected override void OnContentChanged(object oldContent, object newContent)
         {
             base.OnContentChanged(oldContent, newContent);
@@ -274,29 +297,6 @@ namespace DeXign.Editor.Logic
                 return;
 
             moveThumb = GetTemplateChild<RelativeThumb>("PART_moveThumb");
-
-            if (this.IsLoaded)
-                InitializeMoveThumb();
-            else
-                this.Loaded += ComponentElement_Loaded;
-        }
-
-        private void ComponentElement_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.Loaded -= ComponentElement_Loaded;
-
-            InitializeMoveThumb();
-        }
-
-        private void InitializeMoveThumb()
-        {
-            if (moveThumb != null)
-            {
-                moveThumb.RelativeTarget = (this.GetRenderer() as StoryboardLayer).Storyboard;
-
-                moveThumb.DragStarted += MoveThumb_DragStarted;
-                moveThumb.DragDelta += MoveThumb_DragDelta;
-            }
         }
 
         private void Thumb_Binded(object sender, ThumbBindedEventArgs e)
@@ -311,10 +311,10 @@ namespace DeXign.Editor.Logic
 
         private void OnSelected(object sender, SelectionChangedEventArgs e)
         {
-            
+            if (this.ParentStoryboard != null)
+                Keyboard.Focus(this.ParentStoryboard);
         }
-
-
+        
         public virtual void OnApplyContentTemplate()
         {
         }

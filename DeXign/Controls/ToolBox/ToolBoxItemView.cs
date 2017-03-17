@@ -109,7 +109,7 @@ namespace DeXign.Controls
 
             // 컴포넌트인경우 센터 정렬
             if (this.IsComponent)
-                position = SystemMouse.Position - new Vector(previewWindow.Width / 2, previewWindow.Height / 2);
+                position = SystemMouse.Position - new Vector(10, 10);// new Vector(previewWindow.Width / 2, previewWindow.Height / 2);
 
             previewWindow.SetPosition(position);
         }

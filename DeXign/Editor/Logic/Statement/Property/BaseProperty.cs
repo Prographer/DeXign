@@ -74,7 +74,7 @@ namespace DeXign.Editor.Logic
         {
             this.Loaded -= BaseProperty_Loaded;
 
-            var popup = propertyBox.FindVisualChildrens<Popup>(true).FirstOrDefault(); ;
+            var popup = propertyBox.FindVisualChildrens<Popup>(false).FirstOrDefault(); ;
             var layer = this.Model.GetRenderer() as StoryboardLayer;
 
             layer.Storyboard.SetUnscaledControl(popup);

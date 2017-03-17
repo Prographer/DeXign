@@ -86,7 +86,7 @@ namespace DeXign.Editor.Logic
         {
             base.OnVisualParentChanged(oldParent);
 
-            var componentElement = this.FindVisualParents<ComponentElement>(true).FirstOrDefault();
+            var componentElement = this.FindVisualParents<ComponentElement>(false).FirstOrDefault();
 
             if (componentElement != null)
                 this.Renderer = componentElement.GetRenderer();

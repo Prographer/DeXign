@@ -1,10 +1,11 @@
-﻿using DeXign.Controls;
+﻿using System;
 using System.Windows.Input;
 using System.Windows;
+
+using DeXign.Core;
 using DeXign.Core.Logic;
 using DeXign.Core.Designer;
-using DeXign.Core;
-using System;
+using DeXign.Controls;
 using DeXign.Extension;
 
 namespace DeXign.Editor.Controls
@@ -58,6 +59,9 @@ namespace DeXign.Editor.Controls
             base.OnMouseLeftButtonDown(e);
 
             GroupSelector.UnselectAll();
+
+            if (this.Storyboard != null)
+                Keyboard.Focus(this.Storyboard);
         }
     }
 }

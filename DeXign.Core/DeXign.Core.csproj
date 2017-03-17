@@ -131,6 +131,7 @@
     <Compile Include="Logic\Component\Statement\PGetter.cs" />
     <Compile Include="Logic\Component\PSelector.cs" />
     <Compile Include="Logic\Component\Statement\PSetter.cs" />
+    <Compile Include="Logic\Component\Statement\PTargetable.cs" />
     <Compile Include="Logic\Interfaces\IBinder.cs" />
     <Compile Include="Logic\Interfaces\IBinderHost.cs" />
     <Compile Include="Logic\Interfaces\IBinderHostProvider.cs" />

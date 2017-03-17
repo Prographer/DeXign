@@ -55,6 +55,8 @@ namespace DeXign.Core.Logic
 
                 binder.Binded -= Binder_Binded;
                 binder.Released -= Binder_Released;
+
+                this.Items.Remove(binder);
             }
         }
 
