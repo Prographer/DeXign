@@ -175,8 +175,10 @@
     <Compile Include="Editor\Logic\BinderTreeHelper.cs" />
     <Compile Include="Editor\Logic\Controls\BindRequest.cs" />
     <Compile Include="Editor\Logic\Controls\BindThumb.cs" />
-    <Compile Include="Editor\Logic\Getter.cs" />
-    <Compile Include="Editor\Logic\Setter.cs" />
+    <Compile Include="Editor\Logic\Statement\Property\BaseProperty.cs" />
+    <Compile Include="Editor\Logic\Statement\Property\Getter.cs" />
+    <Compile Include="Editor\Logic\Statement\Property\PropertyItem.cs" />
+    <Compile Include="Editor\Logic\Statement\Property\Setter.cs" />
     <Compile Include="Editor\Logic\Statement\BaseStatement.cs" />
     <Compile Include="Editor\Logic\ComponentElement.cs" />
     <Compile Include="Editor\Logic\Trigger.cs" />

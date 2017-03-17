@@ -181,7 +181,7 @@
     <Style TargetType="{x:Type el:Getter}" BasedOn="{StaticResource {x:Type el:ComponentElement}}">
         <Setter Property="ContentTemplate">
             <Setter.Value>
-                <DataTemplate DataType="{x:Type l:PTrigger}">
+                <DataTemplate DataType="{x:Type l:PGetter}">
                     <DataTemplate.Resources>
                         <DataTemplate x:Key="PropertyItemTempalte" DataType="{x:Type el:PropertyItem}">
                             <TextBlock Text="{Binding Title}"/>
@@ -189,6 +189,22 @@
                     </DataTemplate.Resources>
 
                     <ComboBox x:Name="PART_propertyBox" ItemsSource="{Binding PropertyList, RelativeSource={RelativeSource AncestorType={x:Type el:Getter}}}" ItemTemplate="{StaticResource PropertyItemTempalte}"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type el:Setter}" BasedOn="{StaticResource {x:Type el:ComponentElement}}">
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate DataType="{x:Type l:PSetter}">
+                    <DataTemplate.Resources>
+                        <DataTemplate x:Key="PropertyItemTempalte" DataType="{x:Type el:PropertyItem}">
+                            <TextBlock Text="{Binding Title}"/>
+                        </DataTemplate>
+                    </DataTemplate.Resources>
+
+                    <ComboBox x:Name="PART_propertyBox" ItemsSource="{Binding PropertyList, RelativeSource={RelativeSource AncestorType={x:Type el:Setter}}}" ItemTemplate="{StaticResource PropertyItemTempalte}"/>
                 </DataTemplate>
             </Setter.Value>
         </Setter>

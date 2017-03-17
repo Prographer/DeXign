@@ -14,6 +14,9 @@ using DeXign.Editor.Renderer;
 using DeXign.Extension;
 
 using WPFExtension;
+using System.Collections.Generic;
+using DeXign.Converter;
+using System.Windows.Media;
 
 namespace DeXign.Editor.Logic
 {
@@ -356,6 +359,53 @@ namespace DeXign.Editor.Logic
         public double SnapToGrid(double value)
         {
             return Math.Floor(value / GridSnap) * GridSnap;
+        }
+        #endregion
+
+        #region [ Binder Method ]
+        protected IEnumerable<BindThumb> GetBindThumbs(BindOptions option)
+        {
+            switch (option)
+            {
+                case BindOptions.Input:
+                    return InputThumbs;
+
+                case BindOptions.Output:
+                    return OutputThumbs;
+
+                case BindOptions.Parameter:
+                    return ParameterThumbs;
+
+                case BindOptions.Return:
+                    return ReturnThumbs;
+
+                case BindOptions.Output | BindOptions.Return:
+                    return OutputThumbs.Concat(ReturnThumbs);
+
+                case BindOptions.Input | BindOptions.Parameter:
+                    return InputThumbs.Concat(ParameterThumbs);
+            }
+
+            return Enumerable.Empty<BindThumb>();
+        }
+
+        protected T GetBinderModel<T>(BindOptions option, int index)
+            where T : IBinder
+        {
+            if (this.Model != null)
+            {
+                IBinder binder = this.Model[option].Skip(index).FirstOrDefault();
+
+                if (binder is T tBinder)
+                    return tBinder;
+            }
+
+            return default(T);
+        }
+
+        protected BindThumb GetBindThumb(BindOptions option, int index)
+        {
+            return GetBinderModel<PBinder>(option, index).GetView<BindThumb>();
         }
         #endregion
     }

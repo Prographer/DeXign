@@ -7,20 +7,18 @@ namespace DeXign.Core.Logic
 {
     public class PReturnBinder : PNamedBinder
     {
-        private static readonly DependencyPropertyKey ReturnTypePropertyKey =
-            DependencyHelper.RegisterReadOnly();
-
         public static readonly DependencyProperty ReturnTypeProperty =
-            ReturnTypePropertyKey.DependencyProperty;
+            DependencyHelper.Register();
 
         public Type ReturnType
         {
             get { return GetValue<Type>(ReturnTypeProperty); }
+            set { SetValue(ReturnTypeProperty, value); }
         }
 
         public PReturnBinder(IBinderHost host, Type returnType) : base(host, BindOptions.Return)
         {
-            SetValue(ReturnTypePropertyKey, returnType);
+            this.ReturnType = returnType;
         }
     }
 }

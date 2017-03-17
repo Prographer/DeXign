@@ -56,8 +56,12 @@ namespace DeXign.Editor.Controls
         
         private Stack<LineConnectorBase> pendingLines;
         private LineConnectorCollection lineCollection;
-        #endregion
 
+        // for unscaling
+        private ReciprocalConverter scaleConverter;
+        private ScaleTransform scaleTransform;
+        #endregion
+        
         #region [ Constructor ]
         public Storyboard()
         {
@@ -74,8 +78,6 @@ namespace DeXign.Editor.Controls
             this.Loaded += Storyboard_Loaded;
 
             Application.Current.MainWindow.Deactivated += Storyboard_Deactivated;
-
-            var z = ZoomPanel;
         }
 
         private void InitializeComponents()
@@ -161,6 +163,21 @@ namespace DeXign.Editor.Controls
             if (this.Parent is ZoomPanel zoomPanel)
             {
                 this.ZoomPanel = zoomPanel;
+
+                scaleConverter = new ReciprocalConverter();
+                scaleTransform = new ScaleTransform();
+
+                // ParentScale X -> scale X
+                BindingEx.SetBinding(
+                    ZoomPanel, ZoomPanel.ScaleProperty,
+                    scaleTransform, ScaleTransform.ScaleXProperty,
+                    converter: scaleConverter);
+
+                // ParentScale Y -> scale Y
+                BindingEx.SetBinding(
+                    ZoomPanel, ZoomPanel.ScaleProperty,
+                    scaleTransform, ScaleTransform.ScaleYProperty,
+                    converter: scaleConverter);
             }
         }
         
@@ -778,6 +795,11 @@ namespace DeXign.Editor.Controls
         {
         }
         #endregion
+
+        public void SetUnscaledControl(UIElement element)
+        {
+            element.RenderTransform = scaleTransform;
+        }
 
         public void Close()
         {
