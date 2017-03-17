@@ -15,11 +15,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type el:BindThumb}">
-                    <Grid x:Name="grid" HorizontalAlignment="Left">
+                    <Grid x:Name="grid" HorizontalAlignment="Left" Background="Transparent">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition x:Name="columnDef1" Width="Auto"/>
                             <ColumnDefinition x:Name="columnDef2" Width="Auto"/>
                         </Grid.ColumnDefinitions>
+
+                        <Ellipse x:Name="dropArea" Fill="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="-4"/>
 
                         <Rectangle x:Name="rect" Fill="White" Stroke="LightGray" StrokeThickness="1" Width="12" Height="12"/>
                         <Ellipse x:Name="ellipse" Fill="White" Stroke="LightGray" StrokeThickness="1" Width="12" Height="12" Visibility="Collapsed"/>
@@ -60,6 +62,7 @@
                         <Trigger Property="BindOption" Value="Output">
                             <Setter TargetName="grid" Property="HorizontalAlignment" Value="Right"/>
                             <Setter TargetName="rect" Property="Grid.Column" Value="1"/>
+                            <Setter TargetName="dropArea" Property="Grid.Column" Value="1"/>
                             <Setter TargetName="titleBlock" Property="Grid.Column" Value="0"/>
                             <Setter TargetName="titleBlock" Property="Margin" Value="8,0,0,0"/>
                         </Trigger>
@@ -70,6 +73,7 @@
                             <Setter TargetName="titleBlock" Property="Visibility" Value="Visible"/>
 
                             <Setter TargetName="ellipse" Property="Grid.Column" Value="1"/>
+                            <Setter TargetName="dropArea" Property="Grid.Column" Value="1"/>
                             <Setter TargetName="titleBlock" Property="Grid.Column" Value="0"/>
                             <Setter TargetName="titleBlock" Property="Margin" Value="0,0,8,0"/>
                         </Trigger>

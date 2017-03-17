@@ -66,7 +66,8 @@ namespace DeXign.Editor.Logic
         public IRenderer Renderer { get; protected internal set; }
 
         public PBinder Binder => (PBinder)this.DataContext;
-        
+
+        private BindThumb dragSnapTarget;
         private LineConnectorBase dragLine;
         private bool dragCanceled = false;
 
@@ -138,18 +139,33 @@ namespace DeXign.Editor.Logic
         #endregion
 
         #region [ Drag ]
+        protected void SetSnapTarget(BindThumb thumb)
+        {
+            dragSnapTarget = thumb;
+        }
+
         protected override void OnPreviewDragEnter(DragEventArgs e)
         {
             object data = e.Data.GetData(typeof(BindRequest));
-
+            
             if (data is BindRequest request)
+            {
                 dragCanceled = !CanBind(request);
+
+                if (!dragCanceled)
+                    request.Source.SetSnapTarget(this);
+            }
 
             this.HasBindError = dragCanceled;
         }
 
         protected override void OnDragLeave(DragEventArgs e)
         {
+            object data = e.Data.GetData(typeof(BindRequest));
+
+            if (data is BindRequest request)
+                request.Source.SetSnapTarget(null);
+
             dragCanceled = false;
             this.HasBindError = false;
         }
@@ -343,7 +359,7 @@ namespace DeXign.Editor.Logic
             if (this.Binder.GetDirection() == BindDirection.Input)
                 return MousePositionFromConnector(lineConnectorBase);
 
-            return GetEdgePosition(lineConnectorBase);
+            return GetEdgePosition(lineConnectorBase, this);
         }
 
         protected virtual Point GetDragLineEndPosition(LineConnectorBase lineConnectorBase)
@@ -351,22 +367,25 @@ namespace DeXign.Editor.Logic
             if (this.Binder.GetDirection() == BindDirection.Output)
                 return MousePositionFromConnector(lineConnectorBase);
 
-            return GetEdgePosition(lineConnectorBase);
+            return GetEdgePosition(lineConnectorBase, this);
         }
 
         private Point MousePositionFromConnector(LineConnectorBase lineConnectorBase)
         {
+            if (dragSnapTarget != null)
+                return GetEdgePosition(lineConnectorBase, dragSnapTarget);
+
             return lineConnectorBase.Parent.PointFromScreen(SystemMouse.Position);
         }
 
-        private Point GetEdgePosition(LineConnectorBase lineConnectorBase)
+        private Point GetEdgePosition(LineConnectorBase lineConnectorBase, BindThumb thumb)
         {
-            Point position = new Point(this.RenderSize.Width, this.RenderSize.Height / 2);
+            Point position = new Point(thumb.RenderSize.Width, thumb.RenderSize.Height / 2);
 
-            if (this.Binder.GetDirection() == BindDirection.Input)
+            if (thumb.Binder.GetDirection() == BindDirection.Input)
                 position.X = 0;
 
-            return this.TranslatePoint(
+            return thumb.TranslatePoint(
                 position,
                 lineConnectorBase.Parent);
         }

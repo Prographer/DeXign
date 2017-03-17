@@ -19,10 +19,10 @@ namespace DeXign.Core.Logic
         public DependencyProperty Property
         {
             get { return GetValue<DependencyProperty>(PropertyProperty); }
-            set { SetValue(Property, value); }
+            set { SetValue(PropertyProperty, value); }
         }
 
-        [ComponentParameter("대상", typeof(PObject), DisplayIndex = 1)]
+        [ComponentParameter("대상", typeof(PObject), DisplayIndex = 0)]
         public Type TargetType
         {
             get { return GetValue<Type>(TargetTypeProperty); }
