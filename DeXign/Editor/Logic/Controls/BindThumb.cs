@@ -148,9 +148,9 @@ namespace DeXign.Editor.Logic
 
         protected override void OnPreviewDragEnter(DragEventArgs e)
         {
-            object data = e.Data.GetData(typeof(BindRequest));
-            
-            if (data is BindRequest request)
+            var request = e.Data.GetData<BindRequest>();
+
+            if (request != null)
             {
                 dragCanceled = !CanBind(request);
 
@@ -161,28 +161,32 @@ namespace DeXign.Editor.Logic
             this.HasBindError = dragCanceled;
         }
 
-        protected override void OnDragLeave(DragEventArgs e)
+        protected override void OnPreviewDragLeave(DragEventArgs e)
         {
-            object data = e.Data.GetData(typeof(BindRequest));
+            var request = e.Data.GetData<BindRequest>();
 
-            if (data is BindRequest request)
+            if (request != null)
                 request.Source.SetSnapTarget(null);
 
             dragCanceled = false;
             this.HasBindError = false;
+
+            e.Handled = true;
         }
 
-        protected override void OnDragOver(DragEventArgs e)
+        protected override void OnPreviewDragOver(DragEventArgs e)
         {
             base.OnDragOver(e);
             e.Effects = DragDropEffects.All;
+
+            e.Handled = true;
         }
 
-        protected override void OnDrop(DragEventArgs e)
+        protected override void OnPreviewDrop(DragEventArgs e)
         {
-            object data = e.Data.GetData(typeof(BindRequest));
+            var request = e.Data.GetData<BindRequest>();
 
-            if (data is BindRequest request)
+            if (request != null)
             {
                 request.Handled = true;
 
@@ -193,17 +197,30 @@ namespace DeXign.Editor.Logic
                 }
 
                 OnBind(request);
+
+                e.Handled = true;
             }
+        }
+
+        protected override void OnPreviewGiveFeedback(GiveFeedbackEventArgs e)
+        {
+            if (dragLine == null)
+                return;
+
+            dragLine.Line.Opacity = (dragSnapTarget != null ? 1 : 0.5);
+            dragLine.Update();
+
+            e.Handled = true;
         }
         #endregion
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
-
+            
             var renderer = this.Renderer as StoryboardLayer;
             var storyboard = renderer.Storyboard;
-
+            
             OnDragStarting();
 
             // Push Pending Drag Line
@@ -213,7 +230,7 @@ namespace DeXign.Editor.Logic
 
             DragDrop.DoDragDrop(this, request, DragDropEffects.None);
             
-            if (!request.Handled)
+            if (request.Handled)
             {
                 OnDragEnd();
             }
@@ -342,20 +359,12 @@ namespace DeXign.Editor.Logic
         protected virtual void OnDragEnd()
         {
             // Release Pending Drag Line
-            PopPendingDragLine();
+            //PopPendingDragLine();
         }
 
         protected virtual void OnDragLineReleased()
         {
             PopPendingDragLine();
-        }
-
-        protected override void OnGiveFeedback(GiveFeedbackEventArgs e)
-        {
-            dragLine.Line.Opacity = (dragSnapTarget != null ? 1 : 0.5);
-
-            dragLine.Update();
-            e.Handled = true;
         }
 
         protected virtual Point GetDragLineStartPosition(LineConnectorBase lineConnectorBase)

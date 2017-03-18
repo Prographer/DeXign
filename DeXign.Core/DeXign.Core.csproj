@@ -57,7 +57,7 @@
     <Compile Include="Attributes\DesignElementAttribute.cs" />
     <Compile Include="Attributes\DesignElementIgnoreAttribute.cs" />
     <Compile Include="Attributes\XFormsAttribute.cs" />
-    <Compile Include="Logic\BinderTreeHelper.cs" />
+    <Compile Include="Logic\BinderHelper.cs" />
     <Compile Include="Collections\PDefinitionCollection.cs" />
     <Compile Include="Collections\PControlCollection.cs" />
     <Compile Include="Controls\Base\PContentControl.cs" />

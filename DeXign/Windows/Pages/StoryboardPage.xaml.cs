@@ -128,7 +128,7 @@ namespace DeXign.Windows.Pages
             sb.AppendLine();
             sb.AppendLine("Hosts:");
 
-            foreach (PBinderHost host in BinderTreeHelper.FindHostNodes(rb))
+            foreach (PBinderHost host in BinderHelper.FindHostNodes(rb))
             {
                 sb.AppendLine($"{host.GetType().Name}");
             }

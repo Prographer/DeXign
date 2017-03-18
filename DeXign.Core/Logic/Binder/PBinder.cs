@@ -87,7 +87,7 @@ namespace DeXign.Core.Logic
 
         private bool IsCirculating(IBinder targetBinder)
         {
-            return BinderTreeHelper.FindHostNodes(this.Host as PBinderHost, BindOptions.Output | BindOptions.Input)
+            return BinderHelper.FindHostNodes(this.Host as PBinderHost, BindOptions.Output | BindOptions.Input)
                 .Contains(targetBinder.Host);
         }
 

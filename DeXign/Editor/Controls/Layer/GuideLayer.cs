@@ -37,14 +37,14 @@ namespace DeXign.Editor.Layer
 
             var guidelines = new GuidelineSet();
 
-            guidelines.GuidelinesX.Add(1 / Scale / 2);
-            guidelines.GuidelinesX.Add(1 / Scale / 2);
-            guidelines.GuidelinesY.Add(1 / Scale / 2);
-            guidelines.GuidelinesY.Add(1 / Scale / 2);
+            guidelines.GuidelinesX.Add(this.Fit(1) / 2);
+            guidelines.GuidelinesX.Add(this.Fit(1) / 2);
+            guidelines.GuidelinesY.Add(this.Fit(1) / 2);
+            guidelines.GuidelinesY.Add(this.Fit(1) / 2);
 
             dc.PushGuidelineSet(guidelines);
             
-            var pen = new Pen(Brushes.Red, 1 / Scale);
+            var pen = new Pen(Brushes.Red, this.Fit(1));
 
             int n = 0;
             foreach (Guideline item in SnapItems)
@@ -132,7 +132,7 @@ namespace DeXign.Editor.Layer
                                 if (length == -1)
                                     return false;
 
-                                if (length <= SnapThreshold / Scale)
+                                if (length <= this.Fit(SnapThreshold))
                                 {
                                     gl.SnappedGuideline = tGl;
                                     return true;

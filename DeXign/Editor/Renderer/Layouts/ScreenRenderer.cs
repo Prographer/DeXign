@@ -39,29 +39,29 @@ namespace DeXign.Editor.Renderer
 
             // Width
             dc.DrawLine(pen,
-                new Point(0, -1 / Scale),
-                new Point(0, -12 / Scale));
+                new Point(0, this.Fit(-1)),
+                new Point(0, this.Fit(-12)));
 
             dc.DrawLine(pen,
-                new Point(RenderSize.Width - 1 / Scale, -1 / Scale),
-                new Point(RenderSize.Width - 1 / Scale, -12 / Scale));
+                new Point(RenderSize.Width - this.Fit(1), this.Fit(-1)),
+                new Point(RenderSize.Width - this.Fit(1), this.Fit(-12)));
 
             dc.DrawLine(dashedPen,
-                new Point(0, -7 / Scale),
-                new Point(RenderSize.Width - 1 / Scale, -7 / Scale));
+                new Point(0, this.Fit(-7)),
+                new Point(RenderSize.Width - this.Fit(1), this.Fit(-7)));
 
             // Height
             dc.DrawLine(pen,
-                new Point(-1 / Scale, 0),
-                new Point(-12 / Scale, 0));
+                new Point(this.Fit(-1), 0),
+                new Point(this.Fit(-12), 0));
 
             dc.DrawLine(pen,
-                new Point(-1 / Scale, RenderSize.Height - 1 / Scale),
-                new Point(-12 / Scale, RenderSize.Height - 1 / Scale));
+                new Point(this.Fit(-1), RenderSize.Height - this.Fit(1)),
+                new Point(this.Fit(-12), RenderSize.Height - this.Fit(1)));
 
             dc.DrawLine(dashedPen,
-                new Point(-7 / Scale, 0),
-                new Point(-7 / Scale, RenderSize.Height - 1 / Scale));
+                new Point(this.Fit(-7), 0),
+                new Point(this.Fit(-7), RenderSize.Height - this.Fit(1)));
         }
 
         public override bool CanDrop(AttributeTuple<DesignElementAttribute, Type> item, Point mouse)

@@ -96,5 +96,30 @@ namespace DeXign.Core.Logic
         {
             return this;
         }
+
+        public IEnumerable<IBinder> GetConnectableBinders(IBinder binder)
+        {
+            BindOptions pairOption = binder.GetPairOption();
+
+            foreach (IBinder item in this[pairOption])
+            {
+                if (!EnsureCanBind(item, binder))
+                    continue;
+
+                yield return item;
+            }
+        }
+
+        private bool EnsureCanBind(IBinder sourceBinder, IBinder targetBinder)
+        {
+            var pairBinder = sourceBinder.GetPairBinder(targetBinder);
+
+            return CanBind(pairBinder.Output, pairBinder.Input);
+        }
+
+        protected virtual bool CanBind(IBinder outputBinder, IBinder inputBinder)
+        {
+            return outputBinder.CanBind(inputBinder);
+        }
     }
 }

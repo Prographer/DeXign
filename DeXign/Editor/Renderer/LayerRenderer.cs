@@ -2,17 +2,17 @@ using System;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Input;
+using System.Collections.Generic;
 
 using DeXign.Core;
-using DeXign.Converter;
+using DeXign.Core.Logic;
 using DeXign.Core.Controls;
-using DeXign.Extension;
 using DeXign.Editor.Layer;
+using DeXign.Editor.Logic;
+using DeXign.Extension;
+using DeXign.Converter;
 
 using WPFExtension;
-using DeXign.Core.Logic;
-using System.Collections.Generic;
-using DeXign.Editor.Logic;
 
 namespace DeXign.Editor.Renderer
 {
@@ -71,8 +71,11 @@ namespace DeXign.Editor.Renderer
             this.Model = model;
             this.Element = adornedElement;
 
-            this.RendererChildren = new List<IRenderer>();
+            // 렌더러 설정
+            this.Model.Binder.SetRenderer(this);
 
+            this.RendererChildren = new List<IRenderer>();
+            
             // 이름 설정
             var attr = model.GetAttribute<DesignElementAttribute>();
             if (attr != null)
@@ -288,7 +291,7 @@ namespace DeXign.Editor.Renderer
                 var position = new Point(blank, -text.Height - blank);
                 var bound = new Rect(position, new Size(text.Width, text.Height));
 
-                Inflate(ref bound, blank, blank);
+                this.Fit(ref bound, blank, blank);
 
                 dc.PushOpacity(opacity);
                 dc.DrawRectangle(Brushes.White, null, bound);

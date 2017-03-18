@@ -78,36 +78,76 @@ namespace DeXign.Editor.Logic
 
             if (TargetObject != null)
             {
+                // 레이아웃에서 드래그한 경우
                 if (TargetObject is PObject)
                     AddEventItems(TargetObject.GetType());
 
+                // 스토리보드 우클릭한 경우
                 if (TargetObject is Storyboard)
                 {
-                    AddComponentItems(
-                        DesignerManager.GetElementTypes()
-                            .Where(attr => attr.Attribute.Visible && attr.Element.CanCastingTo<PComponent>()));
+                    AddComponentItems<PComponent>();
+                    AddRendererItems();
+                }
 
-                    AddRendererItems(
-                        GlobalModels.Items
-                            .Select(obj => obj.GetRenderer())
-                            .Where(r =>
+                // BindThumb에서 드래그한 경우
+                if (TargetObject is BindRequest)
+                {
+                    var request = TargetObject as BindRequest;
+
+                    switch (request.Source.BindOption)
+                    {
+                        case BindOptions.Output:
+                        case BindOptions.Input:
+                            AddComponentItems<PComponent>();
+                            break;
+
+                        case BindOptions.Parameter:
+                            AddComponentItems<PComponent>();
+                            AddRendererItems();
+                            break;
+
+                        case BindOptions.Return:
+                            if (request.Source.Binder.Host is PSelector)
                             {
-                                if (r == null)
-                                    return false;
-
-                                // 렌더러가 태스크에 의해 삭제된 상태 (파괴되기전)
-                                if (!r.Element.IsVisible)
-                                    return false;
-                                
-                                if (r.Model is PVisual == false)
-                                    return false;
-
-                                return true;
-                            }));
+                                AddComponentItems<PTargetable>();
+                            }
+                            break;
+                    }
                 }
             }
 
             IsEmpty = this.ItemCount == 0;
+
+            // ** Local Methods (C# 7.0) **
+
+            void AddComponentItems<T>()
+                where T : PComponent
+            {
+                this.AddComponentItems(
+                    DesignerManager.GetElementTypes()
+                        .Where(attr => attr.Attribute.Visible && attr.Element.CanCastingTo<T>()));
+            }
+
+            void AddRendererItems()
+            {
+                this.AddRendererItems(
+                    GlobalModels.Items
+                        .Select(obj => obj.GetRenderer())
+                        .Where(r =>
+                        {
+                            if (r == null)
+                                return false;
+
+                                // 렌더러가 태스크에 의해 삭제된 상태 (파괴되기전)
+                                if (!r.Element.IsVisible)
+                                return false;
+
+                            if (r.Model is PVisual == false)
+                                return false;
+
+                            return true;
+                        }));
+            }
         }
 
         private void AddComponentItems(IEnumerable<AttributeTuple<DesignElementAttribute, Type>> componentTypes)

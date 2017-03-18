@@ -13,6 +13,8 @@ namespace DeXign.Core.Logic
 
         BinderCollection Items { get; }
 
+        IEnumerable<IBinder> GetConnectableBinders(IBinder binder);
+
         void ReleaseAll();
     }
 }

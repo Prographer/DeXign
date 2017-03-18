@@ -33,8 +33,6 @@
     <Style TargetType="{x:Type ec:LayerMoveThumb}" BasedOn="{StaticResource {x:Type c:RelativeThumb}}"/>
 
     <Style TargetType="{x:Type ec:LayerResizeThumb}">
-        <Setter Property="Width" Value="5"/>
-        <Setter Property="Height" Value="5"/>
         <Setter Property="Background" Value="White"/>
         <Setter Property="Stroke" Value="Red"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
@@ -78,6 +76,7 @@
 
     <Style TargetType="{x:Type ec:LayerEventTriggerButton}">
         <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ec:LayerEventTriggerButton}">

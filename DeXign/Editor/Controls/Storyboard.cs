@@ -638,7 +638,7 @@ namespace DeXign.Editor.Controls
         {
             if (!HasPendingConnectedLine())
                 return;
-
+            
             var connector = pendingLines.Pop();
 
             connector.Updated -= Connector_Updated;
@@ -793,28 +793,54 @@ namespace DeXign.Editor.Controls
 
         private void ComponentBox_ItemSelected(object sender, ComponentBoxItemModel model)
         {
-            if (IsComponentBoxOpen)
+            if (!IsComponentBoxOpen)
+                return;
+
+            // Close Opened Box
+            CloseComponentBox();
+
+            // Create Component
+            FrameworkElement visual = AddNewComponent(model, this.PointFromScreen(componentBoxPosition));
+            IRenderer targetRenderer = visual.GetRenderer();
+
+            // * Logic Binding *
+            PBinder outputBinder = null;
+            PBinder inputBinder = null;
+
+            // Component -> Component
+            if (componentBox.TargetObject is BindRequest request)
             {
-                // Close Opened Box
-                CloseComponentBox();
+                var host = request.Source.Binder.Host as PBinderHost;
+                IRenderer renderer = host.GetRenderer();
+                IBinderHost targetHost = targetRenderer.ProvideValue();
 
-                // Create Component
-                FrameworkElement visual = AddNewComponent(model, this.PointFromScreen(componentBoxPosition));
-                IRenderer targetRenderer = visual.GetRenderer();
-                
-                if (model.ComponentType == ComponentType.Event)
-                {
-                    IRenderer sourceRenderer = (componentBox.TargetObject as PVisual).GetRenderer();
+                PBinder sourceBinder = request.Source.Binder;
+                PBinder targetBinder = targetHost.GetConnectableBinders(sourceBinder).FirstOrDefault() as PBinder;
 
-                    //// * Logic Binding *
-                    var sourceBinder = sourceRenderer.ProvideValue()[BindOptions.Output].First() as PBinder;
-                    var targetBinder = targetRenderer.ProvideValue()[BindOptions.Input].First() as PBinder;
-
-                    ConnectComponent(
-                        sourceBinder.GetView<BindThumb>(),
-                        targetBinder.GetView<BindThumb>());
-                }
+                BinderHelper.GetPairObject(
+                    ref outputBinder, ref inputBinder,
+                    (sourceBinder, sourceBinder.BindOption),
+                    (targetBinder, targetBinder.BindOption));
             }
+
+            // Layout -> Component
+            if (componentBox.TargetObject is PObject pObj)
+            {
+                IRenderer renderer = pObj.GetRenderer();
+
+                outputBinder = renderer.ProvideValue()[BindOptions.Output].FirstOrDefault() as PBinder;
+                inputBinder = targetRenderer.ProvideValue()[BindOptions.Input].FirstOrDefault() as PBinder;
+            }
+
+            if (outputBinder == null || inputBinder == null)
+            {
+                // 연결 실패
+                return;
+            }
+
+            ConnectComponent(
+                outputBinder.GetView<BindThumb>(),
+                inputBinder.GetView<BindThumb>());
         }
         #endregion
 

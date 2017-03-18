@@ -19,21 +19,21 @@ namespace DeXign.Editor.Layer
             // * Virtual Bound Arrange *
 
             var rect = new Rect(new Point(0, 0), RenderSize);
-            Inflate(ref rect, 1, 1);
+            this.Fit(ref rect, 1, 1);
              
             frame.Arrange(rect);
 
             // * Vritual Parent Bound Arrange *
 
             Rect parentRect = GetParentRenderBound();
-            double virtualWidth = ClipData.LeftClip.RenderSize.Height / Scale;
-            double virtualHeight = ClipData.LeftClip.RenderSize.Height / Scale;
+            double virtualWidth = this.Fit(ClipData.LeftClip.RenderSize.Height);
+            double virtualHeight = this.Fit(ClipData.LeftClip.RenderSize.Height);
 
             if (virtualWidth == 0)
-                virtualWidth = ClipData.TopClip.RenderSize.Width / Scale;
+                virtualWidth = this.Fit(ClipData.TopClip.RenderSize.Width);
 
             if (virtualHeight == 0)
-                virtualHeight = ClipData.TopClip.RenderSize.Height / Scale;
+                virtualHeight = this.Fit(ClipData.TopClip.RenderSize.Height);
             
             ClipData.LeftClip.Arrange(
                 new Rect(
@@ -71,10 +71,10 @@ namespace DeXign.Editor.Layer
         {
             var guidelines = new GuidelineSet();
             
-            guidelines.GuidelinesX.Add(1 / Scale / 2);
-            guidelines.GuidelinesX.Add(1 / Scale / 2);
-            guidelines.GuidelinesY.Add(1 / Scale / 2);
-            guidelines.GuidelinesY.Add(1 / Scale / 2);
+            guidelines.GuidelinesX.Add(this.Fit(1) / 2);
+            guidelines.GuidelinesX.Add(this.Fit(1) / 2);
+            guidelines.GuidelinesY.Add(this.Fit(1) / 2);
+            guidelines.GuidelinesY.Add(this.Fit(1) / 2);
 
             dc.PushGuidelineSet(guidelines);
         }
@@ -128,8 +128,8 @@ namespace DeXign.Editor.Layer
             dc.PushOpacity(0.75);
 
             var scaledThickness = new Vector(
-                FrameThickness / Scale,
-                FrameThickness / Scale);
+                this.Fit(FrameThickness),
+                this.Fit(FrameThickness));
 
             dc.DrawRectangle(
                 null, CreatePen(FrameBrush, FrameThickness),
@@ -150,7 +150,7 @@ namespace DeXign.Editor.Layer
 
                 var bound = new Rect(0, 0, this.RenderSize.Width, this.RenderSize.Height);
 
-                Inflate(ref bound, 2, 2);
+                this.Fit(ref bound, 2, 2);
                 
                 dc.DrawRectangle(null, dashedPen, bound);
             }
@@ -250,10 +250,10 @@ namespace DeXign.Editor.Layer
             var textBoundBottom = new Rect(textPositionBottom, new Size(formattedTextBottom.Width, formattedTextBottom.Height));
 
             // Value Box Bounds Inflating
-            Inflate(ref textBoundLeft, ValueBoxBlank, ValueBoxBlank);
-            Inflate(ref textBoundRight, ValueBoxBlank, ValueBoxBlank);
-            Inflate(ref textBoundTop, ValueBoxBlank, ValueBoxBlank);
-            Inflate(ref textBoundBottom, ValueBoxBlank, ValueBoxBlank);
+            this.Fit(ref textBoundLeft, ValueBoxBlank, ValueBoxBlank);
+            this.Fit(ref textBoundRight, ValueBoxBlank, ValueBoxBlank);
+            this.Fit(ref textBoundTop, ValueBoxBlank, ValueBoxBlank);
+            this.Fit(ref textBoundBottom, ValueBoxBlank, ValueBoxBlank);
 
             // Value Box Wrapping
             if (textBoundLeft.Width + Blank * 2 >= Math.Abs(parentMargin.Left))
@@ -263,7 +263,7 @@ namespace DeXign.Editor.Layer
                 else
                     textBoundLeft.X = parentMargin.Left + Blank * 2;
 
-                textPositionLeft.X = textBoundLeft.X + ValueBoxBlank / Scale;
+                textPositionLeft.X = textBoundLeft.X + this.Fit(ValueBoxBlank);
             }
 
             if (textBoundRight.Width + Blank * 2 >= Math.Abs(parentMargin.Right))
@@ -273,7 +273,7 @@ namespace DeXign.Editor.Layer
                 else
                     textBoundRight.X = parentRect.Right - textBoundRight.Width - Blank * 2;
 
-                textPositionRight.X = textBoundRight.X + ValueBoxBlank / Scale;
+                textPositionRight.X = textBoundRight.X + this.Fit(ValueBoxBlank);
             }
 
             if (textBoundTop.Width + Blank * 2 >= Math.Abs(parentMargin.Top))
@@ -283,7 +283,7 @@ namespace DeXign.Editor.Layer
                 else
                     textBoundTop.Y = parentRect.Top + Blank * 2 + textBoundTop.Width / 2 - textBoundTop.Height / 2; 
 
-                textPositionTop.Y = textBoundTop.Y + ValueBoxBlank / Scale;
+                textPositionTop.Y = textBoundTop.Y + this.Fit(ValueBoxBlank);
             }
 
             if (textBoundBottom.Width + Blank * 2 >= Math.Abs(parentMargin.Bottom))
@@ -293,7 +293,7 @@ namespace DeXign.Editor.Layer
                 else
                     textBoundBottom.Y = parentRect.Bottom - Blank * 2 - textBoundBottom.Width / 2 - textBoundBottom.Height / 2;
 
-                textPositionBottom.Y = textBoundBottom.Y + ValueBoxBlank / Scale;
+                textPositionBottom.Y = textBoundBottom.Y + this.Fit(ValueBoxBlank);
             }
 
             // Value Box Render
@@ -314,15 +314,15 @@ namespace DeXign.Editor.Layer
         {
             var pen = CreatePen(SelectionBrush, 1d);
 
-            double top = -23 / Scale;
-            double hTop = top + 5 / Scale;
-            double lineHeight = 15d / Scale;
-            double lineWidth = RenderSize.Width - 1d / Scale;
+            double top = this.Fit(-23);
+            double hTop = top + this.Fit(5);
+            double lineHeight = this.Fit(15d);
+            double lineWidth = RenderSize.Width - this.Fit(1d);
 
             if (isBottom)
             {
-                top = RenderSize.Height + 7d / Scale;
-                hTop = top + 10d / Scale;
+                top = RenderSize.Height + this.Fit(7d);
+                hTop = top + this.Fit(10d);
             }
 
             // Left Vertical Line
@@ -353,12 +353,12 @@ namespace DeXign.Editor.Layer
                 textPosition,
                 new Size(formattedText.Width, formattedText.Height));
 
-            Inflate(ref textBound, ValueBoxBlank, ValueBoxBlank);
+            this.Fit(ref textBound, ValueBoxBlank, ValueBoxBlank);
 
             // Value Box Wrapping
             if (textBound.Width >= lineWidth)
             {
-                textBound.Y += (isBottom ? 15d : -15d) / Scale;
+                textBound.Y += this.Fit(isBottom ? 15d : -15d);
                 textPosition.Y = textBound.Y + ValueBoxBlank;
             }
 
@@ -369,15 +369,15 @@ namespace DeXign.Editor.Layer
         {
             var pen = CreatePen(SelectionBrush, 1d);
 
-            double left = -23 / Scale;
-            double vLeft = left + 5 / Scale;
-            double lineWidth = 15d / Scale;
-            double lineHeight = RenderSize.Height - 1d / Scale;
+            double left = this.Fit(-23);
+            double vLeft = left + this.Fit(5);
+            double lineWidth = this.Fit(15d);
+            double lineHeight = RenderSize.Height - this.Fit(1d);
 
             if (isRight)
             {
-                left = RenderSize.Width + 7d / Scale;
-                vLeft = left + 10d / Scale;
+                left = RenderSize.Width + this.Fit(7d);
+                vLeft = left + this.Fit(10d);
             }
 
             // Top Horizontal Line
@@ -408,12 +408,12 @@ namespace DeXign.Editor.Layer
                 textPosition,
                 new Size(formattedText.Width, formattedText.Height));
 
-            Inflate(ref textBound, ValueBoxBlank, ValueBoxBlank);
+            this.Fit(ref textBound, ValueBoxBlank, ValueBoxBlank);
 
             // Value Box Wrapping
             if (textBound.Width >= lineHeight)
             {
-                textBound.X += (isRight ? 15d : -15d) / Scale;
+                textBound.X += this.Fit(isRight ? 15d : -15d);
                 textPosition.X = textBound.X + ValueBoxBlank;
             }
 
@@ -447,13 +447,13 @@ namespace DeXign.Editor.Layer
                 text, CultureInfo.InvariantCulture,
                 FlowDirection.LeftToRight,
                 new Typeface(fontName),
-                size / Scale,
+                this.Fit(size),
                 brush);
         }
 
         protected Pen CreatePen(Brush brush, double width)
         {
-            return new Pen(brush, width / Scale);
+            return new Pen(brush, this.Fit(width));
         }
 
         internal Rect GetParentRenderBound()
@@ -488,11 +488,6 @@ namespace DeXign.Editor.Layer
                 rect.Y,
                 rect.Right - RenderSize.Width,
                 rect.Bottom - RenderSize.Height);
-        }
-
-        protected void Inflate(ref Rect rect, double x, double y)
-        {
-            rect.Inflate(x / Scale, y / Scale);
         }
         #endregion
     }

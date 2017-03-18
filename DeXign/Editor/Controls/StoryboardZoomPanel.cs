@@ -8,6 +8,7 @@ using DeXign.Core.Designer;
 using DeXign.Controls;
 using DeXign.Extension;
 using System.Windows.Media;
+using DeXign.Editor.Logic;
 
 namespace DeXign.Editor.Controls
 {
@@ -35,7 +36,8 @@ namespace DeXign.Editor.Controls
         {
             base.OnDragOver(e);
 
-            if (e.Data.GetDataPresent(typeof(AttributeTuple<DesignElementAttribute, Type>)))
+            if (e.Data.HasData<AttributeTuple<DesignElementAttribute, Type>>() ||
+                e.Data.HasData<BindRequest>())
                 e.Effects = DragDropEffects.All;
         }
 
@@ -43,16 +45,25 @@ namespace DeXign.Editor.Controls
         {
             base.OnDrop(e);
 
-            object data = e.Data.GetData(typeof(AttributeTuple<DesignElementAttribute, Type>));
+            var attr = e.Data.GetData<AttributeTuple<DesignElementAttribute, Type>>();
+            var request = e.Data.GetData<BindRequest>();
 
-            if (data is AttributeTuple<DesignElementAttribute, Type> tuple)
+            // 컴포넌트 생성 (From 툴박스)
+            if (attr != null)
             {
-                if (!tuple.Element.CanCastingTo<PComponent>())
+                if (!attr.Element.CanCastingTo<PComponent>())
                     return;
 
                 this.Storyboard.AddNewComponent(
-                    new Models.ComponentBoxItemModel(tuple),
+                    new Models.ComponentBoxItemModel(attr),
                     e.GetPosition(this.Storyboard));
+            }
+
+            // 컴포넌트 바인더에서 드래그
+            if (request != null)
+            {
+                request.Handled = true;
+                this.Storyboard.OpenComponentBox(request);
             }
         }
 

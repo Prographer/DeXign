@@ -60,5 +60,22 @@ namespace DeXign.Editor.Layer
         {
             InvalidatedLayout?.Invoke(this, null);
         }
+
+        #region [ Scale Fit Methods ]
+        protected void Fit(ref Rect rect, double x, double y)
+        {
+            rect.Inflate(x / Scale, y / Scale);
+        }
+
+        protected void Fit(ref double value)
+        {
+            value = Fit(value);
+        }
+
+        protected double Fit(double value)
+        {
+            return value / Scale;
+        }
+        #endregion
     }
 }

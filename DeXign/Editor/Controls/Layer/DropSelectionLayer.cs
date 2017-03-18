@@ -37,12 +37,13 @@ namespace DeXign.Editor.Layer
 
         protected override void OnPreviewDragEnter(DragEventArgs e)
         {
-            object data = e.Data.GetData(typeof(AttributeTuple<DesignElementAttribute, Type>));
-            dragCanceled = !this.CanDrop((AttributeTuple<DesignElementAttribute, Type>)data, e.GetPosition(Storyboard));
+            var attr = e.Data.GetData<AttributeTuple<DesignElementAttribute, Type>>();
+
+            dragCanceled = !this.CanDrop(attr, e.GetPosition(Storyboard));
             
-            if (data is AttributeTuple<DesignElementAttribute, Type> tuple)
+            if (attr != null)
             {
-                if (tuple.Element.CanCastingTo<PComponent>())
+                if (attr.Element.CanCastingTo<PComponent>())
                 {
                     dragCanceled = true;
                     return;
@@ -73,9 +74,9 @@ namespace DeXign.Editor.Layer
 
             if (!dragCanceled)
             {
-                object data = e.Data.GetData(typeof(AttributeTuple<DesignElementAttribute, Type>));
+                var attr = e.Data.GetData<AttributeTuple<DesignElementAttribute, Type>>();
                 
-                OnDrop((AttributeTuple<DesignElementAttribute, Type>)data, e.GetPosition(Storyboard));
+                OnDrop(attr, e.GetPosition(Storyboard));
             }
         }
 
