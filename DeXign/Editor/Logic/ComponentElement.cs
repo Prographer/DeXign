@@ -14,6 +14,7 @@ using DeXign.Extension;
 using DeXign.Editor.Controls;
 
 using WPFExtension;
+using DeXign.Editor.Renderer;
 
 namespace DeXign.Editor.Logic
 {
@@ -351,15 +352,8 @@ namespace DeXign.Editor.Logic
             if (this.ParentStoryboard != null)
             {
                 e.Handled = true;
-
-                Point position = this.TranslatePoint(new Point(), this.ParentStoryboard);
-                Point size = this.TranslatePoint((Point)this.RenderSize, this.ParentStoryboard);
-
-                Rect bound = new Rect(position, size);
-
-                bound.Inflate(this.RenderSize.Width * 2, this.RenderSize.Height * 2);
-
-                this.ParentStoryboard.ZoomPanel.ZoomFit(bound, true);
+                
+                this.ParentStoryboard.ZoomFocusTo(this.GetRenderer());
             }
         }
         #endregion

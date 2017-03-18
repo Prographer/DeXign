@@ -25,7 +25,7 @@ namespace DeXign.Editor.Controls
                 // Load Renderer
                 LoadScreenRenderer(screen);
 
-                DispatcherEx.WaitForContextIdle();
+                DispatcherEx.WaitFor(System.Windows.Threading.DispatcherPriority.Loaded);
 
                 // 모든 트리 탐색
                 foreach (var node in screen.FindContentChildrens<PObject, PObject>())

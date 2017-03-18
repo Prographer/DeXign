@@ -14,7 +14,17 @@ namespace DeXign.Utilities
 
         public static void WaitForContextIdle()
         {
-            dispatcher.Invoke(FakeMethod, DispatcherPriority.ContextIdle);
+            WaitFor(DispatcherPriority.ContextIdle);
+        }
+
+        public static void WaitForRender()
+        {
+            WaitFor(DispatcherPriority.Render);
+        }
+
+        public static void WaitFor(DispatcherPriority priority)
+        {
+            dispatcher.Invoke(FakeMethod, priority);
         }
 
         private static void FakeMethod()

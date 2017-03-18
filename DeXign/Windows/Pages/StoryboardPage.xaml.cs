@@ -120,7 +120,7 @@ namespace DeXign.Windows.Pages
 
             if (r == null)
                 return;
-
+            
             var rb = RendererManager.ResolveBinder(r);
             var sb = new System.Text.StringBuilder();
 

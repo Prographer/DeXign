@@ -361,7 +361,7 @@ namespace DeXign.Editor.Controls
                 $"Screen{Screens?.Count}");
 
             Keyboard.Focus(this);
-
+            
             return control;
         }
         
@@ -719,10 +719,12 @@ namespace DeXign.Editor.Controls
             Canvas.SetLeft(control, control.SnapToGrid(position.X));
             Canvas.SetTop(control, control.SnapToGrid(position.Y));
             Canvas.SetZIndex(control, 0);
+            
+            ZoomFocusTo(control.GetRenderer());
 
             return control;
         }
-
+        
         private void Storyboard_Deactivated(object sender, EventArgs e)
         {
             CloseComponentBox();
@@ -819,6 +821,27 @@ namespace DeXign.Editor.Controls
         #region [ I/O ]
         public void Save()
         {
+        }
+        #endregion
+
+        #region [ Zoom ]
+        public void ZoomFocusTo(IRenderer renderer, bool maintainScale = true)
+        {
+            if (!renderer.Element.IsLoaded)
+                DispatcherEx.WaitForRender();
+
+            Point pt1 = renderer.Element.TranslatePoint(new Point(), this);
+            Point pt2 = renderer.Element.TranslatePoint((Point)renderer.Element.RenderSize, this);
+
+            Rect bound = new Rect(pt1, pt2);
+
+            Vector blank = (Vector)this.ZoomPanel.RenderSize - (Vector)bound.Size;
+            blank.X /= 2 * (maintainScale ? this.ZoomPanel.Scale : 1);
+            blank.Y /= 2 * (maintainScale ? this.ZoomPanel.Scale : 1);
+
+            bound.Inflate(blank.X, blank.Y);
+
+            this.ZoomPanel.ZoomFit(bound, true);
         }
         #endregion
 
