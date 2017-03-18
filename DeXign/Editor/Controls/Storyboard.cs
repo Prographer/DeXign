@@ -761,8 +761,6 @@ namespace DeXign.Editor.Controls
 
         internal void CloseComponentBox()
         {
-            componentBox.TargetObject = null;
-
             PopPendingConnectedLine();
 
             componentBoxPopup.IsOpen = false;
@@ -795,25 +793,25 @@ namespace DeXign.Editor.Controls
         {
             if (IsComponentBoxOpen)
             {
-                //IRenderer sourceRenderer = componentBox.TargetObject.GetRenderer();
-
                 // Close Opened Box
                 CloseComponentBox();
 
                 // Create Component
                 FrameworkElement visual = AddNewComponent(model, this.PointFromScreen(componentBoxPosition));
                 IRenderer targetRenderer = visual.GetRenderer();
+                
+                if (model.ComponentType == ComponentType.Event)
+                {
+                    IRenderer sourceRenderer = (componentBox.TargetObject as PVisual).GetRenderer();
 
-                if (visual == null)
-                    return;
+                    //// * Logic Binding *
+                    var sourceBinder = sourceRenderer.ProvideValue()[BindOptions.Output].First() as PBinder;
+                    var targetBinder = targetRenderer.ProvideValue()[BindOptions.Input].First() as PBinder;
 
-                //// * Logic Binding *
-                //var sourceBinder = sourceRenderer.ProvideValue()[BindOptions.Output].First() as PBinder;
-                //var targetBinder = targetRenderer.ProvideValue()[BindOptions.Input].First() as PBinder;
-
-                //ConnectComponent(
-                //    sourceBinder.GetView<BindThumb>(),
-                //    targetBinder.GetView<BindThumb>());
+                    ConnectComponent(
+                        sourceBinder.GetView<BindThumb>(),
+                        targetBinder.GetView<BindThumb>());
+                }
             }
         }
         #endregion

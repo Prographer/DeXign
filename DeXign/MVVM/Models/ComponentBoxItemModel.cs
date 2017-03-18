@@ -44,14 +44,14 @@ namespace DeXign.Models
             : this(data.Attribute)
         {
             this.ComponentType = ComponentType.Event;
-            Data = data.Element;
+            this.Data = data.Element;
         }
 
         internal ComponentBoxItemModel(AttributeTuple<DesignElementAttribute, Type> data)
             : this(data.Attribute)
         {
-            ComponentType = ComponentType.Component;
-            Data = data.Element;
+            this.ComponentType = ComponentType.Component;
+            this.Data = data.Element;
         }
     }
 }

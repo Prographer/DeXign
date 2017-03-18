@@ -20,7 +20,7 @@ namespace DeXign.Core.Logic
             set { SetValue(PropertyProperty, value); }
         }
 
-        [ComponentParameter("대상", typeof(PObject), DisplayIndex = 0)]
+        [ComponentParameter("대상", typeof(PObject), DisplayIndex = 0, IsSingle = true)]
         public Type TargetType
         {
             get { return GetValue<Type>(TargetTypeProperty); }

@@ -1,19 +1,17 @@
-using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows.Threading;
 
-using DeXign.Core;
-using DeXign.Editor.Renderer;
-using DeXign.Extension;
-using DeXign.Models;
 using DeXign.Theme;
-using DeXign.Editor;
-using System.Linq;
+using DeXign.Models;
+using DeXign.Extension;
 using DeXign.Core.Logic;
+using DeXign.Editor;
 using DeXign.Editor.Layer;
 using DeXign.Editor.Logic;
+using DeXign.Editor.Renderer;
 
 namespace DeXign.Windows.Pages
 {
@@ -111,40 +109,31 @@ namespace DeXign.Windows.Pages
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            //IRenderer r = null;
-            //object item = GroupSelector.GetSelectedItems().FirstOrDefault();
+            IRenderer r = null;
+            object item = GroupSelector.GetSelectedItems().FirstOrDefault();
 
-            //if (item is StoryboardLayer l)
-            //    r = (IRenderer)l;
+            if (item is StoryboardLayer l)
+                r = (IRenderer)l;
 
-            //if (item is ComponentElement ce)
-            //    r = ce.GetRenderer();
+            if (item is ComponentElement ce)
+                r = ce.GetRenderer();
 
-            //if (r == null)
-            //    return;
+            if (r == null)
+                return;
 
-            //var rb = RendererManager.ResolveBinder(r);
+            var rb = RendererManager.ResolveBinder(r);
+            var sb = new System.Text.StringBuilder();
 
-            //System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.AppendLine($"Source: {r.GetType().Name}");
+            sb.AppendLine();
+            sb.AppendLine("Hosts:");
 
-            //sb.AppendLine($"Source: {r.GetType().Name}");
-            //sb.AppendLine();
-            //sb.AppendLine("Inputs:");
+            foreach (PBinderHost host in BinderTreeHelper.FindHostNodes(rb))
+            {
+                sb.AppendLine($"{host.GetType().Name}");
+            }
 
-            //foreach (PBinder input in rb.Inputs)
-            //{
-            //    sb.AppendLine($"  {input.GetRenderer().GetType().Name}");
-            //}
-
-            //sb.AppendLine();
-            //sb.AppendLine("Outputs:");
-
-            //foreach (PBinder2 output in rb.Outputs)
-            //{
-            //    sb.AppendLine($"  {output.GetRenderer().GetType().Name}");
-            //}
-
-            //MessageBox.Show(sb.ToString());
+            MessageBox.Show(sb.ToString());
         }
     }
 }

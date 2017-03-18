@@ -57,6 +57,7 @@
     <Compile Include="Attributes\DesignElementAttribute.cs" />
     <Compile Include="Attributes\DesignElementIgnoreAttribute.cs" />
     <Compile Include="Attributes\XFormsAttribute.cs" />
+    <Compile Include="Logic\BinderTreeHelper.cs" />
     <Compile Include="Collections\PDefinitionCollection.cs" />
     <Compile Include="Collections\PControlCollection.cs" />
     <Compile Include="Controls\Base\PContentControl.cs" />
@@ -97,7 +98,6 @@
     <Compile Include="Controls\Picker\PTimerPicker.cs" />
     <Compile Include="Controls\Cell\PViewCell.cs" />
     <Compile Include="Controls\PWebView.cs" />
-    <Compile Include="DataTreeHelper.cs" />
     <Compile Include="DesignDescriptionDescriptor.cs" />
     <Compile Include="Designer\AttributeTuple.cs" />
     <Compile Include="Designer\DesignerManager.cs" />

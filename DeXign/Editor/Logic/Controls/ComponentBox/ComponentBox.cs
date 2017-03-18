@@ -14,6 +14,8 @@ using System.Linq;
 using DeXign.Editor.Renderer;
 using DeXign.Editor.Controls;
 using DeXign.Core.Controls;
+using DeXign.Core.Logic;
+using DeXign.Extension;
 
 namespace DeXign.Editor.Logic
 {
@@ -22,8 +24,7 @@ namespace DeXign.Editor.Logic
         public event EventHandler<ComponentBoxItemModel> ItemSelected;
 
         public static readonly DependencyProperty TargetObjectProperty =
-            DependencyHelper.Register(
-                new PropertyMetadata(TargetObject_Changed));
+            DependencyHelper.Register();
         
         public static readonly DependencyProperty PlaceDirectionProperty =
             DependencyHelper.Register(
@@ -32,16 +33,15 @@ namespace DeXign.Editor.Logic
         public static readonly DependencyProperty IsEmptyProperty =
             DependencyHelper.Register();
 
-        private static void TargetObject_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is ComponentBox box)
-                box.InvlidateTargetObject();
-        }
-
         public object TargetObject
         {
             get { return GetValue(TargetObjectProperty); }
-            set { SetValue(TargetObjectProperty, value); }
+            set
+            {
+                SetValue(TargetObjectProperty, value);
+
+                InvlidateTargetObject();
+            }
         }
 
         public Direction PlaceDirection
@@ -83,6 +83,10 @@ namespace DeXign.Editor.Logic
 
                 if (TargetObject is Storyboard)
                 {
+                    AddComponentItems(
+                        DesignerManager.GetElementTypes()
+                            .Where(attr => attr.Attribute.Visible && attr.Element.CanCastingTo<PComponent>()));
+
                     AddRendererItems(
                         GlobalModels.Items
                             .Select(obj => obj.GetRenderer())
@@ -104,6 +108,17 @@ namespace DeXign.Editor.Logic
             }
 
             IsEmpty = this.ItemCount == 0;
+        }
+
+        private void AddComponentItems(IEnumerable<AttributeTuple<DesignElementAttribute, Type>> componentTypes)
+        {
+            foreach (var attr in componentTypes)
+            {
+                var item = new ComponentBoxItemView(
+                    new ComponentBoxItemModel(attr));
+
+                this.AddItem(item);
+            }
         }
 
         private void AddRendererItems(IEnumerable<IRenderer> renderers)

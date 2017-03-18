@@ -30,7 +30,9 @@ namespace DeXign.Core.Logic
                 .Select(_pi => _pi.GetAttribute<ComponentParameterAttribute>())
                 .OrderBy(_attr => _attr.DisplayIndex))
             {
-                AddParamterBinder(attr.DisplayName, attr.AssignableType);
+                var binder = AddParamterBinder(attr.DisplayName, attr.AssignableType);
+
+                binder.IsSingle = attr.IsSingle;
             }
         }
 

@@ -9,6 +9,8 @@ namespace DeXign.Core
 
         public int DisplayIndex { get; set; }
 
+        public bool IsSingle { get; set; }
+
         public ComponentParameterAttribute(string displayName, Type assignableType)
         {
             this.DisplayName = displayName;

@@ -16,6 +16,8 @@ namespace DeXign.Core.Logic
 
         public BinderCollection Items { get; }
 
+        public bool IsSingle { get; set; }
+
         public PBinder(IBinderHost host, BindOptions bindOption)
         {
             // Unique ID
@@ -60,14 +62,33 @@ namespace DeXign.Core.Logic
 
         public virtual bool CanBind(IBinder targetBinder)
         {
-            int option = (int)(this.BindOption | targetBinder.BindOption);
+            BindOptions option = (this.BindOption | targetBinder.BindOption);
+            
+            if (IsValidCombinedOption(option))
+                return false;
+
+            if (IsCirculating(targetBinder))
+                return false;
+
+            return IsSingle ? 
+                Items.Count == 0 : 
+                !this.Items.Contains(targetBinder);
+        }
+
+        private bool IsValidCombinedOption(BindOptions option)
+        {
+            int value = (int)option;
 
             // 5: Input | Output
             // 10: Parameter | Return
-            if (option != 5 && option != 10)
-                return false;
 
-            return !this.Items.Contains(targetBinder);
+            return value != 5 && value != 10;
+        }
+
+        private bool IsCirculating(IBinder targetBinder)
+        {
+            return BinderTreeHelper.FindHostNodes(this.Host as PBinderHost, BindOptions.Output | BindOptions.Input)
+                .Contains(targetBinder.Host);
         }
 
         public virtual void Release(IBinder targetBinder)

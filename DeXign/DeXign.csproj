@@ -173,7 +173,6 @@
     <Compile Include="Editor\Interfaces\IStackLayout.cs" />
     <Compile Include="Editor\Interfaces\IStoryboard.cs" />
     <Compile Include="Editor\Direction.cs" />
-    <Compile Include="Editor\Logic\BinderTreeHelper.cs" />
     <Compile Include="Editor\Logic\Controls\BindRequest.cs" />
     <Compile Include="Editor\Logic\Controls\BindThumb.cs" />
     <Compile Include="Editor\Logic\Statement\Property\BaseProperty.cs" />

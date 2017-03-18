@@ -82,7 +82,7 @@
     
     <Color x:Key="Color.Logic.Event">#FF9900</Color>
     <Color x:Key="Color.Logic.Statement">#975EE7</Color>
-    <Color x:Key="Color.Logic.Comopnent">#5E8BE7</Color>
+    <Color x:Key="Color.Logic.Component">#5E8BE7</Color>
 
     <Color x:Key="Color.iOS.Accent">#FF157DF9</Color>
     <Color x:Key="Color.iOS.Gray">#FFB7B7B7</Color>
@@ -180,7 +180,7 @@
     
     <SolidColorBrush x:Key="Brush.Logic.Event" Color="{StaticResource Color.Logic.Event}"/>
     <SolidColorBrush x:Key="Brush.Logic.Statement" Color="{StaticResource Color.Logic.Statement}"/>
-    <SolidColorBrush x:Key="Brush.Logic.Comopnent" Color="{StaticResource Color.Logic.Comopnent}"/>
+    <SolidColorBrush x:Key="Brush.Logic.Component" Color="{StaticResource Color.Logic.Component}"/>
 
     <SolidColorBrush x:Key="Brush.iOS.Accent" Color="{StaticResource Color.iOS.Accent}"/>
     <SolidColorBrush x:Key="Brush.iOS.Gray" Color="{StaticResource Color.iOS.Gray}"/>
