@@ -108,10 +108,19 @@ namespace DeXign.Windows
             this.CommandBindings.Add(
                 new CommandBinding(
                     DXCommands.RedoCommand, Redo_Execute));
+
+            this.CommandBindings.Add(
+                new CommandBinding(
+                    DXCommands.SearchCommand, Search_Execute));
         }
         #endregion
 
         #region [ Commands ]
+        private void Search_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            toolBoxSearchBar.Focus();
+        }
+
         private void Redo_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             TaskNavigator.TaskManager.Redo();

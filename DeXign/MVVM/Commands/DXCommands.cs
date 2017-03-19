@@ -24,6 +24,8 @@ namespace DeXign
         public static RoutedCommand UndoCommand { get; }
         public static RoutedCommand RedoCommand { get; }
 
+        public static RoutedCommand SearchCommand { get; }
+
         static DXCommands()
         {
             NewProjectCommand = new RoutedCommand("NewProject", typeof(DXCommands));
@@ -39,6 +41,8 @@ namespace DeXign
             RedoCommand = new RoutedCommand("Redo", typeof(DXCommands));
 
             CloseCommand = new RoutedCommand("Close", typeof(DXCommands));
+
+            SearchCommand = new RoutedCommand("Search", typeof(DXCommands));
         }
     }
  }
