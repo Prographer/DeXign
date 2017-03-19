@@ -103,4 +103,12 @@
     <d:DesignerResource x:Key="{x:Type l:PSetter}">
         <Image Source="Icons/IconSetter.png"/>
     </d:DesignerResource>
+
+    <d:DesignerResource x:Key="{x:Type l:PBranch}">
+        <Image Source="Icons/IconBranch.png"/>
+    </d:DesignerResource>
+
+    <d:DesignerResource x:Key="{x:Type l:PTrigger}">
+        <Image Source="Icons/IconTrigger.png"/>
+    </d:DesignerResource>
 </ResourceDictionary>

@@ -1,6 +1,4 @@
-using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace DeXign.Extension
@@ -8,47 +6,44 @@ namespace DeXign.Extension
     public static class BindingEx
     {
         public static Binding SetBinding(
-            DependencyObject source, DependencyProperty sourceProperty, 
+            DependencyObject source, string path,
             DependencyObject target, DependencyProperty targetProperty,
             BindingMode mode = BindingMode.TwoWay,
             UpdateSourceTrigger sourceTrigger = UpdateSourceTrigger.Default,
-            IValueConverter converter = null)
+            IValueConverter converter = null,
+            object fallbackValue = null)
         {
-            Binding result;
+            var result = new Binding(path)
+            {
+                Source = source,
+                Mode = mode,
+                Converter = converter,
+                UpdateSourceTrigger = sourceTrigger
+            };
 
-            BindingOperations.SetBinding(
-                target, targetProperty,
-                result = new Binding(sourceProperty.Name)
-                {
-                    Source = source,
-                    Mode = mode,
-                    Converter = converter,
-                    UpdateSourceTrigger = sourceTrigger
-                });
+            if (fallbackValue != null)
+                result.FallbackValue = fallbackValue;
+
+            BindingOperations.SetBinding(target, targetProperty, result);
 
             return result;
         }
 
         public static Binding SetBinding(
-            DependencyObject source, string path,
+            DependencyObject source, DependencyProperty sourceProperty,
             DependencyObject target, DependencyProperty targetProperty,
             BindingMode mode = BindingMode.TwoWay,
             UpdateSourceTrigger sourceTrigger = UpdateSourceTrigger.Default,
-            IValueConverter converter = null)
+            IValueConverter converter = null,
+            object fallbackValue = null)
         {
-            Binding result;
-
-            BindingOperations.SetBinding(
+            return BindingEx.SetBinding(
+                source, sourceProperty.Name,
                 target, targetProperty,
-                result = new Binding(path)
-                {
-                    Source = source,
-                    Mode = mode,
-                    Converter = converter,
-                    UpdateSourceTrigger = sourceTrigger
-                });
-
-            return result;
+                mode,
+                sourceTrigger,
+                converter,
+                fallbackValue);
         }
 
         public static Binding TryBinding(
@@ -56,7 +51,8 @@ namespace DeXign.Extension
             DependencyObject target, DependencyProperty targetProperty,
             BindingMode mode = BindingMode.TwoWay,
             UpdateSourceTrigger sourceTrigger = UpdateSourceTrigger.Default,
-            IValueConverter converter = null)
+            IValueConverter converter = null,
+            object fallbackValue = null)
         {
             var sourceProperty = source.FindDependencyProperty(path);
 
@@ -71,7 +67,7 @@ namespace DeXign.Extension
                 return BindingEx.SetBinding(
                     source, sourceProperty,
                     target, targetProperty,
-                    mode, sourceTrigger, converter);
+                    mode, sourceTrigger, converter, fallbackValue);
             }
 
             return null;
@@ -82,7 +78,8 @@ namespace DeXign.Extension
             DependencyObject target, string path,
             BindingMode mode = BindingMode.TwoWay,
             UpdateSourceTrigger sourceTrigger = UpdateSourceTrigger.Default,
-            IValueConverter converter = null)
+            IValueConverter converter = null,
+            object fallbackValue = null)
         {
             var targetProperty = target.FindDependencyProperty(path);
 
@@ -91,7 +88,7 @@ namespace DeXign.Extension
                 return BindingEx.SetBinding(
                     source, sourceProperty,
                     target, targetProperty,
-                    mode, sourceTrigger, converter);
+                    mode, sourceTrigger, converter, fallbackValue);
             }
 
             return null;

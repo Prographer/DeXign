@@ -7,9 +7,14 @@ using DeXign.Core.Controls;
 using WPFExtension;
 using DeXign.Editor.Layer;
 using DeXign.Editor.Renderer;
+using System.Windows.Controls;
+using DeXign.Extension;
+using DeXign.Core;
+using DeXign.Converter;
 
 namespace DeXign.Editor.Logic
 {
+    [TemplatePart(Name = "PART_nameBlock", Type = typeof(TextBlock))]
     public class ObjectSelector : ComponentElement
     {
         public static readonly DependencyProperty TargetRendererProperty =
@@ -23,11 +28,32 @@ namespace DeXign.Editor.Logic
 
         public new PSelector Model => (PSelector)base.Model;
 
+        private TextBlock nameBlock;
         internal BindThumb ReturnThumb { get; private set; }
 
         public ObjectSelector()
         {
             TargetRendererProperty.AddValueChanged(this, TargetRenderer_Changed);
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            nameBlock = GetTemplateChild<TextBlock>("PART_nameBlock");
+
+            if (this.Model.TargetVisual != null)
+            {
+                string displayName = this.Model.TargetVisual.GetAttribute<DesignElementAttribute>().DisplayName;
+
+                var b = BindingEx.SetBinding(
+                    this.Model.TargetVisual, PObject.NameProperty,
+                    nameBlock, TextBlock.TextProperty,
+                    converter: new FallbackStringConverter()
+                    {
+                        FallbackValue = $"<이름 없음> ({displayName})"
+                    });
+            }
         }
 
         protected override void OnAttachedComponentModel()

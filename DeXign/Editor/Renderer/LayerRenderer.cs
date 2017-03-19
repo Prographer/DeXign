@@ -275,7 +275,7 @@ namespace DeXign.Editor.Renderer
                 double blank = 4;
                 double opacity = 8;
                 string name = Model.Name;
-                SolidColorBrush brush = Brushes.Black;
+                var brush = Brushes.Black;
 
                 if (string.IsNullOrEmpty(name))
                 {
@@ -288,7 +288,7 @@ namespace DeXign.Editor.Renderer
 
                 FormattedText text = CreateFormattedText(name, 11, "¸¼Àº °íµñ", brush);
 
-                var position = new Point(blank, -text.Height - blank);
+                var position = new Point(this.Fit(blank), -text.Height - this.Fit(blank));
                 var bound = new Rect(position, new Size(text.Width, text.Height));
 
                 this.Fit(ref bound, blank, blank);

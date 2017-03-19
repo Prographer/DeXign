@@ -1,16 +1,14 @@
-﻿using DeXign.Controls;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+
+using DeXign.Controls;
 using DeXign.Core;
 using DeXign.Core.Logic;
 using DeXign.Extension;
 using DeXign.Resources;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
+
 using WPFExtension;
 
 namespace DeXign.Editor.Logic

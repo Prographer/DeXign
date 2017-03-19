@@ -16,4 +16,5 @@
     <cvt:LowercaseConverter x:Key="Converter.Lowercase"/>
     <cvt:DoubleToStringConverter x:Key="Converter.DoubleToString"/>
     <cvt:NotConverter x:Key="Converter.Not"/>
+    <cvt:FallbackStringConverter x:Key="Converter.FallbackString"/>
 </ResourceDictionary>

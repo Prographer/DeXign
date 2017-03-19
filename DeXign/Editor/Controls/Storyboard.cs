@@ -753,7 +753,7 @@ namespace DeXign.Editor.Controls
 
         private CustomPopupPlacement[] ComponentBoxPlaceCallback(Size popupSize, Size targetSize, Point offset)
         {
-            var position = new Point(componentBoxPosition.X - 6, componentBoxPosition.Y - componentBox.DesiredSize.Height / 2);
+            var position = new Point(componentBoxPosition.X - 7, componentBoxPosition.Y - componentBox.DesiredSize.Height / 2);
 
             return new CustomPopupPlacement[]
             {

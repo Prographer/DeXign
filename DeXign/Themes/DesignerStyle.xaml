@@ -96,7 +96,7 @@
     </Style>
 
     <Style TargetType="{x:Type el:ComponentBox}">
-        <Setter Property="MaxHeight" Value="140"/>
+        <Setter Property="MaxHeight" Value="280"/>
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="{x:Type ListViewItem}">
@@ -105,29 +105,27 @@
                     <Setter Property="Padding" Value="0"/>
                     <Setter Property="Template">
                         <Setter.Value>
+                            <!-- DataContext type is 'ComponentBoxItemModel' -->
                             <ControlTemplate TargetType="{x:Type ListViewItem}">
                                 <Border x:Name="border" Padding="2" Background="Transparent">
-                                    <Border x:Name="header" BorderBrush="{StaticResource Brush.Logic.Event}" BorderThickness="3,0,0,0">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition/>
-                                            </Grid.ColumnDefinitions>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
 
-                                            <Image x:Name="icon" Visibility="Collapsed" Grid.Column="0" Source="{Binding Data, Converter={StaticResource Converter.ToolboxIcon}}" Width="20" Height="20"/>
-                                            <TextBlock Grid.Column="1" Text="{Binding Title}" Margin="6,0,0,0" VerticalAlignment="Center"/>
-                                        </Grid>
-                                    </Border>
+                                        <Image Grid.Column="0" Source="{Binding DataModelType, Converter={StaticResource Converter.ToolboxIcon}}" Width="20" Height="20" IsHitTestVisible="False"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding Title}" Margin="6,0,0,0" VerticalAlignment="Center"/>
+                                    </Grid>
                                 </Border>
                                 <ControlTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding ComponentType}" Value="Component">
+                                    <!--<DataTrigger Binding="{Binding ComponentType}" Value="Component">
                                         <Setter TargetName="header" Property="BorderBrush" Value="{StaticResource Brush.Logic.Component}"/>
                                     </DataTrigger>
                                     
                                     <DataTrigger Binding="{Binding ComponentType}" Value="Instance">
-                                        <Setter TargetName="icon" Property="Visibility" Value="Visible"/>
                                         <Setter TargetName="header" Property="BorderThickness" Value="0"/>
-                                    </DataTrigger>
+                                    </DataTrigger>-->
                                     
                                     <Trigger Property="IsMouseOver" Value="true">
                                         <Setter TargetName="border" Property="Background" Value="#D7D7D7"/>

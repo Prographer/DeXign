@@ -127,6 +127,7 @@
     <Compile Include="Logic\Binder\PBinderHost.cs" />
     <Compile Include="Logic\Component\PComponent.cs" />
     <Compile Include="Logic\Component\PTrigger.cs" />
+    <Compile Include="Logic\Component\Statement\PBranch.cs" />
     <Compile Include="Logic\Component\Statement\PGetter.cs" />
     <Compile Include="Logic\Component\PSelector.cs" />
     <Compile Include="Logic\Component\Statement\PSetter.cs" />

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Media;
 
+using DeXign.Core;
 using DeXign.Resources;
-using DeXign.Core.Controls;
 
 namespace DeXign.Converter
 {
@@ -10,14 +10,18 @@ namespace DeXign.Converter
     {
         public override ImageSource Convert(object value, object parameter)
         {
-            if (value is PVisual == false)
+            Type type = null;
+
+            if (value is Type t)
+                type = t;
+
+            if (value is PObject pObj)
+                type = pObj.GetType();
+
+            if (type == null)
                 return null;
 
-            if (value == null)
-                return null;
-            
-            // PObject Type -> Icon
-            return ResourceManager.GetToolboxIcon(value.GetType());
+            return ResourceManager.GetToolboxIcon(type);
         }
 
         public override object ConvertBack(ImageSource value, object parameter)

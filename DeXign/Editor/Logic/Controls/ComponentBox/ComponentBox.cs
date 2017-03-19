@@ -138,8 +138,8 @@ namespace DeXign.Editor.Logic
                             if (r == null)
                                 return false;
 
-                                // 렌더러가 태스크에 의해 삭제된 상태 (파괴되기전)
-                                if (!r.Element.IsVisible)
+                            // 렌더러가 태스크에 의해 삭제된 상태 (파괴되기전)
+                            if (!r.Element.IsVisible)
                                 return false;
 
                             if (r.Model is PVisual == false)
