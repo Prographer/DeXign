@@ -17,8 +17,6 @@ namespace DeXign.Editor.Renderer
         protected override void OnLoaded(FrameworkElement adornedElement)
         {
             base.OnLoaded(adornedElement);
-
-
         }
     }
 }

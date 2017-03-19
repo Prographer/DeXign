@@ -102,7 +102,7 @@ namespace DeXign.Editor.Controls
             // Line Update Timer
             updateTimer = new DispatcherTimer()
             {
-                Interval = TimeSpan.FromMilliseconds(10)
+                Interval = TimeSpan.FromMilliseconds(17)
             };
 
             updateTimer.Tick += UpdateTimer_Tick;
@@ -771,13 +771,15 @@ namespace DeXign.Editor.Controls
         internal void ConnectComponent(BindThumb outputThumb, BindThumb inputThumb)
         {
             outputThumb.Binder.Bind(inputThumb.Binder);
-
+            
             // Connect
             ConnectComponentLine(outputThumb, inputThumb);
         }
 
         internal void ConnectComponentLine(BindThumb outputThumb, BindThumb inputThumb)
         {
+            Console.WriteLine("ConnectComponentLine");
+
             LineConnector connector = CreateConnectedLine(outputThumb, inputThumb);
             connector?.Update();
         }
@@ -816,6 +818,12 @@ namespace DeXign.Editor.Controls
 
                 PBinder sourceBinder = request.Source.Binder;
                 PBinder targetBinder = targetHost.GetConnectableBinders(sourceBinder).FirstOrDefault() as PBinder;
+
+                if (sourceBinder == null || targetBinder == null)
+                {
+                    // 연결 실패
+                    return;
+                }
 
                 BinderHelper.GetPairObject(
                     ref outputBinder, ref inputBinder,

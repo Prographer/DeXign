@@ -23,6 +23,8 @@ namespace DeXign.Editor.Logic
 
         public new PSelector Model => (PSelector)base.Model;
 
+        internal BindThumb ReturnThumb { get; private set; }
+
         public ObjectSelector()
         {
             TargetRendererProperty.AddValueChanged(this, TargetRenderer_Changed);
@@ -33,6 +35,8 @@ namespace DeXign.Editor.Logic
             base.OnAttachedComponentModel();
 
             PSelector.TargetVisualProperty.AddValueChanged(this.Model, TargetVisualModel_Changed);
+
+            ReturnThumb = ReturnThumbs[0];
         }
 
         private void TargetVisualModel_Changed(object sender, EventArgs e)

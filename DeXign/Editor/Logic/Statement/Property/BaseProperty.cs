@@ -17,7 +17,6 @@ using WPFExtension;
 namespace DeXign.Editor.Logic
 {
     [TemplatePart(Name = "PART_propertyBox", Type = typeof(ComboBox))]
-    [TemplateVisualState()]
     public abstract class BaseProperty : ComponentElement
     {
         public static readonly DependencyProperty SelectedPropertyProperty =
@@ -107,6 +106,11 @@ namespace DeXign.Editor.Logic
         }
 
         private void TargetType_Changed(object sender, EventArgs e)
+        {
+            UpdateTargetType();
+        }
+
+        private void UpdateTargetType()
         {
             if (TargetType != null)
             {

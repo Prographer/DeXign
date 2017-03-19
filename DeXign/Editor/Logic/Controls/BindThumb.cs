@@ -81,8 +81,10 @@ namespace DeXign.Editor.Logic
             this.DataContext = binder;
 
             this.BindOption = binder.BindOption;
-        }
 
+            this.Binder.Binded += Binder_Binded;
+        }
+        
         protected override void OnVisualParentChanged(DependencyObject oldParent)
         {
             base.OnVisualParentChanged(oldParent);
@@ -246,6 +248,17 @@ namespace DeXign.Editor.Logic
             OnDragLineReleased();
         }
 
+        private void Binder_Binded(object sender, IBinder e)
+        {
+            var expression = BinderHelper.GetPairBinder(this.Binder, e);
+
+            var output = (expression.Output as PBinder).GetView<BindThumb>();
+            var input = (expression.Input as PBinder).GetView<BindThumb>();
+
+            // Propagate
+            output.PropagateBind(output, input);
+        }
+
         private void OnBind(BindRequest request)
         {
             // Release Pending Drag Line
@@ -258,9 +271,19 @@ namespace DeXign.Editor.Logic
             this.OnBind(request.Source);
 
             // Propagate
-            var expression = ResolveThumbExpression(request);
+            //var expression = ResolveThumbExpression(request);
 
-            expression.Output.PropagateBind(expression.Output, expression.Input);
+            //expression.Output.PropagateBind(expression.Output, expression.Input);
+        }
+
+        public void InvalidatePropagate()
+        {
+            if (this.Binder.Items.Count > 0)
+            {
+                var inputThumb = (this.Binder.Items[0] as PBinder).GetView<BindThumb>();
+
+                this.PropagateBind(this, inputThumb);
+            }
         }
 
         // TODO: Ref
@@ -337,10 +360,20 @@ namespace DeXign.Editor.Logic
             this.IsDebug = false;
         }
 
-        protected virtual void OnBind(BindThumb outputThumb)
+        protected virtual void OnBind(BindThumb targetThumb)
         {
+            BindThumb outputThumb = null;
+            BindThumb inputThumb = null;
+
+            BinderHelper.GetPairObject(
+                ref outputThumb, ref inputThumb,
+                (this, this.BindOption),
+                (targetThumb, targetThumb.BindOption));
+
+            targetThumb.PopPendingDragLine();
+
             // Raise Event
-            Binded?.Invoke(this, new ThumbBindedEventArgs(this, outputThumb));
+            Binded?.Invoke(this, new ThumbBindedEventArgs(outputThumb, inputThumb));
         }
         
         protected virtual bool CanBind(BindRequest request)
