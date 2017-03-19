@@ -6,6 +6,8 @@ using DeXign.IO;
 using DeXign.Controls;
 using DeXign.Database;
 using DeXign.Models;
+using System.Diagnostics;
+using System.Windows.Controls;
 
 namespace DeXign.Windows
 {
@@ -106,6 +108,21 @@ namespace DeXign.Windows
         private void Window_Closed(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void BtnDocument_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://github.com/mixnut/DeXign");
+        }
+
+        private void BtnInfo_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("http://dexign.us/");
+        }
+
+        private void BtnHelp_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("http://dexign.us/");
         }
     }
 }

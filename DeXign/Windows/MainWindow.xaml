@@ -120,9 +120,9 @@
         <!-- Bottom -->
         <Grid Grid.Row="2" Grid.Column="1">
             <c:SpacingStackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left" Orientation="Horizontal">
-                <c:RoundButton Style="{StaticResource FlatButtonStyle}" Content="도움" Foreground="#909090" Background="Transparent" BorderThickness="0"/>
-                <c:RoundButton Style="{StaticResource FlatButtonStyle}" Content="DeXign 문서"/>
-                <c:RoundButton Style="{StaticResource FlatButtonStyle}" Content="소개 동영상"/>
+                <c:RoundButton Style="{StaticResource FlatButtonStyle}" Content="도움" Foreground="#909090" Background="Transparent" BorderThickness="0" Click="BtnHelp_Click"/>
+                <c:RoundButton Style="{StaticResource FlatButtonStyle}" Content="DeXign 문서" Click="BtnDocument_Click"/>
+                <c:RoundButton Style="{StaticResource FlatButtonStyle}" Content="소개 동영상" Click="BtnInfo_Click"/>
             </c:SpacingStackPanel>
 
             <TextBlock Text="Version 1.0.0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="#C4C4C4"/>

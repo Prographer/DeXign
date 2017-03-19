@@ -216,10 +216,17 @@
                     <c:SpacingStackPanel>
                         <ComboBox x:Name="PART_propertyBox" ItemsSource="{Binding PropertyList, RelativeSource={RelativeSource AncestorType={x:Type el:Setter}}}" ItemTemplate="{StaticResource PropertyItemTempalte}"/>
 
-                        <CheckBox x:Name="PART_valueCheckBox">
-                            <ContentPresenter Content="{Binding ValueSetter, RelativeSource={RelativeSource AncestorType={x:Type el:Setter}}}"
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <CheckBox x:Name="PART_valueCheckBox" VerticalAlignment="Top"/>
+                            
+                            <ContentPresenter Grid.Column="1" Content="{Binding ValueSetter, RelativeSource={RelativeSource AncestorType={x:Type el:Setter}}}"
                                               Visibility="{Binding IsChecked, ElementName=PART_valueCheckBox, Converter={StaticResource Converter.BoolToVisibility}}"/>
-                        </CheckBox>
+                        </Grid>
                     </c:SpacingStackPanel>
                 </DataTemplate>
             </Setter.Value>
