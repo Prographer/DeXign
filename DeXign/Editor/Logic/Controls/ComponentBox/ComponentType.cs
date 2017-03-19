@@ -4,6 +4,7 @@
     {
         Instance,
         Component,
-        Event
+        Event,
+        Function
     }
 }

@@ -1,5 +1,4 @@
-﻿
-using DeXign.Core.Logic;
+﻿using DeXign.Core.Logic;
 using DeXign.Editor;
 using DeXign.Editor.Renderer;
 

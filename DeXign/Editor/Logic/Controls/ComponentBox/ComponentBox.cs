@@ -16,6 +16,7 @@ using DeXign.Editor.Controls;
 using DeXign.Core.Controls;
 using DeXign.Core.Logic;
 using DeXign.Extension;
+using System.Reflection;
 
 namespace DeXign.Editor.Logic
 {
@@ -86,6 +87,7 @@ namespace DeXign.Editor.Logic
                 if (TargetObject is Storyboard)
                 {
                     AddComponentItems<PComponent>();
+                    AddFunctionItems();
                     AddRendererItems();
                 }
 
@@ -147,6 +149,22 @@ namespace DeXign.Editor.Logic
 
                             return true;
                         }));
+            }
+
+            void AddFunctionItems()
+            {
+                this.AddFunctionItems(SDKManager.GetFunctions());
+            }
+        }
+
+        private void AddFunctionItems(IEnumerable<AttributeTuple<DesignElementAttribute, MethodInfo>> functions)
+        {
+            foreach (var function in functions)
+            {
+                var item = new ComponentBoxItemView(
+                    new ComponentBoxItemModel(function));
+
+                this.AddItem(item);
             }
         }
 

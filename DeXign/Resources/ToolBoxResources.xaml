@@ -111,4 +111,8 @@
     <d:DesignerResource x:Key="{x:Type l:PTrigger}">
         <Image Source="Icons/IconTrigger.png"/>
     </d:DesignerResource>
+
+    <d:DesignerResource x:Key="{x:Type l:PFunction}">
+        <Image Source="Icons/IconFunction.png"/>
+    </d:DesignerResource>
 </ResourceDictionary>

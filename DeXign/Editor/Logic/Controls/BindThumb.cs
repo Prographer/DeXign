@@ -56,12 +56,14 @@ namespace DeXign.Editor.Logic
             get { return (BindOptions)GetValue(BindOptionProperty); }
             set { SetValue(BindOptionProperty, value); }
         }
-        
+
+#if DEBUG
         public bool IsDebug
         {
             get { return (bool)GetValue(IsDebugProperty); }
             set { SetValue(IsDebugProperty, value); }
         }
+#endif
 
         public IRenderer Renderer { get; protected internal set; }
 
@@ -95,7 +97,7 @@ namespace DeXign.Editor.Logic
                 this.Renderer = componentElement.GetRenderer();
         }
         
-        #region [ Drag Line ]
+#region [ Drag Line ]
         public BindRequest CreateBindRequest()
         {
             return new BindRequest(this);
@@ -140,9 +142,9 @@ namespace DeXign.Editor.Logic
             // Pop Pending Drag Line
             storyboard.PopPendingConnectedLine();
         }
-        #endregion
+#endregion
 
-        #region [ Drag ]
+#region [ Drag ]
         protected void SetSnapTarget(BindThumb thumb)
         {
             dragSnapTarget = thumb;
@@ -219,7 +221,7 @@ namespace DeXign.Editor.Logic
 
             e.Handled = true;
         }
-        #endregion
+#endregion
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
@@ -289,7 +291,11 @@ namespace DeXign.Editor.Logic
         // TODO: Ref
         // Core 라이브러리와 IDE 프로젝트의 의존성이 너무 강함.
         // 전파 수준을 Core단으로 변경 필요
+#if DEBUG
         private async void PropagateBind(BindThumb outputThumb, BindThumb inputThumb)
+#else
+        private void PropagateBind(BindThumb outputThumb, BindThumb inputThumb)
+#endif
         {
             var nextHosts = new List<IBinderHost>();
             var hostQueue = new Queue<(IBinderHost Host, int Level)>(
@@ -327,7 +333,9 @@ namespace DeXign.Editor.Logic
                     }
                 }
 
+#if DEBUG
                 await t.Task.Delay(500);
+#endif
                 
                 foreach (IBinderHost inputHost in nextHosts.Distinct())
                 {
@@ -351,6 +359,7 @@ namespace DeXign.Editor.Logic
             }
         }
 
+#if DEBUG
         protected virtual async void OnPropagateBind(BindThumb outputThumb, BindThumb inputThumb)
         {
             this.IsDebug = true;
@@ -359,6 +368,11 @@ namespace DeXign.Editor.Logic
 
             this.IsDebug = false;
         }
+#else
+        protected virtual void OnPropagateBind(BindThumb outputThumb, BindThumb inputThumb)
+        {
+        }
+#endif
 
         protected virtual void OnBind(BindThumb targetThumb)
         {

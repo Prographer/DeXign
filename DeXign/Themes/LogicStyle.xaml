@@ -30,12 +30,12 @@
                     </Grid>
 
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsDebug" Value="true">
+                        <!--<Trigger Property="IsDebug" Value="true">
                             <Setter TargetName="rect" Property="Fill" Value="#DC3522"/>
                             <Setter TargetName="ellipse" Property="Fill" Value="#DC3522"/>
                             <Setter TargetName="titleBlock" Property="Foreground" Value="#DC3522"/>
                             <Setter TargetName="titleBlock" Property="FontWeight" Value="Bold"/>
-                        </Trigger>
+                        </Trigger>-->
 
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Opacity" Value="0.28"/>
@@ -319,6 +319,20 @@
                             <Setter TargetName="tbValue" Property="Visibility" Value="Visible"/>
                         </Trigger>
                     </DataTemplate.Triggers>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- 함수 -->
+    <Style TargetType="{x:Type el:Function}" BasedOn="{StaticResource {x:Type el:ComponentElement}}">
+        <Setter Property="Foreground" Value="{StaticResource Brush.Logic.Statement}"/>
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate DataType="{x:Type l:PFunction}">
+                    <Border Background="#E6E6E6" BorderBrush="#DDDDDD" BorderThickness="1" Padding="6" VerticalAlignment="Top" IsHitTestVisible="False">
+                        <TextBlock x:Name="PART_title" Text="{Binding FunctionName}" Foreground="#535353" HorizontalAlignment="Center"/>
+                    </Border>
                 </DataTemplate>
             </Setter.Value>
         </Setter>

@@ -52,13 +52,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>Resources\Icons\IconLogo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LiteDB, Version=3.0.1.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
-      <HintPath>..\packages\LiteDB.3.0.1\lib\net35\LiteDB.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="DeXign.Module.System">
+      <HintPath>..\DLL\DeXign.Module.System.dll</HintPath>
+    </Reference>
+    <Reference Include="LiteDB, Version=3.1.0.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiteDB.3.1.0\lib\net35\LiteDB.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Expression.Drawing, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -191,16 +192,18 @@
     <Compile Include="Editor\Direction.cs" />
     <Compile Include="Editor\Logic\Controls\BindRequest.cs" />
     <Compile Include="Editor\Logic\Controls\BindThumb.cs" />
-    <Compile Include="Editor\Logic\Statement\Branch.cs" />
-    <Compile Include="Editor\Logic\Statement\Property\BaseProperty.cs" />
-    <Compile Include="Editor\Logic\Statement\Property\Getter.cs" />
-    <Compile Include="Editor\Logic\Statement\Property\PropertyItem.cs" />
-    <Compile Include="Editor\Logic\Statement\ObjectSelector.cs" />
-    <Compile Include="Editor\Logic\Statement\Property\Setter.cs" />
+    <Compile Include="Editor\Logic\Branch.cs" />
+    <Compile Include="Editor\Logic\BaseProperty.cs" />
+    <Compile Include="Editor\Logic\Function.cs" />
+    <Compile Include="Editor\Logic\Getter.cs" />
+    <Compile Include="Editor\Logic\PropertyItem.cs" />
+    <Compile Include="Editor\Logic\ObjectSelector.cs" />
+    <Compile Include="Editor\Logic\Setter.cs" />
     <Compile Include="Editor\Logic\ComponentElement.cs" />
     <Compile Include="Editor\Logic\Trigger.cs" />
     <Compile Include="Editor\Renderer\ComponentRenderer.cs" />
     <Compile Include="Editor\Renderer\Components\BranchRenderer.cs" />
+    <Compile Include="Editor\Renderer\Components\FunctionRenderer.cs" />
     <Compile Include="Editor\Renderer\Components\SelectorRenderer.cs" />
     <Compile Include="Editor\Renderer\Components\SetterRenderer.cs" />
     <Compile Include="Editor\Renderer\Components\GetterRenderer.cs" />
@@ -257,6 +260,7 @@
     <Compile Include="MVVM\Models\PropertyGridItemModel.cs" />
     <Compile Include="MVVM\Models\RecentItem.cs" />
     <Compile Include="MVVM\Models\StoryboardModel.cs" />
+    <Compile Include="MVVM\Models\ToolBoxItemFunctionModel.cs" />
     <Compile Include="MVVM\Rules\DoubleRule.cs" />
     <Compile Include="MVVM\Rules\NameScopeRule.cs" />
     <Compile Include="MVVM\Rules\NamespaceRule.cs" />
@@ -264,6 +268,7 @@
     <Compile Include="IO\Packages\ScreenPackageFile.cs" />
     <Compile Include="IO\Package.cs" />
     <Compile Include="IO\PackageFile.cs" />
+    <Compile Include="SDKManager.cs" />
     <Compile Include="System\Mouse.cs" />
     <Compile Include="System\Screen.cs" />
     <Compile Include="Task\Components\ElementTaskData.cs" />
@@ -468,6 +473,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DeXign.SDK\DeXign.SDK\DeXign.SDK.csproj">
+      <Project>{C9AC6F4B-E483-4B1C-A5E0-6CD04BFC5769}</Project>
+      <Name>DeXign.SDK</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DeXign.Core\DeXign.Core.csproj">
       <Project>{1673484e-a5cb-47e7-9278-17c9b2ba57c1}</Project>
       <Name>DeXign.Core</Name>

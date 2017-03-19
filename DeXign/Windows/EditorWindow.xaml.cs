@@ -16,6 +16,7 @@ using System.Windows;
 using System.IO;
 using System.Windows.Media;
 using DeXign.Core.Logic;
+using DeXign.Editor.Renderer;
 
 namespace DeXign.Windows
 {
@@ -85,6 +86,24 @@ namespace DeXign.Windows
                 toolBox.AddItem(
                     new ToolBoxItemView(
                         new ToolBoxItemModel(element, resource)));
+            }
+
+            foreach (var function in SDKManager.GetFunctions())
+            {
+                var resource = new DesignerResource()
+                {
+                    Content = new Image()
+                    {
+                        Source = ResourceManager.GetImageSource("Icons/IconFunction.png")
+                    }
+                };
+                
+                toolBox.AddItem(
+                    new ToolBoxItemView(
+                        new ToolBoxItemFunctionModel(
+                            function.Element,
+                            new AttributeTuple<Core.DesignElementAttribute, Type>(function.Attribute, typeof(PFunction)),
+                            resource)));
             }
         }
 

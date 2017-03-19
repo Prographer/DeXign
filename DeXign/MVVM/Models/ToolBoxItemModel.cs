@@ -14,14 +14,17 @@ namespace DeXign.Models
 
         public object Content => Resource?.Content;
         
-        public object ToolTip => Resource?.ToolTip;
+        public object ToolTip { get; }
 
-        public string Category => Metadata.Attribute.Category;
+        public string Category { get; }
 
+        // 일반 레이아웃 및 컴포넌트
         public ToolBoxItemModel(AttributeTuple<DesignElementAttribute, Type> data, DesignerResource resource)
         {
             this.Metadata = data;
             this.Resource = resource;
+            this.ToolTip = this.Resource.ToolTip;
+            this.Category = Metadata.Attribute.Category;
 
             string displayName = Metadata.Attribute.DisplayName;
 

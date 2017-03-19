@@ -10,24 +10,6 @@ using System.Collections.Generic;
 
 namespace DeXign.Core.Logic
 {
-    public class EventParameterInfo
-    {
-        public string Name { get; }
-        public Type ParameterType { get; }
-
-        public EventParameterInfo(string name, Type parameterType)
-        {
-            this.Name = name;
-            this.ParameterType = parameterType;
-        }
-
-        public EventParameterInfo(ParameterInfo info)
-        {
-            this.Name = info.Name;
-            this.ParameterType = info.ParameterType;
-        }
-    }
-
     [DesignElement(DisplayName = "이벤트", Visible = false)]
     public class PTrigger : PComponent
     {
@@ -62,9 +44,9 @@ namespace DeXign.Core.Logic
             }
         }
 
-        public EventParameterInfo[] ParameterInfos
+        public NamedParameterInfo[] ParameterInfos
         {
-            get { return GetValue<EventParameterInfo[]>(ParameterInfosProperty); }
+            get { return GetValue<NamedParameterInfo[]>(ParameterInfosProperty); }
             private set { SetValue(ParameterInfosPropertyKey, value); }
         }
 
@@ -86,14 +68,14 @@ namespace DeXign.Core.Logic
                 .EventHandlerType
                 .GetMethod("Invoke")
                 .GetParameters();
-
-            var eInfos = new List<EventParameterInfo>();
+            
+            var eInfos = new List<NamedParameterInfo>();
             for (int i = 0; i < infos.Length; i++)
             {
                 if (infos[i].Name == "sender")
-                    eInfos.Add(new EventParameterInfo(infos[i].Name, this.EventInfo.DeclaringType));
+                    eInfos.Add(new NamedParameterInfo(infos[i].Name, this.EventInfo.DeclaringType));
                 else
-                    eInfos.Add(new EventParameterInfo(infos[i]));
+                    eInfos.Add(new NamedParameterInfo(infos[i]));
             }
 
             this.ParameterInfos = eInfos.ToArray();

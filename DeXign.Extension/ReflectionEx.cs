@@ -46,6 +46,20 @@ namespace DeXign.Extension
             return ei.GetAttribute<TAttribute>() != null;
         }
 
+        public static TAttribute GetAttribute<TAttribute>(this MethodInfo mi)
+            where TAttribute : Attribute
+        {
+            TAttribute attr = mi.GetCustomAttribute<TAttribute>();
+
+            return attr;
+        }
+
+        public static bool HasAttribute<TAttribute>(this MethodInfo mi)
+            where TAttribute : Attribute
+        {
+            return mi.GetAttribute<TAttribute>() != null;
+        }
+
         public static TAttribute GetAttribute<TAttribute>(this PropertyInfo pi)
             where TAttribute : Attribute
         {
@@ -55,6 +69,20 @@ namespace DeXign.Extension
         }
 
         public static bool HasAttribute<TAttribute>(this PropertyInfo pi)
+            where TAttribute : Attribute
+        {
+            return pi.GetAttribute<TAttribute>() != null;
+        }
+
+        public static TAttribute GetAttribute<TAttribute>(this ParameterInfo pi)
+            where TAttribute : Attribute
+        {
+            TAttribute attr = pi.GetCustomAttribute<TAttribute>();
+
+            return attr;
+        }
+
+        public static bool HasAttribute<TAttribute>(this ParameterInfo pi)
             where TAttribute : Attribute
         {
             return pi.GetAttribute<TAttribute>() != null;

@@ -676,6 +676,10 @@ namespace DeXign.Editor.Controls
                     pType = typeof(PTrigger);
                     break;
 
+                case ComponentType.Function:
+                    pType = typeof(PFunction);
+                    break;
+
                 case ComponentType.Instance:
                     pType = typeof(PSelector);
                     break;
@@ -706,9 +710,17 @@ namespace DeXign.Editor.Controls
             if (model.ComponentType == ComponentType.Instance)
             {
                 var selectorRenderer = control.GetRenderer() as SelectorRenderer;
-                
+
                 selectorRenderer.Model.Title = model.Title;
                 selectorRenderer.Model.TargetVisual = model.Data as PVisual;
+            }
+
+            // Function Setting
+            if (model.ComponentType == ComponentType.Function)
+            {
+                var functionRenderer = control.GetRenderer() as FunctionRenderer;
+
+                functionRenderer.Model.FunctionInfo = model.Data as MethodInfo;
             }
 
             // Add Visual

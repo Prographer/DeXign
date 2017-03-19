@@ -45,6 +45,14 @@ namespace DeXign.Models
             this.Category = attr.Category;
         }
 
+        internal ComponentBoxItemModel(AttributeTuple<DesignElementAttribute, MethodInfo> data)
+            : this(data.Attribute)
+        {
+            this.ComponentType = ComponentType.Function;
+            this.Data = data.Element;
+            this.DataModelType = typeof(PFunction);
+        }
+
         internal ComponentBoxItemModel(AttributeTuple<DesignElementAttribute, EventInfo> data) 
             : this(data.Attribute)
         {
