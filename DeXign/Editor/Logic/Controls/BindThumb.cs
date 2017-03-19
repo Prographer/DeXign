@@ -165,6 +165,8 @@ namespace DeXign.Editor.Logic
 
         protected override void OnPreviewDragLeave(DragEventArgs e)
         {
+            base.OnPreviewDragLeave(e);
+
             var request = e.Data.GetData<BindRequest>();
 
             if (request != null)
@@ -178,7 +180,8 @@ namespace DeXign.Editor.Logic
 
         protected override void OnPreviewDragOver(DragEventArgs e)
         {
-            base.OnDragOver(e);
+            base.OnPreviewDragOver(e);
+
             e.Effects = DragDropEffects.All;
 
             e.Handled = true;
@@ -186,11 +189,15 @@ namespace DeXign.Editor.Logic
 
         protected override void OnPreviewDrop(DragEventArgs e)
         {
+            base.OnPreviewDrop(e);
+
             var request = e.Data.GetData<BindRequest>();
 
             if (request != null)
             {
+                e.Handled = true;
                 request.Handled = true;
+                request.Target = this;
 
                 if (dragCanceled)
                 {
@@ -199,8 +206,6 @@ namespace DeXign.Editor.Logic
                 }
 
                 OnBind(request);
-
-                e.Handled = true;
             }
         }
 
@@ -234,7 +239,7 @@ namespace DeXign.Editor.Logic
             
             if (request.Handled)
             {
-                OnDragEnd();
+                OnDragEnd(request);
             }
             else
             {
@@ -269,11 +274,6 @@ namespace DeXign.Editor.Logic
 
             // Notice
             this.OnBind(request.Source);
-
-            // Propagate
-            //var expression = ResolveThumbExpression(request);
-
-            //expression.Output.PropagateBind(expression.Output, expression.Input);
         }
 
         public void InvalidatePropagate()
@@ -389,10 +389,8 @@ namespace DeXign.Editor.Logic
         {
         }
 
-        protected virtual void OnDragEnd()
+        protected virtual void OnDragEnd(BindRequest request)
         {
-            // Release Pending Drag Line
-            //PopPendingDragLine();
         }
 
         protected virtual void OnDragLineReleased()

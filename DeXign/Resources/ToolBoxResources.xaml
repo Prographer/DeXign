@@ -97,10 +97,10 @@
     <!-- #endregion -->
 
     <d:DesignerResource x:Key="{x:Type l:PGetter}">
-        <Image Source="Icons/IconSlider.png"/>
+        <Image Source="Icons/IconGetter.png"/>
     </d:DesignerResource>
 
     <d:DesignerResource x:Key="{x:Type l:PSetter}">
-        <Image Source="Icons/IconSlider.png"/>
+        <Image Source="Icons/IconSetter.png"/>
     </d:DesignerResource>
 </ResourceDictionary>

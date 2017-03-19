@@ -52,7 +52,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\Icons\IconLogo.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="LiteDB, Version=3.0.1.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
@@ -475,6 +476,25 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Icons\IconBoxView.png" />
+    <Resource Include="Resources\Icons\IconButton.png" />
+    <Resource Include="Resources\Icons\IconGridLayout.png" />
+    <Resource Include="Resources\Icons\IconHorizontalCenter.png" />
+    <Resource Include="Resources\Icons\IconHorizontalLeft.png" />
+    <Resource Include="Resources\Icons\IconHorizontalRight.png" />
+    <Resource Include="Resources\Icons\IconHorizontalStretch.png" />
+    <Resource Include="Resources\Icons\IconImage.png" />
+    <Resource Include="Resources\Icons\IconLabel.png" />
+    <Resource Include="Resources\Icons\IconLogo.ico" />
+    <Resource Include="Resources\Icons\IconProgress.png" />
+    <Resource Include="Resources\Icons\IconScrollViewer.png" />
+    <Resource Include="Resources\Icons\IconSlider.png" />
+    <Resource Include="Resources\Icons\IconStackLayout.png" />
+    <Resource Include="Resources\Icons\IconVerticalBottom.png" />
+    <Resource Include="Resources\Icons\IconVerticalCenter.png" />
+    <Resource Include="Resources\Icons\IconVerticalStretch.png" />
+    <Resource Include="Resources\Icons\IconVerticalTop.png" />
+    <Resource Include="Resources\Icons\IconWebView.png" />
     <Resource Include="Resources\Images\TitleLogo.png" />
   </ItemGroup>
   <ItemGroup>
@@ -483,47 +503,10 @@
     <Resource Include="Resources\Images\StackLayoutTooltip.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Icons\IconGridLayout.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\IconStackLayout.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\IconBoxView.png" />
-    <Resource Include="Resources\Icons\IconButton.png" />
-    <Resource Include="Resources\Icons\IconImage.png" />
-    <Resource Include="Resources\Icons\IconLabel.png" />
-    <Resource Include="Resources\Icons\IconProgress.png" />
-    <Resource Include="Resources\Icons\IconScrollViewer.png" />
-    <Resource Include="Resources\Icons\IconSlider.png" />
-    <Resource Include="Resources\Icons\IconWebView.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\IconHorizontalCenter.png" />
-    <Resource Include="Resources\Icons\IconHorizontalStretch.png" />
-    <Resource Include="Resources\Icons\IconVerticalCenter.png" />
-    <Resource Include="Resources\Icons\IconVerticalStretch.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\IconVerticalBottom.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\IconVerticalTop.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\IconHorizontalLeft.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\IconHorizontalRight.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Images\MarginBackground.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\PaddingBackground.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\IconLogo.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\Logo.png" />
@@ -537,6 +520,14 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\IconBranch.png" />
+    <Resource Include="Resources\Icons\IconFunction.png" />
+    <Resource Include="Resources\Icons\IconGetter.png" />
+    <Resource Include="Resources\Icons\IconScreen.png" />
+    <Resource Include="Resources\Icons\IconSetter.png" />
+    <Resource Include="Resources\Icons\IconTrigger.png" />
   </ItemGroup>
   <Import Project="..\DeXign.Shared\DeXign.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

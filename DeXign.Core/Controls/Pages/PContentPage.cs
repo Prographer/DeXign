@@ -7,7 +7,7 @@ using WPFExtension;
 
 namespace DeXign.Core.Controls
 {
-    [DesignElement(Visible = false, Category = Constants.Designer.Layout, DisplayName = "스크린")]
+    [DesignElement(Visible = false, Category = Constants.Designer.Layout, DisplayName = "화면")]
     [ContentProperty("Content")]
     [XForms("Xamarin.Forms", "ContentPage")]
     public class PContentPage : PPage

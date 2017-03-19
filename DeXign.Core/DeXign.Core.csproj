@@ -56,7 +56,6 @@
     <Compile Include="Attributes\DesignDescriptionAttribute.cs" />
     <Compile Include="Attributes\DesignElementAttribute.cs" />
     <Compile Include="Attributes\DesignElementIgnoreAttribute.cs" />
-    <Compile Include="Attributes\XFormsAttribute.cs" />
     <Compile Include="Logic\BinderHelper.cs" />
     <Compile Include="Collections\PDefinitionCollection.cs" />
     <Compile Include="Collections\PControlCollection.cs" />
@@ -152,6 +151,10 @@
     <Compile Include="Rule\StringRule.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DeXign.SDK\DeXign.SDK\DeXign.SDK.csproj">
+      <Project>{c9ac6f4b-e483-4b1c-a5e0-6cd04bfc5769}</Project>
+      <Name>DeXign.SDK</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DeXign.Extension\DeXign.Extension.csproj">
       <Project>{d5964727-2cf5-42c1-a40e-7d6cdc8f6fb5}</Project>
       <Name>DeXign.Extension</Name>

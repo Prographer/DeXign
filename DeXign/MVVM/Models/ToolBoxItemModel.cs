@@ -12,9 +12,9 @@ namespace DeXign.Models
 
         public string Title { get; }
 
-        public object Content => Resource.Content;
+        public object Content => Resource?.Content;
         
-        public object ToolTip => Resource.ToolTip;
+        public object ToolTip => Resource?.ToolTip;
 
         public string Category => Metadata.Attribute.Category;
 

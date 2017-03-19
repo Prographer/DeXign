@@ -10,6 +10,8 @@ namespace DeXign.Core
 
         public string DisplayName { get; set; }
 
+        public int DisplayIndex { get; set; }
+
         // 속성 타입이 Enum일경우만 적용됨
         public bool IsNotEnum { get; set; } = true;
 

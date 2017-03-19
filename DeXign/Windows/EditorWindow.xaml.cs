@@ -74,6 +74,7 @@ namespace DeXign.Windows
         {
             // ToolBox
             foreach (var element in DesignerManager.GetElementTypes()
+                .OrderBy(data => data.Attribute.Category)
                 .OrderBy(data => data.Element.CanCastingTo<PComponent>() ? 1 : 0))
             {
                 if (!element.Attribute.Visible)

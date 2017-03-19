@@ -47,8 +47,12 @@ namespace DeXign.Editor.Controls
             }
         }
 
-        protected override void OnDragEnd()
+        protected override void OnDragEnd(BindRequest request)
         {
+            // 드래그로 대상과 연결됨
+            if (request.Target != null)
+                return;
+
             Storyboard storyboard = parentLayer.Storyboard;
 
             storyboard.OpenComponentBox(this.Renderer.Model);

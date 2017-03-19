@@ -38,8 +38,7 @@
                         </Trigger>
 
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="rect" Property="Opacity" Value="0.28"/>
-                            <Setter TargetName="ellipse" Property="Opacity" Value="0.28"/>
+                            <Setter Property="Opacity" Value="0.28"/>
                         </Trigger>
                         
                         <Trigger Property="HasBindError" Value="true">

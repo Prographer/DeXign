@@ -778,8 +778,6 @@ namespace DeXign.Editor.Controls
 
         internal void ConnectComponentLine(BindThumb outputThumb, BindThumb inputThumb)
         {
-            Console.WriteLine("ConnectComponentLine");
-
             LineConnector connector = CreateConnectedLine(outputThumb, inputThumb);
             connector?.Update();
         }
