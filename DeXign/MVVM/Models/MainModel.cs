@@ -6,14 +6,32 @@ namespace DeXign.Models
 {
     public class MainModel : BaseNotifyModel
     {
-        private StoryboardPage _storyboardPage;
+        private StoryboardPage storyboardPage;
        
         public StoryboardPage StoryboardPage
         {
-            get { return _storyboardPage; }
+            get { return storyboardPage; }
             set
             {
-                _storyboardPage = value;
+                storyboardPage = value;
+                
+                this.SelectedProject = value != null ? value.Model.Project : null;
+
+                RaisePropertyChanged();
+            }
+        }
+
+        private DXProject selectedProject;
+        public DXProject SelectedProject
+        {
+            get
+            {
+                return selectedProject;
+            }
+            private set
+            {
+                selectedProject = value;
+
                 RaisePropertyChanged();
             }
         }

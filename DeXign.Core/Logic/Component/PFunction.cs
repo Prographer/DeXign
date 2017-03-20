@@ -107,7 +107,7 @@ namespace DeXign.Core.Logic
                 .GetParameters()
                 .Select(pi => new NamedParameterInfo(pi))
                 .ToArray();
-
+            
             // Display Name
             this.FunctionName = this.FunctionInfo.Attribute.DisplayName;
 

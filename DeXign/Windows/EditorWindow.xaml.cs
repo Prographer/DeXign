@@ -17,6 +17,8 @@ using System.IO;
 using System.Windows.Media;
 using DeXign.Core.Logic;
 using DeXign.Editor.Renderer;
+using System.ComponentModel;
+using DeXign.Core.Compiler;
 
 namespace DeXign.Windows
 {
@@ -132,10 +134,51 @@ namespace DeXign.Windows
             this.CommandBindings.Add(
                 new CommandBinding(
                     DXCommands.SearchCommand, Search_Execute));
+
+            this.CommandBindings.Add(
+                new CommandBinding(
+                    DXCommands.RunDebugCommand, RunDebug_Execute));
+
+            this.CommandBindings.Add(
+                new CommandBinding(
+                    DXCommands.StopDebugCommand, StopDebug_Execute));
         }
         #endregion
 
         #region [ Commands ]
+        private void StopDebug_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            // TODO: Stop
+            GlobalModel.Instance.IsDebugging = false;
+        }
+
+        private void RunDebug_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            // TODO: Compile
+            var proj = this.Model.SelectedProject;
+
+            if (proj == null)
+            {
+                MessageBox.Show("대상 프로젝트를 찾을 수 없습니다.", "DeXign", MessageBoxButton.OK);
+                return;
+            }
+
+            // 저장
+            proj.Save();
+
+            GlobalModel.Instance.IsDebugging = true;
+
+            // 컴파일 옵션
+            var dxCompileOption = new DXCompileOption()
+            {
+                ApplicationName = proj.Manifest.ProjectName,
+                RootNamespace = proj.Manifest.PackageName,
+                TargetPlatform = this.Model.StoryboardPage.Model.SelectedPlatform
+            };
+
+            //DXCompiler.Compile(dxCompileOption,);
+        }
+
         private void Search_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             toolBoxSearchBar.Focus();
@@ -197,13 +240,7 @@ namespace DeXign.Windows
         #region [ Project Handling ]
         private void SaveProject()
         {
-            if (Model.StoryboardPage != null)
-            {
-                // WindowModel -> StoryboardPage Model -> DXProject . Save
-
-                Model.StoryboardPage
-                    .Model.Project.Save();
-            }
+            this.Model.SelectedProject?.Save();
         }
 
         private void OpenProject()
@@ -311,9 +348,21 @@ namespace DeXign.Windows
         }
         #endregion
 
-        private void Rectangle_GiveFeedback(object sender, GiveFeedbackEventArgs e)
+        protected override void OnClosing(CancelEventArgs e)
         {
+            base.OnClosing(e);
 
+            if (GlobalModel.Instance.IsDebugging)
+            {
+                var r = MessageBox.Show("디버깅을 중지하시겠습니까?", "DeXign", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+
+                e.Cancel = true;
+
+                if (r == MessageBoxResult.Yes)
+                {
+                    DXCommands.StopDebugCommand.Execute(null, null);
+                }
+            }
         }
     }
 }

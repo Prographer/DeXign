@@ -14,6 +14,8 @@ namespace DeXign.Models
         public DispatcherTaskManager TaskManager { get; }
 
         public ActionCommand PlatformCommand { get; set; }
+
+        public Platform SelectedPlatform { get; set; } = Platform.Android;
         
         public StoryboardModel()
         {

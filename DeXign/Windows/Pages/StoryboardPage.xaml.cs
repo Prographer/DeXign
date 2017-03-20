@@ -84,6 +84,8 @@ namespace DeXign.Windows.Pages
 
         public void SetTheme(Platform platform)
         {
+            this.Model.SelectedPlatform = platform;
+
             var theme = ThemeManager.GetTheme(platform);
 
             if (theme != null)

@@ -222,6 +222,7 @@
     <Compile Include="Editor\Renderer\RendererMetadata.cs" />
     <Compile Include="Editor\Renderer\RendererTreeHelper.cs" />
     <Compile Include="Editor\Renderer\StoryboardRenderer.cs" />
+    <Compile Include="GlobalModel.cs" />
     <Compile Include="IO\Packages\Component\BindExpression.cs" />
     <Compile Include="IO\Packages\Component\ComponentExpressionPacakgeFile.cs" />
     <Compile Include="IO\Packages\Component\ComponentPackageFile.cs" />
@@ -240,6 +241,7 @@
     <Compile Include="MVVM\Commands\ActionCommand.cs" />
     <Compile Include="MVVM\Commands\DialogCommands.cs" />
     <Compile Include="MVVM\Commands\RasableRoutedCommand.cs" />
+    <Compile Include="MVVM\Converter\BoolToObject.cs" />
     <Compile Include="MVVM\Converter\BoolToVisibilityConverter.cs" />
     <Compile Include="MVVM\Converter\DisplayNameConverter.cs" />
     <Compile Include="MVVM\Converter\DoubleToCornerRadiusConverter.cs" />

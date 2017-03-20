@@ -56,6 +56,11 @@
     <Compile Include="Attributes\DesignDescriptionAttribute.cs" />
     <Compile Include="Attributes\DesignElementAttribute.cs" />
     <Compile Include="Attributes\DesignElementIgnoreAttribute.cs" />
+    <Compile Include="Compiler\BaseCompilerService.cs" />
+    <Compile Include="Compiler\DXCompileOption.cs" />
+    <Compile Include="Compiler\DXCompiler.cs" />
+    <Compile Include="Compiler\WPFCompiler.cs" />
+    <Compile Include="Compiler\XFormsCompiler.cs" />
     <Compile Include="Logic\BinderHelper.cs" />
     <Compile Include="Collections\PDefinitionCollection.cs" />
     <Compile Include="Collections\PControlCollection.cs" />
