@@ -101,10 +101,12 @@ namespace DeXign.Editor.Logic
                         case BindOptions.Output:
                         case BindOptions.Input:
                             AddComponentItems<PComponent>();
+                            AddFunctionItems();
                             break;
 
                         case BindOptions.Parameter:
                             AddComponentItems<PComponent>();
+                            AddFunctionItems();
                             AddRendererItems();
                             break;
 

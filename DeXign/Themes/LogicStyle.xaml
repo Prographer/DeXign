@@ -26,7 +26,7 @@
                         <Rectangle x:Name="rect" Fill="White" Stroke="LightGray" StrokeThickness="1" Width="12" Height="12"/>
                         <Ellipse x:Name="ellipse" Fill="White" Stroke="LightGray" StrokeThickness="1" Width="12" Height="12" Visibility="Collapsed"/>
 
-                        <TextBlock x:Name="titleBlock" Grid.Column="1" Text="{Binding Title}" Margin="8,0,0,0"/>
+                        <TextBlock x:Name="titleBlock" Grid.Column="1" Text="{Binding Title}" Margin="8,0,0,0" Foreground="DimGray"/>
                     </Grid>
 
                     <ControlTemplate.Triggers>
@@ -252,7 +252,7 @@
                             
                             <TextBlock x:Name="PART_nameBlock" Grid.Column="1" VerticalAlignment="Center" IsHitTestVisible="False" Foreground="Black"/>
 
-                            <ItemsControl Grid.Column="2" MinWidth="10" MinHeight="10" Margin="8" VerticalAlignment="Center">
+                            <ItemsControl Grid.Column="2" MinWidth="10" MinHeight="16" Margin="8" VerticalAlignment="Center">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <c:SpacingStackPanel />
@@ -330,9 +330,9 @@
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate DataType="{x:Type l:PFunction}">
-                    <Border Background="#E6E6E6" BorderBrush="#DDDDDD" BorderThickness="1" Padding="6" VerticalAlignment="Top" IsHitTestVisible="False">
+                    <!--<Border Background="#E6E6E6" BorderBrush="#DDDDDD" BorderThickness="1" Padding="6" VerticalAlignment="Top" IsHitTestVisible="False">
                         <TextBlock x:Name="PART_title" Text="{Binding FunctionName}" Foreground="#535353" HorizontalAlignment="Center"/>
-                    </Border>
+                    </Border>-->
                 </DataTemplate>
             </Setter.Value>
         </Setter>
