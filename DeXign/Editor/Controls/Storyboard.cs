@@ -40,6 +40,7 @@ namespace DeXign.Editor.Controls
         public StoryboardRenderer Renderer { get; private set; }
 
         public List<PContentPage> Screens => Model?.Project.Screens;
+        public List<PComponent> Components => Model?.Project.Components;
 
         public bool IsComponentBoxOpen { get { return componentBoxPopup.IsOpen; } }
 
@@ -199,7 +200,10 @@ namespace DeXign.Editor.Controls
             var frame = VisualTreeHelperEx.FindVisualParents<Frame>(this).FirstOrDefault();
 
             if (frame != null)
+            {
                 mangedTabItem = frame.Parent as ClosableTabItem;
+                mangedTabItem.Closed += MangedTabItem_Closed;
+            }
         }
 
         private void UpdateTimer_Tick(object sender, EventArgs e)
@@ -696,14 +700,14 @@ namespace DeXign.Editor.Controls
             }
 
             var metadata = DesignerManager.GetElementType(pType);
-            var control = this.GenerateToElement(this, metadata) as ComponentElement;
+            var control = this.GenerateToElement(this, metadata, position) as ComponentElement;
 
             // Trigger Setting
             if (model.ComponentType == ComponentType.Event)
             {
                 var triggerRenderer = control.GetRenderer() as TriggerRenderer;
 
-                triggerRenderer.Model.EventInfo = model.Data as EventInfo;
+                triggerRenderer.Model.SetRuntimeEvent(model.Data as EventInfo);
             }
 
             // Selector Setting
@@ -720,19 +724,12 @@ namespace DeXign.Editor.Controls
             {
                 var functionRenderer = control.GetRenderer() as FunctionRenderer;
 
-                functionRenderer.Model.FunctionInfo = model.Data as MethodInfo;
+                functionRenderer.Model.SetRuntimeFunction(model.Data as MethodInfo);
             }
-
-            // Add Visual
-            control.Margin = new Thickness(0);
-            control.VerticalAlignment = VerticalAlignment.Top;
-            control.HorizontalAlignment = HorizontalAlignment.Left;
-
-            Canvas.SetLeft(control, control.SnapToGrid(position.X));
-            Canvas.SetTop(control, control.SnapToGrid(position.Y));
-            Canvas.SetZIndex(control, 0);
             
             ZoomFocusTo(control.GetRenderer());
+
+            this.Components.Add(control.GetRenderer().Model as PComponent);
 
             return control;
         }
@@ -862,12 +859,6 @@ namespace DeXign.Editor.Controls
         }
         #endregion
 
-        #region [ I/O ]
-        public void Save()
-        {
-        }
-        #endregion
-
         #region [ Zoom ]
         public void ZoomFocusTo(IRenderer renderer, bool maintainScale = true)
         {
@@ -897,6 +888,12 @@ namespace DeXign.Editor.Controls
         public void Close()
         {
             mangedTabItem?.Close();
+        }
+
+        private void MangedTabItem_Closed(object sender, EventArgs e)
+        {
+            updateTimer.Stop();
+            Model.Project.Close();
         }
     }
 

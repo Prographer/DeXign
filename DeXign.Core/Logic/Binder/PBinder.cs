@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.ComponentModel;
 
 using DeXign.Core.Collections;
 
@@ -10,13 +11,19 @@ namespace DeXign.Core.Logic
         public event EventHandler<IBinder> Binded;
         public event EventHandler<IBinder> Released;
 
-        public IBinderHost Host { get; }
+        public IBinderHost Host { get; set; }
 
-        public BindOptions BindOption { get; }
+        public BindOptions BindOption { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public BinderCollection Items { get; }
 
         public bool IsSingle { get; set; }
+
+        public PBinder()
+        {
+            this.Items = new BinderCollection(this);
+        }
 
         public PBinder(IBinderHost host, BindOptions bindOption)
         {

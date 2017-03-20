@@ -11,8 +11,15 @@ namespace DeXign.Core
         public static readonly DependencyProperty NameProperty =
             DependencyHelper.Register();
 
+        public static readonly DependencyProperty GuidProperty =
+            DependencyHelper.Register();
+
         // for resources
-        public Guid Guid { get; set; }
+        public Guid Guid
+        {
+            get { return GetValue<Guid>(GuidProperty); }
+            set { SetValue(GuidProperty, value); }
+        }
 
         [DesignElement(DisplayName = "이름", Visible = false)]
         public string Name
@@ -25,8 +32,18 @@ namespace DeXign.Core
 
         public PObject()
         {
+            GuidProperty.AddValueChanged(this, Guid_Changed);
         }
-        
+
+        private void Guid_Changed(object sender, EventArgs e)
+        {
+            OnGuidChanged();   
+        }
+
+        protected virtual void OnGuidChanged()
+        {
+        }
+
         public T GetValue<T>(DependencyProperty dp)
         {
             return (T)GetValue(dp);

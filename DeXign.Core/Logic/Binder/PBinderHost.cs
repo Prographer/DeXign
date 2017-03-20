@@ -30,6 +30,13 @@ namespace DeXign.Core.Logic
             this.Items = new BinderCollection(null);
         }
 
+        protected override void OnGuidChanged()
+        {
+            base.OnGuidChanged();
+
+            this.Items?.Clear();
+        }
+
         public void AddNewBinder(BindOptions option)
         {
             AddBinder(new PBinder(this, option));

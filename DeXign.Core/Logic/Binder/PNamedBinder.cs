@@ -15,6 +15,10 @@ namespace DeXign.Core.Logic
             set { SetValue(TitleProperty, value); }
         }
 
+        public PNamedBinder()
+        {
+        }
+
         public PNamedBinder(IBinderHost host, BindOptions bindOption) : base(host, bindOption)
         {
         }

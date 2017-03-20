@@ -17,6 +17,10 @@ namespace DeXign.Core.Logic
             set { SetValue(ParameterTypeProperty, value); }
         }
 
+        public PParameterBinder()
+        {
+        }
+
         public PParameterBinder(IBinderHost host) : base(host, BindOptions.Parameter)
         {
         }

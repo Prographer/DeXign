@@ -262,6 +262,9 @@ namespace DeXign.Editor.Logic
             var output = (expression.Output as PBinder).GetView<BindThumb>();
             var input = (expression.Input as PBinder).GetView<BindThumb>();
 
+            if (output == null || input == null)
+                return;
+
             // Propagate
             output.PropagateBind(output, input);
         }

@@ -163,7 +163,7 @@ namespace DeXign.Core.Controls
 
         #region [ IBinder Interface ]
         // virtual binder
-        public PBinderHost Binder { get; }
+        public PBinderHost Binder { get; set; }
 
         public IBinderHost ProvideValue()
         {

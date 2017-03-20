@@ -8,6 +8,9 @@ using DeXign.Extension;
 using DeXign.Utilities;
 using DeXign.Editor.Layer;
 using DeXign.IO;
+using DeXign.Core.Logic;
+using DeXign.Editor.Logic;
+using System.Windows.Threading;
 
 namespace DeXign.Editor.Controls
 {
@@ -23,13 +26,40 @@ namespace DeXign.Editor.Controls
                 // Load Renderer
                 LoadScreenRenderer(screen);
 
-                DispatcherEx.WaitFor(System.Windows.Threading.DispatcherPriority.Loaded);
+                DispatcherEx.WaitFor(DispatcherPriority.Loaded);
 
                 // 모든 트리 탐색
                 foreach (var node in screen.FindContentChildrens<PObject, PObject>())
                 {
                     // Load Renderer
                     LoadElementRenderer(node.Parent, node.Child);
+                }
+            }
+
+            // 로직
+            foreach (PComponent component in Model.Project.Components)
+            {
+                LoadComponentRenderer(component);
+            }
+
+            // 연결 정보
+            foreach (var expression in Model.Project.GetBindExpressions())
+            {
+                PBinder output = Model.Project.GetComponentBinder(expression.Output);
+                PBinder input = Model.Project.GetComponentBinder(expression.Input);
+
+                var outputRenderer = (output.Host as PBinderHost).GetRenderer();
+
+                outputRenderer.ElementAttached += Attached;
+                
+                void Attached(object sender, EventArgs e)
+                {
+                    outputRenderer.ElementAttached -= Attached;
+
+                    BindThumb outputThumb = output.GetView<BindThumb>();
+                    BindThumb inputThumb = input.GetView<BindThumb>();
+
+                    ConnectComponent(outputThumb, inputThumb);
                 }
             }
         }
@@ -61,6 +91,22 @@ namespace DeXign.Editor.Controls
                 return;
 
             IRenderer modelRenderer = visual.GetRenderer();
+
+            // Create Renderer
+            LoadRendererCore(modelRenderer);
+
+            // Add to storyboard
+            AddElement(this, visual);
+        }
+
+        private void LoadComponentRenderer(PComponent componentModel)
+        {
+            var visual = RendererManager.CreateVisualRendererFromModel(componentModel);
+
+            if (visual == null)
+                return;
+
+            IRenderer modelRenderer = componentModel.GetRenderer();
 
             // Create Renderer
             LoadRendererCore(modelRenderer);

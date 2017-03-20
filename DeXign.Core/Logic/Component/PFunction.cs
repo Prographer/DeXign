@@ -6,9 +6,42 @@ using DeXign.SDK;
 using DeXign.Extension;
 
 using WPFExtension;
+using System;
+using System.ComponentModel;
 
 namespace DeXign.Core.Logic
 {
+    public class DXMethodInfo
+    {
+        public Type DeclaringType { get; set; }
+        
+        public string Name { get; set; }
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public MethodInfo RuntimeMethodInfo => this.DeclaringType?.GetMethod(this.Name);
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public Type ReturnType => this.RuntimeMethodInfo?.ReturnType;
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public DXAttribute Attribute => this.RuntimeMethodInfo?.GetAttribute<DXAttribute>();
+
+        public DXMethodInfo()
+        {
+        }
+
+        public DXMethodInfo(MethodInfo mi)
+        {
+            this.DeclaringType = mi.DeclaringType;
+            this.Name = mi.Name;
+        }
+
+        public ParameterInfo[] GetParameters()
+        {
+            return this.RuntimeMethodInfo.GetParameters();
+        }
+    }
+
 
     [DesignElement(DisplayName = "함수", Visible = false)]
     public class PFunction : PComponent
@@ -31,16 +64,15 @@ namespace DeXign.Core.Logic
             set { SetValue(FunctionNameProperty, value); }
         }
 
-        public MethodInfo FunctionInfo
+        public DXMethodInfo FunctionInfo
         {
             get
             {
-                return GetValue<MethodInfo>(FunctionInfoProperty);
+                return GetValue<DXMethodInfo>(FunctionInfoProperty);
             }
             set
             {
                 SetValue(FunctionInfoProperty, value);
-                Invalidate();
             }
         }
         
@@ -60,7 +92,13 @@ namespace DeXign.Core.Logic
 
         public PFunction(MethodInfo mi) : this()
         {
-            this.FunctionInfo = mi;
+            SetRuntimeFunction(mi);
+        }
+
+        public void SetRuntimeFunction(MethodInfo mi)
+        {
+            this.FunctionInfo = new DXMethodInfo(mi);
+            Invalidate();
         }
 
         private void Invalidate()
@@ -71,10 +109,7 @@ namespace DeXign.Core.Logic
                 .ToArray();
 
             // Display Name
-            if (this.FunctionInfo.HasAttribute<DXFunctionAttribute>())
-            {
-                this.FunctionName = this.FunctionInfo.GetAttribute<DXFunctionAttribute>().DisplayName;
-            }
+            this.FunctionName = this.FunctionInfo.Attribute.DisplayName;
 
             // Binder Generate
             this.ClearReturnBinder();
@@ -89,7 +124,7 @@ namespace DeXign.Core.Logic
                 if (pi.HasAttribute<DXAttribute>())
                     name = pi.GetAttribute<DXAttribute>().DisplayName;
 
-                // Return 바인더 생성
+                // 파라미터 바인더 생성
                 this.AddParamterBinder(name, pi.ParameterType);
             }
         }

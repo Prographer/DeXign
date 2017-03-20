@@ -19,8 +19,6 @@ namespace DeXign.Windows.Pages
     {
         public StoryboardModel Model { get; set; }
         
-        DispatcherTimer updateTimer;
-
         #region [ Constructor ]
         public StoryboardPage()
         {

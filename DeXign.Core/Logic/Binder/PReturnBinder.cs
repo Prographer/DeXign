@@ -16,6 +16,10 @@ namespace DeXign.Core.Logic
             set { SetValue(ReturnTypeProperty, value); }
         }
 
+        public PReturnBinder()
+        {
+        }
+
         public PReturnBinder(IBinderHost host, Type returnType) : base(host, BindOptions.Return)
         {
             this.ReturnType = returnType;

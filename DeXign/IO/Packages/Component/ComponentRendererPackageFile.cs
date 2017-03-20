@@ -4,22 +4,22 @@ using System.Collections.Generic;
 using DeXign.Core;
 using DeXign.Editor;
 using DeXign.Editor.Renderer;
+using DeXign.Core.Logic;
 
 namespace DeXign.IO
 {
-    internal class ScreenRendererPackageFile : ModelPackageFile<ObjectContainer<RendererSurface>>
+    internal class ComponentRendererPackageFile : ModelPackageFile<ObjectContainer<RendererSurface>>
     {
         public const string Path = "Renderers";
+        public const string FileName = "Renderers\\Components.xml";
 
-        public ScreenRendererPackageFile(ScreenRenderer screenRenderer)
+        public ComponentRendererPackageFile(List<PComponent> list)
         {
-            this.Name = $"{Path}\\{LayoutExtension.GetPageName(screenRenderer.Model)}.xml";
+            this.Name = FileName;
 
-            List<IRenderer> childrens = RendererTreeHelper
-                .FindChildrens<IRenderer>(screenRenderer)
+            List<IRenderer> childrens = list
+                .Select(c => c.GetRenderer())
                 .ToList();
-
-            childrens.Insert(0, screenRenderer);
 
             this.Model = new ObjectContainer<RendererSurface>()
             {

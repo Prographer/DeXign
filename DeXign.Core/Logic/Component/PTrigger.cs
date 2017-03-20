@@ -7,9 +7,41 @@ using DeXign.Extension;
 
 using WPFExtension;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace DeXign.Core.Logic
 {
+    public class DXEventInfo
+    {
+        public Type DeclaringType { get; set; }
+
+        public string Name { get; set; }
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public EventInfo RuntimeEventInfo => this.DeclaringType?.GetEvent(this.Name);
+        
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public DesignElementAttribute Attribute => this.RuntimeEventInfo?.GetAttribute<DesignElementAttribute>();
+
+        public DXEventInfo()
+        {
+        }
+
+        public DXEventInfo(EventInfo ei)
+        {
+            this.DeclaringType = ei.DeclaringType;
+            this.Name = ei.Name;
+        }
+
+        public ParameterInfo[] GetParameters()
+        {
+            return this.RuntimeEventInfo
+                .EventHandlerType
+                .GetMethod("Invoke")
+                .GetParameters();
+        }
+    }
+
     [DesignElement(DisplayName = "이벤트", Visible = false)]
     public class PTrigger : PComponent
     {
@@ -31,16 +63,15 @@ namespace DeXign.Core.Logic
             set { SetValue(EventNameProperty, value); }
         }
 
-        public EventInfo EventInfo
+        public DXEventInfo EventInfo
         {
             get
             {
-                return GetValue<EventInfo>(EventInfoProperty);
+                return GetValue<DXEventInfo>(EventInfoProperty);
             }
             set
             {
                 SetValue(EventInfoProperty, value);
-                Invalidate();
             }
         }
 
@@ -56,18 +87,21 @@ namespace DeXign.Core.Logic
             this.AddNewBinder(BindOptions.Output);
         }
 
-        public PTrigger(EventInfo ei) : this()
+        public PTrigger(EventInfo eventInfo) : this()
         {
-            this.EventInfo = ei;
+            SetRuntimeEvent(eventInfo);
+        }
+
+        public void SetRuntimeEvent(EventInfo eventInfo)
+        {
+            this.EventInfo = new DXEventInfo(eventInfo);
+            Invalidate();
         }
 
         private void Invalidate()
         {
             // Get Event Parameteres
-            ParameterInfo[] infos = this.EventInfo
-                .EventHandlerType
-                .GetMethod("Invoke")
-                .GetParameters();
+            ParameterInfo[] infos = this.EventInfo.GetParameters();
             
             var eInfos = new List<NamedParameterInfo>();
             for (int i = 0; i < infos.Length; i++)
@@ -79,24 +113,20 @@ namespace DeXign.Core.Logic
             }
 
             this.ParameterInfos = eInfos.ToArray();
-
-
+            
             // Display Name
             this.EventName = this.EventInfo.Name;
 
-            if (this.EventInfo.HasAttribute<DesignElementAttribute>())
-            {
-                this.EventName = this.EventInfo.GetAttribute<DesignElementAttribute>().DisplayName;
-            }
+            this.EventName = this.EventInfo.Attribute.DisplayName;
 
             // Binder Generate
             this.ClearReturnBinder();
 
             (string Name, bool Visible)[] paramDatas = null;
 
-            if (this.EventInfo.HasAttribute<DesignDescriptionAttribute>())
+            if (this.EventInfo.RuntimeEventInfo.HasAttribute<DesignDescriptionAttribute>())
             {
-                var attr = this.EventInfo.GetAttribute<DesignDescriptionAttribute>();
+                var attr = this.EventInfo.RuntimeEventInfo.GetAttribute<DesignDescriptionAttribute>();
 
                 paramDatas = DesignDescriptionDescriptor.GetParameterNames(attr).ToArray();
             }

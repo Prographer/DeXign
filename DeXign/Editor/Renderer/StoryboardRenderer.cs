@@ -7,6 +7,7 @@ using DeXign.Core;
 using DeXign.Core.Logic;
 using DeXign.Editor.Layer;
 using DeXign.Extension;
+using DeXign.Editor.Logic;
 
 namespace DeXign.Editor.Renderer
 {
@@ -61,6 +62,20 @@ namespace DeXign.Editor.Renderer
                 Canvas.SetTop(child.Element, screenSize.Height / 2 - child.Element.Height / 2);
                 Canvas.SetLeft(child.Element, screenSize.Width / 2 - child.Element.Width / 2);
                 Canvas.SetZIndex(child.Element, 10);
+            }
+
+            if (child.Model is PComponent)
+            {
+                var element = child.Element as ComponentElement;
+
+                // Add Visual
+                element.Margin = new Thickness(0);
+                element.VerticalAlignment = VerticalAlignment.Top;
+                element.HorizontalAlignment = HorizontalAlignment.Left;
+
+                Canvas.SetLeft(element, element.SnapToGrid(position.X));
+                Canvas.SetTop(element, element.SnapToGrid(position.Y));
+                Canvas.SetZIndex(element, 0);
             }
         }
 

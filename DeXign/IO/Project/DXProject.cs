@@ -12,6 +12,7 @@ using DeXign.Editor.Renderer;
 using DeXign.Extension;
 
 using Microsoft.Win32;
+using DeXign.Core.Logic;
 
 namespace DeXign.IO
 {
@@ -25,11 +26,14 @@ namespace DeXign.IO
         public string FileName { get; }
 
         public List<PContentPage> Screens { get; }
+        public List<PComponent> Components { get; }
         #endregion
 
         #region [ Local Variable ]
         List<PackageFile> packageFiles;
         Dictionary<Guid, RendererSurface> rendererInfos;
+        Dictionary<Guid, PBinder> binderInfos;
+        List<BindExpression> bindExpressions;
         #endregion
 
         #region [ Constructor ]
@@ -38,6 +42,7 @@ namespace DeXign.IO
             packageFiles = new List<PackageFile>();
 
             this.Screens = new List<PContentPage>();
+            this.Components = new List<PComponent>();
         }
 
         // Create
@@ -54,12 +59,16 @@ namespace DeXign.IO
         {
             this.FileName = path;
 
+            rendererInfos = new Dictionary<Guid, RendererSurface>();
+            binderInfos = new Dictionary<Guid, PBinder>();
+
             try
             {
                 LoadPackages();
                 LoadManifest();
                 LoadScreens();
                 LoadScreenRenderers();
+                LoadComponents();
             }
             catch
             {
@@ -98,6 +107,7 @@ namespace DeXign.IO
         private void LoadScreens()
         {
             Screens.Clear();
+            Components.Clear();
 
             var screenFiles = packageFiles
                 .Where(pf => pf.Name.StartsWith("Screens\\"));
@@ -115,26 +125,68 @@ namespace DeXign.IO
                     LayoutExtension.SetPageName(page, name);
 
                     Screens.Add(page);
+
+                    CachingBinder(page.Binder);
+
+                    foreach (var node in ObjectContentTreeHelper.FindContentChildrens<PVisual, PVisual>(page))
+                    {
+                        CachingBinder(node.Child.Binder);
+                    }
                 }
             }
         }
-
+        
         private void LoadScreenRenderers()
         {
             var rendererFiles = packageFiles
                 .Where(pf => pf.Name.StartsWith($"{ScreenRendererPackageFile.Path}\\"));
-
-            rendererInfos = new Dictionary<Guid, RendererSurface>();
-
+            
             foreach (PackageFile file in rendererFiles)
             {
                 var reader = new ObjectXmlReader(file.Stream);
 
-                var container = reader.ReadObject() as RendererContainer;
+                var container = reader.ReadObject() as ObjectContainer<RendererSurface>;
 
                 foreach (var r in container.Items)
                     rendererInfos[r.Guid] = r;
             }
+        }
+
+        private void LoadComponents()
+        {
+            var componentFile = packageFiles
+                .FirstOrDefault(pf => pf.Name == ComponentPackageFile.FileName);
+
+            var expressionFile = packageFiles
+                .FirstOrDefault(pf => pf.Name == ComponentExpressionPackageFile.FileName);
+            
+            if (componentFile != null)
+            {
+                var reader = new ObjectXmlReader(componentFile.Stream);
+
+                var container = reader.ReadObject() as ObjectContainer<PComponent>;
+
+                this.Components.AddRange(container.Items);
+
+                // Binder Cache
+                foreach (PComponent c in container.Items)
+                    CachingBinder(c);
+            }
+
+            if (expressionFile != null)
+            {
+                var reader = new ObjectXmlReader(expressionFile.Stream);
+
+                var container = reader.ReadObject() as ObjectContainer<BindExpression>;
+
+                bindExpressions = container.Items;
+            }
+        }
+
+        private void CachingBinder(IBinderHostProvider provider)
+        {
+            foreach (PBinder item in provider.ProvideValue().Items)
+                binderInfos[item.Guid] = item;
         }
         #endregion
 
@@ -161,6 +213,16 @@ namespace DeXign.IO
                 packageFiles.Add(
                     new ScreenPackageFile(screen));
 
+            // Set Components
+            packageFiles.Add(
+                new ComponentPackageFile(this.Components));
+
+            packageFiles.Add(
+                new ComponentExpressionPackageFile(this.Components));
+
+            packageFiles.Add(
+                new ComponentRendererPackageFile(this.Components));
+
             // Set Renderers
             foreach (var screen in Screens)
                 packageFiles.Add(
@@ -179,6 +241,22 @@ namespace DeXign.IO
                 return rendererInfos[guid];
 
             return null;
+        }
+
+        public PBinder GetComponentBinder(Guid guid)
+        {
+            if (BoolEx.Nomalize(binderInfos?.ContainsKey(guid)))
+                return binderInfos[guid];
+
+            return null;
+        }
+
+        public IEnumerable<BindExpression> GetBindExpressions()
+        {
+            if (bindExpressions == null)
+                return Enumerable.Empty<BindExpression>();
+
+            return bindExpressions;
         }
         #endregion
 
