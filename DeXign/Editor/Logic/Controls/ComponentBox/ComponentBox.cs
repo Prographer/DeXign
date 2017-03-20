@@ -174,7 +174,7 @@ namespace DeXign.Editor.Logic
             foreach (var attr in componentTypes)
             {
                 var item = new ComponentBoxItemView(
-                    new ComponentBoxItemModel(attr));
+                    new ComponentBoxItemModel(new ItemDropRequest(attr.Element)));
 
                 this.AddItem(item);
             }

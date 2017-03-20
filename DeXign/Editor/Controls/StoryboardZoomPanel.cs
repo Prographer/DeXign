@@ -36,7 +36,7 @@ namespace DeXign.Editor.Controls
         {
             base.OnDragOver(e);
 
-            if (e.Data.HasData<AttributeTuple<DesignElementAttribute, Type>>() ||
+            if (e.Data.HasData<ItemDropRequest>() ||
                 e.Data.HasData<BindRequest>())
                 e.Effects = DragDropEffects.All;
         }
@@ -45,29 +45,29 @@ namespace DeXign.Editor.Controls
         {
             base.OnDrop(e);
 
-            var attr = e.Data.GetData<AttributeTuple<DesignElementAttribute, Type>>();
-            var request = e.Data.GetData<BindRequest>();
+            var dropRequest = e.Data.GetData<ItemDropRequest>();
+            var bindRequest = e.Data.GetData<BindRequest>();
 
             // 컴포넌트 생성 (From 툴박스)
-            if (attr != null)
+            if (dropRequest != null)
             {
-                if (!attr.Element.CanCastingTo<PComponent>())
+                if (!dropRequest.ItemType.CanCastingTo<PComponent>())
                     return;
 
                 this.Storyboard.AddNewComponent(
-                    new Models.ComponentBoxItemModel(attr),
+                    new Models.ComponentBoxItemModel(dropRequest),
                     e.GetPosition(this.Storyboard));
             }
 
             // 컴포넌트 바인더에서 드래그
-            if (request != null)
+            if (bindRequest != null)
             {
-                request.Handled = true;
+                bindRequest.Handled = true;
 
-                if (request.Source is LayerEventTriggerButton)
+                if (bindRequest.Source is LayerEventTriggerButton)
                     return;
 
-                this.Storyboard.OpenComponentBox(request);
+                this.Storyboard.OpenComponentBox(bindRequest);
             }
         }
 

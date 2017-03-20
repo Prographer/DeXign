@@ -145,8 +145,7 @@ namespace DeXign.Editor.Logic
             InitializeSelector();
             InitializeBinders();
 
-            if (!this.IsFloating())
-                OnAttachedComponentModel();
+            OnAttachedComponentModel();
         }
 
         protected virtual void OnAttachedComponentModel()

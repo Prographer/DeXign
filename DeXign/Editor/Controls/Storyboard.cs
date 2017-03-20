@@ -354,7 +354,7 @@ namespace DeXign.Editor.Controls
         public ContentControl AddNewScreen()
         {
             var metadata = DesignerManager.GetElementType(typeof(PContentPage));
-            var control = this.GenerateToElement(this, metadata, pushTask: false) as ContentControl;
+            var control = this.GenerateToElement(this, metadata.Element, pushTask: false) as ContentControl;
             var model = (PContentPage)control.GetRenderer().Model;
             
             // Add Screen To Project
@@ -377,11 +377,11 @@ namespace DeXign.Editor.Controls
         /// <returns></returns>
         public FrameworkElement GenerateToElement(
             FrameworkElement parent,
-            AttributeTuple<DesignElementAttribute, Type> data, 
+            Type type, 
             Point position = default(Point),
             bool pushTask = true)
         {
-            var rendererAttr = RendererManager.FromModelType(data.Element);
+            var rendererAttr = RendererManager.FromModelType(type);
             var visual = RendererManager.CreateVisualRenderer(rendererAttr, position);
 
             if (visual == null)
@@ -672,27 +672,8 @@ namespace DeXign.Editor.Controls
         /// <returns></returns>
         public FrameworkElement AddNewComponent(ComponentBoxItemModel model, Point position)
         {
-            Type pType = null;
-
-            switch (model.ComponentType)
-            {
-                case ComponentType.Event:
-                    pType = typeof(PTrigger);
-                    break;
-
-                case ComponentType.Function:
-                    pType = typeof(PFunction);
-                    break;
-
-                case ComponentType.Instance:
-                    pType = typeof(PSelector);
-                    break;
-
-                case ComponentType.Component:
-                    pType = model.Data as Type;
-                    break;
-            }
-
+            Type pType = model.ItemModelType;
+            
             if (pType == null)
             {
                 MessageBox.Show("Coming soon! (Logic)");
@@ -700,7 +681,7 @@ namespace DeXign.Editor.Controls
             }
 
             var metadata = DesignerManager.GetElementType(pType);
-            var control = this.GenerateToElement(this, metadata, position) as ComponentElement;
+            var control = this.GenerateToElement(this, metadata.Element, position) as ComponentElement;
 
             // Trigger Setting
             if (model.ComponentType == ComponentType.Event)

@@ -3,17 +3,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Markup;
+using System.Collections.Generic;
 
+using DeXign.OS;
 using DeXign.Models;
 using DeXign.Windows;
-using DeXign.OS;
-using System.Windows.Markup;
 using DeXign.Extension;
 using DeXign.Core.Logic;
 using DeXign.Editor.Renderer;
 using DeXign.Editor;
 using DeXign.Editor.Logic;
-using System.Collections.Generic;
 
 namespace DeXign.Controls
 {
@@ -86,11 +86,19 @@ namespace DeXign.Controls
                 view.VerticalAlignment = VerticalAlignment.Top;
 
                 view.Margin = new Thickness(10);
-
+                
                 componentCache[Model.Metadata.Element] = view;
             }
 
-            return componentCache[Model.Metadata.Element];
+            var element = componentCache[Model.Metadata.Element];
+
+            if (element is Function functionElement)
+            {
+                var functionItemModel = Model as ToolBoxItemFunctionModel;
+                functionElement.Model.SetRuntimeFunction(functionItemModel.MethodInfo);
+            }
+
+            return element;
         }
 
         private void HidePreviewWindow()
@@ -106,8 +114,7 @@ namespace DeXign.Controls
                 return;
 
             Point position = SystemMouse.Position - (Vector)beginContentOffset;
-
-            // 컴포넌트인경우 센터 정렬
+            
             if (this.IsComponent)
                 position = SystemMouse.Position - new Vector(10, 10);// new Vector(previewWindow.Width / 2, previewWindow.Height / 2);
 
@@ -138,7 +145,12 @@ namespace DeXign.Controls
                 {
                     ShowPreviewWindow();
 
-                    DragDrop.DoDragDrop(this, Model.Metadata, DragDropEffects.None);
+                    var request = new ItemDropRequest(Model.Metadata.Element);
+
+                    if (Model is ToolBoxItemFunctionModel functionModel)
+                        request.Data = functionModel.MethodInfo;
+
+                    DragDrop.DoDragDrop(this, request, DragDropEffects.None);
 
                     HidePreviewWindow();
 

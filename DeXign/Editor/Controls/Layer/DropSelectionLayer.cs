@@ -8,10 +8,11 @@ using DeXign.Editor;
 using System.Windows.Input;
 using DeXign.Extension;
 using DeXign.Core.Logic;
+using DeXign.Models;
 
 namespace DeXign.Editor.Layer
 {
-    public class DropSelectionLayer : SelectionLayer, IDropHost<AttributeTuple<DesignElementAttribute, Type>>
+    public class DropSelectionLayer : SelectionLayer, IDropHost<ItemDropRequest>
     {
         private bool dragCanceled = false;
         private Brush frameBrushBackup;
@@ -37,13 +38,13 @@ namespace DeXign.Editor.Layer
 
         protected override void OnPreviewDragEnter(DragEventArgs e)
         {
-            var attr = e.Data.GetData<AttributeTuple<DesignElementAttribute, Type>>();
+            var request = e.Data.GetData<ItemDropRequest>();
 
-            dragCanceled = !this.CanDrop(attr, e.GetPosition(Storyboard));
+            dragCanceled = !this.CanDrop(request, e.GetPosition(Storyboard));
             
-            if (attr != null)
+            if (request != null)
             {
-                if (attr.Element.CanCastingTo<PComponent>())
+                if (request.ItemType.CanCastingTo<PComponent>())
                 {
                     dragCanceled = true;
                     return;
@@ -74,21 +75,21 @@ namespace DeXign.Editor.Layer
 
             if (!dragCanceled)
             {
-                var attr = e.Data.GetData<AttributeTuple<DesignElementAttribute, Type>>();
+                var request = e.Data.GetData<ItemDropRequest>();
                 
-                OnDrop(attr, e.GetPosition(Storyboard));
+                OnDrop(request, e.GetPosition(Storyboard));
             }
         }
 
-        public virtual bool CanDrop(AttributeTuple<DesignElementAttribute, Type> item, Point mouse)
+        public virtual bool CanDrop(ItemDropRequest request, Point mouse)
         {
             return false;
         }
         
-        public virtual void OnDrop(AttributeTuple<DesignElementAttribute, Type> item, Point mouse)
+        public virtual void OnDrop(ItemDropRequest request, Point mouse)
         {
             OnCreatedChild(
-                Storyboard.GenerateToElement(this.AdornedElement, item, mouse));
+                Storyboard.GenerateToElement(this.AdornedElement, request.ItemType, mouse));
 
             Keyboard.Focus(Storyboard);
         }

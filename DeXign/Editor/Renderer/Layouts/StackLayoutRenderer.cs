@@ -31,9 +31,9 @@ namespace DeXign.Editor.Renderer
         {
         }
 
-        public override bool CanDrop(AttributeTuple<DesignElementAttribute, Type> item, Point mouse)
+        public override bool CanDrop(ItemDropRequest request, Point mouse)
         {
-            return item != null;
+            return request != null;
         }
 
         protected override void OnElementAttached(SpacingStackPanel element)

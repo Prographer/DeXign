@@ -64,9 +64,9 @@ namespace DeXign.Editor.Renderer
                 new Point(this.Fit(-7), RenderSize.Height - this.Fit(1)));
         }
 
-        public override bool CanDrop(AttributeTuple<DesignElementAttribute, Type> item, Point mouse)
+        public override bool CanDrop(ItemDropRequest request, Point mouse)
         {
-            return item != null;
+            return request != null;
         }
 
         protected override string OnLoadPlatformStyleName()

@@ -94,6 +94,10 @@
     <d:DesignerResource x:Key="{x:Type c:PSlider}">
         <Image Source="Icons/IconSlider.png"/>
     </d:DesignerResource>
+
+    <d:DesignerResource x:Key="{x:Type c:PContentPage}">
+        <Image Source="Icons/IconScreen.png"/>
+    </d:DesignerResource>
     <!-- #endregion -->
 
     <d:DesignerResource x:Key="{x:Type l:PGetter}">

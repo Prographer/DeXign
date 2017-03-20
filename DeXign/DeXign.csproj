@@ -148,6 +148,7 @@
     <Compile Include="Database\RecentDB.cs" />
     <Compile Include="Editor\Connector\LineConnector.cs" />
     <Compile Include="Editor\Connector\LineConnectorBase.cs" />
+    <Compile Include="Editor\ItemDropRequest.cs" />
     <Compile Include="Editor\Logic\Controls\ComponentBox\ComponentBoxItemView.cs" />
     <Compile Include="Controls\LabelEx.cs" />
     <Compile Include="Controls\LinkTextBlock.cs" />
