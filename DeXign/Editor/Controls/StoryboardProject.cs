@@ -11,14 +11,12 @@ using DeXign.IO;
 using DeXign.Core.Logic;
 using DeXign.Editor.Logic;
 using System.Windows.Threading;
+using System.Windows.Controls;
 
 namespace DeXign.Editor.Controls
 {
     public partial class Storyboard
     {
-        private Dictionary<IRenderer, DumpDependencyObject> pendingDumps = 
-            new Dictionary<IRenderer, DumpDependencyObject>();
-
         internal void InitializeProject()
         {
             foreach (PContentPage screen in Model.Project.Screens)
@@ -63,26 +61,7 @@ namespace DeXign.Editor.Controls
                 }
             }
         }
-
-        private void Storyboard_ElementAttached(object sender, EventArgs e)
-        {
-            var renderer = sender as IRenderer;
-
-            renderer.ElementAttached -= Storyboard_ElementAttached;
-
-            if (pendingDumps.ContainsKey(renderer))
-            {
-                // Property Rollback
-                pendingDumps[renderer].CopyTo(renderer.Model);
-
-                // Remove At Pending List
-                pendingDumps.Remove(renderer);
-
-                // Unlock
-                DesignTime.Unlock(renderer as ControlLayer);
-            }
-        }
-
+        
         private void LoadScreenRenderer(PContentPage screen)
         {
             var visual = RendererManager.CreateVisualRendererFromModel(screen);
@@ -147,8 +126,23 @@ namespace DeXign.Editor.Controls
             // * Pending rollback
             // 렌더러가 생성되고 WPF 컨트롤이 Load 될 때 바인딩을 진행하기 때문에
             // 모델의 속성에 영향을 주지 않음 (덤프 가능 상태)
-            pendingDumps.Add(renderer, new DumpDependencyObject(renderer.Model));
-            renderer.ElementAttached += Storyboard_ElementAttached;
+            var dump = new DumpDependencyObject(renderer.Model);
+
+            renderer.ElementAttached += ElementAttached;
+
+            void ElementAttached(object sender, EventArgs e)
+            {
+                renderer.ElementAttached -= ElementAttached;
+
+                // Property Rollback
+                dump.CopyTo(renderer.Model);
+
+                // Unlock
+                DesignTime.Unlock(renderer as ControlLayer);
+
+                Canvas.SetLeft(renderer.Element, surface.Location.X);
+                Canvas.SetTop(renderer.Element, surface.Location.Y);
+            }
         }
     }
 }

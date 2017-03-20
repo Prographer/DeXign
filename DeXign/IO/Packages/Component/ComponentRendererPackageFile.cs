@@ -5,6 +5,8 @@ using DeXign.Core;
 using DeXign.Editor;
 using DeXign.Editor.Renderer;
 using DeXign.Core.Logic;
+using System.Windows.Controls;
+using System.Windows;
 
 namespace DeXign.IO
 {
@@ -27,7 +29,10 @@ namespace DeXign.IO
                     .Select(c => new RendererSurface()
                     {
                         Guid = c.Model.Guid,
-                        Metadata = c.Metadata
+                        Metadata = c.Metadata,
+                        Location = new Point(
+                            Canvas.GetLeft(c.Element),
+                            Canvas.GetTop(c.Element))
                     }).ToList()
             };
 

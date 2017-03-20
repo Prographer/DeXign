@@ -95,6 +95,18 @@ namespace DeXign.Editor.Logic
 
         public PComponent Model => (PComponent)this.DataContext;
 
+        public double Left
+        {
+            get { return Canvas.GetLeft(this); }
+            set { Canvas.SetLeft(this, value); }
+        }
+
+        public double Top
+        {
+            get { return Canvas.GetTop(this); }
+            set { Canvas.SetTop(this, value); }
+        }
+
         #region [ Local Variable ]
         internal Storyboard ParentStoryboard { get; private set; }
 
@@ -364,18 +376,13 @@ namespace DeXign.Editor.Logic
             double x = beginPosition.X + e.HorizontalChange;
             double y = beginPosition.Y + e.VerticalChange;
 
-            x = SnapToGrid(x);
-            y = SnapToGrid(y);
-            
-            Canvas.SetLeft(this, x);
-            Canvas.SetTop(this, y);
+            this.Left = SnapToGrid(x);
+            this.Top = SnapToGrid(y);
         }
 
         private void MoveThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
-            beginPosition = new Point(
-                Canvas.GetLeft(this),
-                Canvas.GetTop(this));
+            beginPosition = new Point(this.Left, this.Top);
             
             if (this.Parent is Canvas canvas)
             {
