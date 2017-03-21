@@ -13,12 +13,12 @@ using DeXign.Editor;
 using DeXign.Database;
 using DeXign.Extension;
 using System.Windows;
-using System.IO;
-using System.Windows.Media;
 using DeXign.Core.Logic;
 using DeXign.Editor.Renderer;
 using System.ComponentModel;
 using DeXign.Core.Compiler;
+using System.Windows.Markup;
+using DeXign.Core.Controls;
 
 namespace DeXign.Windows
 {
@@ -176,7 +176,22 @@ namespace DeXign.Windows
                 TargetPlatform = this.Model.StoryboardPage.Model.SelectedPlatform
             };
 
-            //DXCompiler.Compile(dxCompileOption,);
+            PContentPage[] screens = Model.SelectedProject.Screens.ToArray();
+            PBinderHost[] binderHosts = screens
+                .Select(s => s.GetRenderer())                   // PContentPage -> IRenderer
+                .SelectMany(r => r.FindChildrens<IRenderer>())  // 모든 렌더러 자식 (하위 포함)
+                .Where(r => r.ProvideValue().Items.Sum(b => b.Items.Count) > 0)   // 연결된 아이템들
+                .Select(r => r.ProvideValue() as PBinderHost)   // BinderHost 선택
+                .ToArray();
+
+            Exception[] errors = DXCompiler.Compile(dxCompileOption, screens, binderHosts).ToArray();
+
+            if (errors.Length > 0)
+            {
+                MessageBox.Show(errors[0].Message);
+
+                GlobalModel.Instance.IsDebugging = false;
+            }
         }
 
         private void Search_Execute(object sender, ExecutedRoutedEventArgs e)

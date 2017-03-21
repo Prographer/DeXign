@@ -20,7 +20,7 @@ namespace DeXign.IO
             this.BaseStream.Seek(0, SeekOrigin.Begin);
 
             var writer = XmlWriter.Create(this.BaseStream, settings);
-
+            
             XamlServices.Save(writer, obj);
         }
     }

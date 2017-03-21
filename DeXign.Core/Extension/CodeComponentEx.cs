@@ -6,12 +6,12 @@ namespace DeXign.Core
 {
     public static class CodeComponentEx
     {
-        public static bool HasContentComponent(this CodeComponent<XFormsAttribute> component)
+        public static bool HasContentComponent(this CodeComponent<WPFAttribute> component)
         {
             return component.GetContentComponent() != null;
         }
 
-        public static CodeComponent<XFormsAttribute> GetContentComponent(this CodeComponent<XFormsAttribute> component)
+        public static CodeComponent<WPFAttribute> GetContentComponent(this CodeComponent<WPFAttribute> component)
         {
             string contentProperty = "";
             var contentAttr = component.Element

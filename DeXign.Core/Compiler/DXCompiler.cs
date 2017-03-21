@@ -1,7 +1,9 @@
 ﻿using DeXign.Core.Controls;
 using DeXign.Core.Logic;
 using DeXign.Extension;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DeXign.Core.Compiler
 {
@@ -17,18 +19,21 @@ namespace DeXign.Core.Compiler
             AddCompiler(new XFormsCompiler());
         }
 
-        public static void Compile(DXCompileOption option, PContentPage[] screens, PComponent[] components)
+        public static IEnumerable<Exception> Compile(DXCompileOption option, PContentPage[] screens, PBinderHost[] components)
         {
             foreach (BaseCompilerService service in GetCompilerService(option.TargetPlatform))
             {
                 // TODO: Compile
+                return service.Compile(option, screens, components);
             }
+
+            return Enumerable.Empty<Exception>();
         }
 
         public static IEnumerable<BaseCompilerService> GetCompilerService(Platform platform)
         {
             foreach (var service in compilers)
-                if (platform.HasFlag(service.Platform))
+                if (service.Platform.HasFlag(platform))
                     yield return service;
         }
 

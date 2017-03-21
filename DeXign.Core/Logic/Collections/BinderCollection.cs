@@ -17,6 +17,14 @@ namespace DeXign.Core.Collections
             this.IsHost = (binder == null);
         }
 
+        public new void Clear()
+        {
+            while (this.Count > 0)
+            {
+                this.RemoveAt(this.Count - 1);
+            }
+        }
+
         public IEnumerable<IBinder> Find(BindOptions option)
         {
             return this.Where(b => option.HasFlag(b.BindOption));
