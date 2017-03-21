@@ -5,7 +5,7 @@ using System.Windows.Controls;
 
 using WPFExtension;
 
-namespace DeXign.Controls
+namespace DeXign.UI
 {
     public class SpacingStackPanel : StackPanel
     {
@@ -33,7 +33,7 @@ namespace DeXign.Controls
             set { SetValue(PaddingProperty, value); }
         }
 
-        internal bool IsVertical
+        public bool IsVertical
         {
             get { return Orientation == Orientation.Vertical; }
         }
@@ -45,7 +45,7 @@ namespace DeXign.Controls
             lastArrangedBounds = new Dictionary<object, Rect>();
         }
 
-        internal Rect GetArrangedBound(FrameworkElement element)
+        public Rect GetArrangedBound(FrameworkElement element)
         {
             if (!lastArrangedBounds.ContainsKey(element))
                 return new Rect(-1, -1, -1, -1);

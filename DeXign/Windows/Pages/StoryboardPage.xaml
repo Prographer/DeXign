@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:DeXign"
       xmlns:dc="clr-namespace:DeXign.Editor.Controls"
-      xmlns:c="clr-namespace:DeXign.Controls"
+      xmlns:ui="clr-namespace:DeXign.UI;assembly=DeXign.UI"
       mc:Ignorable="d" 
       d:DesignHeight="665" d:DesignWidth="977"
       Title="StoryboardPage">
@@ -21,9 +21,9 @@
             </dc:StoryboardZoomPanel>
         </AdornerDecorator>
 
-        <c:SpacingStackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10" Orientation="Horizontal">
+        <ui:SpacingStackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10" Orientation="Horizontal">
             <Button Content="DEBUG: ZoomFit" Click="Button_Click" Padding="10"/>
             <Button Content="Binder Tree" Padding="10" Click="Button_Click_1"/>
-        </c:SpacingStackPanel>
+        </ui:SpacingStackPanel>
     </Grid>
 </Page>

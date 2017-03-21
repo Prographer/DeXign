@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DeXign"
         xmlns:c="clr-namespace:DeXign.Controls"
+        xmlns:ui="clr-namespace:DeXign.UI;assembly=DeXign.UI"
         xmlns:b="clr-namespace:DeXign.Behavior"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:shell="clr-namespace:Microsoft.Windows.Shell"
@@ -65,7 +66,7 @@
                 <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
 
-            <c:SpacingStackPanel Spacing="20" Margin="37,0,0,0">
+            <ui:SpacingStackPanel Spacing="20" Margin="37,0,0,0">
                 <BulletDecorator VerticalAlignment="Top">
                     <BulletDecorator.Bullet>
                         <Border Width="50" Height="50" Background="#4C4C4C" BorderBrush="#6b6b6b" BorderThickness="1" CornerRadius="25">
@@ -96,7 +97,7 @@
                                        Command="{x:Static local:DXCommands.OpenProjectCommand}"
                                        Content="불러오기"/>
                 </BulletDecorator>
-            </c:SpacingStackPanel>
+            </ui:SpacingStackPanel>
 
             <Rectangle Grid.Column="1" Fill="#555555" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
@@ -119,11 +120,11 @@
 
         <!-- Bottom -->
         <Grid Grid.Row="2" Grid.Column="1">
-            <c:SpacingStackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left" Orientation="Horizontal">
+            <ui:SpacingStackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left" Orientation="Horizontal">
                 <c:RoundButton Style="{StaticResource FlatButtonStyle}" Content="도움" Foreground="#909090" Background="Transparent" BorderThickness="0" Click="BtnHelp_Click"/>
                 <c:RoundButton Style="{StaticResource FlatButtonStyle}" Content="DeXign 문서" Click="BtnDocument_Click"/>
                 <c:RoundButton Style="{StaticResource FlatButtonStyle}" Content="소개 동영상" Click="BtnInfo_Click"/>
-            </c:SpacingStackPanel>
+            </ui:SpacingStackPanel>
 
             <TextBlock Text="Version 1.0.0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="#C4C4C4"/>
         </Grid>

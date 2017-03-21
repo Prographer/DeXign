@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:DeXign.Windows.Pages"
       xmlns:c="clr-namespace:DeXign.Controls"
+      xmlns:ui="clr-namespace:DeXign.UI;assembly=DeXign.UI"
       xmlns:cmd="clr-namespace:DeXign.Commands"
       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       xmlns:b="clr-namespace:DeXign.Behavior"
@@ -38,7 +39,7 @@
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
 
-            <c:SpacingStackPanel VerticalAlignment="Center" Margin="23,0">
+            <ui:SpacingStackPanel VerticalAlignment="Center" Margin="23,0">
                 <c:TextCell x:Name="tcAppName" Header="앱 이름:" TextChanged="TextCell_TextChanged"/>
                 <c:TextCell x:Name="tcPackage" Header="패키지 이름:" TextChanged="TextCell_TextChanged">
                     <i:Interaction.Behaviors>
@@ -48,7 +49,7 @@
                 <c:ContentCell>
                     <TextBlock x:Name="packageName" Text="{Binding ElementName=tcPackage, Path=Text, StringFormat={}com.{0}, Converter={StaticResource Converter.Lowercase}}" Foreground="#636363"/>
                 </c:ContentCell>
-            </c:SpacingStackPanel>
+            </ui:SpacingStackPanel>
             
             <Rectangle Grid.Row="1" Fill="#555555" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
@@ -66,10 +67,10 @@
             <c:RoundButton Content="취소" VerticalAlignment="Bottom" HorizontalAlignment="Left"
                            Command="{x:Static cmd:DialogCommands.CancelCommand}"/>
 
-            <c:SpacingStackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <ui:SpacingStackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
                 <c:RoundButton Content="이전" Command="{x:Static cmd:DialogCommands.PreviousCommand}"/>
                 <c:RoundButton Content="다음" Command="{x:Static cmd:DialogCommands.NextCommand}"/>
-            </c:SpacingStackPanel>
+            </ui:SpacingStackPanel>
         </Grid>
     </Grid>
 </local:DialogPage>

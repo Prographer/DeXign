@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:DeXign.Windows.Pages"
       xmlns:c="clr-namespace:DeXign.Controls"
+      xmlns:ui="clr-namespace:DeXign.UI;assembly=DeXign.UI"
       xmlns:cmd="clr-namespace:DeXign.Commands"
       mc:Ignorable="d" 
       d:DesignHeight="490" d:DesignWidth="690"
@@ -36,14 +37,14 @@
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
 
-            <c:SpacingStackPanel VerticalAlignment="Center" Margin="23,0">
+            <ui:SpacingStackPanel VerticalAlignment="Center" Margin="23,0">
                 <c:ContentCell Header="파일 위치:">
                     <Grid>
                         <TextBox x:Name="tbDirectory" Style="{StaticResource FlatTextBoxStyle}" IsReadOnly="True"/>
                         <c:LinkTextBlock Text="찾아보기" Foreground="White" TextDecorations="Underline" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="65,0,-65,0" Click="LinkTextBlock_Click"/>
                     </Grid>
                 </c:ContentCell>
-            </c:SpacingStackPanel>
+            </ui:SpacingStackPanel>
 
             <Rectangle Grid.Row="1" Fill="#555555" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
@@ -59,10 +60,10 @@
             <c:RoundButton Content="취소" VerticalAlignment="Bottom" HorizontalAlignment="Left"
                            Command="{x:Static cmd:DialogCommands.CancelCommand}"/>
 
-            <c:SpacingStackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <ui:SpacingStackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
                 <c:RoundButton Content="이전" Command="{x:Static cmd:DialogCommands.PreviousCommand}"/>
                 <c:RoundButton Content="시작하기" Command="{x:Static cmd:DialogCommands.OkCommand}" IsHighlight="True"/>
-            </c:SpacingStackPanel>
+            </ui:SpacingStackPanel>
         </Grid>
     </Grid>
 </local:DialogPage>

@@ -6,6 +6,7 @@ using System.Windows.Media;
 using DeXign.Resources;
 using DeXign.Controls;
 using System.Windows.Input;
+using DeXign.UI;
 
 namespace DeXign.Editor.Layer
 {

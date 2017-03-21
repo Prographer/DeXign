@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:DeXign.Theme"
                     xmlns:c="clr-namespace:DeXign.Controls"
+                    xmlns:ui="clr-namespace:DeXign.UI;assembly=DeXign.UI"
                     xmlns:r="clr-namespace:DeXign.Editor.Renderer">
     
     <Style x:Key="{x:Static local:ThemeKeyStore.Screen}" TargetType="{x:Type ContentControl}">
@@ -16,11 +17,11 @@
                             <Grid Height="40" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="16,0">
                                 <TextBlock Text="DX" Foreground="#C2C2C2" VerticalAlignment="Center" FontSize="14"/>
                                 
-                                <c:SpacingStackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Spacing="15">
+                                <ui:SpacingStackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Spacing="15">
                                     <Path Data="{StaticResource Path.Minimize}" Width="12" Height="12" Fill="#C2C2C2" Stretch="Uniform" VerticalAlignment="Bottom"/>
                                     <Path Data="{StaticResource Path.Maximize}" Width="12" Height="12" Fill="#C2C2C2" Stretch="Uniform"/>
                                     <Path Data="{StaticResource Path.Close}" Width="12" Height="12" Fill="#C2C2C2" Stretch="Uniform"/>
-                                </c:SpacingStackPanel>
+                                </ui:SpacingStackPanel>
                             </Grid>
                         </Grid>
                         

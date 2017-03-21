@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 
 using DeXign.Core.Collections;
+using System.Collections.Specialized;
 
 namespace DeXign.Core.Logic
 {
@@ -28,6 +29,27 @@ namespace DeXign.Core.Logic
 
             // Host Collection
             this.Items = new BinderCollection(null);
+            this.Items.CollectionChanged += Items_CollectionChanged;
+        }
+
+        private void Items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                foreach (PBinder binder in e.NewItems)
+                {
+                    binder.Binded += Binder_Binded;
+                    binder.Released += Binder_Released;
+                }
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                foreach (PBinder binder in e.OldItems)
+                {
+                    binder.Binded -= Binder_Binded;
+                    binder.Released -= Binder_Released;
+                }
+            }
         }
 
         protected override void OnGuidChanged()
@@ -47,10 +69,7 @@ namespace DeXign.Core.Logic
             // 트리거 인풋은 한개밖에 가질 수 없음
             if (binder.BindOption == BindOptions.Input && this[binder.BindOption].Count() > 0)
                 throw new Exception();
-
-            binder.Binded += Binder_Binded;
-            binder.Released += Binder_Released;
-
+            
             this.Items.Add(binder);
         }
 
@@ -59,10 +78,7 @@ namespace DeXign.Core.Logic
             foreach (IBinder binder in this.Items.Find(option).ToArray())
             {
                 binder.ReleaseAll();
-
-                binder.Binded -= Binder_Binded;
-                binder.Released -= Binder_Released;
-
+                
                 this.Items.Remove(binder);
             }
         }

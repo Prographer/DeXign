@@ -3,7 +3,8 @@
                     xmlns:e="clr-namespace:DeXign.Editor"
                     xmlns:el="clr-namespace:DeXign.Editor.Logic"
                     xmlns:l="clr-namespace:DeXign.Core.Logic;assembly=DeXign.Core"
-                    xmlns:c="clr-namespace:DeXign.Controls">
+                    xmlns:c="clr-namespace:DeXign.Controls"
+                    xmlns:ui="clr-namespace:DeXign.UI;assembly=DeXign.UI">
 
     <Style x:Key="BinderBallStyle" TargetType="{x:Type Ellipse}">
         <Setter Property="Fill" Value="Gray"/>
@@ -113,7 +114,7 @@
                             <ItemsControl Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" MinWidth="10" MinHeight="10" Margin="8">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <c:SpacingStackPanel />
+                                        <ui:SpacingStackPanel />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                                 
@@ -135,7 +136,7 @@
                             <ItemsControl Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" MinWidth="10" MinHeight="10" Margin="8">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <c:SpacingStackPanel />
+                                        <ui:SpacingStackPanel />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
 
@@ -208,7 +209,7 @@
                         </DataTemplate>
                     </DataTemplate.Resources>
 
-                    <c:SpacingStackPanel>
+                    <ui:SpacingStackPanel>
                         <ComboBox x:Name="PART_propertyBox" ItemsSource="{Binding PropertyList, RelativeSource={RelativeSource AncestorType={x:Type el:Setter}}}" ItemTemplate="{StaticResource PropertyItemTempalte}"/>
 
                         <Grid>
@@ -221,7 +222,7 @@
 
                             <ContentPresenter x:Name="contentPresenter" Grid.Column="1" Content="{Binding ValueSetter, RelativeSource={RelativeSource AncestorType={x:Type el:Setter}}}" Visibility="Collapsed" Margin="8,0,0,0"/>
                         </Grid>
-                    </c:SpacingStackPanel>
+                    </ui:SpacingStackPanel>
                     <DataTemplate.Triggers>
                         <Trigger SourceName="PART_valueCheckBox" Property="IsChecked" Value="true">
                             <Setter TargetName="PART_valueCheckBox" Property="Content" Value="{x:Null}"/>
@@ -255,7 +256,7 @@
                             <ItemsControl Grid.Column="2" MinWidth="10" MinHeight="16" Margin="8" VerticalAlignment="Center">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <c:SpacingStackPanel />
+                                        <ui:SpacingStackPanel />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
 
@@ -291,7 +292,7 @@
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate DataType="{x:Type l:PBranch}">
-                    <c:SpacingStackPanel>
+                    <ui:SpacingStackPanel>
                         <ComboBox x:Name="PART_operatorBox" SelectedIndex="0">
                             <ComboBoxItem Content="=="/>
                             <ComboBoxItem Content="!="/>
@@ -312,7 +313,7 @@
 
                             <TextBox x:Name="tbValue" Grid.Column="1" Visibility="Collapsed" Margin="8,0,0,0" Width="80"/>
                         </Grid>
-                    </c:SpacingStackPanel>
+                    </ui:SpacingStackPanel>
                     <DataTemplate.Triggers>
                         <Trigger SourceName="PART_valueCheckBox" Property="IsChecked" Value="true">
                             <Setter TargetName="PART_valueCheckBox" Property="Content" Value="{x:Null}"/>

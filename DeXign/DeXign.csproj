@@ -143,6 +143,7 @@
     <Compile Include="Controls\ProtrudedScrollViewer.cs" />
     <Compile Include="Controls\Cell\TextCell.cs" />
     <Compile Include="Controls\RecentFileTextBlock.cs" />
+    <Compile Include="Controls\RectangleEx.cs" />
     <Compile Include="Controls\RoundButton.cs" />
     <Compile Include="Controls\ZoomPanel.cs" />
     <Compile Include="Database\RecentDB.cs" />
@@ -165,7 +166,6 @@
     <Compile Include="Controls\PropertyGrid\Setters\Components\ValueBoxSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\SetterAttribute.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\SetterManager.cs" />
-    <Compile Include="Controls\RectangleEx.cs" />
     <Compile Include="Controls\StarGridViewColumn.cs" />
     <Compile Include="Controls\RelativeThumb.cs" />
     <Compile Include="Editor\Logic\Controls\ComponentBox\ComponentBox.cs" />
@@ -394,7 +394,6 @@
     <Compile Include="Controls\PathButton.cs" />
     <Compile Include="Controls\PropertyGrid\PropertyGrid.cs" />
     <Compile Include="Controls\PropertyGrid\PropertyGridItemView.cs" />
-    <Compile Include="Controls\SpacingStackPanel.cs" />
     <Compile Include="Controls\StrokePath.cs" />
     <Compile Include="Controls\ToolBox\ToolBoxItemView.cs" />
     <Compile Include="Editor\Attribute\ExportRendererAttribute.cs" />
@@ -491,6 +490,10 @@
     <ProjectReference Include="..\DeXign.Extension\DeXign.Extension.csproj">
       <Project>{d5964727-2cf5-42c1-a40e-7d6cdc8f6fb5}</Project>
       <Name>DeXign.Extension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DeXign.UI\DeXign.UI.csproj">
+      <Project>{ff18ced3-c115-47c0-80ca-612f6e119520}</Project>
+      <Name>DeXign.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

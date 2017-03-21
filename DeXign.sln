@@ -15,6 +15,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DeXign.Shared", "DeXign.Sha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeXign.SDK", "..\DeXign.SDK\DeXign.SDK\DeXign.SDK.csproj", "{C9AC6F4B-E483-4B1C-A5E0-6CD04BFC5769}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeXign.UI", "DeXign.UI\DeXign.UI.csproj", "{FF18CED3-C115-47C0-80CA-612F6E119520}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		DeXign.Shared\DeXign.Shared.projitems*{80216f96-ee7f-4e28-99b9-dc250c266c7d}*SharedItemsImports = 4
@@ -45,6 +47,10 @@ Global
 		{C9AC6F4B-E483-4B1C-A5E0-6CD04BFC5769}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9AC6F4B-E483-4B1C-A5E0-6CD04BFC5769}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9AC6F4B-E483-4B1C-A5E0-6CD04BFC5769}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF18CED3-C115-47C0-80CA-612F6E119520}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF18CED3-C115-47C0-80CA-612F6E119520}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF18CED3-C115-47C0-80CA-612F6E119520}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF18CED3-C115-47C0-80CA-612F6E119520}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

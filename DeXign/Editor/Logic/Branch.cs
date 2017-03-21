@@ -18,10 +18,10 @@ namespace DeXign.Editor.Logic
         {
             base.OnAttachedComponentModel();
 
-            BindingEx.SetBinding(
-                valueCheckBox, CheckBox.IsCheckedProperty,
-                Model.Value2Binder.GetView<BindThumb>(), BindThumb.IsEnabledProperty,
-                converter: ResourceManager.GetConverter("Not"));
+            //BindingEx.SetBinding(
+            //    valueCheckBox, CheckBox.IsCheckedProperty,
+            //    Model.Value2Binder.GetView<BindThumb>(), BindThumb.IsEnabledProperty,
+            //    converter: ResourceManager.GetConverter("Not"));
         }
 
         public override void OnApplyContentTemplate()
