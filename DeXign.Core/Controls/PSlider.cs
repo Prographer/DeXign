@@ -7,6 +7,7 @@ namespace DeXign.Core.Controls
     [DesignElement(Category = Constants.Designer.Control, DisplayName = "슬라이더")]
     [DesignElementIgnore("Background")]
     [XForms("Xamarin.Forms", "Slider")]
+    [WPF("System.Windows.Controls", "Slider")]
     public class PSlider : PControl
     {
         public static readonly DependencyProperty MinimumProperty =
@@ -20,6 +21,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Design, DisplayName = "최소 진행도")]
         [XForms("Minimum")]
+        [WPF("Minimum")]
         public double Minimum
         {
             get { return GetValue<double>(MinimumProperty); }
@@ -28,6 +30,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Design, DisplayName = "최대 진행도")]
         [XForms("Maximum")]
+        [WPF("Maximum")]
         public double Maximum
         {
             get { return GetValue<double>(MaximumProperty); }
@@ -36,6 +39,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Design, DisplayName = "진행도")]
         [XForms("Value")]
+        [WPF("Value")]
         public double Value
         {
             get { return GetValue<double>(ValueProperty); }

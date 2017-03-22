@@ -1,14 +1,13 @@
 using System.Windows;
 using System.Windows.Media;
 
-using DeXign.Extension;
-
 using WPFExtension;
 
 namespace DeXign.Core.Controls
 {
     [DesignElement(Category = Constants.Designer.Control, DisplayName = "텍스트")]
     [XForms("Xamarin.Forms", "Label")]
+    [WPF("System.Windows.Controls", "Label")]
     public class PLabel : PControl, IFontControl
     {
         public static readonly DependencyProperty TextProperty =
@@ -34,6 +33,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Design, DisplayName = "텍스트")]
         [XForms("Text")]
+        [WPF("Content")]
         public string Text
         {
             get { return GetValue<string>(TextProperty); }
@@ -42,6 +42,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Layout, DisplayName = "텍스트 세로 정렬")]
         [XForms("VerticalTextAlignment")]
+        [WPF("VerticalContentAlignment")]
         public PVerticalTextAlignment VerticalTextAlignment
         {
             get { return GetValue<PVerticalTextAlignment>(VerticalTextAlignmentProperty); }
@@ -50,6 +51,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Layout, DisplayName = "텍스트 가로 정렬")]
         [XForms("HorizontalTextAlignment")]
+        [WPF("HorizontalContentAlignment")]
         public PHorizontalTextAlignment HorizontalTextAlignment
         {
             get { return GetValue<PHorizontalTextAlignment>(HorizontalTextAlignmentProperty); }
@@ -57,6 +59,7 @@ namespace DeXign.Core.Controls
         }
 
         [XForms("FontFamily")]
+        [WPF("FontFamily")]
         string IFontControl.FontFamily
         {
             get
@@ -74,6 +77,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Brush, DisplayName = "텍스트 색상")]
         [XForms("TextColor")]
+        [WPF("Foreground")]
         public Brush Foreground
         {
             get { return GetValue<Brush>(ForegroundProperty); }
@@ -82,6 +86,7 @@ namespace DeXign.Core.Controls
 
         // TODO: Need binding converter (PFontAttributes -> FontWeights or FontStyles)
         [XForms("FontAttributes")]
+        [WPF("FontWeight")]
         public PFontAttributes FontAttributes
         {
             get { return GetValue<PFontAttributes>(FontAttributesProperty); }
@@ -90,6 +95,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Design, DisplayName = "폰트 크기")]
         [XForms("FontSize")]
+        [WPF("FontSize")]
         public double FontSize
         {
             get { return GetValue<double>(FontSizeProperty); }

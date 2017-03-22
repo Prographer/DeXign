@@ -12,12 +12,14 @@ namespace DeXign.Core.Controls
     [ContentProperty("Content")]
     [DesignElement(Category = Constants.Designer.Layout, DisplayName = "스크롤")]
     [XForms("Xamarin.Forms", "ScrollView")]
+    [WPF("System.Windows.Controls", "ScrollViewer")]
     public class PScrollView : PLayout
     {
         public static readonly DependencyProperty ContentProperty =
             DependencyHelper.Register();
 
         [XForms("Content")]
+        [WPF("Content")]
         public PObject Content
         {
             get { return GetValue<PObject>(ContentProperty); }

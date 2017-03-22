@@ -10,6 +10,6 @@ namespace DeXign.Core.Compiler
     {
         public Platform Platform { get; set; }
 
-        public abstract IEnumerable<Exception> Compile(DXCompileOption option, PContentPage[] screens, PBinderHost[] components);
+        public abstract DXCompileResult Compile(DXCompileOption option, PContentPage[] screens, PBinderHost[] components);
     }
 }

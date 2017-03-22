@@ -59,9 +59,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyEx.cs" />
     <Compile Include="BindingEx.cs" />
     <Compile Include="BoolEx.cs" />
     <Compile Include="DataObjectEx.cs" />
+    <Compile Include="DirectoryEx.cs" />
     <Compile Include="DoubleEx.cs" />
     <Compile Include="ElementExtension.cs" />
     <Compile Include="EnumEx.cs" />

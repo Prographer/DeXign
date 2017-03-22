@@ -15,6 +15,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Blank, DisplayName = "안쪽 여백")]
         [XForms("Padding")]
+        [WPF("Padding")]
         public Thickness Padding
         {
             get { return GetValue<Thickness>(PaddingProperty); }
@@ -27,8 +28,9 @@ namespace DeXign.Core.Controls
     public class PLayout<T> : PLayout
         where T : PControl
     {
-        [XForms("Children")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [XForms("Children")]
+        [WPF("Children")]
         public PControlCollection<T> Children { get; } = new PControlCollection<T>();
     }
 }

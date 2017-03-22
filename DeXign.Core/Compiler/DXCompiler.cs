@@ -1,9 +1,10 @@
-﻿using DeXign.Core.Controls;
-using DeXign.Core.Logic;
-using DeXign.Extension;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
+using System.Collections.Generic;
+
+using DeXign.Extension;
+using DeXign.Core.Logic;
+using DeXign.Core.Controls;
 
 namespace DeXign.Core.Compiler
 {
@@ -19,15 +20,22 @@ namespace DeXign.Core.Compiler
             AddCompiler(new XFormsCompiler());
         }
 
-        public static IEnumerable<Exception> Compile(DXCompileOption option, PContentPage[] screens, PBinderHost[] components)
+        public static DXCompileResult Compile(DXCompileOption option, PContentPage[] screens, PBinderHost[] components)
         {
             foreach (BaseCompilerService service in GetCompilerService(option.TargetPlatform))
             {
-                // TODO: Compile
                 return service.Compile(option, screens, components);
             }
 
-            return Enumerable.Empty<Exception>();
+            // 컴파일 오류
+            return new DXCompileResult(option)
+            {
+                IsSuccess = false,
+                Errors =
+                {
+                    new Exception($"{option.ToString()}에 해당하는 컴파일러를 찾을 수 없습니다.")
+                }
+            };
         }
 
         public static IEnumerable<BaseCompilerService> GetCompilerService(Platform platform)

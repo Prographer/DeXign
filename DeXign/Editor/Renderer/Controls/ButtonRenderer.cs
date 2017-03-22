@@ -43,7 +43,7 @@ namespace DeXign.Editor.Renderer
             base.OnElementAttached(element);
 
             SetSize(double.NaN, double.NaN);
-
+            
             // Binding
             BindingEx.SetBinding(
                 Model, PButton.TextProperty,
@@ -64,6 +64,10 @@ namespace DeXign.Editor.Renderer
             BindingEx.SetBinding(
                 element, RadiusButton.BorderRadiusProperty,
                 Model, PButton.BorderRadiusProperty);
+
+            BindingEx.SetBinding(
+                element, Button.FontSizeProperty,
+                Model, PButton.FontSizeProperty);
 
             // Setting
             Model.Text = "버튼";

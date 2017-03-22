@@ -3,6 +3,7 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:shell="clr-namespace:Microsoft.Windows.Shell"
                     xmlns:c="clr-namespace:DeXign.Controls"
+                    xmlns:ui="clr-namespace:DeXign.UI;assembly=DeXign.UI"
                     xmlns:local="clr-namespace:DeXign"
                     xmlns:aero2="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
                     xmlns:rule="clr-namespace:DeXign.Rules">
@@ -704,10 +705,10 @@
         </Setter>
     </Style>
     
-    <Style TargetType="{x:Type c:ImageBox}">
+    <Style TargetType="{x:Type ui:ImageBox}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type c:ImageBox}">
+                <ControlTemplate TargetType="{x:Type ui:ImageBox}">
                     <Grid>
                         <Path Data="{StaticResource Path.DefaultImage}" Fill="LightGray" Stretch="Uniform" Visibility="{TemplateBinding Source, Converter={StaticResource Converter.NotNullObjectToVisibility}}" HorizontalAlignment="Center"/>
                         <Image x:Name="img" Source="{TemplateBinding Source}" Stretch="{TemplateBinding Stretch}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RenderOptions.BitmapScalingMode="HighQuality"/>

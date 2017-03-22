@@ -6,12 +6,18 @@ using DeXign.Core.Collections;
 using DeXign.Extension;
 
 using WPFExtension;
+using DeXign.SDK;
 
 namespace DeXign.Core.Controls
 {
     [ContentProperty("Children")]
     [DesignElement(Category = Constants.Designer.Layout, DisplayName = "그리드")]
     [XForms("Xamarin.Forms", "Grid")]
+    [WPF("System.Windows.Controls", "Grid")]
+    
+    // WPF에서 제공하는 기본 Grid는 Padding 및 Spacing 속성이 없기때문에
+    // 추후 그리드를 커스텀(구현)한 경우 속성 제외를 해제해야함
+    [DXIgnore("Padding")]
     public class PGridLayout : PLayout<PControl>
     {
         public static readonly DependencyProperty ColumnSpacingProperty = 

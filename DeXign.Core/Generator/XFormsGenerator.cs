@@ -18,7 +18,7 @@ namespace DeXign.Core
         Code
     }
 
-    public class XFormsGenerator : Generator<WPFAttribute, PObject>
+    public class XFormsGenerator : Generator<XFormsAttribute, PObject>
     {
         const string XMLNS = "http://xamarin.com/schemas/2014/forms";
         const string XMLNSX = "http://schemas.microsoft.com/winfx/2009/xaml";
@@ -34,7 +34,7 @@ namespace DeXign.Core
             this.GenerateType = generateType;
         }
 
-        protected override IEnumerable<string> OnGenerate(IEnumerable<CodeComponent<WPFAttribute>> components)
+        protected override IEnumerable<string> OnGenerate(IEnumerable<CodeComponent<XFormsAttribute>> components)
         {
             switch (GenerateType)
             {
@@ -48,10 +48,10 @@ namespace DeXign.Core
             }
         }
 
-        private string XamlGenerate(IEnumerable<CodeComponent<WPFAttribute>> components)
+        private string XamlGenerate(IEnumerable<CodeComponent<XFormsAttribute>> components)
         {
             var items = components.ToArray();
-            CodeComponent<WPFAttribute> root = items[0];
+            CodeComponent<XFormsAttribute> root = items[0];
             string pageName = null;
 
             if (root.Element is PPage page)
@@ -68,12 +68,12 @@ namespace DeXign.Core
             XmlElement rootElement = doc.CreateElement(root.Attribute.Name);
             rootElement.SetAttribute("xmlns", XMLNS);
             rootElement.SetAttribute("xmlns:x", XMLNSX);
-            rootElement.SetAttribute("xmlns:local", $"clr-namespace:{this.Manifest.NamespaceName}");
-            rootElement.SetAttribute("Class", XMLNSX, $"{this.Manifest.NamespaceName}.{pageName}");
+            rootElement.SetAttribute("xmlns:local", $"clr-namespace:{this.Manifest.RootNamespace}");
+            rootElement.SetAttribute("Class", XMLNSX, $"{this.Manifest.RootNamespace}.{pageName}");
 
             SetXamlName(rootElement, root);
 
-            var comQueue = new Queue<CodeComponent<WPFAttribute>>(new[] { root });
+            var comQueue = new Queue<CodeComponent<XFormsAttribute>>(new[] { root });
             var xmlQueue = new Queue<XmlElement>(new[] { rootElement });
 
             while (comQueue.Count > 0)
@@ -191,12 +191,12 @@ namespace DeXign.Core
             throw new NotImplementedException();
         }
 
-        private string CodeGenerate(IEnumerable<CodeComponent<WPFAttribute>> components)
+        private string CodeGenerate(IEnumerable<CodeComponent<XFormsAttribute>> components)
         {
             return "Not Implemented";
         }
 
-        private void SetXamlName(XmlElement element, CodeComponent<WPFAttribute> component)
+        private void SetXamlName(XmlElement element, CodeComponent<XFormsAttribute> component)
         {
             if (component.ElementType == CodeComponentType.Instance)
             {
@@ -212,9 +212,9 @@ namespace DeXign.Core
             if (value == null)
                 return "{x:Null}";
 
-            if (value.HasAttribute<WPFAttribute>())
+            if (value.HasAttribute<XFormsAttribute>())
             {
-                var attr = value.GetAttribute<WPFAttribute>();
+                var attr = value.GetAttribute<XFormsAttribute>();
                 
                 return value.ToString();
             }

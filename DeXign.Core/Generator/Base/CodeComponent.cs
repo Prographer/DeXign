@@ -1,3 +1,5 @@
+using DeXign.Extension;
+using DeXign.SDK;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -25,6 +27,13 @@ namespace DeXign.Core
         // 노드 깊이 (인덴트에 주로 많이쓸듯)
         public int Depth { get; set; }
 
+        public ResourceType? ResourceType { get; set; }
+
+        public bool HasResource
+        {
+            get { return ResourceType != null; }
+        }
+
         public bool HasChildren
         {
             get { return Children != null && Children.Count > 0; }
@@ -38,10 +47,19 @@ namespace DeXign.Core
             if (Attribute == null)
                 throw new ArgumentException();
 
-            if (this.Element is PropertyInfo)
+            if (this.Element is PropertyInfo pi)
+            {
                 this.ElementType = CodeComponentType.Property;
+
+                if (!pi.HasAttribute<DXResourceAttribute>())
+                    return;
+
+                this.ResourceType = pi.GetAttribute<DXResourceAttribute>().Type;
+            }
             else
+            {
                 this.ElementType = CodeComponentType.Instance;
+            }
         }
 
         public void Add(CodeComponent<TAttribute> component)
@@ -60,6 +78,11 @@ namespace DeXign.Core
                 return;
 
             Children.Remove(component);
+        }
+
+        public override string ToString()
+        {
+            return $"{ElementType.ToString()}, {Element.GetType().Name}";
         }
     }
 }
