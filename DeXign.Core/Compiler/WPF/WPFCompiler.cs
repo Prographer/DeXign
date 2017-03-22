@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.IO;
+using System.Diagnostics;
 using System.CodeDom.Compiler;
-using System.Text;
+using System.Collections.Generic;
 
 using DeXign.Extension;
 using DeXign.Core.Logic;
 using DeXign.Core.Controls;
 
 using Microsoft.CSharp;
-using System.Diagnostics;
 
 namespace DeXign.Core.Compiler
 {
@@ -61,7 +60,6 @@ namespace DeXign.Core.Compiler
         public override DXCompileResult Compile(DXCompileOption option, PContentPage[] screens, PBinderHost[] components)
         {
             var sw = new Stopwatch();
-
             sw.Start();
             
             // Result
@@ -149,7 +147,11 @@ namespace DeXign.Core.Compiler
             // Compile Binary
             CompilerResults compileResult = provider.CompileAssemblyFromSource(compileParam, csSources.ToArray());
             compileParam.TempFiles.Delete();
-            
+
+            // 컴파일 시간 기록
+            sw.Stop();
+            result.Elapsed = sw.Elapsed;
+
             if (compileResult.Errors.Count > 0)
             {
                 result.Errors.AddRange(compileResult.Errors.Cast<object>());
@@ -225,20 +227,7 @@ namespace DeXign.Core.Compiler
         }
         #endregion
 
-        #region [ Native Code Generate ]
-        private static string BuildNativeCode(DXCompileOption option, string resourcePath, params (string Key, string Code)[] datas)
-        {
-            string code = GetTextResource(resourcePath);
-
-            code = code.Replace("{ApplicationName}", option.ApplicationName);
-            code = code.Replace("{RootNamespace}", option.RootNamespace);
-
-            foreach (var data in datas)
-                code = code.Replace($"{{{data.Key}}}", data.Code);
-
-            return code;
-        }
-
+        #region [ Generator ]
         private static WPFLayoutGenerator CreateLayoutGenerator(DXCompileOption option, PContentPage[] screens)
         {
             var codeUnit = new CodeGeneratorUnit<PObject>()

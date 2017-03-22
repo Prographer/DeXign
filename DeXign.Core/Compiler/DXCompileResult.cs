@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DeXign.Core.Compiler
 {
@@ -6,11 +7,13 @@ namespace DeXign.Core.Compiler
     {
         public DXCompileOption Option { get; }
 
-        public bool IsSuccess { get; set; } = false;
+        public bool IsSuccess { get; set; }
 
         public List<string> Outputs { get; }
 
         public List<object> Errors { get; }
+        
+        public TimeSpan Elapsed { get; set; }
 
         public DXCompileResult(DXCompileOption option)
         {
