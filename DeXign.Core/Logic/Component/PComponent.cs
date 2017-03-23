@@ -20,20 +20,6 @@ namespace DeXign.Core.Logic
 
         public PComponent() : base()
         {
-            InitializeBinders();
-        }
-
-        private void InitializeBinders()
-        {
-            foreach (var attr in this.GetType().GetProperties()
-                .Where(_pi => _pi.HasAttribute<ComponentParameterAttribute>())
-                .Select(_pi => _pi.GetAttribute<ComponentParameterAttribute>())
-                .OrderBy(_attr => _attr.DisplayIndex))
-            {
-                var binder = AddParamterBinder(attr.DisplayName, attr.AssignableType);
-
-                binder.IsSingle = attr.IsSingle;
-            }
         }
 
         public PParameterBinder AddParamterBinder(string name, Type assignableType)

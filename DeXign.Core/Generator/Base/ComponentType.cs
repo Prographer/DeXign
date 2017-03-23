@@ -4,6 +4,9 @@ namespace DeXign.Core
     {
         Instance,
         Property,
-        Event
+        Event,
+
+        Node,
+        Parameter
     }
 }

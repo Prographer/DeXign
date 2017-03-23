@@ -73,7 +73,7 @@ namespace DeXign.Core
         }
     }
 
-    class WPFLayoutGenerator : Generator<WPFAttribute, PObject>
+    public class WPFLayoutGenerator : Generator<WPFAttribute, PObject>
     {
         const string XMLNS = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
 
@@ -83,9 +83,9 @@ namespace DeXign.Core
         public List<string> Images { get; }
 
         public WPFLayoutGenerator(
-            CodeGeneratorUnit<PObject> cgUnit,
+            LayoutGeneratorUnit layoutUnit,
             CodeGeneratorManifest cgManifest,
-            CodeGeneratorAssemblyInfo cgAssmInfo) : base(cgUnit, cgManifest, cgAssmInfo)
+            CodeGeneratorAssemblyInfo cgAssmInfo) : base(layoutUnit, cgManifest, cgAssmInfo)
         {
             this.Images = new List<string>();
             this.NameContainer = new NameContainer();

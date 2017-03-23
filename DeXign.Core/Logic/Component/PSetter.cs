@@ -1,29 +1,28 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 
 using WPFExtension;
 
 namespace DeXign.Core.Logic
 {
+    [CSharp("{Target}.{Property} = {Value};")]
     [DesignElement(Category = Constants.Logic.Default, DisplayName = "설정하기", Visible = true)]
     public class PSetter : PTargetable
     {
-        public static readonly DependencyProperty ValueProperty =
-            DependencyHelper.Register();
-        
-        [ComponentParameter("값", typeof(PObject), DisplayIndex = 1)]
-        public object Value
-        {
-            get { return GetValue<object>(ValueProperty); }
-            set { SetValue(ValueProperty, value); }
-        }
+        public bool IsDirectValue => ValueBinder.IsDirectValue;
 
-        public PParameterBinder ValueParamBinder { get; }
+        public object Value => ValueBinder.DirectValue;
+
+        public PParameterBinder ValueBinder { get; set; }
+
+        public PObject DummyObject { get; set; }
         
         public PSetter() : base()
         {
             this.ClearReturnBinder();
-            this.ValueParamBinder = this[BindOptions.Parameter].Skip(1).First() as PParameterBinder;
+
+            this.ValueBinder = this.AddParamterBinder("값", typeof(object));   
         }
 
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
@@ -32,7 +31,14 @@ namespace DeXign.Core.Logic
 
             if (e.Property == TargetTypeProperty)
             {
-                ValueParamBinder.ParameterType = this.TargetType;
+                if (this.TargetType == null)
+                    return;
+
+                // 더미가 이미 생성됬고 설정된 타입과 같은경우
+                if (this.DummyObject != null && this.DummyObject.GetType() == this.TargetType)
+                    return;
+
+                this.DummyObject = Activator.CreateInstance(this.TargetType) as PObject;
             }
         }
     }

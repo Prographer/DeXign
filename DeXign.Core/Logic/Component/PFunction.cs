@@ -41,8 +41,8 @@ namespace DeXign.Core.Logic
             return this.RuntimeMethodInfo.GetParameters();
         }
     }
-
-
+    
+    [CSharp("{Function:R}")]
     [DesignElement(DisplayName = "함수", Visible = false)]
     public class PFunction : PComponent
     {
@@ -76,7 +76,7 @@ namespace DeXign.Core.Logic
             }
         }
         
-        public PReturnBinder ReturnBinder { get; private set; }
+        public PReturnBinder ReturnBinder { get; set; }
 
         public NamedParameterInfo[] ParameterInfos
         {
@@ -115,7 +115,15 @@ namespace DeXign.Core.Logic
             this.ClearReturnBinder();
             this.ClearParameterBinder();
 
-            this.ReturnBinder = this.AddReturnBinder("결과", this.FunctionInfo.ReturnType);
+            string returnName = "결과";
+
+            if (FunctionInfo.Attribute is DXFunctionAttribute attr)
+            {
+                if (!string.IsNullOrEmpty(attr.ReturnDisplayName))
+                    returnName = attr.ReturnDisplayName;
+            }
+
+            this.ReturnBinder = this.AddReturnBinder(returnName, this.FunctionInfo.ReturnType);
 
             foreach (ParameterInfo pi in this.FunctionInfo.GetParameters())
             {

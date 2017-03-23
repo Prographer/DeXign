@@ -7,6 +7,7 @@ using System.Collections.Specialized;
 
 namespace DeXign.Core.Logic
 {
+    [CSharp("")]
     public class PBinderHost : PObject, IBinderHost
     {
         public event EventHandler<BinderBindedEventArgs> Binded;
@@ -55,7 +56,7 @@ namespace DeXign.Core.Logic
         protected override void OnGuidChanged()
         {
             base.OnGuidChanged();
-
+            
             this.Items?.Clear();
         }
 

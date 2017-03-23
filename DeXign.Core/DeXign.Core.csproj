@@ -52,10 +52,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\ComponentParameterAttribute.cs" />
     <Compile Include="Attributes\DesignDescriptionAttribute.cs" />
     <Compile Include="Attributes\DesignElementAttribute.cs" />
     <Compile Include="Attributes\DesignElementIgnoreAttribute.cs" />
+    <Compile Include="ComparisonPredicate.cs" />
     <Compile Include="Compiler\BaseCompilerService.cs" />
     <Compile Include="Compiler\Builder\CSBuilder.cs" />
     <Compile Include="Compiler\Debugger\BaseDebugger.cs" />
@@ -74,6 +74,9 @@
     <Compile Include="Compiler\Debugger\DXDebugger.cs" />
     <Compile Include="Exceptions\ElementNameDuplicateException.cs" />
     <Compile Include="Exceptions\ElementNotFoundException.cs" />
+    <Compile Include="Generator\CSharpGenerator.cs" />
+    <Compile Include="Generator\Unit\LayoutGeneratorUnit.cs" />
+    <Compile Include="Generator\Unit\LogicGeneratorUnit.cs" />
     <Compile Include="Logic\BinderHelper.cs" />
     <Compile Include="Collections\PDefinitionCollection.cs" />
     <Compile Include="Collections\PControlCollection.cs" />
@@ -128,7 +131,7 @@
     <Compile Include="Generator\Base\Generator.cs" />
     <Compile Include="Generator\Base\IGenerator.cs" />
     <Compile Include="Generator\Base\CodeGeneratorManifest.cs" />
-    <Compile Include="Generator\WPFGenerator.cs" />
+    <Compile Include="Generator\WPFLayoutGenerator.cs" />
     <Compile Include="Generator\XFormsGenerator.cs" />
     <Compile Include="Generator\XMLGenerator.cs" />
     <Compile Include="Interfaces\INameScope.cs" />

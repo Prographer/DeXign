@@ -57,7 +57,7 @@ namespace DeXign.Core.Compiler
         }
 
         #region [ Compile ]
-        public override DXCompileResult Compile(DXCompileOption option, PContentPage[] screens, PBinderHost[] components)
+        public override DXCompileResult Compile(DXCompileOption option, PContentPage[] screens, PBinderHost[] hosts)
         {
             var sw = new Stopwatch();
             sw.Start();
@@ -65,11 +65,12 @@ namespace DeXign.Core.Compiler
             // Result
             var result = new DXCompileResult(option);
 
-            // Layout
-            WPFLayoutGenerator generator = CreateLayoutGenerator(option, screens);
-            
+            // Generator
+            WPFLayoutGenerator layoutGenerator = CreateLayoutGenerator(option, screens);
+            CSharpGenerator logicGenerator = CreateLogicGenerator(layoutGenerator, hosts);
+
             // CS Builder
-            var csBuilder = new WPFCodeBuilder(option, screens, components);
+            var csBuilder = new WPFCodeBuilder(option, screens, hosts);
 
             // CodeDom
             var provider = new CSharpCodeProvider();
@@ -86,7 +87,7 @@ namespace DeXign.Core.Compiler
             };
 
             // Add WPF Referenced Assembly
-            Assembly[] dependencyLibs = GetReferencedAssemblyNames(screens, components).ToArray();
+            Assembly[] dependencyLibs = GetReferencedAssemblyNames(screens, hosts).ToArray();
 
             AddReferencedAssemblies(compileParam, dependencyLibs);
 
@@ -103,8 +104,10 @@ namespace DeXign.Core.Compiler
             DirectoryEx.CreateDirectory(directory);
 
             // Generate Native Code
-            string[] screensXaml = generator.Generate().ToArray();
+            string[] screensXaml = layoutGenerator.Generate().ToArray();
             var csSources = new List<string>();
+
+            var d = logicGenerator.Generate().ToArray();
 
             foreach (string cs in WPFCompiler.CodeResources.Values)
             {
@@ -119,7 +122,7 @@ namespace DeXign.Core.Compiler
                     var res = new WPFResourceWriter(fs);
 
                     // 이미지 리소스 추가
-                    foreach (string img in generator.Images)
+                    foreach (string img in layoutGenerator.Images)
                         res.AddImage(img, "");
 
                     // 레이아웃 xaml 추가
@@ -228,15 +231,22 @@ namespace DeXign.Core.Compiler
         #endregion
 
         #region [ Generator ]
+        private static CSharpGenerator CreateLogicGenerator(WPFLayoutGenerator layoutGenerator, PBinderHost[] hosts)
+        {
+            var logicUnit = new LogicGeneratorUnit(hosts);
+
+            // Logic Generator
+            return new CSharpGenerator(
+                layoutGenerator.NameContainer,
+                logicUnit,
+                layoutGenerator.Manifest,
+                layoutGenerator.AssemblyInfo);
+        }
+
         private static WPFLayoutGenerator CreateLayoutGenerator(DXCompileOption option, PContentPage[] screens)
         {
-            var codeUnit = new CodeGeneratorUnit<PObject>()
-            {
-                NodeIterating = true
-            };
-
-            codeUnit.Items.AddRange(screens);
-
+            var layoutUnit = new LayoutGeneratorUnit(screens);
+            
             var assemblyInfo = new CodeGeneratorAssemblyInfo()
             {
                 Title = option.ApplicationName
@@ -248,9 +258,9 @@ namespace DeXign.Core.Compiler
                 ApplicationName = option.ApplicationName
             };
 
-            // Layout Generate
+            // Layout Generator
             return new WPFLayoutGenerator(
-                codeUnit,
+                layoutUnit,
                 manifest,
                 assemblyInfo);
         }

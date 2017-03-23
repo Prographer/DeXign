@@ -7,6 +7,7 @@ using WPFExtension;
 
 namespace DeXign.Core.Logic
 {
+    [CSharp("{Target}")]
     [DesignElement(Category = Constants.Logic.Default, DisplayName = "객체 가져오기", Visible = false)]
     public class PSelector : PComponent
     {
@@ -19,7 +20,7 @@ namespace DeXign.Core.Logic
             set { SetValue(TargetVisualProperty, value); }
         }
 
-        public PReturnBinder ReturnBinder { get; }
+        public PReturnBinder ReturnBinder { get; set; }
 
         public PSelector()
         {

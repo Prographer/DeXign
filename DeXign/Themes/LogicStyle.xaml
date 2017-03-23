@@ -85,7 +85,7 @@
         <Setter Property="Foreground" Value="{StaticResource Brush.Logic.Component}"/>
         <Setter Property="Effect">
             <Setter.Value>
-                <DropShadowEffect Direction="270" ShadowDepth="2" Opacity="0.2"/>
+                <DropShadowEffect Direction="270" ShadowDepth="2" Opacity="0"/>
             </Setter.Value>
         </Setter>
         
@@ -293,15 +293,7 @@
             <Setter.Value>
                 <DataTemplate DataType="{x:Type l:PBranch}">
                     <ui:SpacingStackPanel>
-                        <ComboBox x:Name="PART_operatorBox" SelectedIndex="0">
-                            <ComboBoxItem Content="=="/>
-                            <ComboBoxItem Content="!="/>
-                            <ComboBoxItem Content="&lt;="/>
-                            <ComboBoxItem Content="&gt;="/>
-                            <ComboBoxItem Content="&lt;"/>
-                            <ComboBoxItem Content="&gt;"/>
-                            <ComboBoxItem Content="Contains"/>
-                        </ComboBox>
+                        <ComboBox x:Name="PART_operatorBox" SelectedIndex="0"/>
 
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -311,13 +303,13 @@
 
                             <CheckBox x:Name="PART_valueCheckBox" VerticalAlignment="Top" Content="직접 입력"/>
 
-                            <TextBox x:Name="tbValue" Grid.Column="1" Visibility="Collapsed" Margin="8,0,0,0" Width="80"/>
+                            <TextBox x:Name="PART_valueBox" Text="{Binding Value}" Grid.Column="1" Visibility="Collapsed" Margin="8,0,0,0" Width="80"/>
                         </Grid>
                     </ui:SpacingStackPanel>
                     <DataTemplate.Triggers>
                         <Trigger SourceName="PART_valueCheckBox" Property="IsChecked" Value="true">
                             <Setter TargetName="PART_valueCheckBox" Property="Content" Value="{x:Null}"/>
-                            <Setter TargetName="tbValue" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="PART_valueBox" Property="Visibility" Value="Visible"/>
                         </Trigger>
                     </DataTemplate.Triggers>
                 </DataTemplate>

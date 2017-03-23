@@ -42,6 +42,7 @@ namespace DeXign.Core.Logic
         }
     }
 
+    [CSharp("{Target}.{Property:EventName} += {EventCallback};")]
     [DesignElement(DisplayName = "이벤트", Visible = false)]
     public class PTrigger : PComponent
     {
@@ -80,7 +81,7 @@ namespace DeXign.Core.Logic
             get { return GetValue<NamedParameterInfo[]>(ParameterInfosProperty); }
             private set { SetValue(ParameterInfosPropertyKey, value); }
         }
-
+        
         public PTrigger()
         {
             this.AddNewBinder(BindOptions.Input);

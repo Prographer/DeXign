@@ -3,6 +3,8 @@ using System.Linq;
 using System.ComponentModel;
 
 using DeXign.Core.Collections;
+using System.Windows;
+using WPFExtension;
 
 namespace DeXign.Core.Logic
 {
@@ -10,6 +12,12 @@ namespace DeXign.Core.Logic
     {
         public event EventHandler<IBinder> Binded;
         public event EventHandler<IBinder> Released;
+
+        public static readonly DependencyProperty IsDirectValueProperty =
+            DependencyHelper.Register();
+
+        public static readonly DependencyProperty DirectValueProperty =
+            DependencyHelper.Register();
 
         public IBinderHost Host { get; set; }
 
@@ -19,6 +27,21 @@ namespace DeXign.Core.Logic
         public BinderCollection Items { get; }
 
         public bool IsSingle { get; set; }
+
+        /// <summary>
+        /// 직접 입력을 사용하는지에 대한 상태를 설정하거나 가져옵니다.
+        /// </summary>
+        public bool IsDirectValue
+        {
+            get { return GetValue<bool>(IsDirectValueProperty); }
+            set { SetValue(IsDirectValueProperty, value); }
+        }
+
+        public object DirectValue
+        {
+            get { return GetValue<object>(DirectValueProperty); }
+            set { SetValue(DirectValueProperty, value); }
+        }
 
         public PBinder()
         {

@@ -1,11 +1,8 @@
-﻿using System;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows;
 using System.Windows.Media;
 
-using DeXign.Core;
 using DeXign.Core.Logic;
-using DeXign.Core.Designer;
 using DeXign.Controls;
 using DeXign.Extension;
 using DeXign.Editor.Logic;

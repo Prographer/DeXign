@@ -48,12 +48,15 @@ namespace DeXign.Editor.Logic
             get { return (ObservableCollection<PropertyItem>)GetValue(PropertyListProperty); }
         }
 
-        protected PParameterBinder TargetBinder { get; private set; }
+        public new PTargetable Model => (PTargetable)base.Model;
 
+        protected Dictionary<DependencyProperty, PropertyItem> dictItems;
         private ComboBox propertyBox;
 
         public BaseProperty()
         {
+            dictItems = new Dictionary<DependencyProperty, PropertyItem>();
+
             SetValue(PropertyListPropertyKey, new ObservableCollection<PropertyItem>());
 
             TargetTypeProperty.AddValueChanged(this, TargetType_Changed);
@@ -64,7 +67,9 @@ namespace DeXign.Editor.Logic
         {
             base.OnAttachedComponentModel();
 
-            this.TargetBinder = this.GetBinderModel<PParameterBinder>(BindOptions.Parameter, 0);
+            BindingEx.SetBinding(
+                this.Model, PTargetable.PropertyProperty,
+                this, BaseProperty.SelectedPropertyProperty);
 
             this.Loaded += BaseProperty_Loaded;
         }
@@ -112,16 +117,31 @@ namespace DeXign.Editor.Logic
 
         private void UpdateTargetType()
         {
-            if (TargetType != null)
+            if (TargetType == null)
+            {
+                this.Clear();
+            }
+            else
             {
                 PropertyList.Clear();
 
                 foreach (var prop in DesignerManager.GetProperties(TargetType))
                 {
-                    PropertyList.Add(new PropertyItem(prop));
+                    var item = new PropertyItem(prop);
+
+                    dictItems[item.Property] = item;
+
+                    PropertyList.Add(item);
                 }
 
-                propertyBox.SelectedIndex = 0;
+                if (this.Model.Property != null && dictItems.ContainsKey(this.Model.Property))
+                {
+                    propertyBox.SelectedItem = dictItems[this.Model.Property];
+                }
+                else
+                {
+                    propertyBox.SelectedIndex = 0;
+                }
             }
 
             OnTargetTypeChanged();
@@ -129,6 +149,13 @@ namespace DeXign.Editor.Logic
 
         protected virtual void OnTargetTypeChanged()
         {
+        }
+        
+        protected void Clear()
+        {
+            this.TargetType = null;
+            this.PropertyList.Clear();
+            dictItems.Clear();
         }
     }
 }

@@ -106,7 +106,7 @@ namespace DeXign.Editor.Renderer
             if (index != -1)
             {
                 IRenderer childRenderer = element.GetRenderer();
-                var elementModel = childRenderer as PControl;
+                var elementModel = childRenderer.Model as PControl;
 
                 // WPF
                 this.Element.Children.Remove(element);
