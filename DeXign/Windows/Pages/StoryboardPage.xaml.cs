@@ -66,7 +66,7 @@ namespace DeXign.Windows.Pages
         {
             storyboard.Loaded -= Storyboard_Loaded;
 
-            if (Model.Project.Screens.Count == 0)
+            if (Model.Project.Screens.Count + Model.Project.Components.Count == 0)
             {
                 storyboard.AddNewScreen();
             }

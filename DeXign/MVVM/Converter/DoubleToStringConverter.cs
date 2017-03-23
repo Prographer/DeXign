@@ -12,7 +12,7 @@ namespace DeXign.Converter
         public override string Convert(double value, object parameter)
         {
             if (double.IsNaN(value))
-                return "Auto";
+                return "자동";
 
             return value.ToString();
         }

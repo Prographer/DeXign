@@ -43,8 +43,8 @@ namespace DeXign.Controls
             {
                 Title = "이미지를 선택해주세요",
                 Filter = "모든 이미지|*.jpg;*.jpeg;*.png|" +
-              "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
-              "Portable Network Graphic (*.png)|*.png"
+                    "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
+                    "Portable Network Graphic (*.png)|*.png"
             };
 
             if (op.ShowDialog() == true)

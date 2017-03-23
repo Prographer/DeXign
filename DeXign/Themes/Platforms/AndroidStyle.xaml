@@ -19,17 +19,17 @@
                             <Rectangle Fill="#E8E8E8" RadiusX="35" RadiusY="35" Grid.ColumnSpan="3"/>
 
                             <!-- Sub Camera? -->
-                            <Ellipse Grid.Column="0" Width="6.5" Height="6.5" Margin="0,15.07,12,0" Fill="#D8D8D8" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-                            <Ellipse Grid.Column="0" Width="6.5" Height="6.5" Margin="0,15.07,22,0" Fill="#D8D8D8" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                            <Ellipse Grid.Column="0" Width="6.5" Height="6.5" Margin="0,15.07,12,0" Fill="#C5C5C5" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                            <Ellipse Grid.Column="0" Width="6.5" Height="6.5" Margin="0,15.07,22,0" Fill="#C5C5C5" VerticalAlignment="Top" HorizontalAlignment="Right"/>
 
                             <!-- Front Speaker -->
-                            <Rectangle Grid.Column="1" Height="4.65" Margin="0,16,0,0" RadiusX="2.325" RadiusY="2.325" Fill="#D8D8D8" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+                            <Rectangle Grid.Column="1" Height="4.65" Margin="0,16,0,0" RadiusX="2.325" RadiusY="2.325" Fill="#C5C5C5" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
 
                             <!-- Front Camera -->
-                            <Ellipse Grid.Column="2" Width="13" Height="13" Margin="33,16,0,0" Fill="#D8D8D8" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            <Ellipse Grid.Column="2" Width="13" Height="13" Margin="33,16,0,0" Fill="#C5C5C5" VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
                             <!-- Home Button -->
-                            <Rectangle Grid.Column="1" Height="21.4" Width="52" Margin="0,0,0,11.6" RadiusX="9" RadiusY="9" Fill="#D8D8D8" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                            <Rectangle Grid.Column="1" Height="21.4" Width="52" Margin="0,0,0,11.6" RadiusX="9" RadiusY="9" Fill="#C5C5C5" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
                         </Grid>
 
                         <Rectangle Fill="White" IsHitTestVisible="False"/>

@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace DeXign.Controls
@@ -15,6 +16,13 @@ namespace DeXign.Controls
             }
 
             base.OnPreviewKeyDown(e);
+        }
+
+        protected override void OnIsKeyboardFocusedChanged(DependencyPropertyChangedEventArgs e)
+        {
+            base.OnIsKeyboardFocusedChanged(e);
+            
+            this.SelectAll();
         }
     }
 

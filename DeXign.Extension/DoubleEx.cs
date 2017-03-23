@@ -32,7 +32,7 @@ namespace DeXign.Extension
         {
             value = value.ToLower();
 
-            if (value == "auto" || value == "nan")
+            if (value == "auto" || value == "nan" || value.Contains("ÀÚµ¿"))
             {
                 result = double.NaN;
                 return true;

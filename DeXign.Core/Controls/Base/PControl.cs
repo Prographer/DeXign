@@ -22,6 +22,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Blank, DisplayName = "바깥 여백")]
         [XForms("Margin")]
+        [WPF("Margin")]
         public Thickness Margin
         {
             get { return GetValue<Thickness>(MarginProperty); }
@@ -30,6 +31,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Layout, DisplayName = "세로 정렬", IsNotEnum = true)]
         [XForms("VerticalOptions")]
+        [WPF("VerticalAlignment")]
         public PVerticalAlignment VerticalAlignment
         {
             get { return GetValue<PVerticalAlignment>(VerticalAlignmentProperty); }
@@ -38,6 +40,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Layout, DisplayName = "가로 정렬", IsNotEnum = true)]
         [XForms("HorizontalOptions")]
+        [WPF("HorizontalAlignment")]
         public PHorizontalAlignment HorizontalAlignment
         {
             get { return GetValue<PHorizontalAlignment>(HorizontalAlignmentProperty); }

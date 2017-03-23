@@ -6,6 +6,8 @@ using DeXign.Editor;
 using DeXign.Editor.Renderer.Controls;
 using DeXign.Extension;
 using DeXign.Resources;
+using DeXign.UI;
+
 using System.Windows.Media;
 
 [assembly: ExportRenderer(typeof(PImage), typeof(ImageBox), typeof(ImageRenderer))]

@@ -1,7 +1,12 @@
 using System;
+using System.IO;
+using System.Text;
 using System.Linq;
-using System.Windows.Controls;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Controls;
+using System.ComponentModel;
+using System.CodeDom.Compiler;
 
 using DeXign.IO;
 using DeXign.Controls;
@@ -12,13 +17,10 @@ using DeXign.Windows.Pages;
 using DeXign.Editor;
 using DeXign.Database;
 using DeXign.Extension;
-using System.Windows;
-using System.IO;
-using System.Windows.Media;
 using DeXign.Core.Logic;
 using DeXign.Editor.Renderer;
-using System.ComponentModel;
 using DeXign.Core.Compiler;
+using DeXign.Core.Controls;
 
 namespace DeXign.Windows
 {
@@ -146,8 +148,10 @@ namespace DeXign.Windows
         #endregion
 
         #region [ Commands ]
-        private void StopDebug_Execute(object sender, ExecutedRoutedEventArgs e)
+        private async void StopDebug_Execute(object sender, ExecutedRoutedEventArgs e)
         {
+            await DXDebugger.Stop();
+
             // TODO: Stop
             GlobalModel.Instance.IsDebugging = false;
         }
@@ -173,10 +177,64 @@ namespace DeXign.Windows
             {
                 ApplicationName = proj.Manifest.ProjectName,
                 RootNamespace = proj.Manifest.PackageName,
-                TargetPlatform = this.Model.StoryboardPage.Model.SelectedPlatform
+                TargetPlatform = this.Model.StoryboardPage.Model.SelectedPlatform,
+                Directory = $"{Path.GetDirectoryName(proj.FileName)}"
             };
 
-            //DXCompiler.Compile(dxCompileOption,);
+            PContentPage[] screens = proj.Screens.ToArray();
+            PBinderHost[] binderHosts = screens
+                .Select(s => s.GetRenderer())                   // PContentPage -> IRenderer
+                .SelectMany(r => r.FindChildrens<IRenderer>())  // 모든 렌더러 자식 (하위 포함)
+                .Where(r => r.ProvideValue().Items.Sum(b => b.Items.Count) > 0)   // 연결된 아이템들
+                .Select(r => r.ProvideValue() as PBinderHost)   // BinderHost 선택
+                .ToArray();
+
+            DXCompileResult result = DXCompiler.Compile(dxCompileOption, screens, binderHosts);
+            
+            if (result.IsSuccess)
+            {
+                OnCompileSuccess(result);
+            }
+            else
+            {
+                OnCompileError(result);
+            }
+        }
+
+        private async void OnCompileSuccess(DXCompileResult result)
+        {
+            switch (result.Option.TargetPlatform)
+            {
+                case Platform.Window:
+                    await DXDebugger.RunWinApplication(result.Outputs[0]);
+                    break;
+
+                case Platform.XForms:
+                    break;
+            }
+
+            DXCommands.StopDebugCommand.Execute(null, null);
+        }
+
+        private void OnCompileError(DXCompileResult result)
+        {
+            var sb = new StringBuilder();
+
+            foreach (object error in result.Errors)
+            {
+                if (error is CompilerError cErr)
+                {
+                    sb.AppendLine(cErr.ErrorText);
+                }
+                else if (error is Exception ex)
+                {
+                    sb.AppendLine($"Exception: {ex.Message}");
+                }
+            }
+            
+            MessageBox.Show("컴파일 에러: \r\n" + sb.ToString(), "DeXign", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+
+            GlobalModel.Instance.IsDebugging = false;
         }
 
         private void Search_Execute(object sender, ExecutedRoutedEventArgs e)

@@ -6,12 +6,14 @@ namespace DeXign.Core
 {
     public static class CodeComponentEx
     {
-        public static bool HasContentComponent(this CodeComponent<XFormsAttribute> component)
+        public static bool HasContentComponent<T>(this CodeComponent<T> component)
+            where T : GenerateAttribute
         {
             return component.GetContentComponent() != null;
         }
 
-        public static CodeComponent<XFormsAttribute> GetContentComponent(this CodeComponent<XFormsAttribute> component)
+        public static CodeComponent<T> GetContentComponent<T>(this CodeComponent<T> component)
+            where T : GenerateAttribute
         {
             string contentProperty = "";
             var contentAttr = component.Element

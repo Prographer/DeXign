@@ -25,6 +25,7 @@ using DeXign.Converter;
 using DeXign.Task;
 using DeXign.Utilities;
 using DeXign.Editor.Logic;
+using DeXign.Resources;
 
 namespace DeXign.Editor.Controls
 {
@@ -357,9 +358,6 @@ namespace DeXign.Editor.Controls
             var control = this.GenerateToElement(this, metadata.Element, pushTask: false) as ContentControl;
             var model = (PContentPage)control.GetRenderer().Model;
             
-            // Add Screen To Project
-            Screens?.Add(model);
-
             LayoutExtension.SetPageName(
                 model, 
                 $"Screen{Screens?.Count}");
@@ -443,9 +441,23 @@ namespace DeXign.Editor.Controls
                 parent,
                 pi => pi.SetValue(parent, element),  // Single Content
                 list => list.SafeAdd(element));          // List Content
-            
+
+            this.AddElementCore(childRenderer);
+
             // Notice child added
             parentRenderer?.AddChild(childRenderer, childRenderer.Metadata.CreatedPosition);
+        }
+
+        private void AddElementCore(IRenderer childRenderer)
+        {
+            if (childRenderer.Model is PContentPage screen)
+            {
+                this.Screens?.SafeAdd(screen);
+            }
+            else if (childRenderer.Model is PComponent component)
+            {
+                this.Components?.SafeAdd(component);
+            }
         }
 
         /// <summary>
@@ -487,9 +499,23 @@ namespace DeXign.Editor.Controls
                 parent,
                 pi => pi.SetValue(parent, null),     // Single Content
                 list => list.SafeRemove(element));   // List Content
-            
+
+            RemoveElementCore(childRenderer);
+
             // Notice child removed 
             parentRenderer?.RemoveChild(childRenderer);
+        }
+
+        private void RemoveElementCore(IRenderer childRenderer)
+        {
+            if (childRenderer.Model is PContentPage screen)
+            {
+                this.Screens?.SafeRemove(screen);
+            }
+            else if (childRenderer.Model is PComponent component)
+            {
+                this.Components?.SafeRemove(component);
+            }
         }
 
         private void DestroyElement(FrameworkElement parent, FrameworkElement element)
@@ -709,9 +735,7 @@ namespace DeXign.Editor.Controls
             }
             
             ZoomFocusTo(control.GetRenderer());
-
-            this.Components.Add(control.GetRenderer().Model as PComponent);
-
+            
             return control;
         }
         
@@ -769,6 +793,16 @@ namespace DeXign.Editor.Controls
         internal void ConnectComponentLine(BindThumb outputThumb, BindThumb inputThumb)
         {
             LineConnector connector = CreateConnectedLine(outputThumb, inputThumb);
+
+            if (connector != null)
+            {
+                connector.Line.LineBrush = new SolidColorBrush(Color.FromArgb(80, 255, 255, 255));
+                if (outputThumb.Binder.BindOption == BindOptions.Output && inputThumb.BindOption == BindOptions.Input)
+                    connector.Line.LineBrush = ResourceManager.GetBrush("Flat.Accent.DeepDark");
+            }
+
+            
+
             connector?.Update();
         }
 

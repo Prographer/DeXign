@@ -8,6 +8,7 @@ namespace DeXign.Core.Controls
     [ContentProperty("Children")]
     [DesignElement(Category = Constants.Designer.Layout, DisplayName = "스택")]
     [XForms("Xamarin.Forms", "StackLayout")]
+    [WPF("clr-namespace:DeXign.UI;assembly=DeXign.UI", "SpacingStackPanel")]
     public class PStackLayout : PLayout<PControl>
     {
         public static readonly DependencyProperty OrientationProperty =
@@ -20,6 +21,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Design, DisplayName = "쌓기 방향")]
         [XForms("Orientation")]
+        [WPF("Orientation")]
         public POrientation Orientation
         {
             get { return GetValue<POrientation>(OrientationProperty); }
@@ -28,6 +30,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Blank, DisplayName = "아이템 사이 공백")]
         [XForms("Spacing")]
+        [WPF("Spacing")]
         public double Spacing
         {
             get { return GetValue<double>(SpacingProperty); }

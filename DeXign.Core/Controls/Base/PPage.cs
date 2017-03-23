@@ -23,6 +23,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Layout, DisplayName = "제목")]
         [XForms("Title")]
+        [WPF("Title")]
         public string Title
         {
             get { return GetValue<string>(TitleProperty); }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 
 using DeXign.Extension;
+using DeXign.SDK;
 
 namespace DeXign.Core
 {
@@ -44,11 +45,15 @@ namespace DeXign.Core
                         {
                             // 클래스 인경우
                             Type eType = cc.Element.GetType();
-
+                            var ignore = eType.GetAttribute<DXIgnoreAttribute>();
+                            
                             foreach (PropertyInfo pi in eType
                                 .GetProperties()
                                 .Where(pi => pi.HasAttribute<TAttribute>()))
                             {
+                                if (ignore != null && ignore.PropertyNames.Contains(pi.Name))
+                                    continue;
+
                                 var pAttr = pi.GetAttribute<TAttribute>();
                                 var pComponet = new CodeComponent<TAttribute>(pi, pAttr)
                                 {

@@ -68,8 +68,8 @@ namespace DeXign.Core
             XmlElement rootElement = doc.CreateElement(root.Attribute.Name);
             rootElement.SetAttribute("xmlns", XMLNS);
             rootElement.SetAttribute("xmlns:x", XMLNSX);
-            rootElement.SetAttribute("xmlns:local", $"clr-namespace:{this.Manifest.NamespaceName}");
-            rootElement.SetAttribute("Class", XMLNSX, $"{this.Manifest.NamespaceName}.{pageName}");
+            rootElement.SetAttribute("xmlns:local", $"clr-namespace:{this.Manifest.RootNamespace}");
+            rootElement.SetAttribute("Class", XMLNSX, $"{this.Manifest.RootNamespace}.{pageName}");
 
             SetXamlName(rootElement, root);
 

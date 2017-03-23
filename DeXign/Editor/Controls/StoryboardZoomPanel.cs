@@ -19,7 +19,7 @@ namespace DeXign.Editor.Controls
         public StoryboardZoomPanel() : base()
         {
             this.AllowDrop = true;
-            this.Background = Brushes.White;
+            this.Background = new SolidColorBrush(Color.FromRgb(67, 67, 67));
         }
 
         protected override void OnContentChanged(object oldContent, object newContent)

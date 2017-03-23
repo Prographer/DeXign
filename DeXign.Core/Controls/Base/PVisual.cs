@@ -71,6 +71,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Brush, DisplayName = "배경색")]
         [XForms("BackgroundColor")]
+        [WPF("Background")]
         public Brush Background
         {
             get { return GetValue<Brush>(BackgroundProperty); }
@@ -79,6 +80,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Design, DisplayName = "가로 크기")]
         [XForms("WidthRequest")]
+        [WPF("Width")]
         public double Width
         {
             get { return GetValue<double>(WidthProperty); }
@@ -87,6 +89,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Design, DisplayName = "세로 크기")]
         [XForms("HeightRequest")]
+        [WPF("Height")]
         public double Height
         {
             get { return GetValue<double>(HeightProperty); }
@@ -95,6 +98,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Design, DisplayName = "세로 최소 크기")]
         [XForms("MinimumHeightRequest")]
+        [WPF("MinHeight")]
         public double MinHeight
         {
             get { return GetValue<double>(MinHeightProperty); }
@@ -103,6 +107,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Design, DisplayName = "가로 최소 크기")]
         [XForms("MinimumWidthRequest")]
+        [WPF("MinWidth")]
         public double MinWidth
         {
             get { return GetValue<double>(MinWidthProperty); }
@@ -111,6 +116,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Key = "Percentage", Category = Constants.Property.Design, DisplayName = "투명도")]
         [XForms("Opacity")]
+        [WPF("Opacity")]
         public double Opacity
         {
             get { return GetValue<double>(OpacityProperty); }

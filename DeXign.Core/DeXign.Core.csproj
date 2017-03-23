@@ -57,10 +57,23 @@
     <Compile Include="Attributes\DesignElementAttribute.cs" />
     <Compile Include="Attributes\DesignElementIgnoreAttribute.cs" />
     <Compile Include="Compiler\BaseCompilerService.cs" />
+    <Compile Include="Compiler\Builder\CSBuilder.cs" />
+    <Compile Include="Compiler\Debugger\BaseDebugger.cs" />
+    <Compile Include="Compiler\Debugger\WPFDebugger.cs" />
     <Compile Include="Compiler\DXCompileOption.cs" />
     <Compile Include="Compiler\DXCompiler.cs" />
-    <Compile Include="Compiler\WPFCompiler.cs" />
+    <EmbeddedResource Include="Compiler\WPF\Resources\DXApp.cs" />
+    <EmbeddedResource Include="Compiler\WPF\Resources\DXAssemblyInfo.cs" />
+    <EmbeddedResource Include="Compiler\WPF\Resources\DXAppWindow.cs" />
+    <EmbeddedResource Include="Compiler\WPF\Resources\DXMain.cs" />
+    <Compile Include="Compiler\DXCompileResult.cs" />
+    <Compile Include="Compiler\WPF\WPFCodeBuilder.cs" />
+    <Compile Include="Compiler\WPF\WPFCompiler.cs" />
+    <Compile Include="Compiler\WPF\WPFReesourceWriter.cs" />
     <Compile Include="Compiler\XFormsCompiler.cs" />
+    <Compile Include="Compiler\Debugger\DXDebugger.cs" />
+    <Compile Include="Exceptions\ElementNameDuplicateException.cs" />
+    <Compile Include="Exceptions\ElementNotFoundException.cs" />
     <Compile Include="Logic\BinderHelper.cs" />
     <Compile Include="Collections\PDefinitionCollection.cs" />
     <Compile Include="Collections\PControlCollection.cs" />
@@ -175,7 +188,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Compiler\WPF\Resources\IconLogo.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

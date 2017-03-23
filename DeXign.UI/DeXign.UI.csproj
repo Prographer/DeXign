@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DeXign.Core">
+      <HintPath>..\DeXign.Core\bin\Debug\DeXign.Core.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -48,11 +51,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\ElementNameDuplicateException.cs" />
+    <Compile Include="Exceptions\ElementNotFoundException.cs" />
+    <Compile Include="Controls\DeXignWindow.cs" />
+    <Compile Include="Exceptions\PageNotFoundException.cs" />
+    <Compile Include="Exceptions\UnknownPageException.cs" />
+    <Compile Include="Resource\GenResourceManager.cs" />
+    <Compile Include="Controls\ImageBox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpacingStackPanel.cs" />
+    <Compile Include="Controls\SpacingStackPanel.cs" />
+    <Compile Include="VisualTreeHelperEx.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="DeXignUIStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

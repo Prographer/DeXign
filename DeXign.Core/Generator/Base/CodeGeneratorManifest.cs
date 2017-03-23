@@ -12,6 +12,8 @@ namespace DeXign.Core
 
         public string PackageName { get; set; } = "com.dexign";
 
-        public string NamespaceName { get; set; } = "DeXign";
+        public string RootNamespace { get; set; } = "DeXign";
+
+        public string ApplicationName { get; set; } = "DeXign";
     }
 }
