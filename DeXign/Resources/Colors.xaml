@@ -30,8 +30,8 @@
                    <!-- Window -->
     <Color x:Key="Color.Window.Header.Seperator1">#2B2B2B</Color>
     <Color x:Key="Color.Window.Header.Seperator2">#565656</Color>
-    <Color x:Key="Color.Window.Header.Background.Top">#454545</Color>
-    <Color x:Key="Color.Window.Header.Background.Bottom">#3A3A3A</Color>
+    <Color x:Key="Color.Window.Header.Background.Top">#434343</Color>
+    <Color x:Key="Color.Window.Header.Background.Bottom">#393939</Color>
 
                     <!-- Menu -->
     <Color x:Key="Color.Menu.Border">#E7E7E7</Color>
@@ -54,6 +54,8 @@
     <Color x:Key="Color.PropertyGrid.Setter.Header.Foreground">#aaaaaa</Color>
     <Color x:Key="Color.PropertyGrid.Setter.Background">#4C4C4C</Color>
     <Color x:Key="Color.PropertyGrid.Setter.Hover">#424242</Color>
+    <Color x:Key="Color.PropertyGrid.Setter.Value.Border">#636363</Color>
+    <Color x:Key="Color.PropertyGrid.Setter.Value.Background">#444444</Color>
     <Color x:Key="Color.PropertyGrid.Setter.Value.Focused.Border">#00B3B0</Color>
     <Color x:Key="Color.PropertyGrid.Setter.Value.Focused.Background">#616161</Color>
     
@@ -74,9 +76,9 @@
     <Color x:Key="Color.SearchBar.Icon.Background">#FFFFFF</Color>
 
                     <!-- TabControl -->
-    <Color x:Key="Color.TabControl.Background">#454545</Color>
+    <Color x:Key="Color.TabControl.Background">#4B4B4B</Color>
     <Color x:Key="Color.TabControl.Tab.Selected.Background">#676767</Color>
-    <Color x:Key="Color.TabControl.Tab.Selected.Foreground">#53FFFC</Color>
+    <Color x:Key="Color.TabControl.Tab.Selected.Foreground">#53FFFD</Color>
     <Color x:Key="Color.TabControl.Tab.Unselected.Background">#535353</Color>
     <Color x:Key="Color.TabControl.Tab.Unselected.Foreground">#BCBCBC</Color>
     
@@ -150,6 +152,8 @@
     <SolidColorBrush x:Key="Brush.PropertyGrid.Setter.Header.Foreground" Color="{StaticResource Color.PropertyGrid.Setter.Header.Foreground}"/>
     <SolidColorBrush x:Key="Brush.PropertyGrid.Setter.Background" Color="{StaticResource Color.PropertyGrid.Setter.Background}"/>
     <SolidColorBrush x:Key="Brush.PropertyGrid.Setter.Hover" Color="{StaticResource Color.PropertyGrid.Setter.Hover}"/>
+    <SolidColorBrush x:Key="Brush.PropertyGrid.Setter.Value.Border" Color="{StaticResource Color.PropertyGrid.Setter.Value.Border}"/>
+    <SolidColorBrush x:Key="Brush.PropertyGrid.Setter.Value.Background" Color="{StaticResource Color.PropertyGrid.Setter.Value.Background}"/>
     <SolidColorBrush x:Key="Brush.PropertyGrid.Setter.Value.Focused.Border" Color="{StaticResource Color.PropertyGrid.Setter.Value.Focused.Border}"/>
     <SolidColorBrush x:Key="Brush.PropertyGrid.Setter.Value.Focused.Background" Color="{StaticResource Color.PropertyGrid.Setter.Value.Focused.Background}"/>
     

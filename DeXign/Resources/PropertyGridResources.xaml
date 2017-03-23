@@ -14,11 +14,11 @@
 
     <Style x:Key="ValueBoxStyle" TargetType="{x:Type TextBox}">
         <Setter Property="TabIndex" Value="0"/>
-        <Setter Property="Background" Value="{x:Null}"/>
+        <Setter Property="Background" Value="{StaticResource Brush.PropertyGrid.Setter.Value.Background}"/>
         <Setter Property="Foreground" Value="{StaticResource Brush.PropertyGrid.Foreground}"/>
         <Setter Property="SelectionBrush" Value="{StaticResource Brush.PropertyGrid.Foreground}"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Brush.PropertyGrid.Setter.Value.Border}"/>
         <Setter Property="Padding" Value="4,3"/>
         
         <Setter Property="Template">
@@ -44,12 +44,6 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ValueBoxStyle2" TargetType="{x:Type TextBox}" BasedOn="{StaticResource ValueBoxStyle}">
-        <Setter Property="Padding" Value="3,1"/>
-        <Setter Property="BorderBrush" Value="{StaticResource Brush.PropertyGrid.Setter.Value.Focused.Border}"/>
-        <Setter Property="Background" Value="{StaticResource Brush.PropertyGrid.Setter.Value.Focused.Background}"/>
-    </Style>
-    
     <Style x:Key="ValueBoxSetterStyle" TargetType="{x:Type c:ValueBoxSetter}">
         <Setter Property="Background" Value="{x:Null}"/>
         <Setter Property="Template">
@@ -197,16 +191,6 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type c:ThicknessSetter}">
-                    <ControlTemplate.Resources>
-                        <Style TargetType="{x:Type TextBox}">
-                            <Setter Property="MinWidth" Value="25"/>
-                            <Setter Property="BorderBrush" Value="#747474"/>
-                            <Setter Property="MaxWidth" Value="35"/>
-                            <Setter Property="FontSize" Value="10"/>
-                            <Setter Property="Margin" Value="2"/>
-                            <Setter Property="TextAlignment" Value="Center"/>
-                        </Style>
-                    </ControlTemplate.Resources>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition x:Name="column1" Width="42"/>
@@ -221,10 +205,10 @@
 
                         <Image x:Name="background" Grid.RowSpan="3" Grid.ColumnSpan="3" Source="pack://application:,,,/DeXign;component/Resources/Images/MarginBackground.png" Stretch="Fill" Width="105" Height="105"/>
 
-                        <c:SubmitTextBox x:Name="PART_leftValueBox" MaxWidth="38" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource ValueBoxStyle2}"/>
-                        <c:SubmitTextBox x:Name="PART_rightValueBox" MaxWidth="38" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource ValueBoxStyle2}"/>
-                        <c:SubmitTextBox x:Name="PART_topValueBox" MaxWidth="38" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource ValueBoxStyle2}"/>
-                        <c:SubmitTextBox x:Name="PART_bottomValueBox" MaxWidth="38" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource ValueBoxStyle2}"/>
+                        <c:SubmitTextBox x:Name="PART_leftValueBox" MaxWidth="38" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource ValueBoxStyle}" Padding="3,1"/>
+                        <c:SubmitTextBox x:Name="PART_rightValueBox" MaxWidth="38" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource ValueBoxStyle}" Padding="3,1"/>
+                        <c:SubmitTextBox x:Name="PART_topValueBox" MaxWidth="38" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource ValueBoxStyle}" Padding="3,1"/>
+                        <c:SubmitTextBox x:Name="PART_bottomValueBox" MaxWidth="38" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource ValueBoxStyle}" Padding="3,1"/>
                     </Grid>
 
                     <ControlTemplate.Triggers>
