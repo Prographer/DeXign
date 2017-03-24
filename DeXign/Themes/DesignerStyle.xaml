@@ -120,7 +120,7 @@
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <!--<DataTrigger Binding="{Binding ComponentType}" Value="Component">
-                                        <Setter TargetName="header" Property="BorderBrush" Value="{StaticResource Brush.Logic.Component}"/>
+                                        <Setter TargetName="header" Property="BorderBrush" Value="{StaticResource Brush.Logic.Function}"/>
                                     </DataTrigger>
                                     
                                     <DataTrigger Binding="{Binding ComponentType}" Value="Instance">

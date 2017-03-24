@@ -232,7 +232,7 @@ namespace DeXign.Editor.Layer
 
             SelectionBrush = ResourceManager.GetBrush("Flat.Accent.Dark");
             FrameBrush = ResourceManager.GetBrush("Flat.Accent.Light");
-            HighlightBrush = ResourceManager.GetBrush("Flat.Accent.DeepDark");
+            HighlightBrush = Brushes.Red;// ResourceManager.GetBrush("Flat.Accent.DeepDark");
 
             // 스냅라인 등록
             Storyboard.GuideLayer.Add(this);
@@ -281,12 +281,14 @@ namespace DeXign.Editor.Layer
             #region < Add Move Thumb >
             Add(moveThumb = new LayerMoveThumb(this));
 
-            moveThumb.DragCompleted += ThumbOnDragCompleted;
+            moveThumb.DragStarted += MoveThumb_DragStarted;
+            moveThumb.DragCompleted += MoveThumb_DragCompleted;
             moveThumb.Moved += MoveThumb_Moved;
 
             // Selection
             moveThumb.PreviewMouseLeftButtonDown += MoveThumb_PreviewMouseLeftButtonDown;
             moveThumb.PreviewMouseLeftButtonUp += MoveThumb_PreviewMouseLeftButtonUp;
+            moveThumb.DragCompleted += MoveThumb_DragCompleted;
             #endregion
 
             #region < Add Frame >
@@ -537,6 +539,28 @@ namespace DeXign.Editor.Layer
             foreach (LayerMarginClip clip in clipGrid.Children)
                 ToggleButton.IsCheckedProperty.AddValueChanged(clip, ClipChanged);
             #endregion
+        }
+        #endregion
+
+        #region [ Drag ]
+        private void MoveThumb_DragStarted(object sender, DragStartedEventArgs e)
+        {
+            OnDragStarted();
+        }
+
+        private void MoveThumb_DragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            ThumbOnDragCompleted(sender, null);
+
+            OnDragCompleted();
+        }
+        
+        protected virtual void OnDragStarted()
+        {
+        }
+
+        protected virtual void OnDragCompleted()
+        {
         }
         #endregion
 

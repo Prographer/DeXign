@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+# Blend for Visual Studio 15
+VisualStudioVersion = 15.0.26228.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeXign", "DeXign\DeXign.csproj", "{80216F96-EE7F-4E28-99B9-DC250C266C7D}"
 EndProject
@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeXign.Test", "DeXign.Test\
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DeXign.Shared", "DeXign.Shared\DeXign.Shared.shproj", "{C4CAEE28-2CCD-4280-85D0-8F408DB4E256}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeXign.SDK", "..\DeXign.SDK\DeXign.SDK\DeXign.SDK.csproj", "{C9AC6F4B-E483-4B1C-A5E0-6CD04BFC5769}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeXign.SDK", "..\DeXign.SDK\DeXign.SDK\DeXign.SDK.csproj", "{C9AC6F4B-E483-4B1C-A5E0-6CD04BFC5769}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeXign.UI", "DeXign.UI\DeXign.UI.csproj", "{FF18CED3-C115-47C0-80CA-612F6E119520}"
 EndProject

@@ -20,7 +20,7 @@ namespace DeXign.Editor.Layer
             // * Virtual Bound Arrange *
 
             var rect = new Rect(new Point(0, 0), RenderSize);
-            this.Fit(ref rect, 1, 1);
+            this.InflateFit(ref rect, 1, 1);
              
             frame.Arrange(rect);
 
@@ -151,7 +151,7 @@ namespace DeXign.Editor.Layer
 
                 var bound = new Rect(0, 0, this.RenderSize.Width, this.RenderSize.Height);
 
-                this.Fit(ref bound, 2, 2);
+                this.InflateFit(ref bound, 2, 2);
                 
                 dc.DrawRectangle(null, dashedPen, bound);
             }
@@ -251,10 +251,10 @@ namespace DeXign.Editor.Layer
             var textBoundBottom = new Rect(textPositionBottom, new Size(formattedTextBottom.Width, formattedTextBottom.Height));
 
             // Value Box Bounds Inflating
-            this.Fit(ref textBoundLeft, ValueBoxBlank, ValueBoxBlank);
-            this.Fit(ref textBoundRight, ValueBoxBlank, ValueBoxBlank);
-            this.Fit(ref textBoundTop, ValueBoxBlank, ValueBoxBlank);
-            this.Fit(ref textBoundBottom, ValueBoxBlank, ValueBoxBlank);
+            this.InflateFit(ref textBoundLeft, ValueBoxBlank, ValueBoxBlank);
+            this.InflateFit(ref textBoundRight, ValueBoxBlank, ValueBoxBlank);
+            this.InflateFit(ref textBoundTop, ValueBoxBlank, ValueBoxBlank);
+            this.InflateFit(ref textBoundBottom, ValueBoxBlank, ValueBoxBlank);
 
             // Value Box Wrapping
             if (textBoundLeft.Width + Blank * 2 >= Math.Abs(parentMargin.Left))
@@ -354,7 +354,7 @@ namespace DeXign.Editor.Layer
                 textPosition,
                 new Size(formattedText.Width, formattedText.Height));
 
-            this.Fit(ref textBound, ValueBoxBlank, ValueBoxBlank);
+            this.InflateFit(ref textBound, ValueBoxBlank, ValueBoxBlank);
 
             // Value Box Wrapping
             if (textBound.Width >= lineWidth)
@@ -409,7 +409,7 @@ namespace DeXign.Editor.Layer
                 textPosition,
                 new Size(formattedText.Width, formattedText.Height));
 
-            this.Fit(ref textBound, ValueBoxBlank, ValueBoxBlank);
+            this.InflateFit(ref textBound, ValueBoxBlank, ValueBoxBlank);
 
             // Value Box Wrapping
             if (textBound.Width >= lineHeight)

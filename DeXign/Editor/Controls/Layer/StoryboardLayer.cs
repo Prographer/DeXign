@@ -62,7 +62,7 @@ namespace DeXign.Editor.Layer
         }
 
         #region [ Scale Fit Methods ]
-        protected void Fit(ref Rect rect, double x, double y)
+        protected void InflateFit(ref Rect rect, double x, double y)
         {
             rect.Inflate(x / Scale, y / Scale);
         }

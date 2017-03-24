@@ -207,7 +207,19 @@
 
         <Grid Grid.Column="2" Margin="0,0,1,0" Background="White">
             <Image Height="64" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Uniform" Source="/DeXign;component/Resources/Images/WaterMark.png"/>
-            <TabControl x:Name="tabControl" Background="Transparent" SelectionChanged="tabControl_SelectionChanged"/>
+            <TabControl x:Name="tabControl" Background="Transparent" SelectionChanged="tabControl_SelectionChanged">
+                <!--<TabItem>
+                    <TabItem.Content>
+                        <Grid Background="#424242">
+                            <Border Background="White" CornerRadius="4" Width="120" Height="80" BorderBrush="{StaticResource Brush.Logic.Event}" BorderThickness="0,4,0,0" Margin="276.333,269.5,393.666,333.5">
+                                <Border.BitmapEffect>
+                                    <DropShadowBitmapEffect Color="#FFFFFF" Direction="270" ShadowDepth="0" Softness="0.36" Opacity="0.56"/>
+                                </Border.BitmapEffect>
+                            </Border>
+                        </Grid>
+                    </TabItem.Content>
+                </TabItem>-->
+            </TabControl>
         </Grid>
 
         <Rectangle Grid.Column="2" Fill="{StaticResource Brush.Expander.Seperator}" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="1"/>

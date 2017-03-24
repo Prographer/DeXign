@@ -81,10 +81,10 @@
     <Color x:Key="Color.TabControl.Tab.Selected.Foreground">#53FFFD</Color>
     <Color x:Key="Color.TabControl.Tab.Unselected.Background">#535353</Color>
     <Color x:Key="Color.TabControl.Tab.Unselected.Foreground">#BCBCBC</Color>
-    
-    <Color x:Key="Color.Logic.Event">#FF9900</Color>
-    <Color x:Key="Color.Logic.Statement">#975EE7</Color>
-    <Color x:Key="Color.Logic.Component">#5E8BE7</Color>
+
+    <Color x:Key="Color.Logic.Event">#F07B42</Color>
+    <Color x:Key="Color.Logic.Statement">#0FDAC2</Color>
+    <Color x:Key="Color.Logic.Function">#BCF469</Color>
 
     <Color x:Key="Color.iOS.Accent">#FF157DF9</Color>
     <Color x:Key="Color.iOS.Gray">#FFB7B7B7</Color>
@@ -184,7 +184,7 @@
     
     <SolidColorBrush x:Key="Brush.Logic.Event" Color="{StaticResource Color.Logic.Event}"/>
     <SolidColorBrush x:Key="Brush.Logic.Statement" Color="{StaticResource Color.Logic.Statement}"/>
-    <SolidColorBrush x:Key="Brush.Logic.Component" Color="{StaticResource Color.Logic.Component}"/>
+    <SolidColorBrush x:Key="Brush.Logic.Function" Color="{StaticResource Color.Logic.Function}"/>
 
     <SolidColorBrush x:Key="Brush.iOS.Accent" Color="{StaticResource Color.iOS.Accent}"/>
     <SolidColorBrush x:Key="Brush.iOS.Gray" Color="{StaticResource Color.iOS.Gray}"/>

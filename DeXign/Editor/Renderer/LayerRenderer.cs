@@ -13,6 +13,8 @@ using DeXign.Extension;
 using DeXign.Converter;
 
 using WPFExtension;
+using System.Windows.Documents;
+using System.Linq;
 
 namespace DeXign.Editor.Renderer
 {
@@ -265,10 +267,39 @@ namespace DeXign.Editor.Renderer
         protected virtual void OnRemovedChild(IRenderer child)
         {
         }
-        
+
+        protected override void OnDragCompleted()
+        {
+            foreach (IRenderer componentRenderer in this.Storyboard.Components.Select(c => c.GetRenderer()))
+            {
+                (componentRenderer as StoryboardLayer).InvalidateVisual();
+            }
+        }
+
+        private IEnumerable<IRenderer> GetOverlappedComponentRenderers()
+        {
+            Rect bound = GetBound();
+
+            foreach (IRenderer r in this.Storyboard.Components.Select(c => c.GetRenderer()))
+            {
+                if (r is IUISupport support)
+                {
+                    if (bound.IntersectsWith(support.GetBound()))
+                    {
+                        yield return r;
+                    }
+                }
+            }
+        }
+
         protected override void OnRender(DrawingContext dc)
         {
             base.OnRender(dc);
+
+            foreach (IRenderer componentRenderer in GetOverlappedComponentRenderers())
+            {
+                (componentRenderer as StoryboardLayer).InvalidateVisual();
+            }
 
             if (showModelName)
             {
@@ -291,7 +322,7 @@ namespace DeXign.Editor.Renderer
                 var position = new Point(this.Fit(blank), -text.Height - this.Fit(blank));
                 var bound = new Rect(position, new Size(text.Width, text.Height));
 
-                this.Fit(ref bound, blank, blank);
+                this.InflateFit(ref bound, blank, blank);
 
                 dc.PushOpacity(opacity);
                 dc.DrawRectangle(Brushes.White, null, bound);
@@ -353,7 +384,7 @@ namespace DeXign.Editor.Renderer
 
             return new Rect(
                 point,
-                Element.DesiredSize);
+                Element.RenderSize);
         }
         #endregion
     }

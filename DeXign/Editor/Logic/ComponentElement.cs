@@ -15,6 +15,8 @@ using DeXign.Editor.Controls;
 
 using WPFExtension;
 using DeXign.Editor.Renderer;
+using DeXign.Resources;
+using System.Windows.Media;
 
 namespace DeXign.Editor.Logic
 {
@@ -42,6 +44,14 @@ namespace DeXign.Editor.Logic
         public static readonly DependencyProperty HeaderProperty =
             DependencyHelper.Register(
                 new PropertyMetadata("< Component >"));
+
+        public static readonly DependencyProperty AccentBrushProperty =
+            DependencyHelper.Register(
+                new PropertyMetadata(ResourceManager.GetBrush("Logic.Statement")));
+
+        public static readonly DependencyProperty AccentColorProperty =
+            DependencyHelper.Register(
+                new PropertyMetadata(ResourceManager.GetColor("Logic.Statement")));
 
         private static readonly DependencyPropertyKey InputThumbsPropertyKey =
             DependencyHelper.RegisterReadOnly();
@@ -73,6 +83,18 @@ namespace DeXign.Editor.Logic
             set { SetValue(HeaderProperty, value); }
         }
 
+        public Brush AccentBrush
+        {
+            get { return (Brush)GetValue(AccentBrushProperty); }
+            set { SetValue(AccentBrushProperty, value); }
+        }
+
+        public Color AccentColor
+        {
+            get { return (Color)GetValue(AccentColorProperty); }
+            set { SetValue(AccentColorProperty, value); }
+        }
+        
         public ObservableCollection<BindThumb> InputThumbs
         {
             get { return (ObservableCollection<BindThumb>)GetValue(InputThumbsProperty); }
@@ -146,6 +168,11 @@ namespace DeXign.Editor.Logic
             InitializeBinders();
 
             OnAttachedComponentModel();
+        }
+
+        public void DragMove()
+        {
+            this.moveThumb.CaptureMouse();
         }
 
         protected virtual void OnAttachedComponentModel()

@@ -3,6 +3,7 @@ using DeXign.Core.Logic;
 using DeXign.Editor;
 using DeXign.Editor.Logic;
 using DeXign.Editor.Renderer;
+using System.Windows.Media;
 
 [assembly: ExportRenderer(typeof(PSelector), typeof(ObjectSelector), typeof(SelectorRenderer))]
 
