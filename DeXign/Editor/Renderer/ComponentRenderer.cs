@@ -23,6 +23,9 @@ namespace DeXign.Editor.Renderer
         where TModel : PComponent
         where TElement : ComponentElement
     {
+        public const double MinZoom = 0.2;
+        public const double MaxZoom = 0.5;
+
         public event EventHandler ElementAttached;
 
         public TElement Element { get; }
@@ -49,6 +52,7 @@ namespace DeXign.Editor.Renderer
 
         private Border elementBorder;
         private Brush selectionBrush;
+        private FontFamily fontNotoSans;
 
         public ComponentRenderer(TElement adornedElement, TModel model) : base(adornedElement)
         {
@@ -80,10 +84,13 @@ namespace DeXign.Editor.Renderer
         private void InitializeResources()
         {
             selectionBrush = ResourceManager.GetBrush("Flat.Accent.DeepDark");
+            fontNotoSans = ResourceManager.GetFont("NotoSans.Light");
         }
 
         private void OnSelected(object sender, SelectionChangedEventArgs e)
         {
+            this.SetAdornerIndex(10);
+
             this.InvalidateVisual();
         }
 
@@ -267,13 +274,77 @@ namespace DeXign.Editor.Renderer
             {
                 DrawOutLine(drawingContext, selectionBrush, 4);
             }
+
+            DrawOutSight(drawingContext);
+        }
+
+        private void DrawOutSight(DrawingContext drawingContext)
+        {
+            if (this.Zoom.Scale < MaxZoom)
+            {
+                DrawOutLine(drawingContext, this.Element.AccentBrush, 1);
+                OnDrawOutSight(drawingContext);
+            }
+        }
+
+        protected virtual void OnDrawOutSight(DrawingContext drawingContext)
+        {
+            Rect rect = new Rect(0, 0, this.RenderSize.Width, this.RenderSize.Height);
+            double opacity = 1 - (this.Zoom.Scale - MinZoom) / (MaxZoom - MinZoom);
+
+            drawingContext.PushOpacity(opacity);
+
+            // Fill
+            drawingContext.DrawRoundedRectangle(
+                new SolidColorBrush(Color.FromRgb(67, 67, 67)),
+                null,
+                rect,
+                elementBorder.CornerRadius);
+
+            drawingContext.Pop();
+
+            OnDrawOutSightText(drawingContext);
+        }
+
+        protected virtual void OnDrawOutSightText(DrawingContext drawingContext)
+        {
+            DrawSightText(drawingContext, this.Element.Header);
+        }
+
+        protected void DrawSightText(DrawingContext drawingContext, string text)
+        {
+            var typeface = new Typeface(fontNotoSans, FontStyles.Normal, FontWeights.Bold, FontStretches.Normal);
+            var formatText = CreateFormattedText(text, 12, typeface, Brushes.White);
+
+            var position = new Point(
+                this.RenderSize.Width / 2 - formatText.Width / 2,
+                this.RenderSize.Height / 2 - formatText.Height / 2);
+
+            if (this.RenderSize.Width * 1.1 < formatText.Width)
+            {
+                return;
+            }
+
+            drawingContext.DrawText(formatText, position);
         }
 
         private void DrawOutLine(DrawingContext drawingContext, Brush penBrush, double strokeWidth, double opacity = 1)
         {
             Rect rect = new Rect(0, 0, this.RenderSize.Width, this.RenderSize.Height);
-            CornerRadius corner = elementBorder.CornerRadius;
 
+            this.InflateFit(ref rect, strokeWidth / 2, strokeWidth / 2);
+
+            drawingContext.PushOpacity(opacity);
+            drawingContext.DrawRoundedRectangle(
+                null,
+                new Pen(penBrush, this.Fit(strokeWidth)),
+                rect,
+                TranslateCornerRadius(elementBorder.CornerRadius, strokeWidth));
+            drawingContext.Pop();
+        }
+
+        private CornerRadius TranslateCornerRadius(CornerRadius corner, double strokeWidth)
+        {
             if (corner.TopLeft > 0)
                 corner.TopLeft = corner.TopLeft + this.Fit(strokeWidth / 2);
 
@@ -286,15 +357,7 @@ namespace DeXign.Editor.Renderer
             if (corner.BottomRight > 0)
                 corner.BottomRight = corner.BottomRight + this.Fit(strokeWidth / 2);
 
-            this.InflateFit(ref rect, strokeWidth / 2, strokeWidth / 2);
-
-            drawingContext.PushOpacity(opacity);
-            drawingContext.DrawRoundedRectangle(
-                null,
-                new Pen(penBrush, this.Fit(strokeWidth)),
-                rect,
-                corner);
-            drawingContext.Pop();
+            return corner;
         }
     }
 }

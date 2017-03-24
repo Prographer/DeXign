@@ -441,21 +441,6 @@ namespace DeXign.Editor.Layer
             if (isRotate)
                 dc.Pop();
         }
-        
-        protected FormattedText CreateFormattedText(string text, double size, string fontName, Brush brush)
-        {
-            return new FormattedText(
-                text, CultureInfo.InvariantCulture,
-                FlowDirection.LeftToRight,
-                new Typeface(fontName),
-                this.Fit(size),
-                brush);
-        }
-
-        protected Pen CreatePen(Brush brush, double width)
-        {
-            return new Pen(brush, this.Fit(width));
-        }
 
         internal Rect GetParentRenderBound()
         {

@@ -19,5 +19,10 @@ namespace DeXign.Editor.Renderer
         {
             base.OnLoaded(adornedElement);
         }
+
+        protected override void OnDrawOutSightText(DrawingContext drawingContext)
+        {
+            // Prevent Text Draw
+        }
     }
 }

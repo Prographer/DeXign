@@ -6,6 +6,8 @@ using DeXign.Editor.Controls;
 using DeXign.Extension;
 using DeXign.Controls;
 using DeXign.Editor.Renderer;
+using System.Windows.Media;
+using System.Globalization;
 
 namespace DeXign.Editor.Layer
 {
@@ -75,6 +77,28 @@ namespace DeXign.Editor.Layer
         protected double Fit(double value)
         {
             return value / Scale;
+        }
+        #endregion
+
+        #region [ Resource Methods ]
+        protected FormattedText CreateFormattedText(string text, double size, string fontName, Brush brush)
+        {
+            return CreateFormattedText(text, size, new Typeface(fontName), brush);
+        }
+
+        protected FormattedText CreateFormattedText(string text, double size, Typeface typeface, Brush brush)
+        {
+            return new FormattedText(
+                text, CultureInfo.InvariantCulture,
+                FlowDirection.LeftToRight,
+                typeface,
+                this.Fit(size),
+                brush);
+        }
+
+        protected Pen CreatePen(Brush brush, double width)
+        {
+            return new Pen(brush, this.Fit(width));
         }
         #endregion
     }

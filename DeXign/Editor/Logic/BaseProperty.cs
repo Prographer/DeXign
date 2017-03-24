@@ -1,17 +1,17 @@
-﻿using DeXign.Core.Designer;
+﻿using System;
+using System.Linq;
+using System.Windows;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+
+using DeXign.Core.Designer;
 using DeXign.Core.Logic;
 using DeXign.Editor.Layer;
 using DeXign.Editor.Renderer;
 using DeXign.Extension;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
+
 using WPFExtension;
 
 namespace DeXign.Editor.Logic
