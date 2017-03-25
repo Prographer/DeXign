@@ -26,6 +26,8 @@ namespace DeXign.Core.Compiler
             if (!string.IsNullOrWhiteSpace(directory))
                 name = directory + "/" + name;
 
+            name = name.ToLower();
+
             if (resourceNames.Contains(name))
                 return;
 
@@ -37,7 +39,7 @@ namespace DeXign.Core.Compiler
         {
             if (!string.IsNullOrWhiteSpace(directory))
                 name = directory + "/" + name;
-
+            
             if (resourceNames.Contains(name))
                 return;
 

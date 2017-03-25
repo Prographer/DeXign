@@ -12,7 +12,7 @@ namespace DeXign.Core.Controls
     [ContentProperty("Content")]
     [DesignElement(Category = Constants.Designer.Layout, DisplayName = "스크롤")]
     [XForms("Xamarin.Forms", "ScrollView")]
-    [WPF("System.Windows.Controls", "ScrollViewer")]
+    [WPF("clr-namespace:DeXign.UI;assembly=DeXign.UI", "ProtrudedScrollViewer")]
     public class PScrollView : PLayout
     {
         public static readonly DependencyProperty ContentProperty =

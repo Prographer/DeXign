@@ -140,7 +140,6 @@
     <Compile Include="Controls\EnumRadioBox.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\ImageSourceSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\SliderSetter.cs" />
-    <Compile Include="Controls\ProtrudedScrollViewer.cs" />
     <Compile Include="Controls\Cell\TextCell.cs" />
     <Compile Include="Controls\RecentFileTextBlock.cs" />
     <Compile Include="Controls\RectangleEx.cs" />

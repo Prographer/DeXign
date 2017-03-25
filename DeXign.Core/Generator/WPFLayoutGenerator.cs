@@ -289,7 +289,7 @@ namespace DeXign.Core
         private string GetResourceName(ResourceType resourceType, string resourceFileName)
         {
             if (resourceType == ResourceType.Image)
-                return $"pack://application:,,,/{Manifest.ApplicationName};component/{Path.GetFileName(resourceFileName)}";
+                return $"pack://application:,,,/{Manifest.ApplicationName};component/{Path.GetFileName(resourceFileName).ToLower()}";
 
             return null;
         }

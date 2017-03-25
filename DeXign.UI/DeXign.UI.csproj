@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ProtrudedScrollViewer.cs" />
     <Compile Include="Exceptions\ElementNameDuplicateException.cs" />
     <Compile Include="Exceptions\ElementNotFoundException.cs" />
     <Compile Include="Controls\DeXignWindow.cs" />
