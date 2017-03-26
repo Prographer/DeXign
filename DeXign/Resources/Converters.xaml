@@ -1,20 +1,27 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:cvt="clr-namespace:DeXign.Converter">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cvt="clr-namespace:DeXign.Converter">
 
-    <cvt:DoubleToCornerRadiusConverter x:Key="Converter.DoubleToCornerRadius"/>
-    <cvt:NullObjectToVisibilityConverter x:Key="Converter.NullObjectToVisibility"/>
-    <cvt:NullObjectToVisibilityConverter x:Key="Converter.NotNullObjectToVisibility" NullValue="Visible" NotNullValue="Collapsed"/>
-    <cvt:RadiusConverter x:Key="Converter.Radius"/>
-    <cvt:GridViewColumnStarConverter x:Key="Converter.GridViewColumnStar"/>
-    <cvt:PercentageConverter x:Key="Converter.Percentage"/>
-    <cvt:ToolboxIconConverter x:Key="Converter.ToolboxIcon"/>
-    <cvt:DisplayNameConverter x:Key="Converter.DisplayName"/>
-    <cvt:BoolToVisibilityConverter x:Key="Converter.BoolToVisibility"/>
-    <cvt:BoolToVisibilityConverter x:Key="Converter.NotBoolToVisibility" TrueValue="Collapsed" FalseValue="Visible"/>
-    <cvt:PathToImageConverter x:Key="Converter.PathToImage"/>
-    <cvt:LowercaseConverter x:Key="Converter.Lowercase"/>
-    <cvt:DoubleToStringConverter x:Key="Converter.DoubleToString"/>
-    <cvt:NotConverter x:Key="Converter.Not"/>
-    <cvt:FallbackStringConverter x:Key="Converter.FallbackString"/>
+    <cvt:DoubleToCornerRadiusConverter x:Key="Converter.DoubleToCornerRadius" />
+    <cvt:NullObjectToVisibilityConverter x:Key="Converter.NullObjectToVisibility" />
+    <cvt:NullObjectToVisibilityConverter
+        x:Key="Converter.NotNullObjectToVisibility"
+        NotNullValue="Collapsed"
+        NullValue="Visible" />
+    <cvt:RadiusConverter x:Key="Converter.Radius" />
+    <cvt:GridViewColumnStarConverter x:Key="Converter.GridViewColumnStar" />
+    <cvt:PercentageConverter x:Key="Converter.Percentage" />
+    <cvt:ToolboxIconConverter x:Key="Converter.ToolboxIcon" />
+    <cvt:DisplayNameConverter x:Key="Converter.DisplayName" />
+    <cvt:BoolToVisibilityConverter x:Key="Converter.BoolToVisibility" />
+    <cvt:BoolToVisibilityConverter
+        x:Key="Converter.NotBoolToVisibility"
+        FalseValue="Visible"
+        TrueValue="Collapsed" />
+    <cvt:PathToImageConverter x:Key="Converter.PathToImage" />
+    <cvt:LowercaseConverter x:Key="Converter.Lowercase" />
+    <cvt:DoubleToStringConverter x:Key="Converter.DoubleToString" />
+    <cvt:NotConverter x:Key="Converter.Not" />
+    <cvt:FallbackStringConverter x:Key="Converter.FallbackString" />
 </ResourceDictionary>
