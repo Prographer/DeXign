@@ -10,9 +10,9 @@ using DeXign.Core.Text;
 
 namespace DeXign.Core
 {
-    public class CSharpGenerator : Generator<CodeMapAttribute, PBinderHost>
+    public class CSharpGenerator : Generator<CSharpCodeMapAttribute, PBinderHost>
     {
-        public DXMapper Mapper { get; private set; }
+        public DXMapper<CSharpCodeMapAttribute> Mapper { get; private set; }
 
         public NameContainer NameContainer { get; private set; }
         public NameContainer CallbackContainer { get; private set; }
@@ -24,16 +24,16 @@ namespace DeXign.Core
         {
         }
 
-        protected override IEnumerable<string> OnGenerate(IEnumerable<CodeComponent<CodeMapAttribute>> components)
+        protected override IEnumerable<string> OnGenerate(IEnumerable<CodeComponent<CSharpCodeMapAttribute>> components)
         {
             var items = components.ToArray();
-            CodeComponent<CodeMapAttribute> root = items.FirstOrDefault();
+            CodeComponent<CSharpCodeMapAttribute> root = items.FirstOrDefault();
 
             // Trigger Hosts
-            CodeComponent<CodeMapAttribute>[] triggers = items
+            CodeComponent<CSharpCodeMapAttribute>[] triggers = items
                 .Where(cc => cc.Depth == 0)
                 .SelectMany(item => item.Children)
-                .Distinct(new CodeComponentComparer<CodeMapAttribute>())
+                .Distinct(new CodeComponentComparer<CSharpCodeMapAttribute>())
                 .ToArray();
 
             // Event Handle
@@ -65,10 +65,10 @@ namespace DeXign.Core
             }
 
             // CreateScope (Recursive)
-            string CreateScope(CodeComponent<CodeMapAttribute>[] scopeComponents, NameContainer localVariableContainer, bool isCodeBlock = false)
+            string CreateScope(CodeComponent<CSharpCodeMapAttribute>[] scopeComponents, NameContainer localVariableContainer, bool isCodeBlock = false)
             {
                 var scopeBuilder = new IndentStringBuilder();
-                var stack = new Stack<CodeComponent<CodeMapAttribute>>(scopeComponents);
+                var stack = new Stack<CodeComponent<CSharpCodeMapAttribute>>(scopeComponents);
 
                 if (!isCodeBlock)
                 {
@@ -100,8 +100,8 @@ namespace DeXign.Core
                                         var childScopeComponents = scopeBinder.Items
                                             .Select(item => item.Host as PBinderHost)
                                             .Distinct()
-                                            .Select(childHost => new CodeComponent<CodeMapAttribute>(
-                                                childHost, childHost.GetAttribute<CodeMapAttribute>()))
+                                            .Select(childHost => new CodeComponent<CSharpCodeMapAttribute>(
+                                                childHost, childHost.GetAttribute<CSharpCodeMapAttribute>()))
                                             .ToArray();
 
                                         sourceBuilder.Replace(
@@ -156,7 +156,7 @@ namespace DeXign.Core
                 {
                     var paramOutputHost = binder.Items[0].Host;
 
-                    var attr = paramOutputHost.GetAttribute<CodeMapAttribute>();
+                    var attr = paramOutputHost.GetAttribute<CSharpCodeMapAttribute>();
 
                     if (paramOutputHost is PTrigger)
                         valueLine = "sender";
@@ -235,7 +235,7 @@ namespace DeXign.Core
             this.CallbackContainer = callbackContainer;
         }
 
-        public void SetMapper(DXMapper mapper)
+        public void SetMapper(DXMapper<CSharpCodeMapAttribute> mapper)
         {
             this.Mapper = mapper;
         }

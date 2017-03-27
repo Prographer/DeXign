@@ -42,7 +42,8 @@ namespace DeXign.Core.Logic
         }
     }
 
-    [CodeMap("{Target}.{EventName} += {EventCallback};")]
+    [CSharpCodeMap("{Target}.{EventName} += {EventCallback};")]
+    [JavaCodeMap("{Target}.set{EventName}Listener({EventCallback});")]
     [DesignElement(DisplayName = "이벤트", Visible = false)]
     public class PTrigger : PComponent
     {
@@ -116,8 +117,6 @@ namespace DeXign.Core.Logic
             this.ParameterInfos = eInfos.ToArray();
             
             // Display Name
-            this.EventName = this.EventInfo.Name;
-
             this.EventName = this.EventInfo.Attribute.DisplayName;
 
             // Binder Generate

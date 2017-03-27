@@ -63,8 +63,8 @@ namespace DeXign.Core.Compiler
 
         public string GetMappingCode(object obj)
         {
-            if (obj.HasAttribute<CodeMapAttribute>())
-                return obj.GetAttribute<CodeMapAttribute>().MappingCode;
+            if (obj.HasAttribute<CSharpCodeMapAttribute>())
+                return obj.GetAttribute<CSharpCodeMapAttribute>().MappingCode;
 
             return null;
         }
@@ -103,6 +103,11 @@ namespace DeXign.Core.Compiler
             }
 
             return obj?.ToString();
+        }
+
+        public string Casting(Type castingType, string value)
+        {
+            return $"{value}.Cast<{castingType.Name}>()";
         }
     }
 }

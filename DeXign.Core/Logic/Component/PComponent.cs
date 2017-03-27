@@ -22,6 +22,19 @@ namespace DeXign.Core.Logic
         {
         }
 
+        public PTargetBinder AddTargetBinder(string name, Type assignableType)
+        {
+            PTargetBinder binder;
+
+            AddBinder(binder = new PTargetBinder(this)
+            {
+                Title = name,
+                ParameterType = assignableType
+            });
+
+            return binder;
+        }
+
         public PParameterBinder AddParamterBinder(string name, Type assignableType)
         {
             PParameterBinder binder;

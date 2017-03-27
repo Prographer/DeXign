@@ -1,4 +1,5 @@
 ﻿using DeXign.Core.Logic;
+using System;
 
 namespace DeXign.Core.Compiler
 {
@@ -15,5 +16,7 @@ namespace DeXign.Core.Compiler
         string GetValueLine(object obj, bool isInline = false);
 
         string GetMappingCode(object obj);
+
+        string Casting(Type castingType, string value);
     }
 }

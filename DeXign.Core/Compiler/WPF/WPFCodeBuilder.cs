@@ -13,7 +13,7 @@ namespace DeXign.Core.Compiler
     {
         public DXCompileParameter Parameter { get; }
         public CSharpGenerator NativeGenerator { get; }
-        public DXMapper Mapper => this.NativeGenerator.Mapper;
+        public DXMapper<CSharpCodeMapAttribute> Mapper => this.NativeGenerator.Mapper;
 
         private List<string> definedNamespaces;
         private List<string> sdkNamespaces;

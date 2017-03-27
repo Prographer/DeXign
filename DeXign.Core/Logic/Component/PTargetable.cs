@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
 
 using WPFExtension;
@@ -26,7 +25,7 @@ namespace DeXign.Core.Logic
             set { SetValue(TargetTypeProperty, value); }
         }
 
-        public PParameterBinder TargetBinder { get; set; }
+        public PTargetBinder TargetBinder { get; set; }
 
         public PTargetable() : base()
         {
@@ -34,7 +33,7 @@ namespace DeXign.Core.Logic
             this.AddNewBinder(BindOptions.Output);
 
             this.AddReturnBinder("값", typeof(object));
-            this.TargetBinder = this.AddParamterBinder("대상", typeof(PObject));
+            this.TargetBinder = this.AddTargetBinder("대상", typeof(PObject));
 
             this.TargetBinder.IsSingle = true;
 

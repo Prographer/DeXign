@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Text;
 using System.Linq;
+using System.Windows;
 using System.Reflection;
 using System.Collections.Generic;
 
 using DeXign.Extension;
 using DeXign.Core.Logic;
 using DeXign.Core.Controls;
-using System.Windows;
 
 namespace DeXign.Core.Compiler
 {
-    public class DXMapper
+    public class DXMapper<TAttribute>
+        where TAttribute : CodeMapAttribute
     {
         private static string[] SupportTokenHeaders =
             new string[]
@@ -40,7 +41,7 @@ namespace DeXign.Core.Compiler
             var sourceBuilder = new StringBuilder(source);
             
             // 이벤트 핸들러 연결 코드 및 콜백 이름 생성
-            if (obj is PTrigger trigger)
+            if (obj is PTrigger trigger && source.Contains("{EventName}"))
             {
                 var eventBuilder = new StringBuilder();
 
@@ -114,6 +115,58 @@ namespace DeXign.Core.Compiler
             return result;
         }
 
+        public string BuildBinder(PBinder binder)
+        {
+            // 직접 입력 값
+            if (binder.IsDirectValue)
+                return this.MappingProvider.GetValueLine(binder.DirectValue, true);
+            
+            // 연결된 파라미터가 없음
+            if (binder.Items.Count == 0)
+                return null;
+
+            // 연결된 파라미터의 부모 (컴포넌트)
+            var previousHost = binder.Items[0].Host as PBinderHost;
+            string mappingCode = previousHost.GetAttribute<TAttribute>().MappingCode;
+
+            if (binder.HasAttribute<TAttribute>())
+                mappingCode = binder.GetAttribute<TAttribute>().MappingCode;
+
+            // 코드 매핑
+            var r = this.Build(previousHost, mappingCode);
+
+            string valueLine = r.Source;
+
+            // 대입 값인 경우 대상 속성에 따라 캐스팅이 필요함
+            if ((binder as PParameterBinder).Host is PSetter setter)
+            {
+                if (setter.ValueBinder.Equals(binder))
+                {
+                    Type valueType = previousHost.GetType();
+
+                    if (previousHost is PFunction prevFunc)
+                        valueType = prevFunc.FunctionInfo.ReturnType;
+
+                    if (previousHost is PGetter prevGetter)
+                        valueType = prevGetter.Property.PropertyType;
+
+                    if (previousHost is PLayoutBinderHost prevLayout)
+                        valueType = prevLayout.LogicalParent.GetType();
+
+                    if (previousHost is PSelector prevSelector)
+                        valueType = prevSelector.TargetVisual.GetType();
+
+                    if (setter.Property.PropertyType != valueType)
+                    {
+                        // casting
+                        return this.MappingProvider.Casting(setter.Property.PropertyType, valueLine);
+                    }
+                }
+            }
+
+            return valueLine;
+        }
+
         private bool BuildProperty(DXToken token, object obj, StringBuilder source)
         {
             Type objType = obj.GetType();
@@ -130,48 +183,14 @@ namespace DeXign.Core.Compiler
             if (pi == null)
                 return false;
 
+            // 속성에서 실제값을 가져옴
             object value = pi.GetValue(obj);
             string valueLine = null;
 
+            // 속성값이 바인더인 경우
             if (value is PBinder binder)
             {
-                if (binder.IsDirectValue)
-                {
-                    valueLine = this.MappingProvider.GetValueLine(binder.DirectValue, true);
-                }
-                else
-                {
-                    if (binder.Items.Count == 0)
-                        return false;
-
-                    var previousHost = binder.Items[0].Host as PBinderHost;
-                    var r = this.Build(previousHost, previousHost.GetAttribute<CodeMapAttribute>().MappingCode);
-
-                    valueLine = r.Source;
-
-                    if ((binder as PParameterBinder).Host is PSetter setter)
-                    {
-                        Type valueType = previousHost.GetType();
-
-                        if (previousHost is PFunction prevFunc)
-                            valueType = prevFunc.FunctionInfo.ReturnType;
-
-                        if (previousHost is PGetter prevGetter)
-                            valueType = prevGetter.Property.PropertyType;
-
-                        if (previousHost is PLayoutBinderHost prevLayout)
-                            valueType = prevLayout.LogicalParent.GetType();
-
-                        if (previousHost is PSelector prevSelector)
-                            valueType = prevSelector.TargetVisual.GetType();
-
-                        if (setter.Property.PropertyType != valueType)
-                        {
-                            // casting
-                            valueLine = $"{valueLine}.Cast<{setter.Property.PropertyType.Name}>()";
-                        }
-                    }
-                }
+                valueLine = this.BuildBinder(binder);
             }
             else if (value is DependencyProperty prop)
             {
@@ -278,6 +297,8 @@ namespace DeXign.Core.Compiler
                     if (targetVisual == null)
                     {
                         source.Replace(token.OriginalSource, "sender");
+
+                        return true;
                     }
                 }
             }
@@ -293,6 +314,15 @@ namespace DeXign.Core.Compiler
                 return true;
             }
             
+            if (obj is PTrigger trigger)
+            {
+                source.Replace(
+                    token.OriginalSource,
+                    "sender");
+
+                return true;
+            }
+
             return false;
         }
 
@@ -310,13 +340,13 @@ namespace DeXign.Core.Compiler
                 // 무조건 sender를 가져옴
                 if (host is PTrigger)
                 {
-                    parameterLines.Add("sender");
-                    continue;
-                }
+                    DXMappingResult result = this.Build(host, "{Target}");
 
-                if (host.HasAttribute<CodeMapAttribute>())
+                    parameterLines.Add(result.Source);
+                }
+                else if (host.HasAttribute<TAttribute>())
                 {
-                    var attr = host.GetAttribute<CodeMapAttribute>();
+                    var attr = host.GetAttribute<TAttribute>();
 
                     DXMappingResult result = this.Build(host, attr.MappingCode);
 

@@ -81,6 +81,7 @@
     <Compile Include="Exceptions\ElementNotFoundException.cs" />
     <Compile Include="Generator\CodeComponentComparer.cs" />
     <Compile Include="Generator\CSharpGenerator.cs" />
+    <Compile Include="Logic\Binder\PTargetBinder.cs" />
     <Compile Include="Text\IndentStringBuilder.cs" />
     <Compile Include="Generator\Unit\LayoutGeneratorUnit.cs" />
     <Compile Include="Generator\Unit\LogicGeneratorUnit.cs" />

@@ -3,7 +3,8 @@ using System.Windows;
 
 namespace DeXign.Core.Logic
 {
-    [CodeMap("{Target}.{Property:Property} = {Property:ValueBinder};")]
+    [CSharpCodeMap("{Property:TargetBinder}.{Property:Property} = {Property:ValueBinder};")]
+    [JavaCodeMap("{Property:TargetBinder}.set{Property:Property}({Property:ValueBinder});")]
     [DesignElement(Category = Constants.Logic.Default, DisplayName = "설정하기", Visible = true)]
     public class PSetter : PTargetable
     {

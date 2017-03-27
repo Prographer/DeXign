@@ -92,7 +92,7 @@ namespace DeXign.Core.Compiler
             AddReferencedAssemblies(compileParam, dependencyLibs);
 
             // Mapper
-            var mapper = new DXMapper(
+            var mapper = new DXMapper<CSharpCodeMapAttribute>(
                 new WPFMappingProvider(sharedCallbackContainer),
                 sharedNameContainer);
 

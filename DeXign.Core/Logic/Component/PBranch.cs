@@ -3,7 +3,8 @@ using WPFExtension;
 
 namespace DeXign.Core.Logic
 {
-    [CodeMap("if ({Line:1}{Property:Operator}{Line:2}){Scope:1}else{Scope:2}")]
+    [CSharpCodeMap("if ({Line:1}{Property:Operator}{Line:2}){Scope:1}else{Scope:2}")]
+    [JavaCodeMap("if ({Line:1}{Property:Operator}{Line:2}){Scope:1}else{Scope:2}")]
     [DesignElement(Category = Constants.Logic.Default, DisplayName = "분기")]
     public class PBranch : PComponent
     {

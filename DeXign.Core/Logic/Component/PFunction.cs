@@ -42,7 +42,8 @@ namespace DeXign.Core.Logic
         }
     }
     
-    [CodeMap("{Function:return;}")]
+    [CSharpCodeMap("{Function:return;}")]
+    [JavaCodeMap("{Function:return;}")]
     [DesignElement(DisplayName = "함수", Visible = false)]
     public class PFunction : PComponent
     {

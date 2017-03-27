@@ -7,7 +7,8 @@ using WPFExtension;
 
 namespace DeXign.Core.Logic
 {
-    [CodeMap("{Target}")]
+    [CSharpCodeMap("{Target}")]
+    [JavaCodeMap("{Target}")]
     [DesignElement(Category = Constants.Logic.Default, DisplayName = "객체 가져오기", Visible = false)]
     public class PSelector : PComponent
     {
