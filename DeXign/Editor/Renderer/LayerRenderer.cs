@@ -242,6 +242,13 @@ namespace DeXign.Editor.Renderer
                     visual, "Padding");
             }
             #endregion
+
+            if (Model is PPage)
+            {
+                BindingEx.TryBinding(
+                    Model, PPage.PaddingProperty,
+                    visual, "Padding");
+            }
         }
 
         public void AddChild(IRenderer child, Point position)

@@ -7,6 +7,8 @@ using DeXign.Resources;
 using DeXign.Controls;
 using System.Windows.Input;
 using DeXign.UI;
+using System.Reflection;
+using System.Windows.Controls;
 
 namespace DeXign.Editor.Layer
 {
@@ -175,8 +177,7 @@ namespace DeXign.Editor.Layer
                 AdornedElement.VerticalAlignment == VerticalAlignment.Bottom ||
                 AdornedElement.VerticalAlignment == VerticalAlignment.Stretch;
 
-            var parentRect = GetParentRenderBound();
-            var parentMargin = GetParentRenderMargin();
+            var parentLayout = GetParentLayoutInfo();
 
             var framePen = CreatePen(ResourceManager.GetBrush("LemonGrass"), 1);
             var solidPen = CreatePen(SelectionBrush, 1d);
@@ -188,30 +189,30 @@ namespace DeXign.Editor.Layer
             double wCenter = RenderSize.Width / 2;
 
             // Draw Parent Frame
-            dc.DrawRectangle(null, framePen, parentRect);
+            dc.DrawRectangle(null, framePen, parentLayout.Bound);
 
             // Draw Margin Guide Line
             dc.PushOpacity(0.5);
             {
                 if (ClipData.LeftVisible)
                     dc.DrawLine(marginLeft ? solidPen : dashedPen,
-                        new Point(parentRect.X, hCenter),
+                        new Point(parentLayout.Bound.X, hCenter),
                         new Point(-1, hCenter));
 
                 if (ClipData.RightVisible)
                     dc.DrawLine(marginRight ? solidPen : dashedPen,
                         new Point(RenderSize.Width, hCenter),
-                        new Point(parentRect.Right, hCenter));
+                        new Point(parentLayout.Bound.Right, hCenter));
 
                 if (ClipData.TopVisible)
                     dc.DrawLine(marginTop ? solidPen : dashedPen,
-                        new Point(wCenter, parentRect.Y),
+                        new Point(wCenter, parentLayout.Bound.Y),
                         new Point(wCenter, -1));
 
                 if (ClipData.BottomVisible)
                     dc.DrawLine(marginBottom ? solidPen : dashedPen,
                         new Point(wCenter, RenderSize.Height),
-                        new Point(wCenter, parentRect.Bottom));
+                        new Point(wCenter, parentLayout.Bound.Bottom));
             }
             dc.Pop();
 
@@ -229,20 +230,20 @@ namespace DeXign.Editor.Layer
 
             // Value Positions
             var textPositionLeft = new Point(
-                parentMargin.Left / 2 - formattedTextLeft.Width / 2,
+                parentLayout.Margin.Left / 2 - formattedTextLeft.Width / 2,
                 hCenter - formattedTextLeft.Height / 2);
 
             var textPositionRight = new Point(
-                RenderSize.Width + parentMargin.Right / 2 - formattedTextRight.Width / 2,
+                RenderSize.Width + parentLayout.Margin.Right / 2 - formattedTextRight.Width / 2,
                 hCenter - formattedTextRight.Height / 2);
 
             var textPositionTop = new Point(
                 wCenter - formattedTextTop.Width / 2,
-                parentMargin.Top / 2 - formattedTextTop.Height / 2);
+                parentLayout.Margin.Top / 2 - formattedTextTop.Height / 2);
 
             var textPositionBottom = new Point(
                 wCenter - formattedTextBottom.Width / 2,
-                RenderSize.Height + parentMargin.Bottom / 2 - formattedTextBottom.Height / 2);
+                RenderSize.Height + parentLayout.Margin.Bottom / 2 - formattedTextBottom.Height / 2);
 
             // Value Box Bounds
             var textBoundLeft = new Rect(textPositionLeft, new Size(formattedTextLeft.Width, formattedTextLeft.Height));
@@ -257,42 +258,42 @@ namespace DeXign.Editor.Layer
             this.InflateFit(ref textBoundBottom, ValueBoxBlank, ValueBoxBlank);
 
             // Value Box Wrapping
-            if (textBoundLeft.Width + Blank * 2 >= Math.Abs(parentMargin.Left))
+            if (textBoundLeft.Width + Blank * 2 >= Math.Abs(parentLayout.Margin.Left))
             {
-                if (parentRect.X < 0)
-                    textBoundLeft.X = parentMargin.Left - textBoundLeft.Width - Blank * 2;
+                if (parentLayout.Bound.X < 0)
+                    textBoundLeft.X = parentLayout.Margin.Left - textBoundLeft.Width - Blank * 2;
                 else
-                    textBoundLeft.X = parentMargin.Left + Blank * 2;
+                    textBoundLeft.X = parentLayout.Margin.Left + Blank * 2;
 
                 textPositionLeft.X = textBoundLeft.X + this.Fit(ValueBoxBlank);
             }
 
-            if (textBoundRight.Width + Blank * 2 >= Math.Abs(parentMargin.Right))
+            if (textBoundRight.Width + Blank * 2 >= Math.Abs(parentLayout.Margin.Right))
             {
-                if (parentRect.Right >= RenderSize.Width)
-                    textBoundRight.X = parentRect.Right + Blank * 2;
+                if (parentLayout.Bound.Right >= RenderSize.Width)
+                    textBoundRight.X = parentLayout.Bound.Right + Blank * 2;
                 else
-                    textBoundRight.X = parentRect.Right - textBoundRight.Width - Blank * 2;
+                    textBoundRight.X = parentLayout.Bound.Right - textBoundRight.Width - Blank * 2;
 
                 textPositionRight.X = textBoundRight.X + this.Fit(ValueBoxBlank);
             }
 
-            if (textBoundTop.Width + Blank * 2 >= Math.Abs(parentMargin.Top))
+            if (textBoundTop.Width + Blank * 2 >= Math.Abs(parentLayout.Margin.Top))
             {
-                if (parentRect.Y < 0)
-                    textBoundTop.Y = parentRect.Top - Blank * 2 - textBoundTop.Width / 2 - textBoundTop.Height / 2;
+                if (parentLayout.Bound.Y < 0)
+                    textBoundTop.Y = parentLayout.Bound.Top - Blank * 2 - textBoundTop.Width / 2 - textBoundTop.Height / 2;
                 else
-                    textBoundTop.Y = parentRect.Top + Blank * 2 + textBoundTop.Width / 2 - textBoundTop.Height / 2; 
+                    textBoundTop.Y = parentLayout.Bound.Top + Blank * 2 + textBoundTop.Width / 2 - textBoundTop.Height / 2; 
 
                 textPositionTop.Y = textBoundTop.Y + this.Fit(ValueBoxBlank);
             }
 
-            if (textBoundBottom.Width + Blank * 2 >= Math.Abs(parentMargin.Bottom))
+            if (textBoundBottom.Width + Blank * 2 >= Math.Abs(parentLayout.Margin.Bottom))
             {
-                if (parentRect.Bottom >= RenderSize.Height)
-                    textBoundBottom.Y = parentRect.Bottom + Blank * 2 + textBoundBottom.Width / 2 - textBoundBottom.Height / 2;
+                if (parentLayout.Bound.Bottom >= RenderSize.Height)
+                    textBoundBottom.Y = parentLayout.Bound.Bottom + Blank * 2 + textBoundBottom.Width / 2 - textBoundBottom.Height / 2;
                 else
-                    textBoundBottom.Y = parentRect.Bottom - Blank * 2 - textBoundBottom.Width / 2 - textBoundBottom.Height / 2;
+                    textBoundBottom.Y = parentLayout.Margin.Bottom - Blank * 2 - textBoundBottom.Width / 2 - textBoundBottom.Height / 2;
 
                 textPositionBottom.Y = textBoundBottom.Y + this.Fit(ValueBoxBlank);
             }
@@ -448,13 +449,21 @@ namespace DeXign.Editor.Layer
             var position = parentElement.TranslatePoint(new Point(), AdornedElement);
             var size = parentElement.RenderSize;
 
+            var padding = GetPadding(parentElement);
+
+            position.X += padding.Left;
+            position.Y += padding.Top;
+
+            size.Width -= (padding.Left + padding.Right);
+            size.Height -= (padding.Top + padding.Bottom);
+
             if (Parent is IStackLayout)
             {
                 var stack = Parent.Element as SpacingStackPanel;
                 var bound = stack.GetArrangedBound(AdornedElement);
 
-                position.Y += bound.Top;
-                position.X += bound.Left;
+                position.X += bound.Left - padding.Left;
+                position.Y += bound.Top - padding.Top;
 
                 size.Width = bound.Width;
                 size.Height = bound.Height;
@@ -465,15 +474,26 @@ namespace DeXign.Editor.Layer
                 size);
         }
 
-        internal Thickness GetParentRenderMargin()
+        internal (Rect Bound, Thickness Margin) GetParentLayoutInfo()
         {
             var rect = GetParentRenderBound();
 
-            return new Thickness(
+            return (rect, new Thickness(
                 rect.X,
                 rect.Y,
                 rect.Right - RenderSize.Width,
-                rect.Bottom - RenderSize.Height);
+                rect.Bottom - RenderSize.Height));
+        }
+
+        private Thickness GetPadding(FrameworkElement element)
+        {
+            if (element is ContentControl cc)
+                return cc.Padding;
+
+            if (element is SpacingStackPanel ssp)
+                return ssp.Padding;
+            
+            return new Thickness(0);
         }
         #endregion
     }

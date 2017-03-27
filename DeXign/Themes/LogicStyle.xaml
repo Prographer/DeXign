@@ -402,7 +402,7 @@
                                 Grid.Column="1"
                                 Width="80"
                                 Margin="8,0,0,0"
-                                Text="{Binding Value}"
+                                Text="{Binding Value2Binder.DirectValue}"
                                 Visibility="Collapsed" />
                         </Grid>
                     </ui:SpacingStackPanel>

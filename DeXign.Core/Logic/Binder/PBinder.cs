@@ -117,7 +117,7 @@ namespace DeXign.Core.Logic
 
         private bool IsCirculating(IBinder targetBinder)
         {
-            BindOptions option = BindOptions.Output | BindOptions.Input;
+            BindOptions option = BindOptions.Output;
 
             if (targetBinder.BindOption == BindOptions.Parameter || targetBinder.BindOption == BindOptions.Return)
                 return false;

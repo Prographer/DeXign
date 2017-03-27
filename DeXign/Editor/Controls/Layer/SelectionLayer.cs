@@ -709,7 +709,7 @@ namespace DeXign.Editor.Layer
         protected void ApplyClipData()
         {
             var margin = AdornedElement.Margin;
-            var parentMargin = GetParentRenderMargin();
+            var parentMargin = GetParentLayoutInfo().Margin;
             var renderSize = AdornedElement.RenderSize;
 
             parentMargin.Left *= -1;

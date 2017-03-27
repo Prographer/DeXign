@@ -3,6 +3,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:DeXign.UI">
 
+    <Style TargetType="{x:Type local:DeXignPage}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:DeXignPage}">
+                    <Border Padding="{TemplateBinding Padding}" TextBlock.Foreground="{TemplateBinding Foreground}">
+                        <ContentPresenter Content="{TemplateBinding Content}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="{x:Type local:ProtrudedScrollViewer}">
         <Setter Property="Focusable" Value="False" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
@@ -52,9 +64,14 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type Button}">
+    <Style TargetType="{x:Type local:DeXignButton}">
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Padding" Value="8,6" />
+        <Setter Property="Content" Value="{Binding Text, RelativeSource={RelativeSource Self}}" />
+    </Style>
+
+    <Style TargetType="{x:Type local:DeXignLabel}">
+        <Setter Property="Content" Value="{Binding Text, RelativeSource={RelativeSource Self}}" />
     </Style>
 
     <Style TargetType="{x:Type ProgressBar}">

@@ -57,8 +57,10 @@
                         </Grid>
 
                         <Rectangle Fill="White" IsHitTestVisible="False" />
-                        <Rectangle Fill="{TemplateBinding Background}" IsHitTestVisible="False" />
-                        <ContentPresenter />
+
+                        <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
+                            <ContentPresenter />
+                        </Border>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

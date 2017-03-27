@@ -19,7 +19,7 @@ namespace DeXign.Editor.Renderer
         {
             adornedElement.PreviewMouseLeftButtonDown += AdornedElement_PreviewMouseLeftButtonDown;
         }
-
+        
         private void AdornedElement_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             this.DragMove();

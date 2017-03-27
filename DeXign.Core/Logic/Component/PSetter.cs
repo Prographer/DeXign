@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
-
-using WPFExtension;
 
 namespace DeXign.Core.Logic
 {
-    [CSharp("{Target}.{Property} = {Value};")]
+    [CodeMap("{Target}.{Property:Property} = {Property:ValueBinder};")]
     [DesignElement(Category = Constants.Logic.Default, DisplayName = "설정하기", Visible = true)]
     public class PSetter : PTargetable
     {
@@ -22,7 +19,7 @@ namespace DeXign.Core.Logic
         {
             this.ClearReturnBinder();
 
-            this.ValueBinder = this.AddParamterBinder("값", typeof(object));   
+            this.ValueBinder = this.AddParamterBinder("값", typeof(object));
         }
 
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
@@ -37,7 +34,7 @@ namespace DeXign.Core.Logic
                 // 더미가 이미 생성됬고 설정된 타입과 같은경우
                 if (this.DummyObject != null && this.DummyObject.GetType() == this.TargetType)
                     return;
-
+                
                 this.DummyObject = Activator.CreateInstance(this.TargetType) as PObject;
             }
         }

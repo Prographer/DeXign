@@ -32,8 +32,8 @@
         [DesignElement(DisplayName = "값1 >= 값2")]
         GreaterThanOrEqualTo,
 
-        [WPF("Contains({Line:2})")]
-        [XForms("Contains")]
+        [WPF(".Contains({Line:2})")]
+        [XForms(".Contains({Line:2})")]
         [DesignElement(DisplayName = @"값1 ⊃ 값2")]
         Contains
     }

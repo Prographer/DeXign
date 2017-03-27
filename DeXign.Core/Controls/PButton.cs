@@ -8,9 +8,10 @@ namespace DeXign.Core.Controls
 {
     [DesignElement(Category = Constants.Designer.Control, DisplayName = "버튼")]
     [XForms("Xamarin.Forms", "Button")]
-    [WPF("System.Windows.Controls", "Button")]
+    [WPF("clr-namespace:DeXign.UI;assembly=DeXign.UI", "DeXignButton")]
     public class PButton : PControl
     {
+        [WPF("Click")]
         [DesignElement(Category = Constants.Event.Gesture, DisplayName = "클릭했을 때")]
         [DesignDescription("#(발생자, !e)")]
         public event EventHandler Clicked;
@@ -36,7 +37,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Design, DisplayName = "텍스트")]
         [XForms("Text")]
-        [WPF("Content")]
+        [WPF("Text")]
         public string Text
         {
             get { return GetValue<string>(TextProperty); }
@@ -89,7 +90,6 @@ namespace DeXign.Core.Controls
 
         public PButton()
         {
-
         }
     }
 }

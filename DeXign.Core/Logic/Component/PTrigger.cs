@@ -42,7 +42,7 @@ namespace DeXign.Core.Logic
         }
     }
 
-    [CSharp("{Target}.{Property:EventName} += {EventCallback};")]
+    [CodeMap("{Target}.{EventName} += {EventCallback};")]
     [DesignElement(DisplayName = "이벤트", Visible = false)]
     public class PTrigger : PComponent
     {
@@ -63,7 +63,7 @@ namespace DeXign.Core.Logic
             get { return GetValue<string>(EventNameProperty); }
             set { SetValue(EventNameProperty, value); }
         }
-
+        
         public DXEventInfo EventInfo
         {
             get

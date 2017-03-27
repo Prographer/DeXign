@@ -1,13 +1,13 @@
-﻿using System.Linq;
-using System.Reflection;
+﻿using System;
+using System.Linq;
 using System.Windows;
+using System.Reflection;
+using System.ComponentModel;
 
 using DeXign.SDK;
 using DeXign.Extension;
 
 using WPFExtension;
-using System;
-using System.ComponentModel;
 
 namespace DeXign.Core.Logic
 {
@@ -42,7 +42,7 @@ namespace DeXign.Core.Logic
         }
     }
     
-    [CSharp("{Function:R}")]
+    [CodeMap("{Function:return;}")]
     [DesignElement(DisplayName = "함수", Visible = false)]
     public class PFunction : PComponent
     {
@@ -88,11 +88,18 @@ namespace DeXign.Core.Logic
         {
             this.AddNewBinder(BindOptions.Input);
             this.AddNewBinder(BindOptions.Output);
-        }
 
+            FunctionInfoProperty.AddValueChanged(this, FunctionInfo_Changed);
+        }
+        
         public PFunction(MethodInfo mi) : this()
         {
             SetRuntimeFunction(mi);
+        }
+
+        private void FunctionInfo_Changed(object sender, EventArgs e)
+        {
+            InvalidateVisualProperty();
         }
 
         public void SetRuntimeFunction(MethodInfo mi)
@@ -103,13 +110,7 @@ namespace DeXign.Core.Logic
 
         private void Invalidate()
         {
-            this.ParameterInfos = this.FunctionInfo
-                .GetParameters()
-                .Select(pi => new NamedParameterInfo(pi))
-                .ToArray();
-            
-            // Display Name
-            this.FunctionName = this.FunctionInfo.Attribute.DisplayName;
+            InvalidateVisualProperty();
 
             // Binder Generate
             this.ClearReturnBinder();
@@ -135,6 +136,17 @@ namespace DeXign.Core.Logic
                 // 파라미터 바인더 생성
                 this.AddParamterBinder(name, pi.ParameterType);
             }
+        }
+
+        private void InvalidateVisualProperty()
+        {
+            this.ParameterInfos = this.FunctionInfo
+                .GetParameters()
+                .Select(pi => new NamedParameterInfo(pi))
+                .ToArray();
+
+            // Display Name
+            this.FunctionName = this.FunctionInfo.Attribute.DisplayName;
         }
     }
 }

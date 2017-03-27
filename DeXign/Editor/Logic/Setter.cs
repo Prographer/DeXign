@@ -81,6 +81,10 @@ namespace DeXign.Editor.Logic
                     vBoxSetter.Foreground = Brushes.Black;
                     vBoxSetter.Background = Brushes.Transparent;
                 }
+
+                BindingEx.SetBinding(
+                    this.ValueSetter as BaseSetter, BaseSetter.ValueProperty,
+                    this.Model.ValueBinder, PBinder.DirectValueProperty);
             }
         }
     }

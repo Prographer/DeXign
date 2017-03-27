@@ -23,6 +23,11 @@ namespace DeXign.Extension
                 return attr;
             }
 
+            if (obj is PropertyInfo pi)
+            {
+                return pi.GetAttribute<TAttribute>();
+            }
+
             return obj.GetType().GetAttribute<TAttribute>();
         }
 

@@ -43,7 +43,17 @@ namespace DeXign.Core
 
                             foreach (PBinderHost childNode in BinderHelper.FindHostNodes(host, BindOptions.Output, 0))
                             {
-                                
+                                var childComponent = new CodeComponent<TAttribute>(
+                                        childNode,
+                                        childNode.GetAttribute<TAttribute>())
+                                {
+                                    Depth = cc.Depth + 1,
+                                    ElementType = CodeComponentType.Node
+                                };
+
+                                cc.Add(childComponent);
+
+                                stack.Push(childComponent);
                             }
                         }
                     }

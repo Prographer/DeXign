@@ -8,9 +8,12 @@ namespace DeXign.UI
     public class DeXignWindow : Window
     {
         Dictionary<string, FrameworkElement> elementBackpack;
-        Dictionary<Page, List<string>> pageChildNames;
+        Dictionary<DeXignPage, List<string>> pageChildNames;
 
-        public Page SelectedPage => (Page)this.Content;
+        Grid pageContainer;
+        ContentPresenter pagePresenter;
+
+        public DeXignPage SelectedPage => (DeXignPage)pagePresenter.Content;
 
         public DeXignWindow()
         {
@@ -22,10 +25,16 @@ namespace DeXign.UI
         private void InitializeComponent()
         {
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            //this.SizeToContent = SizeToContent.WidthAndHeight;
+
+            pageContainer = new Grid();
+            pagePresenter = new ContentPresenter();
+
+            pageContainer.Children.Add(pagePresenter);
+
+            this.Content = pageContainer;
 
             elementBackpack = new Dictionary<string, FrameworkElement>();
-            pageChildNames = new Dictionary<Page, List<string>>();
+            pageChildNames = new Dictionary<DeXignPage, List<string>>();
         }
 
         private void DeXignWindow_Loaded(object sender, RoutedEventArgs e)
@@ -39,7 +48,7 @@ namespace DeXign.UI
         {
         }
 
-        public void Add(Page page)
+        public void Add(DeXignPage page)
         {
             if (!pageChildNames.ContainsKey(page))
                 pageChildNames[page] = new List<string>();
@@ -79,7 +88,7 @@ namespace DeXign.UI
             return name;
         }
 
-        public void Remove(Page page)
+        public void Remove(DeXignPage page)
         {
             // 페이지 제거 (Global)
             if (elementBackpack.ContainsKey(page.Name))
@@ -97,11 +106,11 @@ namespace DeXign.UI
             }
         }
 
-        public void SetPage(Page page)
+        public void SetPage(DeXignPage page)
         {
             if (elementBackpack.ContainsValue(page))
             {
-                if (this.Content == null)
+                if (SelectedPage == null)
                 {
                     // Initialize
                     this.Width = page.Width;
@@ -111,9 +120,9 @@ namespace DeXign.UI
                     page.Height = double.NaN;
                 }
 
-                this.Content = page;
+                pagePresenter.Content = page;
                 
-                this.Title = page.Title ?? "";
+                this.Title = page.WindowTitle ?? "";
             }
             else
             {
@@ -123,7 +132,7 @@ namespace DeXign.UI
 
         public void SetPage(string pageName)
         {
-            var page = FindElement<Page>(pageName);
+            var page = FindElement<DeXignPage>(pageName);
 
             SetPage(page ?? throw new PageNotFoundException());
         }

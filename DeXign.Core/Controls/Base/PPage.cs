@@ -23,7 +23,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Layout, DisplayName = "제목")]
         [XForms("Title")]
-        [WPF("Title")]
+        [WPF("WindowTitle")]
         public string Title
         {
             get { return GetValue<string>(TitleProperty); }
@@ -32,6 +32,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Blank, DisplayName = "안쪽 여백")]
         [XForms("Padding")]
+        [WPF("Padding")]
         public Thickness Padding
         {
             get { return GetValue<Thickness>(PaddingProperty); }

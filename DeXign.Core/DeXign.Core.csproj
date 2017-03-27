@@ -57,7 +57,7 @@
     <Compile Include="Attributes\DesignElementIgnoreAttribute.cs" />
     <Compile Include="ComparisonPredicate.cs" />
     <Compile Include="Compiler\BaseCompilerService.cs" />
-    <Compile Include="Compiler\Builder\CSBuilder.cs" />
+    <Compile Include="Compiler\DXCompileParameter.cs" />
     <Compile Include="Compiler\Debugger\BaseDebugger.cs" />
     <Compile Include="Compiler\Debugger\WPFDebugger.cs" />
     <Compile Include="Compiler\DXCompileOption.cs" />
@@ -67,6 +67,11 @@
     <EmbeddedResource Include="Compiler\WPF\Resources\DXAppWindow.cs" />
     <EmbeddedResource Include="Compiler\WPF\Resources\DXMain.cs" />
     <Compile Include="Compiler\DXCompileResult.cs" />
+    <Compile Include="Compiler\Mapping\WPFMappingProvider.cs" />
+    <Compile Include="Compiler\Mapping\DXMapper.cs" />
+    <Compile Include="Compiler\Mapping\DXMappingResult.cs" />
+    <Compile Include="Compiler\Mapping\DXToken.cs" />
+    <Compile Include="Compiler\Mapping\IMappingProvider.cs" />
     <Compile Include="Compiler\WPF\WPFCodeBuilder.cs" />
     <Compile Include="Compiler\WPF\WPFCompiler.cs" />
     <Compile Include="Compiler\WPF\WPFReesourceWriter.cs" />
@@ -74,7 +79,9 @@
     <Compile Include="Compiler\Debugger\DXDebugger.cs" />
     <Compile Include="Exceptions\ElementNameDuplicateException.cs" />
     <Compile Include="Exceptions\ElementNotFoundException.cs" />
+    <Compile Include="Generator\CodeComponentComparer.cs" />
     <Compile Include="Generator\CSharpGenerator.cs" />
+    <Compile Include="Text\IndentStringBuilder.cs" />
     <Compile Include="Generator\Unit\LayoutGeneratorUnit.cs" />
     <Compile Include="Generator\Unit\LogicGeneratorUnit.cs" />
     <Compile Include="Logic\BinderHelper.cs" />
@@ -138,6 +145,7 @@
     <Compile Include="Logic\BindDirection.cs" />
     <Compile Include="Logic\BinderBindedEventArgs.cs" />
     <Compile Include="Logic\BinderExpression.cs" />
+    <Compile Include="Logic\Binder\PLayoutBinderHost.cs" />
     <Compile Include="Logic\Binder\PNamedBinder.cs" />
     <Compile Include="Logic\Binder\PParameterBinder.cs" />
     <Compile Include="Logic\Binder\PReturnBinder.cs" />

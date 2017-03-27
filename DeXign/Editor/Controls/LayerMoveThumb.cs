@@ -147,7 +147,8 @@ namespace DeXign.Editor.Controls
         private Thickness ApplyMarginDelta(Point delta)
         {
             Thickness margin = beginMargin;
-            
+            Rect parentBound = ParentLayer.GetParentRenderBound();
+
             bool allowVertical = true;
             bool allowHorizontal = true;
 
@@ -159,17 +160,19 @@ namespace DeXign.Editor.Controls
                 allowHorizontal =
                     (stackRenderer.Element.Orientation == Orientation.Vertical);
             }
-
+            
             if (allowVertical)
             {
                 switch (ParentLayer.ClipData.VerticalAlignment)
                 {
                     case VerticalAlignment.Top:
                         margin.Top = beginMargin.Top + delta.Y;
+                        margin.Bottom = Math.Min(parentBound.Height - RenderSize.Height - margin.Top, 0);
                         break;
 
                     case VerticalAlignment.Bottom:
                         margin.Bottom = beginMargin.Bottom - delta.Y;
+                        margin.Top = Math.Min(parentBound.Height - RenderSize.Height - margin.Bottom, 0);
                         break;
 
                     case VerticalAlignment.Stretch:
@@ -186,10 +189,12 @@ namespace DeXign.Editor.Controls
                 {
                     case HorizontalAlignment.Left:
                         margin.Left = beginMargin.Left + delta.X;
+                        margin.Right = Math.Min(parentBound.Width - RenderSize.Width - margin.Left, 0);
                         break;
 
                     case HorizontalAlignment.Right:
                         margin.Right = beginMargin.Right - delta.X;
+                        margin.Left = Math.Min(parentBound.Width - RenderSize.Width - margin.Right, 0);
                         break;
 
                     case HorizontalAlignment.Stretch:

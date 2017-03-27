@@ -7,7 +7,7 @@ namespace DeXign.Core.Controls
 {
     [DesignElement(Category = Constants.Designer.Control, DisplayName = "텍스트")]
     [XForms("Xamarin.Forms", "Label")]
-    [WPF("System.Windows.Controls", "Label")]
+    [WPF("clr-namespace:DeXign.UI;assembly=DeXign.UI", "DeXignLabel")]
     public class PLabel : PControl, IFontControl
     {
         public static readonly DependencyProperty TextProperty =
@@ -33,7 +33,7 @@ namespace DeXign.Core.Controls
 
         [DesignElement(Category = Constants.Property.Design, DisplayName = "텍스트")]
         [XForms("Text")]
-        [WPF("Content")]
+        [WPF("Text")]
         public string Text
         {
             get { return GetValue<string>(TextProperty); }

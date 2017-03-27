@@ -7,7 +7,7 @@ using System.Collections.Specialized;
 
 namespace DeXign.Core.Logic
 {
-    [CSharp("")]
+    [CodeMap("")]
     public class PBinderHost : PObject, IBinderHost
     {
         public event EventHandler<BinderBindedEventArgs> Binded;

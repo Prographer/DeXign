@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeXign.Extension;
+using System;
 using System.Linq;
 using System.Windows;
 
@@ -25,6 +26,18 @@ namespace DeXign.Core.Logic
         {
         }
 
+        public override void Bind(IBinder targetBinder)
+        {
+            base.Bind(targetBinder);
+
+            if (targetBinder is PReturnBinder returnBinder)
+            {
+                BindingEx.SetBinding(
+                    returnBinder, PReturnBinder.ReturnTypeProperty,
+                    this, PParameterBinder.ParameterTypeProperty);
+            }
+        }
+
         protected override void OnPropagateBind(IBinder output, IBinder input)
         {
             IBinder triggerReturnBinder = this.Items
@@ -39,7 +52,7 @@ namespace DeXign.Core.Logic
                 {
                     var triggerReturn = triggerReturnBinder as PReturnBinder;
                     var trigger = triggerReturnBinder.Host as PTrigger;
-
+                    
                     targetable.TargetType = triggerReturn.ReturnType;
                 }
 

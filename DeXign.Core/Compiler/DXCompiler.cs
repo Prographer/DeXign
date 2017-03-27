@@ -20,20 +20,20 @@ namespace DeXign.Core.Compiler
             AddCompiler(new XFormsCompiler());
         }
 
-        public static DXCompileResult Compile(DXCompileOption option, PContentPage[] screens, PBinderHost[] components)
+        public static DXCompileResult Compile(DXCompileParameter parameter)
         {
-            foreach (BaseCompilerService service in GetCompilerService(option.TargetPlatform))
+            foreach (BaseCompilerService service in GetCompilerService(parameter.Option.TargetPlatform))
             {
-                return service.Compile(option, screens, components);
+                return service.Compile(parameter);
             }
 
             // 컴파일 오류
-            return new DXCompileResult(option)
+            return new DXCompileResult(parameter.Option)
             {
                 IsSuccess = false,
                 Errors =
                 {
-                    new Exception($"{option.ToString()}에 해당하는 컴파일러를 찾을 수 없습니다.")
+                    new Exception($"{parameter.Option.TargetPlatform.ToString()}에 해당하는 컴파일러를 찾을 수 없습니다.")
                 }
             };
         }
