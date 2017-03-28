@@ -282,6 +282,7 @@
     <Compile Include="Task\Components\LayoutTaskData.cs" />
     <Compile Include="Task\TaskData.cs" />
     <Compile Include="Task\TaskManager.cs" />
+    <Compile Include="Task\TaskManagerHelper.cs" />
     <Compile Include="Themes\ThemeManager.cs" />
     <Compile Include="MVVM\ElementThicknessBinder.cs" />
     <Compile Include="Utilities\DispatcherEx.cs" />

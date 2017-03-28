@@ -8,6 +8,7 @@ using DeXign.Core.Logic;
 using DeXign.Extension;
 
 using WPFExtension;
+using DeXign.Task;
 
 namespace DeXign.Editor.Logic
 {
@@ -26,7 +27,21 @@ namespace DeXign.Editor.Logic
         public new PSetter Model => (PSetter)base.Model;
 
         private CheckBox valueCheckBox;
-        
+
+        protected override void OnLoaded()
+        {
+            base.OnLoaded();
+
+            this.TaskManager.HookCheckBox(valueCheckBox);
+        }
+
+        protected override void OnUnloaded()
+        {
+            base.OnUnloaded();
+
+            this.TaskManager.UnHookCheckBox(valueCheckBox);
+        }
+
         protected override void OnAttachedComponentModel()
         {
             base.OnAttachedComponentModel();
@@ -42,7 +57,7 @@ namespace DeXign.Editor.Logic
 
             valueCheckBox = GetContentTemplateChild<CheckBox>("PART_valueCheckBox");
         }
-
+        
         protected override void OnTargetTypeChanged()
         {
             base.OnTargetTypeChanged();

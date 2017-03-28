@@ -8,8 +8,6 @@ using System.Windows.Controls.Primitives;
 
 using DeXign.Core.Designer;
 using DeXign.Core.Logic;
-using DeXign.Editor.Layer;
-using DeXign.Editor.Renderer;
 using DeXign.Extension;
 
 using WPFExtension;
@@ -70,18 +68,15 @@ namespace DeXign.Editor.Logic
             BindingEx.SetBinding(
                 this.Model, PTargetable.PropertyProperty,
                 this, BaseProperty.SelectedPropertyProperty);
-
-            this.Loaded += BaseProperty_Loaded;
         }
 
-        private void BaseProperty_Loaded(object sender, RoutedEventArgs e)
+        protected override void OnLoaded()
         {
-            this.Loaded -= BaseProperty_Loaded;
+            base.OnLoaded();
 
             var popup = propertyBox.FindVisualChildrens<Popup>(false).FirstOrDefault(); ;
-            var layer = this.Model.GetRenderer() as StoryboardLayer;
 
-            layer?.Storyboard.SetUnscaledControl(popup);
+            this.ParentStoryboard.SetUnscaledControl(popup);
         }
 
         public override void OnApplyContentTemplate()
@@ -124,7 +119,7 @@ namespace DeXign.Editor.Logic
             else
             {
                 PropertyList.Clear();
-
+                
                 foreach (var prop in DesignerManager.GetProperties(TargetType))
                 {
                     var item = new PropertyItem(prop);

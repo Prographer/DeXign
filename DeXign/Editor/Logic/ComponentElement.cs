@@ -131,7 +131,7 @@ namespace DeXign.Editor.Logic
             set { Canvas.SetTop(this, value); }
         }
 
-        public TaskManager TaskManager => this.ParentStoryboard.TaskManager;
+        public TaskManager TaskManager => this.ParentStoryboard?.TaskManager;
 
         #region [ Local Variable ]
         internal Storyboard ParentStoryboard { get; private set; }
@@ -151,8 +151,16 @@ namespace DeXign.Editor.Logic
             this.SetValue(ReturnThumbsPropertyKey, new ObservableCollection<BindThumb>());
 
             this.Loaded += ComponentElement_Loaded;
+            this.Unloaded += ComponentElement_Unloaded;
         }
 
+        private void ComponentElement_Unloaded(object sender, RoutedEventArgs e)
+        {
+            this.Unloaded -= ComponentElement_Unloaded;
+
+            OnUnloaded();
+        }
+        
         private void ComponentElement_Loaded(object sender, RoutedEventArgs e)
         {
             this.Loaded -= ComponentElement_Loaded;
@@ -160,6 +168,16 @@ namespace DeXign.Editor.Logic
             this.ParentStoryboard = this.FindVisualParents<Storyboard>().FirstOrDefault();
 
             InitializeMoveThumb();
+
+            OnLoaded();
+        }
+
+        protected virtual void OnLoaded()
+        {
+        }
+
+        protected virtual void OnUnloaded()
+        {
         }
 
         public void SetComponentModel(PComponent model)
