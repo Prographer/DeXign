@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Input;
@@ -13,8 +14,6 @@ using DeXign.Extension;
 using DeXign.Converter;
 
 using WPFExtension;
-using System.Windows.Documents;
-using System.Linq;
 
 namespace DeXign.Editor.Renderer
 {
@@ -58,6 +57,8 @@ namespace DeXign.Editor.Renderer
         #region [ Local Variable ]
         private bool showModelName = false;
         private string displayTypeName = "";
+
+        private List<DependencyProperty> changedProperties;
         #endregion
 
         static LayerRenderer()
@@ -85,6 +86,15 @@ namespace DeXign.Editor.Renderer
 
             // Binder
             RendererManager.ResolveBinder(this).Released += LayerRenderer_Released;
+
+            // Property Hook
+            changedProperties = new List<DependencyProperty>();
+            model.PropertyChanged += Model_PropertyChanged;
+        }
+
+        private void Model_PropertyChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            changedProperties.SafeAdd(e.Property);
         }
 
         private void LayerRenderer_Released(object sender, BinderBindedEventArgs e)
@@ -243,12 +253,14 @@ namespace DeXign.Editor.Renderer
             }
             #endregion
 
+            #region < PPage >
             if (Model is PPage)
             {
                 BindingEx.TryBinding(
                     Model, PPage.PaddingProperty,
                     visual, "Padding");
             }
+            #endregion
         }
 
         public void AddChild(IRenderer child, Point position)
@@ -273,6 +285,14 @@ namespace DeXign.Editor.Renderer
 
         protected virtual void OnRemovedChild(IRenderer child)
         {
+        }
+
+        
+        protected override void OnDragStarted()
+        {
+            base.OnDragStarted();
+
+            changedProperties.Clear();
         }
 
         protected override void OnDragCompleted()

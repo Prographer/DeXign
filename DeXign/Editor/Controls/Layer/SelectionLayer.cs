@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Shell;
 
+using DeXign.Controls;
 using DeXign.Converter;
 using DeXign.Editor.Controls;
 using DeXign.Editor.Renderer;
@@ -15,7 +16,6 @@ using DeXign.Extension;
 using DeXign.Resources;
 
 using WPFExtension;
-using DeXign.Controls;
 
 namespace DeXign.Editor.Layer
 {
@@ -288,7 +288,6 @@ namespace DeXign.Editor.Layer
             // Selection
             moveThumb.PreviewMouseLeftButtonDown += MoveThumb_PreviewMouseLeftButtonDown;
             moveThumb.PreviewMouseLeftButtonUp += MoveThumb_PreviewMouseLeftButtonUp;
-            moveThumb.DragCompleted += MoveThumb_DragCompleted;
             #endregion
 
             #region < Add Frame >
@@ -703,6 +702,11 @@ namespace DeXign.Editor.Layer
 
         private void ClipChanged(object sender, EventArgs e)
         {
+            OnClipStateChanged();
+        }
+
+        protected virtual void OnClipStateChanged()
+        {
             ApplyClipData();
         }
 
@@ -790,7 +794,6 @@ namespace DeXign.Editor.Layer
                 AnimateFrameThickness(0, 150);
 
             UpdateParentState();
-            UpdateMarginClips();
             UpdateFrame();
         }
         
@@ -875,7 +878,7 @@ namespace DeXign.Editor.Layer
         }
     }
 
-    internal struct MarginClipHolder
+    public struct MarginClipHolder
     {
         public LayerMarginClip LeftClip;
         public LayerMarginClip TopClip;

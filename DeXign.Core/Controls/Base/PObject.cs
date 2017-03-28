@@ -8,6 +8,8 @@ namespace DeXign.Core
     [Serializable]
     public class PObject : DependencyObject
     {
+        public event EventHandler<DependencyPropertyChangedEventArgs> PropertyChanged;
+        
         public static readonly DependencyProperty NameProperty =
             DependencyHelper.Register();
 
@@ -33,6 +35,13 @@ namespace DeXign.Core
         public PObject()
         {
             GuidProperty.AddValueChanged(this, Guid_Changed);
+        }
+
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(e);
+
+            this.PropertyChanged?.Invoke(this, e);
         }
 
         private void Guid_Changed(object sender, EventArgs e)

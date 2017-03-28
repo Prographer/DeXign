@@ -1,12 +1,12 @@
 using System;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Controls;
 using System.Collections.Generic;
 
 using DeXign.Controls;
 using DeXign.Editor.Layer;
 using DeXign.Editor.Renderer;
-using System.Windows.Input;
 
 namespace DeXign.Editor.Controls
 {
@@ -99,6 +99,8 @@ namespace DeXign.Editor.Controls
 
             if (ParentLayer.Parent is IStoryboard == false)
                 beginMargin = Target.Margin;
+
+            base.OnDragStarted(horizontalOffset, verticalOffset);
         }
 
         protected override void OnDragCompleted(double horizontalChange, double verticalChange)

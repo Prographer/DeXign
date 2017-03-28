@@ -17,6 +17,8 @@ using WPFExtension;
 using DeXign.Editor.Renderer;
 using DeXign.Resources;
 using System.Windows.Media;
+using DeXign.Editor.Layer;
+using DeXign.Task;
 
 namespace DeXign.Editor.Logic
 {
@@ -129,6 +131,8 @@ namespace DeXign.Editor.Logic
             set { Canvas.SetTop(this, value); }
         }
 
+        public TaskManager TaskManager => this.ParentStoryboard.TaskManager;
+
         #region [ Local Variable ]
         internal Storyboard ParentStoryboard { get; private set; }
 
@@ -154,7 +158,7 @@ namespace DeXign.Editor.Logic
             this.Loaded -= ComponentElement_Loaded;
 
             this.ParentStoryboard = this.FindVisualParents<Storyboard>().FirstOrDefault();
-            
+
             InitializeMoveThumb();
         }
 
@@ -208,9 +212,10 @@ namespace DeXign.Editor.Logic
                 
                 moveThumb.DragStarted += MoveThumb_DragStarted;
                 moveThumb.DragDelta += MoveThumb_DragDelta;
+                moveThumb.DragCompleted += MoveThumb_DragCompleted;
             }
         }
-
+        
         private void EnsureAddThumb(IBinder binder)
         {
             switch (binder.BindOption)
@@ -438,6 +443,27 @@ namespace DeXign.Editor.Logic
             }
 
             this.SetIsSelected(true);
+        }
+
+        private void MoveThumb_DragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            Point movedPosition = new Point(this.Left, this.Top);
+            Point prevPosition = beginPosition;
+
+            var layer = this.GetRenderer() as StoryboardLayer;
+
+            this.TaskManager.Push(
+                new TaskData(this,
+                () =>
+                {
+                    this.Left = movedPosition.X;
+                    this.Top = movedPosition.Y;
+                },
+                () =>
+                {
+                    this.Left = prevPosition.X;
+                    this.Top = prevPosition.Y;
+                }));
         }
 
         public double SnapToGrid(double value)
