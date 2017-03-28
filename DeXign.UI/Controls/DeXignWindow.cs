@@ -113,9 +113,9 @@ namespace DeXign.UI
                 if (SelectedPage == null)
                 {
                     // Initialize
-                    this.Width = page.Width;
-                    this.Height = page.Height;
-
+                    this.Width = page.Width + SystemParameters.ResizeFrameVerticalBorderWidth * 2;
+                    this.Height = page.Height + SystemParameters.ResizeFrameHorizontalBorderHeight * 2 + SystemParameters.CaptionHeight;
+                    
                     page.Width = double.NaN;
                     page.Height = double.NaN;
                 }

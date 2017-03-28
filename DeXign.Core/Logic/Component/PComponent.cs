@@ -1,6 +1,4 @@
-﻿using DeXign.Extension;
-using System;
-using System.Linq;
+﻿using System;
 using System.Windows;
 
 using WPFExtension;
@@ -12,10 +10,19 @@ namespace DeXign.Core.Logic
         public static readonly DependencyProperty TitleProperty =
             DependencyHelper.Register();
 
+        public static readonly DependencyProperty DescriptionProperty =
+            DependencyHelper.Register();
+
         public string Title
         {
             get { return GetValue<string>(TitleProperty); }
             set { SetValue(TitleProperty, value); }
+        }
+
+        public new string Description
+        {
+            get { return GetValue<string>(DescriptionProperty); }
+            set { SetValue(DescriptionProperty, value); }
         }
 
         public PComponent() : base()

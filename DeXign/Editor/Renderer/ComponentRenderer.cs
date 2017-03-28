@@ -313,8 +313,16 @@ namespace DeXign.Editor.Renderer
 
         protected void DrawSightText(DrawingContext drawingContext, string text)
         {
+            Brush textBrush = Brushes.White;
+
+            if (!string.IsNullOrEmpty(this.Model.Description))
+            {
+                text = this.Model.Description;
+                textBrush = Brushes.Lime;
+            }
+
             var typeface = new Typeface(fontNotoSans, FontStyles.Normal, FontWeights.Bold, FontStretches.Normal);
-            var formatText = CreateFormattedText(text, 12, typeface, Brushes.White);
+            var formatText = CreateFormattedText(text, 10, typeface, textBrush);
 
             var position = new Point(
                 this.RenderSize.Width / 2 - formatText.Width / 2,

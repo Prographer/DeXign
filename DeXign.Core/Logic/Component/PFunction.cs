@@ -134,8 +134,20 @@ namespace DeXign.Core.Logic
                 if (pi.HasAttribute<DXAttribute>())
                     name = pi.GetAttribute<DXAttribute>().DisplayName;
 
-                // 파라미터 바인더 생성
-                this.AddParamterBinder(name, pi.ParameterType);
+                if (pi.ParameterType == typeof(Action))
+                {
+                    // 분기 바인더 생성
+                    this.AddBinder(
+                        new PNamedBinder(this, BindOptions.Output)
+                        {
+                            Title = name
+                        });
+                }
+                else
+                {
+                    // 파라미터 바인더 생성
+                    this.AddParamterBinder(name, pi.ParameterType);
+                }
             }
         }
 
@@ -143,6 +155,7 @@ namespace DeXign.Core.Logic
         {
             this.ParameterInfos = this.FunctionInfo
                 .GetParameters()
+                .Where(pi => pi.ParameterType != typeof(Action))
                 .Select(pi => new NamedParameterInfo(pi))
                 .ToArray();
 

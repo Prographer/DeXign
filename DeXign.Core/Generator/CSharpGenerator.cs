@@ -1,12 +1,12 @@
-﻿using DeXign.Core.Compiler;
-using DeXign.Core.Logic;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
-using System;
 using System.Reflection;
+using System.Collections.Generic;
+
 using DeXign.Extension;
 using DeXign.Core.Text;
+using DeXign.Core.Logic;
+using DeXign.Core.Compiler;
 
 namespace DeXign.Core
 {
@@ -33,8 +33,16 @@ namespace DeXign.Core
             CodeComponent<CSharpCodeMapAttribute>[] triggers = items
                 .Where(cc => cc.Depth == 0)
                 .SelectMany(item => item.Children)
+                .Where(item => item.Element is PTrigger)
                 .Distinct(new CodeComponentComparer<CSharpCodeMapAttribute>())
                 .ToArray();
+
+            //// Trigger Hosts
+            //CodeComponent<CSharpCodeMapAttribute>[] triggers = items
+            //    .Where(cc => cc.Depth == 0)
+            //    .SelectMany(item => item.Children)
+            //    .Distinct(new CodeComponentComparer<CSharpCodeMapAttribute>())
+            //    .ToArray();
 
             // Event Handle
             var eventHandlerBuilder = new StringBuilder();
@@ -56,12 +64,17 @@ namespace DeXign.Core
             foreach (var trigger in triggers)
             {
                 string callbackSource = GenerateCallback(trigger.Element as PTrigger);
-                
-                // 지역 변수 컨테이너
-                var localVariableContainer = new NameContainer();
+                string code = "";
 
-                yield return callbackSource.Replace("{Code}", 
-                    CreateScope(trigger.Children.ToArray(), localVariableContainer, true));
+                if (trigger.HasChildren)
+                {
+                    // 지역 변수 컨테이너
+                    var localVariableContainer = new NameContainer();
+
+                    code = CreateScope(trigger.Children.ToArray(), localVariableContainer, true);
+                }
+
+                yield return callbackSource.Replace("{Code}", code);
             }
 
             // CreateScope (Recursive)
@@ -140,6 +153,8 @@ namespace DeXign.Core
                 return scopeBuilder.ToString();
             }
 
+            //string CreateLambda()
+
             void ProcessBinderValue(IndentStringBuilder sourceBuilder, DXToken token, PBinder binder)
             {
                 string valueLine = null;
@@ -209,9 +224,17 @@ namespace DeXign.Core
             // Ex: private void Button_Click(object oSender, EventArgs)
             
             callbackBuilder.AppendLine("{");
+            callbackBuilder.AppendLine("try", 1);
+            callbackBuilder.AppendLine("{", 1);
+
             callbackBuilder.AppendLine($"var sender = oSender as {declareName};", 1);
             callbackBuilder.AppendLine();
             callbackBuilder.AppendLine("{Code}");
+
+            callbackBuilder.AppendLine("}", 1);
+            callbackBuilder.AppendLine("catch", 1);
+            callbackBuilder.AppendLine("{", 1);
+            callbackBuilder.AppendLine("}", 1);
             callbackBuilder.Append("}");
 
             /*

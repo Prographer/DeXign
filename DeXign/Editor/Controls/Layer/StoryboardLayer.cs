@@ -1,13 +1,12 @@
 using System;
 using System.Linq;
 using System.Windows;
-
-using DeXign.Editor.Controls;
-using DeXign.Extension;
-using DeXign.Controls;
-using DeXign.Editor.Renderer;
 using System.Windows.Media;
 using System.Globalization;
+
+using DeXign.Controls;
+using DeXign.Extension;
+using DeXign.Editor.Controls;
 
 namespace DeXign.Editor.Layer
 {

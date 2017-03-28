@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 
 using DeXign.Core.Collections;
-using System.Collections.Specialized;
 
 namespace DeXign.Core.Logic
 {
@@ -15,7 +15,7 @@ namespace DeXign.Core.Logic
         public event EventHandler<BinderBindedEventArgs> Released;
 
         public BinderCollection Items { get; }
-
+        
         public IEnumerable<IBinder> this[BindOptions option]
         {
             get
