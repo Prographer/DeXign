@@ -1,11 +1,12 @@
 using System;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media;
+using System.Globalization;
 
-using DeXign.Editor.Controls;
-using DeXign.Extension;
 using DeXign.Controls;
-using DeXign.Editor.Renderer;
+using DeXign.Extension;
+using DeXign.Editor.Controls;
 
 namespace DeXign.Editor.Layer
 {
@@ -62,7 +63,7 @@ namespace DeXign.Editor.Layer
         }
 
         #region [ Scale Fit Methods ]
-        protected void Fit(ref Rect rect, double x, double y)
+        protected void InflateFit(ref Rect rect, double x, double y)
         {
             rect.Inflate(x / Scale, y / Scale);
         }
@@ -75,6 +76,28 @@ namespace DeXign.Editor.Layer
         protected double Fit(double value)
         {
             return value / Scale;
+        }
+        #endregion
+
+        #region [ Resource Methods ]
+        protected FormattedText CreateFormattedText(string text, double size, string fontName, Brush brush)
+        {
+            return CreateFormattedText(text, size, new Typeface(fontName), brush);
+        }
+
+        protected FormattedText CreateFormattedText(string text, double size, Typeface typeface, Brush brush)
+        {
+            return new FormattedText(
+                text, CultureInfo.InvariantCulture,
+                FlowDirection.LeftToRight,
+                typeface,
+                this.Fit(size),
+                brush);
+        }
+
+        protected Pen CreatePen(Brush brush, double width)
+        {
+            return new Pen(brush, this.Fit(width));
         }
         #endregion
     }

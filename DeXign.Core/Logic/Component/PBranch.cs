@@ -1,13 +1,27 @@
-﻿namespace DeXign.Core.Logic
+﻿using System.Windows;
+using WPFExtension;
+
+namespace DeXign.Core.Logic
 {
+    [CSharpCodeMap("if ({Line:1}{Property:Operator}{Line:2}){Scope:1}else{Scope:2}")]
+    [JavaCodeMap("if ({Line:1}{Property:Operator}{Line:2}){Scope:1}else{Scope:2}")]
     [DesignElement(Category = Constants.Logic.Default, DisplayName = "분기")]
     public class PBranch : PComponent
     {
-        public PBinder TrueBinder { get; }
-        public PBinder FalseBinder { get; }
+        public static readonly DependencyProperty OperatorProperty =
+            DependencyHelper.Register();
+        
+        public ComparisonPredicate Operator
+        {
+            get { return GetValue<ComparisonPredicate>(OperatorProperty); }
+            set { SetValue(OperatorProperty, value); }
+        }
+        
+        public PBinder TrueBinder { get; set; }
+        public PBinder FalseBinder { get; set; }
 
-        public PParameterBinder Value1Binder { get; }
-        public PParameterBinder Value2Binder { get; }
+        public PParameterBinder Value1Binder { get; set; }
+        public PParameterBinder Value2Binder { get; set; }
 
         public PBranch() : base()
         {

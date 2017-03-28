@@ -1,13 +1,13 @@
-﻿using System.Linq;
-using System.Reflection;
+﻿using System;
+using System.Linq;
 using System.Windows;
+using System.Reflection;
+using System.ComponentModel;
 
 using DeXign.SDK;
 using DeXign.Extension;
 
 using WPFExtension;
-using System;
-using System.ComponentModel;
 
 namespace DeXign.Core.Logic
 {
@@ -41,8 +41,9 @@ namespace DeXign.Core.Logic
             return this.RuntimeMethodInfo.GetParameters();
         }
     }
-
-
+    
+    [CSharpCodeMap("{Function:return;}")]
+    [JavaCodeMap("{Function:return;}")]
     [DesignElement(DisplayName = "함수", Visible = false)]
     public class PFunction : PComponent
     {
@@ -76,7 +77,7 @@ namespace DeXign.Core.Logic
             }
         }
         
-        public PReturnBinder ReturnBinder { get; private set; }
+        public PReturnBinder ReturnBinder { get; set; }
 
         public NamedParameterInfo[] ParameterInfos
         {
@@ -88,11 +89,18 @@ namespace DeXign.Core.Logic
         {
             this.AddNewBinder(BindOptions.Input);
             this.AddNewBinder(BindOptions.Output);
-        }
 
+            FunctionInfoProperty.AddValueChanged(this, FunctionInfo_Changed);
+        }
+        
         public PFunction(MethodInfo mi) : this()
         {
             SetRuntimeFunction(mi);
+        }
+
+        private void FunctionInfo_Changed(object sender, EventArgs e)
+        {
+            InvalidateVisualProperty();
         }
 
         public void SetRuntimeFunction(MethodInfo mi)
@@ -103,19 +111,21 @@ namespace DeXign.Core.Logic
 
         private void Invalidate()
         {
-            this.ParameterInfos = this.FunctionInfo
-                .GetParameters()
-                .Select(pi => new NamedParameterInfo(pi))
-                .ToArray();
-            
-            // Display Name
-            this.FunctionName = this.FunctionInfo.Attribute.DisplayName;
+            InvalidateVisualProperty();
 
             // Binder Generate
             this.ClearReturnBinder();
             this.ClearParameterBinder();
 
-            this.ReturnBinder = this.AddReturnBinder("결과", this.FunctionInfo.ReturnType);
+            string returnName = "결과";
+
+            if (FunctionInfo.Attribute is DXFunctionAttribute attr)
+            {
+                if (!string.IsNullOrEmpty(attr.ReturnDisplayName))
+                    returnName = attr.ReturnDisplayName;
+            }
+
+            this.ReturnBinder = this.AddReturnBinder(returnName, this.FunctionInfo.ReturnType);
 
             foreach (ParameterInfo pi in this.FunctionInfo.GetParameters())
             {
@@ -124,9 +134,33 @@ namespace DeXign.Core.Logic
                 if (pi.HasAttribute<DXAttribute>())
                     name = pi.GetAttribute<DXAttribute>().DisplayName;
 
-                // 파라미터 바인더 생성
-                this.AddParamterBinder(name, pi.ParameterType);
+                if (pi.ParameterType == typeof(Action))
+                {
+                    // 분기 바인더 생성
+                    this.AddBinder(
+                        new PNamedBinder(this, BindOptions.Output)
+                        {
+                            Title = name
+                        });
+                }
+                else
+                {
+                    // 파라미터 바인더 생성
+                    this.AddParamterBinder(name, pi.ParameterType);
+                }
             }
+        }
+
+        private void InvalidateVisualProperty()
+        {
+            this.ParameterInfos = this.FunctionInfo
+                .GetParameters()
+                .Where(pi => pi.ParameterType != typeof(Action))
+                .Select(pi => new NamedParameterInfo(pi))
+                .ToArray();
+
+            // Display Name
+            this.FunctionName = this.FunctionInfo.Attribute.DisplayName;
         }
     }
 }

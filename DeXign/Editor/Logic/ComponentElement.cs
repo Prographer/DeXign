@@ -15,6 +15,10 @@ using DeXign.Editor.Controls;
 
 using WPFExtension;
 using DeXign.Editor.Renderer;
+using DeXign.Resources;
+using System.Windows.Media;
+using DeXign.Editor.Layer;
+using DeXign.Task;
 
 namespace DeXign.Editor.Logic
 {
@@ -42,6 +46,14 @@ namespace DeXign.Editor.Logic
         public static readonly DependencyProperty HeaderProperty =
             DependencyHelper.Register(
                 new PropertyMetadata("< Component >"));
+
+        public static readonly DependencyProperty AccentBrushProperty =
+            DependencyHelper.Register(
+                new PropertyMetadata(ResourceManager.GetBrush("Logic.Statement")));
+
+        public static readonly DependencyProperty AccentColorProperty =
+            DependencyHelper.Register(
+                new PropertyMetadata(ResourceManager.GetColor("Logic.Statement")));
 
         private static readonly DependencyPropertyKey InputThumbsPropertyKey =
             DependencyHelper.RegisterReadOnly();
@@ -73,6 +85,18 @@ namespace DeXign.Editor.Logic
             set { SetValue(HeaderProperty, value); }
         }
 
+        public Brush AccentBrush
+        {
+            get { return (Brush)GetValue(AccentBrushProperty); }
+            set { SetValue(AccentBrushProperty, value); }
+        }
+
+        public Color AccentColor
+        {
+            get { return (Color)GetValue(AccentColorProperty); }
+            set { SetValue(AccentColorProperty, value); }
+        }
+        
         public ObservableCollection<BindThumb> InputThumbs
         {
             get { return (ObservableCollection<BindThumb>)GetValue(InputThumbsProperty); }
@@ -107,6 +131,8 @@ namespace DeXign.Editor.Logic
             set { Canvas.SetTop(this, value); }
         }
 
+        public TaskManager TaskManager => this.ParentStoryboard.TaskManager;
+
         #region [ Local Variable ]
         internal Storyboard ParentStoryboard { get; private set; }
 
@@ -117,6 +143,8 @@ namespace DeXign.Editor.Logic
 
         public ComponentElement()
         {
+            this.Opacity = 0.3;
+
             this.SetValue(InputThumbsPropertyKey, new ObservableCollection<BindThumb>());
             this.SetValue(OutputThumbsPropertyKey, new ObservableCollection<BindThumb>());
             this.SetValue(ParameterThumbsPropertyKey, new ObservableCollection<BindThumb>());
@@ -130,7 +158,7 @@ namespace DeXign.Editor.Logic
             this.Loaded -= ComponentElement_Loaded;
 
             this.ParentStoryboard = this.FindVisualParents<Storyboard>().FirstOrDefault();
-            
+
             InitializeMoveThumb();
         }
 
@@ -146,6 +174,11 @@ namespace DeXign.Editor.Logic
             InitializeBinders();
 
             OnAttachedComponentModel();
+        }
+
+        public void DragMove()
+        {
+            this.moveThumb.CaptureMouse();
         }
 
         protected virtual void OnAttachedComponentModel()
@@ -179,9 +212,10 @@ namespace DeXign.Editor.Logic
                 
                 moveThumb.DragStarted += MoveThumb_DragStarted;
                 moveThumb.DragDelta += MoveThumb_DragDelta;
+                moveThumb.DragCompleted += MoveThumb_DragCompleted;
             }
         }
-
+        
         private void EnsureAddThumb(IBinder binder)
         {
             switch (binder.BindOption)
@@ -316,6 +350,9 @@ namespace DeXign.Editor.Logic
         
         private void Unselected(object sender, SelectionChangedEventArgs e)
         {
+            SetNodeOpacity(BindOptions.Output | BindOptions.Return, 0.3);
+            SetNodeOpacity(BindOptions.Input | BindOptions.Parameter, 0.3);
+
             OnUnSelected();
         }
 
@@ -323,6 +360,9 @@ namespace DeXign.Editor.Logic
         {
             if (this.ParentStoryboard != null)
                 Keyboard.Focus(this.ParentStoryboard);
+
+            SetNodeOpacity(BindOptions.Output | BindOptions.Return, 1);
+            SetNodeOpacity(BindOptions.Input | BindOptions.Parameter, 1);
 
             OnSelected();
         }
@@ -337,6 +377,19 @@ namespace DeXign.Editor.Logic
 
         public virtual void OnApplyContentTemplate()
         {
+        }
+
+        private void SetNodeOpacity(BindOptions option, double opacity)
+        {
+            this.Opacity = opacity;
+
+            foreach (var node in BinderHelper.FindHostNodes(this.Model, option))
+            {
+                var element = node.GetView<FrameworkElement>();
+
+                if (element != null)
+                    element.Opacity = opacity;
+            }
         }
 
         #region [ Template Method ]
@@ -390,6 +443,27 @@ namespace DeXign.Editor.Logic
             }
 
             this.SetIsSelected(true);
+        }
+
+        private void MoveThumb_DragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            Point movedPosition = new Point(this.Left, this.Top);
+            Point prevPosition = beginPosition;
+
+            var layer = this.GetRenderer() as StoryboardLayer;
+
+            this.TaskManager.Push(
+                new TaskData(this,
+                () =>
+                {
+                    this.Left = movedPosition.X;
+                    this.Top = movedPosition.Y;
+                },
+                () =>
+                {
+                    this.Left = prevPosition.X;
+                    this.Top = prevPosition.Y;
+                }));
         }
 
         public double SnapToGrid(double value)

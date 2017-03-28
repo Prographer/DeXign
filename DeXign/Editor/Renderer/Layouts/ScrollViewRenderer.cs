@@ -1,15 +1,12 @@
-﻿using System;
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 using DeXign.Editor;
 using DeXign.Editor.Renderer;
-using DeXign.Core;
-using DeXign.Core.Designer;
-using DeXign.Core.Controls;
-using DeXign.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Controls;
+using DeXign.UI;
 using DeXign.Extension;
-using System.Windows;
+using DeXign.Core.Controls;
 
 [assembly: ExportRenderer(typeof(PScrollView), typeof(ProtrudedScrollViewer), typeof(ScrollViewRenderer))]
 

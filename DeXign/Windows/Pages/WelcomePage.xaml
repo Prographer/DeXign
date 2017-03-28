@@ -1,44 +1,62 @@
-﻿<Page x:Class="DeXign.Windows.Pages.WelcomePage"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:DeXign"
-      xmlns:c="clr-namespace:DeXign.Controls"
-      mc:Ignorable="d" 
-      d:DesignHeight="472.499" d:DesignWidth="766.191"
-      Title="StartPage"
-      Background="{StaticResource Brush.DarkAccent}"
-      Foreground="{StaticResource Brush.Accent}">
+﻿<Page
+    x:Class="DeXign.Windows.Pages.WelcomePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:DeXign.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:DeXign"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="StartPage"
+    d:DesignHeight="472.499"
+    d:DesignWidth="766.191"
+    Background="{StaticResource Brush.DarkAccent}"
+    Foreground="{StaticResource Brush.Accent}"
+    mc:Ignorable="d">
 
     <Page.Resources>
         <Style x:Key="HeaderBlockStyle" TargetType="{x:Type TextBlock}">
-            <Setter Property="FontSize" Value="24"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Margin" Value="0,64,0,0"/>
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Margin" Value="0,64,0,0" />
         </Style>
     </Page.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <Grid Margin="32">
             <ScrollViewer>
                 <StackPanel>
-                    <TextBlock Text="DeXign Studio" Foreground="White" FontSize="36" VerticalAlignment="Top"/>
+                    <TextBlock
+                        VerticalAlignment="Top"
+                        FontSize="36"
+                        Foreground="White"
+                        Text="DeXign Studio" />
 
-                    <TextBlock Style="{StaticResource HeaderBlockStyle}" Text="시작"/>
-                    <c:LinkTextBlock Command="{x:Static local:DXCommands.OpenProjectCommand}" Text="폴더 열기" Margin="0,8,0,0"/>
-                    <c:LinkTextBlock Command="{x:Static local:DXCommands.NewProjectCommand}" Text="새로운 어플리케이션" Margin="0,8,0,0"/>
+                    <TextBlock Style="{StaticResource HeaderBlockStyle}" Text="시작" />
+                    <c:LinkTextBlock
+                        Margin="0,8,0,0"
+                        Command="{x:Static local:DXCommands.OpenProjectCommand}"
+                        Text="폴더 열기" />
+                    <c:LinkTextBlock
+                        Margin="0,8,0,0"
+                        Command="{x:Static local:DXCommands.NewProjectCommand}"
+                        Text="새로운 어플리케이션" />
 
-                    <TextBlock Style="{StaticResource HeaderBlockStyle}" Text="최근"/>
+                    <TextBlock Style="{StaticResource HeaderBlockStyle}" Text="최근" />
 
-                    <TextBlock Style="{StaticResource HeaderBlockStyle}" Text="도움"/>
-                    <c:LinkTextBlock Text="DeXign 문서" Margin="0,8,0,0" Link="https://github.com/mixnut/DeXign"/>
-                    <c:LinkTextBlock Text="소개 동영상" Margin="0,8,0,0" Link="https://github.com/mixnut/DeXign"/>
+                    <TextBlock Style="{StaticResource HeaderBlockStyle}" Text="도움" />
+                    <c:LinkTextBlock
+                        Margin="0,8,0,0"
+                        Link="https://github.com/mixnut/DeXign"
+                        Text="DeXign 문서" />
+                    <c:LinkTextBlock
+                        Margin="0,8,0,0"
+                        Link="https://github.com/mixnut/DeXign"
+                        Text="소개 동영상" />
                 </StackPanel>
             </ScrollViewer>
         </Grid>

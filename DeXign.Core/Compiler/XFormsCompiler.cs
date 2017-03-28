@@ -11,9 +11,9 @@ namespace DeXign.Core.Compiler
             this.Platform = Platform.XForms;
         }
 
-        public override DXCompileResult Compile(DXCompileOption option, PContentPage[] screens, PBinderHost[] components)
+        public override DXCompileResult Compile(DXCompileParameter parameter)
         {
-            return new DXCompileResult(option)
+            return new DXCompileResult(parameter.Option)
             {
                 Errors =
                 {

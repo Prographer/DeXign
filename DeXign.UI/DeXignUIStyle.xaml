@@ -1,77 +1,159 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:DeXign.UI">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DeXign.UI">
 
-    <Style TargetType="{x:Type Button}">
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Padding" Value="8,6"/>
+    <Style TargetType="{x:Type local:DeXignPage}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:DeXignPage}">
+                    <Border Padding="{TemplateBinding Padding}" TextBlock.Foreground="{TemplateBinding Foreground}">
+                        <ContentPresenter Content="{TemplateBinding Content}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:ProtrudedScrollViewer}">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ProtrudedScrollViewer}">
+                    <Grid x:Name="Grid" Background="{TemplateBinding Background}">
+                        <ScrollContentPresenter
+                            x:Name="PART_ScrollContentPresenter"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="{TemplateBinding Padding}"
+                            CanContentScroll="{TemplateBinding CanContentScroll}"
+                            CanHorizontallyScroll="False"
+                            CanVerticallyScroll="False"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        <ScrollBar
+                            x:Name="PART_VerticalScrollBar"
+                            Grid.Row="0"
+                            Margin="2"
+                            HorizontalAlignment="Right"
+                            AutomationProperties.AutomationId="VerticalScrollBar"
+                            Cursor="Arrow"
+                            Maximum="{TemplateBinding ScrollableHeight}"
+                            Minimum="0"
+                            ViewportSize="{TemplateBinding ViewportHeight}"
+                            Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                            Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                        <ScrollBar
+                            x:Name="PART_HorizontalScrollBar"
+                            Margin="2"
+                            VerticalAlignment="Bottom"
+                            AutomationProperties.AutomationId="HorizontalScrollBar"
+                            Cursor="Arrow"
+                            Maximum="{TemplateBinding ScrollableWidth}"
+                            Minimum="0"
+                            Orientation="Horizontal"
+                            ViewportSize="{TemplateBinding ViewportWidth}"
+                            Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+                            Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:DeXignButton}">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="8,6" />
+        <Setter Property="Content" Value="{Binding Text, RelativeSource={RelativeSource Self}}" />
+    </Style>
+
+    <Style TargetType="{x:Type local:DeXignLabel}">
+        <Setter Property="Content" Value="{Binding Text, RelativeSource={RelativeSource Self}}" />
     </Style>
 
     <Style TargetType="{x:Type ProgressBar}">
-        <Setter Property="Maximum" Value="1"/>
-        <Setter Property="Minimum" Value="0"/>
+        <Setter Property="Maximum" Value="1" />
+        <Setter Property="Minimum" Value="0" />
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ProgressBar}">
                     <Grid x:Name="TemplateRoot" MinHeight="5">
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}" />
+                        <Rectangle x:Name="PART_Track" />
+                        <Grid
+                            x:Name="PART_Indicator"
+                            HorizontalAlignment="Left"
+                            ClipToBounds="true">
+                            <Rectangle x:Name="Indicator" Fill="{TemplateBinding Foreground}" />
+                            <Rectangle
+                                x:Name="Animation"
+                                Fill="{TemplateBinding Foreground}"
+                                RenderTransformOrigin="0.5,0.5">
+                                <Rectangle.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform />
+                                        <SkewTransform />
+                                        <RotateTransform />
+                                        <TranslateTransform />
+                                    </TransformGroup>
+                                </Rectangle.RenderTransform>
+                            </Rectangle>
+                        </Grid>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Determinate"/>
+                                <VisualState x:Name="Determinate" />
                                 <VisualState x:Name="Indeterminate">
                                     <Storyboard RepeatBehavior="Forever">
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="Animation">
-                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.25"/>
-                                            <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.25"/>
-                                            <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.25"/>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Animation" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.25" />
+                                            <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.25" />
+                                            <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.25" />
                                         </DoubleAnimationUsingKeyFrames>
-                                        <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="Animation">
-                                            <EasingPointKeyFrame KeyTime="0" Value="-0.5,0.5"/>
-                                            <EasingPointKeyFrame KeyTime="0:0:1" Value="0.5,0.5"/>
-                                            <EasingPointKeyFrame KeyTime="0:0:2" Value="1.5,0.5"/>
+                                        <PointAnimationUsingKeyFrames Storyboard.TargetName="Animation" Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)">
+                                            <EasingPointKeyFrame KeyTime="0" Value="-0.5,0.5" />
+                                            <EasingPointKeyFrame KeyTime="0:0:1" Value="0.5,0.5" />
+                                            <EasingPointKeyFrame KeyTime="0:0:2" Value="1.5,0.5" />
                                         </PointAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"/>
-                        <Rectangle x:Name="PART_Track"/>
-                        <Grid x:Name="PART_Indicator" ClipToBounds="true" HorizontalAlignment="Left">
-                            <Rectangle x:Name="Indicator" Fill="{TemplateBinding Foreground}"/>
-                            <Rectangle x:Name="Animation" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5">
-                                <Rectangle.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform/>
-                                        <SkewTransform/>
-                                        <RotateTransform/>
-                                        <TranslateTransform/>
-                                    </TransformGroup>
-                                </Rectangle.RenderTransform>
-                            </Rectangle>
-                        </Grid>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsIndeterminate" Value="true">
-                            <Setter Property="Visibility" TargetName="Indicator" Value="Collapsed"/>
+                            <Setter TargetName="Indicator" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style TargetType="{x:Type local:ImageBox}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ImageBox}">
                     <Grid>
-                        <Image x:Name="img" Source="{TemplateBinding Source}" Stretch="{TemplateBinding Stretch}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        <Image
+                            x:Name="img"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Source="{TemplateBinding Source}"
+                            Stretch="{TemplateBinding Stretch}" />
                     </Grid>
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="Stretch" Value="UniformToFill">
-                            <Setter TargetName="img" Property="HorizontalAlignment" Value="Center"/>
-                            <Setter TargetName="img" Property="VerticalAlignment" Value="Center"/>
+                            <Setter TargetName="img" Property="HorizontalAlignment" Value="Center" />
+                            <Setter TargetName="img" Property="VerticalAlignment" Value="Center" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

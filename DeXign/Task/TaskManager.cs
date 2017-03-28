@@ -95,16 +95,6 @@ namespace DeXign.Task
             Redo();
         }
 
-        private void Redo_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            Redo();
-        }
-
-        private void Undo_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            Undo();
-        }
-
         /// <summary>
         /// 작업을 추가합니다.
         /// </summary>

@@ -8,6 +8,7 @@ using System.Text;
 using System.Xml;
 using System;
 using DeXign.SDK;
+using System.Text.RegularExpressions;
 
 namespace DeXign.Core
 {
@@ -45,12 +46,19 @@ namespace DeXign.Core
             this[name] = obj;
         }
         
-        public string GetName(object obj)
+        public string GetName(object obj, string namePrefix = null)
         {
-            string prefix = obj.GetType().Name;
+            if (this.ContainsValue(obj))
+                return this[obj];
+
+            string prefix = namePrefix ?? obj.GetType().Name;
             string name = null;
 
-            prefix = $"{prefix[0].ToString().ToLower()}{prefix.Substring(1)}";
+            bool isVisual = obj is PVisual;
+            string token = (isVisual ? "__" : "");
+
+            if (isVisual)
+                prefix = $"{prefix[0].ToString().ToLower()}{prefix.Substring(1)}";
 
             if (obj is PObject pObj)
                 name = pObj.Name;
@@ -61,35 +69,39 @@ namespace DeXign.Core
 
                 do
                 {
-                    name = $"__{prefix}{idx++}__";
+                    name = $"{token}{prefix}{idx++}{token}";
                 } while (this.ContainsKey(name));
             }
             else
             {
-                name = $"__{name}__";
+                name = $"{token}{name}{token}";
             }
 
             return name;
         }
     }
 
-    class WPFLayoutGenerator : Generator<WPFAttribute, PObject>
+    public class WPFLayoutGenerator : Generator<WPFAttribute, PObject>
     {
         const string XMLNS = "http://schemas.microsoft.com/winfx/2006/xaml/presentation";
 
-        public NameContainer NameContainer { get; }
-        public Dictionary<string, string> NamespaceContainer { get; }
-
+        public NameContainer NameContainer { get; private set; }
+        public Dictionary<string, string> XamlNamespaceContainer { get; }
+        
         public List<string> Images { get; }
 
         public WPFLayoutGenerator(
-            CodeGeneratorUnit<PObject> cgUnit,
+            LayoutGeneratorUnit layoutUnit,
             CodeGeneratorManifest cgManifest,
-            CodeGeneratorAssemblyInfo cgAssmInfo) : base(cgUnit, cgManifest, cgAssmInfo)
+            CodeGeneratorAssemblyInfo cgAssmInfo) : base(layoutUnit, cgManifest, cgAssmInfo)
         {
             this.Images = new List<string>();
-            this.NameContainer = new NameContainer();
-            this.NamespaceContainer = new Dictionary<string, string>();
+            this.XamlNamespaceContainer = new Dictionary<string, string>();
+        }
+
+        public void SetNameContainer(NameContainer nameContainer)
+        {
+            this.NameContainer = nameContainer;
         }
 
         protected override IEnumerable<string> OnGenerate(IEnumerable<CodeComponent<WPFAttribute>> components)
@@ -113,7 +125,7 @@ namespace DeXign.Core
             rootElement.SetAttribute("xmlns", XMLNS);
 
             // 네임스페이스 선언
-            foreach (var namespaceKv in this.NamespaceContainer)
+            foreach (var namespaceKv in this.XamlNamespaceContainer)
             {
                 rootElement.SetAttribute($"xmlns:{namespaceKv.Value}", namespaceKv.Key);
             }
@@ -273,7 +285,7 @@ namespace DeXign.Core
                 .Where(ns => ns != null && ns.StartsWith("clr-namespace"))
                 .Distinct())
             {
-                this.NamespaceContainer[n] = $"cns{idx++}";
+                this.XamlNamespaceContainer[n] = $"cns{idx++}";
             }
         }
 
@@ -289,7 +301,7 @@ namespace DeXign.Core
         private string GetResourceName(ResourceType resourceType, string resourceFileName)
         {
             if (resourceType == ResourceType.Image)
-                return $"pack://application:,,,/{Manifest.ApplicationName};component/{Path.GetFileName(resourceFileName)}";
+                return $"pack://application:,,,/{Manifest.ApplicationName};component/{Path.GetFileName(resourceFileName).ToLower()}";
 
             return null;
         }
@@ -301,9 +313,9 @@ namespace DeXign.Core
 
         private XmlElement CreateElement(XmlDocument doc, string name, CodeComponent<WPFAttribute> component)
         {
-            if (this.NamespaceContainer.ContainsKey(component.Attribute.Namespace))
+            if (this.XamlNamespaceContainer.ContainsKey(component.Attribute.Namespace))
             {
-                string prefix = this.NamespaceContainer[component.Attribute.Namespace];
+                string prefix = this.XamlNamespaceContainer[component.Attribute.Namespace];
 
                 return doc.CreateElement(prefix, name, component.Attribute.Namespace);
             }

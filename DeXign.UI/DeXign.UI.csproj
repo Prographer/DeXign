@@ -51,11 +51,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BrushHelper.cs" />
+    <Compile Include="Controls\DeXignLabel.cs" />
+    <Compile Include="Controls\DeXignButton.cs" />
+    <Compile Include="Controls\DeXignPage.cs" />
+    <Compile Include="Controls\ProtrudedScrollViewer.cs" />
     <Compile Include="Exceptions\ElementNameDuplicateException.cs" />
     <Compile Include="Exceptions\ElementNotFoundException.cs" />
     <Compile Include="Controls\DeXignWindow.cs" />
     <Compile Include="Exceptions\PageNotFoundException.cs" />
     <Compile Include="Exceptions\UnknownPageException.cs" />
+    <Compile Include="ObjectEx.cs" />
     <Compile Include="Resource\GenResourceManager.cs" />
     <Compile Include="Controls\ImageBox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -56,9 +56,11 @@ namespace DeXign.Core.Logic
         }
 
         /// <summary>
-        /// 바인더와 연결된 모든 바인더 호스트를 재귀적으로 가져옵니다.
+        /// <paramref name="source"/>와 연결된 모든 바인더 호스트를 재귀적으로 가져옵니다.
         /// </summary>
-        /// <param name="sourceBinder"></param>
+        /// <param name="source"></param>
+        /// <param name="option"></param>
+        /// <param name="depth"></param>
         /// <returns></returns>
         public static IEnumerable<PBinderHost> FindHostNodes(
             this IBinderHost source, 

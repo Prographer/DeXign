@@ -8,6 +8,14 @@ using DeXign.Core.Logic;
 using DeXign.Editor.Layer;
 using DeXign.Extension;
 using DeXign.Editor.Logic;
+using System.Windows.Controls;
+using System.Linq;
+using DeXign.Resources;
+using System.Windows.Input;
+using DeXign.OS;
+using System.Windows.Documents;
+using System.Diagnostics;
+using DeXign.Core.Controls;
 
 namespace DeXign.Editor.Renderer
 {
@@ -15,6 +23,9 @@ namespace DeXign.Editor.Renderer
         where TModel : PComponent
         where TElement : ComponentElement
     {
+        public const double MinZoom = 0.2;
+        public const double MaxZoom = 0.5;
+
         public event EventHandler ElementAttached;
 
         public TElement Element { get; }
@@ -39,14 +50,25 @@ namespace DeXign.Editor.Renderer
         private Queue<(BindThumb Output, BindThumb Input)> pendingConnectLine;
         private Queue<(BindThumb Output, BindThumb Input)> pendingDisconnectLine;
 
+        private Border elementBorder;
+        private Brush selectionBrush;
+        private FontFamily fontNotoSans;
+
         public ComponentRenderer(TElement adornedElement, TModel model) : base(adornedElement)
         {
+            InitializeResources();
+
+            this.SetAdornerIndex(10);
+
             this.Metadata = new RendererMetadata();
             
             this.Model = model;
             this.Element = adornedElement;
 
             this.Element.SetComponentModel(this.Model);
+            
+            this.Element.AddSelectedHandler(OnSelected);
+            this.Element.AddUnselectedHandler(OnUnSelected);
 
             this.RendererChildren = new List<IRenderer>();
 
@@ -57,6 +79,31 @@ namespace DeXign.Editor.Renderer
             // Binder
             RendererManager.ResolveBinder(this).Released += ComponentRenderer_Released;
             RendererManager.ResolveBinder(this).Binded += ComponentRenderer_Binded;
+        }
+
+        private void InitializeResources()
+        {
+            selectionBrush = ResourceManager.GetBrush("Flat.Accent.DeepDark");
+            fontNotoSans = ResourceManager.GetFont("NotoSans.Light");
+        }
+
+        private void OnSelected(object sender, SelectionChangedEventArgs e)
+        {
+            this.SetAdornerIndex(10);
+
+            this.InvalidateVisual();
+        }
+
+        private void OnUnSelected(object sender, SelectionChangedEventArgs e)
+        {
+            this.InvalidateVisual();
+        }
+
+        protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnPreviewMouseLeftButtonDown(e);
+
+            this.Element.DragMove();
         }
 
         protected void ConnectVisualLine(BindThumb outputThumb, BindThumb inputThumb)
@@ -126,6 +173,10 @@ namespace DeXign.Editor.Renderer
 
                 Storyboard.DisconnectComponentLine(expression.Output, expression.Input);
             }
+
+            // 보더 가져옴
+            elementBorder= this.Element.FindVisualChildrens<Border>()
+                .FirstOrDefault(b => b.Name == "border");
         }
 
         public void AddChild(IRenderer child, Point position)
@@ -186,17 +237,135 @@ namespace DeXign.Editor.Renderer
         }
         #endregion
 
+        protected IEnumerable<Rect> GetOverlappedBounds()
+        {
+            AdornerLayer layer = this.Storyboard.GetAdornerLayer();
+            Rect bound = GetBound();
+            
+            foreach (IRenderer r in RendererTreeHelper.FindChildrens<IRenderer>(this.Storyboard.GetRenderer(), true, true))
+            {
+                if (r.Model is PVisual && r is IUISupport support)
+                {
+                    Rect iRect = Rect.Intersect(bound, support.GetBound());
+
+                    if (iRect == Rect.Empty)
+                        continue;
+
+                    iRect.X -= bound.X;
+                    iRect.Y -= bound.Y;
+
+                    yield return iRect;
+                }
+            }
+        }
+
         protected override void OnRender(DrawingContext drawingContext)
         {
             base.OnRender(drawingContext);
 
-            drawingContext.PushOpacity(0.5);
+            foreach (Rect r in GetOverlappedBounds())
+            {
+                drawingContext.DrawRectangle(Brushes.Transparent, null, r);
+            }
 
+            DrawOutLine(drawingContext, Brushes.LightGray, 1, 0.5);
+
+            if (this.Element.GetIsSelected())
+            {
+                DrawOutLine(drawingContext, selectionBrush, 4);
+            }
+
+            DrawOutSight(drawingContext);
+        }
+
+        private void DrawOutSight(DrawingContext drawingContext)
+        {
+            if (this.Zoom.Scale < MaxZoom)
+            {
+                DrawOutLine(drawingContext, this.Element.AccentBrush, 1);
+                OnDrawOutSight(drawingContext);
+            }
+        }
+
+        protected virtual void OnDrawOutSight(DrawingContext drawingContext)
+        {
+            Rect rect = new Rect(0, 0, this.RenderSize.Width, this.RenderSize.Height);
+            double opacity = 1 - (this.Zoom.Scale - MinZoom) / (MaxZoom - MinZoom);
+
+            drawingContext.PushOpacity(opacity);
+
+            // Fill
             drawingContext.DrawRoundedRectangle(
-                null, 
-                new Pen(Brushes.LightGray, 1 / Zoom.Scale),
-                new Rect(0, 0, this.RenderSize.Width, this.RenderSize.Height),
-                2, 2);
+                new SolidColorBrush(Color.FromRgb(67, 67, 67)),
+                null,
+                rect,
+                elementBorder.CornerRadius);
+
+            drawingContext.Pop();
+
+            OnDrawOutSightText(drawingContext);
+        }
+
+        protected virtual void OnDrawOutSightText(DrawingContext drawingContext)
+        {
+            DrawSightText(drawingContext, this.Element.Header);
+        }
+
+        protected void DrawSightText(DrawingContext drawingContext, string text)
+        {
+            Brush textBrush = Brushes.White;
+
+            if (!string.IsNullOrEmpty(this.Model.Description))
+            {
+                text = this.Model.Description;
+                textBrush = Brushes.Lime;
+            }
+
+            var typeface = new Typeface(fontNotoSans, FontStyles.Normal, FontWeights.Bold, FontStretches.Normal);
+            var formatText = CreateFormattedText(text, 10, typeface, textBrush);
+
+            var position = new Point(
+                this.RenderSize.Width / 2 - formatText.Width / 2,
+                this.RenderSize.Height / 2 - formatText.Height / 2);
+
+            if (this.RenderSize.Width * 1.1 < formatText.Width)
+            {
+                return;
+            }
+
+            drawingContext.DrawText(formatText, position);
+        }
+
+        private void DrawOutLine(DrawingContext drawingContext, Brush penBrush, double strokeWidth, double opacity = 1)
+        {
+            Rect rect = new Rect(0, 0, this.RenderSize.Width, this.RenderSize.Height);
+
+            this.InflateFit(ref rect, strokeWidth / 2, strokeWidth / 2);
+
+            drawingContext.PushOpacity(opacity);
+            drawingContext.DrawRoundedRectangle(
+                null,
+                new Pen(penBrush, this.Fit(strokeWidth)),
+                rect,
+                TranslateCornerRadius(elementBorder.CornerRadius, strokeWidth));
+            drawingContext.Pop();
+        }
+
+        private CornerRadius TranslateCornerRadius(CornerRadius corner, double strokeWidth)
+        {
+            if (corner.TopLeft > 0)
+                corner.TopLeft = corner.TopLeft + this.Fit(strokeWidth / 2);
+
+            if (corner.TopRight > 0)
+                corner.TopRight = corner.TopRight + this.Fit(strokeWidth / 2);
+
+            if (corner.BottomLeft > 0)
+                corner.BottomLeft = corner.BottomLeft + this.Fit(strokeWidth / 2);
+
+            if (corner.BottomRight > 0)
+                corner.BottomRight = corner.BottomRight + this.Fit(strokeWidth / 2);
+
+            return corner;
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Colors -->
+    <!--  Colors  -->
     <Color x:Key="Color.LemonGrass">#9B9A90</Color>
-    
+
     <Color x:Key="Color.Accent">#FFB800</Color>
     <Color x:Key="Color.Accent.50">#4DFFB800</Color>
     <Color x:Key="Color.DarkAccent">#717171</Color>
@@ -19,7 +18,7 @@
 
     <Color x:Key="Color.Menu.Seperator">#D7D7D7</Color>
 
-                    <!-- Flat -->
+    <!--  Flat  -->
     <Color x:Key="Color.Flat.Accent">#00fffb</Color>
     <Color x:Key="Color.Flat.Accent.Dark">#1D8D93</Color>
     <Color x:Key="Color.Flat.Accent.Light">#29A8AE</Color>
@@ -27,28 +26,28 @@
     <Color x:Key="Color.Flat.Background">#454545</Color>
     <Color x:Key="Color.Flat.Input.Background">#3F3F3F</Color>
 
-                   <!-- Window -->
+    <!--  Window  -->
     <Color x:Key="Color.Window.Header.Seperator1">#2B2B2B</Color>
     <Color x:Key="Color.Window.Header.Seperator2">#565656</Color>
     <Color x:Key="Color.Window.Header.Background.Top">#434343</Color>
     <Color x:Key="Color.Window.Header.Background.Bottom">#393939</Color>
 
-                    <!-- Menu -->
+    <!--  Menu  -->
     <Color x:Key="Color.Menu.Border">#E7E7E7</Color>
     <Color x:Key="Color.Menu.Foreground">#FFFFFF</Color>
     <Color x:Key="Color.Menu.Hover">#515151</Color>
     <Color x:Key="Color.Menu.Item.Foreground">#535353</Color>
     <Color x:Key="Color.Menu.Item.Selected.Background">#00B3B0</Color>
     <Color x:Key="Color.Menu.Item.Selected.Foreground">#FFFFFF</Color>
-    
-                    <!-- ToolBox -->
+
+    <!--  ToolBox  -->
     <Color x:Key="Color.ToolBox.Background">#535353</Color>
     <Color x:Key="Color.ToolBox.Foreground">#ffffff</Color>
     <Color x:Key="Color.ToolBox.Item.Hover">#555555</Color>
     <Color x:Key="Color.ToolBox.Item.Down">#6a6a6a</Color>
     <Color x:Key="Color.ToolBox.Group.Background">#4C4C4C</Color>
 
-                    <!-- PropertyGrid -->
+    <!--  PropertyGrid  -->
     <Color x:Key="Color.PropertyGrid.Background">#535353</Color>
     <Color x:Key="Color.PropertyGrid.Foreground">#FFFFFF</Color>
     <Color x:Key="Color.PropertyGrid.Setter.Header.Foreground">#aaaaaa</Color>
@@ -58,33 +57,33 @@
     <Color x:Key="Color.PropertyGrid.Setter.Value.Background">#444444</Color>
     <Color x:Key="Color.PropertyGrid.Setter.Value.Focused.Border">#00B3B0</Color>
     <Color x:Key="Color.PropertyGrid.Setter.Value.Focused.Background">#616161</Color>
-    
-                    <!-- Expander -->
+
+    <!--  Expander  -->
     <Color x:Key="Color.Expander.Header.Background">#606060</Color>
     <Color x:Key="Color.Expander.Header.Arrow.Background">#C7C7C7</Color>
     <Color x:Key="Color.Expander.Seperator.Background">#6F6F6F</Color>
-    
-                    <!-- HeaderLayout -->
+
+    <!--  HeaderLayout  -->
     <Color x:Key="Color.HeaderLayout.Background">#535353</Color>
     <Color x:Key="Color.HeaderLayout.Foreground">#ACACAC</Color>
 
-                    <!-- SearchBar -->
+    <!--  SearchBar  -->
     <Color x:Key="Color.SearchBar.Foreground">#FFFFFF</Color>
     <Color x:Key="Color.SearchBar.Background">#606060</Color>
     <Color x:Key="Color.SearchBar.Border.Top">#6F6F6F</Color>
     <Color x:Key="Color.SearchBar.Border.Bottom">#494949</Color>
     <Color x:Key="Color.SearchBar.Icon.Background">#FFFFFF</Color>
 
-                    <!-- TabControl -->
+    <!--  TabControl  -->
     <Color x:Key="Color.TabControl.Background">#4B4B4B</Color>
     <Color x:Key="Color.TabControl.Tab.Selected.Background">#676767</Color>
     <Color x:Key="Color.TabControl.Tab.Selected.Foreground">#53FFFD</Color>
     <Color x:Key="Color.TabControl.Tab.Unselected.Background">#535353</Color>
     <Color x:Key="Color.TabControl.Tab.Unselected.Foreground">#BCBCBC</Color>
-    
-    <Color x:Key="Color.Logic.Event">#FF9900</Color>
-    <Color x:Key="Color.Logic.Statement">#975EE7</Color>
-    <Color x:Key="Color.Logic.Component">#5E8BE7</Color>
+
+    <Color x:Key="Color.Logic.Event">#F07B42</Color>
+    <Color x:Key="Color.Logic.Statement">#0FDAC2</Color>
+    <Color x:Key="Color.Logic.Function">#BCF469</Color>
 
     <Color x:Key="Color.iOS.Accent">#FF157DF9</Color>
     <Color x:Key="Color.iOS.Gray">#FFB7B7B7</Color>
@@ -92,103 +91,103 @@
     <Color x:Key="Color.Android.Accent">#FF83CBC4</Color>
     <Color x:Key="Color.Android.Mask.White">#33FFFFFF</Color>
 
-    <!-- Brushes -->
-    <SolidColorBrush x:Key="Brush.LemonGrass" Color="{StaticResource Color.LemonGrass}"/>
-    
-    <SolidColorBrush x:Key="Brush.Accent" Color="{StaticResource Color.Accent}"/>
-    <SolidColorBrush x:Key="Brush.Accent.50" Color="{StaticResource Color.Accent.50}"/>
-    <SolidColorBrush x:Key="Brush.DarkAccent" Color="{StaticResource Color.DarkAccent}"/>
-    <SolidColorBrush x:Key="Brush.ContentBackground" Color="{StaticResource Color.ContentBackground}"/>
+    <!--  Brushes  -->
+    <SolidColorBrush x:Key="Brush.LemonGrass" Color="{StaticResource Color.LemonGrass}" />
 
-    <SolidColorBrush x:Key="Brush.TabItem.Normal" Color="{StaticResource Color.TabItem.Normal}"/>
-    <SolidColorBrush x:Key="Brush.TabItem.Hover" Color="{StaticResource Color.TabItem.Hover}"/>
-    <SolidColorBrush x:Key="Brush.TabItem.Selected" Color="{StaticResource Color.TabItem.Selected}"/>
-    <SolidColorBrush x:Key="Brush.TabItem.Foreground" Color="{StaticResource Color.TabItem.Foreground}"/>
+    <SolidColorBrush x:Key="Brush.Accent" Color="{StaticResource Color.Accent}" />
+    <SolidColorBrush x:Key="Brush.Accent.50" Color="{StaticResource Color.Accent.50}" />
+    <SolidColorBrush x:Key="Brush.DarkAccent" Color="{StaticResource Color.DarkAccent}" />
+    <SolidColorBrush x:Key="Brush.ContentBackground" Color="{StaticResource Color.ContentBackground}" />
 
-    <SolidColorBrush x:Key="Brush.Seperator1" Color="{StaticResource Color.Seperator1}"/>
-    <SolidColorBrush x:Key="Brush.Seperator2" Color="{StaticResource Color.Seperator2}"/>
+    <SolidColorBrush x:Key="Brush.TabItem.Normal" Color="{StaticResource Color.TabItem.Normal}" />
+    <SolidColorBrush x:Key="Brush.TabItem.Hover" Color="{StaticResource Color.TabItem.Hover}" />
+    <SolidColorBrush x:Key="Brush.TabItem.Selected" Color="{StaticResource Color.TabItem.Selected}" />
+    <SolidColorBrush x:Key="Brush.TabItem.Foreground" Color="{StaticResource Color.TabItem.Foreground}" />
 
-    <SolidColorBrush x:Key="Brush.Menu.Seperator" Color="{StaticResource Color.Menu.Seperator}"/>
+    <SolidColorBrush x:Key="Brush.Seperator1" Color="{StaticResource Color.Seperator1}" />
+    <SolidColorBrush x:Key="Brush.Seperator2" Color="{StaticResource Color.Seperator2}" />
+
+    <SolidColorBrush x:Key="Brush.Menu.Seperator" Color="{StaticResource Color.Menu.Seperator}" />
 
     <LinearGradientBrush x:Key="Brush.Header" StartPoint="0.5,0" EndPoint="0.5,1">
-        <GradientStop Color="#717171" Offset="0"/>
-        <GradientStop Color="#555555" Offset="1"/>
+        <GradientStop Offset="0" Color="#717171" />
+        <GradientStop Offset="1" Color="#555555" />
     </LinearGradientBrush>
-    
-                    <!-- Flat -->
-    <SolidColorBrush x:Key="Brush.Flat.Accent" Color="{StaticResource Color.Flat.Accent}"/>
-    <SolidColorBrush x:Key="Brush.Flat.Accent.Dark" Color="{StaticResource Color.Flat.Accent.Dark}"/>
-    <SolidColorBrush x:Key="Brush.Flat.Accent.Light" Color="{StaticResource Color.Flat.Accent.Light}"/>
-    <SolidColorBrush x:Key="Brush.Flat.Accent.DeepDark" Color="{StaticResource Color.Flat.Accent.DeepDark}"/>
-    <SolidColorBrush x:Key="Brush.Flat.Background" Color="{StaticResource Color.Flat.Background}"/>
-    <SolidColorBrush x:Key="Brush.Flat.Input.Background" Color="{StaticResource Color.Flat.Input.Background}"/>
 
-                    <!-- Window -->
-    <SolidColorBrush x:Key="Brush.Window.Header.Seperator1" Color="{StaticResource Color.Window.Header.Seperator1}"/>
-    <SolidColorBrush x:Key="Brush.Window.Header.Seperator2" Color="{StaticResource Color.Window.Header.Seperator2}"/>
+    <!--  Flat  -->
+    <SolidColorBrush x:Key="Brush.Flat.Accent" Color="{StaticResource Color.Flat.Accent}" />
+    <SolidColorBrush x:Key="Brush.Flat.Accent.Dark" Color="{StaticResource Color.Flat.Accent.Dark}" />
+    <SolidColorBrush x:Key="Brush.Flat.Accent.Light" Color="{StaticResource Color.Flat.Accent.Light}" />
+    <SolidColorBrush x:Key="Brush.Flat.Accent.DeepDark" Color="{StaticResource Color.Flat.Accent.DeepDark}" />
+    <SolidColorBrush x:Key="Brush.Flat.Background" Color="{StaticResource Color.Flat.Background}" />
+    <SolidColorBrush x:Key="Brush.Flat.Input.Background" Color="{StaticResource Color.Flat.Input.Background}" />
+
+    <!--  Window  -->
+    <SolidColorBrush x:Key="Brush.Window.Header.Seperator1" Color="{StaticResource Color.Window.Header.Seperator1}" />
+    <SolidColorBrush x:Key="Brush.Window.Header.Seperator2" Color="{StaticResource Color.Window.Header.Seperator2}" />
     <LinearGradientBrush x:Key="Brush.Window.Header.Background" StartPoint="0.5,0" EndPoint="0.5,1">
-        <GradientStop Color="{StaticResource Color.Window.Header.Background.Top}" Offset="0"/>
-        <GradientStop Color="{StaticResource Color.Window.Header.Background.Bottom}" Offset="1"/>
+        <GradientStop Offset="0" Color="{StaticResource Color.Window.Header.Background.Top}" />
+        <GradientStop Offset="1" Color="{StaticResource Color.Window.Header.Background.Bottom}" />
     </LinearGradientBrush>
-    
-                    <!-- Menu -->
-    <SolidColorBrush x:Key="Brush.Menu.Border" Color="{StaticResource Color.Menu.Border}"/>
-    <SolidColorBrush x:Key="Brush.Menu.Foreground" Color="{StaticResource Color.Menu.Foreground}"/>
-    <SolidColorBrush x:Key="Brush.Menu.Hover" Color="{StaticResource Color.Menu.Hover}"/>
-    <SolidColorBrush x:Key="Brush.Menu.Item.Foreground" Color="{StaticResource Color.Menu.Item.Foreground}"/>
-    <SolidColorBrush x:Key="Brush.Menu.Item.Selected.Background" Color="{StaticResource Color.Menu.Item.Selected.Background}"/>
-    <SolidColorBrush x:Key="Brush.Menu.Item.Selected.Foreground" Color="{StaticResource Color.Menu.Item.Selected.Foreground}"/>
-    
-                    <!-- ToolBox -->
-    <SolidColorBrush x:Key="Brush.ToolBox.Background" Color="{StaticResource Color.ToolBox.Background}"/>
-    <SolidColorBrush x:Key="Brush.ToolBox.Foreground" Color="{StaticResource Color.ToolBox.Foreground}"/>
-    <SolidColorBrush x:Key="Brush.ToolBox.Item.Hover" Color="{StaticResource Color.ToolBox.Item.Hover}"/>
-    <SolidColorBrush x:Key="Brush.ToolBox.Item.Down" Color="{StaticResource Color.ToolBox.Item.Down}"/>
-    <SolidColorBrush x:Key="Brush.ToolBox.Group.Background" Color="{StaticResource Color.ToolBox.Group.Background}"/>
-    
-                    <!-- PropertyGrid -->
-    <SolidColorBrush x:Key="Brush.PropertyGrid.Background" Color="{StaticResource Color.PropertyGrid.Background}"/>
-    <SolidColorBrush x:Key="Brush.PropertyGrid.Foreground" Color="{StaticResource Color.PropertyGrid.Foreground}"/>
-    <SolidColorBrush x:Key="Brush.PropertyGrid.Setter.Header.Foreground" Color="{StaticResource Color.PropertyGrid.Setter.Header.Foreground}"/>
-    <SolidColorBrush x:Key="Brush.PropertyGrid.Setter.Background" Color="{StaticResource Color.PropertyGrid.Setter.Background}"/>
-    <SolidColorBrush x:Key="Brush.PropertyGrid.Setter.Hover" Color="{StaticResource Color.PropertyGrid.Setter.Hover}"/>
-    <SolidColorBrush x:Key="Brush.PropertyGrid.Setter.Value.Border" Color="{StaticResource Color.PropertyGrid.Setter.Value.Border}"/>
-    <SolidColorBrush x:Key="Brush.PropertyGrid.Setter.Value.Background" Color="{StaticResource Color.PropertyGrid.Setter.Value.Background}"/>
-    <SolidColorBrush x:Key="Brush.PropertyGrid.Setter.Value.Focused.Border" Color="{StaticResource Color.PropertyGrid.Setter.Value.Focused.Border}"/>
-    <SolidColorBrush x:Key="Brush.PropertyGrid.Setter.Value.Focused.Background" Color="{StaticResource Color.PropertyGrid.Setter.Value.Focused.Background}"/>
-    
-                    <!-- Expander -->
-    <SolidColorBrush x:Key="Brush.Expander.Header.Background" Color="{StaticResource Color.Expander.Header.Background}"/>
-    <SolidColorBrush x:Key="Brush.Expander.Header.Arrow.Background" Color="{StaticResource Color.Expander.Header.Arrow.Background}"/>
-    <SolidColorBrush x:Key="Brush.Expander.Seperator" Color="{StaticResource Color.Expander.Seperator.Background}"/>
 
-                    <!-- HeaderLayout -->
-    <SolidColorBrush x:Key="Brush.HeaderLayout.Background" Color="{StaticResource Color.HeaderLayout.Background}"/>
-    <SolidColorBrush x:Key="Brush.HeaderLayout.Foreground" Color="{StaticResource Color.HeaderLayout.Foreground}"/>
+    <!--  Menu  -->
+    <SolidColorBrush x:Key="Brush.Menu.Border" Color="{StaticResource Color.Menu.Border}" />
+    <SolidColorBrush x:Key="Brush.Menu.Foreground" Color="{StaticResource Color.Menu.Foreground}" />
+    <SolidColorBrush x:Key="Brush.Menu.Hover" Color="{StaticResource Color.Menu.Hover}" />
+    <SolidColorBrush x:Key="Brush.Menu.Item.Foreground" Color="{StaticResource Color.Menu.Item.Foreground}" />
+    <SolidColorBrush x:Key="Brush.Menu.Item.Selected.Background" Color="{StaticResource Color.Menu.Item.Selected.Background}" />
+    <SolidColorBrush x:Key="Brush.Menu.Item.Selected.Foreground" Color="{StaticResource Color.Menu.Item.Selected.Foreground}" />
 
-                    <!-- SearchBar -->
-    <SolidColorBrush x:Key="Brush.SearchBar.Foreground" Color="{StaticResource Color.SearchBar.Foreground}"/>
-    <SolidColorBrush x:Key="Brush.SearchBar.Background" Color="{StaticResource Color.SearchBar.Background}"/>
+    <!--  ToolBox  -->
+    <SolidColorBrush x:Key="Brush.ToolBox.Background" Color="{StaticResource Color.ToolBox.Background}" />
+    <SolidColorBrush x:Key="Brush.ToolBox.Foreground" Color="{StaticResource Color.ToolBox.Foreground}" />
+    <SolidColorBrush x:Key="Brush.ToolBox.Item.Hover" Color="{StaticResource Color.ToolBox.Item.Hover}" />
+    <SolidColorBrush x:Key="Brush.ToolBox.Item.Down" Color="{StaticResource Color.ToolBox.Item.Down}" />
+    <SolidColorBrush x:Key="Brush.ToolBox.Group.Background" Color="{StaticResource Color.ToolBox.Group.Background}" />
+
+    <!--  PropertyGrid  -->
+    <SolidColorBrush x:Key="Brush.PropertyGrid.Background" Color="{StaticResource Color.PropertyGrid.Background}" />
+    <SolidColorBrush x:Key="Brush.PropertyGrid.Foreground" Color="{StaticResource Color.PropertyGrid.Foreground}" />
+    <SolidColorBrush x:Key="Brush.PropertyGrid.Setter.Header.Foreground" Color="{StaticResource Color.PropertyGrid.Setter.Header.Foreground}" />
+    <SolidColorBrush x:Key="Brush.PropertyGrid.Setter.Background" Color="{StaticResource Color.PropertyGrid.Setter.Background}" />
+    <SolidColorBrush x:Key="Brush.PropertyGrid.Setter.Hover" Color="{StaticResource Color.PropertyGrid.Setter.Hover}" />
+    <SolidColorBrush x:Key="Brush.PropertyGrid.Setter.Value.Border" Color="{StaticResource Color.PropertyGrid.Setter.Value.Border}" />
+    <SolidColorBrush x:Key="Brush.PropertyGrid.Setter.Value.Background" Color="{StaticResource Color.PropertyGrid.Setter.Value.Background}" />
+    <SolidColorBrush x:Key="Brush.PropertyGrid.Setter.Value.Focused.Border" Color="{StaticResource Color.PropertyGrid.Setter.Value.Focused.Border}" />
+    <SolidColorBrush x:Key="Brush.PropertyGrid.Setter.Value.Focused.Background" Color="{StaticResource Color.PropertyGrid.Setter.Value.Focused.Background}" />
+
+    <!--  Expander  -->
+    <SolidColorBrush x:Key="Brush.Expander.Header.Background" Color="{StaticResource Color.Expander.Header.Background}" />
+    <SolidColorBrush x:Key="Brush.Expander.Header.Arrow.Background" Color="{StaticResource Color.Expander.Header.Arrow.Background}" />
+    <SolidColorBrush x:Key="Brush.Expander.Seperator" Color="{StaticResource Color.Expander.Seperator.Background}" />
+
+    <!--  HeaderLayout  -->
+    <SolidColorBrush x:Key="Brush.HeaderLayout.Background" Color="{StaticResource Color.HeaderLayout.Background}" />
+    <SolidColorBrush x:Key="Brush.HeaderLayout.Foreground" Color="{StaticResource Color.HeaderLayout.Foreground}" />
+
+    <!--  SearchBar  -->
+    <SolidColorBrush x:Key="Brush.SearchBar.Foreground" Color="{StaticResource Color.SearchBar.Foreground}" />
+    <SolidColorBrush x:Key="Brush.SearchBar.Background" Color="{StaticResource Color.SearchBar.Background}" />
     <LinearGradientBrush x:Key="Brush.SearchBar.Border" StartPoint="0.5,0" EndPoint="0.5,1">
-        <GradientStop Color="{StaticResource Color.SearchBar.Border.Top}" Offset="0"/>
-        <GradientStop Color="{StaticResource Color.SearchBar.Border.Bottom}" Offset="1"/>
+        <GradientStop Offset="0" Color="{StaticResource Color.SearchBar.Border.Top}" />
+        <GradientStop Offset="1" Color="{StaticResource Color.SearchBar.Border.Bottom}" />
     </LinearGradientBrush>
-    <SolidColorBrush x:Key="Brush.SearchBar.Icon.Background" Color="{StaticResource Color.SearchBar.Icon.Background}"/>
-    
-                    <!-- TabControl -->
-    <SolidColorBrush x:Key="Brush.TabControl.Background" Color="{StaticResource Color.TabControl.Background}"/>
-    <SolidColorBrush x:Key="Brush.TabControl.Tab.Selected.Background" Color="{StaticResource Color.TabControl.Tab.Selected.Background}"/>
-    <SolidColorBrush x:Key="Brush.TabControl.Tab.Selected.Foreground" Color="{StaticResource Color.TabControl.Tab.Selected.Foreground}"/>
-    <SolidColorBrush x:Key="Brush.TabControl.Tab.Unselected.Background" Color="{StaticResource Color.TabControl.Tab.Unselected.Background}"/>
-    <SolidColorBrush x:Key="Brush.TabControl.Tab.Unselected.Foreground" Color="{StaticResource Color.TabControl.Tab.Unselected.Foreground}"/>
-    
-    <SolidColorBrush x:Key="Brush.Logic.Event" Color="{StaticResource Color.Logic.Event}"/>
-    <SolidColorBrush x:Key="Brush.Logic.Statement" Color="{StaticResource Color.Logic.Statement}"/>
-    <SolidColorBrush x:Key="Brush.Logic.Component" Color="{StaticResource Color.Logic.Component}"/>
+    <SolidColorBrush x:Key="Brush.SearchBar.Icon.Background" Color="{StaticResource Color.SearchBar.Icon.Background}" />
 
-    <SolidColorBrush x:Key="Brush.iOS.Accent" Color="{StaticResource Color.iOS.Accent}"/>
-    <SolidColorBrush x:Key="Brush.iOS.Gray" Color="{StaticResource Color.iOS.Gray}"/>
+    <!--  TabControl  -->
+    <SolidColorBrush x:Key="Brush.TabControl.Background" Color="{StaticResource Color.TabControl.Background}" />
+    <SolidColorBrush x:Key="Brush.TabControl.Tab.Selected.Background" Color="{StaticResource Color.TabControl.Tab.Selected.Background}" />
+    <SolidColorBrush x:Key="Brush.TabControl.Tab.Selected.Foreground" Color="{StaticResource Color.TabControl.Tab.Selected.Foreground}" />
+    <SolidColorBrush x:Key="Brush.TabControl.Tab.Unselected.Background" Color="{StaticResource Color.TabControl.Tab.Unselected.Background}" />
+    <SolidColorBrush x:Key="Brush.TabControl.Tab.Unselected.Foreground" Color="{StaticResource Color.TabControl.Tab.Unselected.Foreground}" />
 
-    <SolidColorBrush x:Key="Brush.Android.Accent" Color="{StaticResource Color.Android.Accent}"/>
-    <SolidColorBrush x:Key="Brush.Android.Mask.White" Color="{StaticResource Color.Android.Mask.White}"/>
+    <SolidColorBrush x:Key="Brush.Logic.Event" Color="{StaticResource Color.Logic.Event}" />
+    <SolidColorBrush x:Key="Brush.Logic.Statement" Color="{StaticResource Color.Logic.Statement}" />
+    <SolidColorBrush x:Key="Brush.Logic.Function" Color="{StaticResource Color.Logic.Function}" />
+
+    <SolidColorBrush x:Key="Brush.iOS.Accent" Color="{StaticResource Color.iOS.Accent}" />
+    <SolidColorBrush x:Key="Brush.iOS.Gray" Color="{StaticResource Color.iOS.Gray}" />
+
+    <SolidColorBrush x:Key="Brush.Android.Accent" Color="{StaticResource Color.Android.Accent}" />
+    <SolidColorBrush x:Key="Brush.Android.Mask.White" Color="{StaticResource Color.Android.Mask.White}" />
 </ResourceDictionary>

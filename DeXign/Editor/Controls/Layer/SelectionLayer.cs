@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Shell;
 
+using DeXign.Controls;
 using DeXign.Converter;
 using DeXign.Editor.Controls;
 using DeXign.Editor.Renderer;
@@ -15,7 +16,6 @@ using DeXign.Extension;
 using DeXign.Resources;
 
 using WPFExtension;
-using DeXign.Controls;
 
 namespace DeXign.Editor.Layer
 {
@@ -232,7 +232,7 @@ namespace DeXign.Editor.Layer
 
             SelectionBrush = ResourceManager.GetBrush("Flat.Accent.Dark");
             FrameBrush = ResourceManager.GetBrush("Flat.Accent.Light");
-            HighlightBrush = ResourceManager.GetBrush("Flat.Accent.DeepDark");
+            HighlightBrush = Brushes.Red;// ResourceManager.GetBrush("Flat.Accent.DeepDark");
 
             // 스냅라인 등록
             Storyboard.GuideLayer.Add(this);
@@ -281,7 +281,8 @@ namespace DeXign.Editor.Layer
             #region < Add Move Thumb >
             Add(moveThumb = new LayerMoveThumb(this));
 
-            moveThumb.DragCompleted += ThumbOnDragCompleted;
+            moveThumb.DragStarted += MoveThumb_DragStarted;
+            moveThumb.DragCompleted += MoveThumb_DragCompleted;
             moveThumb.Moved += MoveThumb_Moved;
 
             // Selection
@@ -540,6 +541,28 @@ namespace DeXign.Editor.Layer
         }
         #endregion
 
+        #region [ Drag ]
+        private void MoveThumb_DragStarted(object sender, DragStartedEventArgs e)
+        {
+            OnDragStarted();
+        }
+
+        private void MoveThumb_DragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            ThumbOnDragCompleted(sender, null);
+
+            OnDragCompleted();
+        }
+        
+        protected virtual void OnDragStarted()
+        {
+        }
+
+        protected virtual void OnDragCompleted()
+        {
+        }
+        #endregion
+
         #region [ Selection ]
         internal void CancelNextSelect()
         {
@@ -679,13 +702,18 @@ namespace DeXign.Editor.Layer
 
         private void ClipChanged(object sender, EventArgs e)
         {
+            OnClipStateChanged();
+        }
+
+        protected virtual void OnClipStateChanged()
+        {
             ApplyClipData();
         }
 
         protected void ApplyClipData()
         {
             var margin = AdornedElement.Margin;
-            var parentMargin = GetParentRenderMargin();
+            var parentMargin = GetParentLayoutInfo().Margin;
             var renderSize = AdornedElement.RenderSize;
 
             parentMargin.Left *= -1;
@@ -766,7 +794,6 @@ namespace DeXign.Editor.Layer
                 AnimateFrameThickness(0, 150);
 
             UpdateParentState();
-            UpdateMarginClips();
             UpdateFrame();
         }
         
@@ -851,7 +878,7 @@ namespace DeXign.Editor.Layer
         }
     }
 
-    internal struct MarginClipHolder
+    public struct MarginClipHolder
     {
         public LayerMarginClip LeftClip;
         public LayerMarginClip TopClip;

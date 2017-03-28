@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 
 using DeXign.Core.Collections;
-using System.Collections.Specialized;
 
 namespace DeXign.Core.Logic
 {
+    [CSharpCodeMap("")]
+    [JavaCodeMap("")]
     public class PBinderHost : PObject, IBinderHost
     {
         public event EventHandler<BinderBindedEventArgs> Binded;
         public event EventHandler<BinderBindedEventArgs> Released;
 
         public BinderCollection Items { get; }
-
+        
         public IEnumerable<IBinder> this[BindOptions option]
         {
             get
@@ -55,7 +57,7 @@ namespace DeXign.Core.Logic
         protected override void OnGuidChanged()
         {
             base.OnGuidChanged();
-
+            
             this.Items?.Clear();
         }
 

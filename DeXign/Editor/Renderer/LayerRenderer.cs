@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Input;
@@ -56,6 +57,8 @@ namespace DeXign.Editor.Renderer
         #region [ Local Variable ]
         private bool showModelName = false;
         private string displayTypeName = "";
+
+        private List<DependencyProperty> changedProperties;
         #endregion
 
         static LayerRenderer()
@@ -83,6 +86,15 @@ namespace DeXign.Editor.Renderer
 
             // Binder
             RendererManager.ResolveBinder(this).Released += LayerRenderer_Released;
+
+            // Property Hook
+            changedProperties = new List<DependencyProperty>();
+            model.PropertyChanged += Model_PropertyChanged;
+        }
+
+        private void Model_PropertyChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            changedProperties.SafeAdd(e.Property);
         }
 
         private void LayerRenderer_Released(object sender, BinderBindedEventArgs e)
@@ -240,6 +252,15 @@ namespace DeXign.Editor.Renderer
                     visual, "Padding");
             }
             #endregion
+
+            #region < PPage >
+            if (Model is PPage)
+            {
+                BindingEx.TryBinding(
+                    Model, PPage.PaddingProperty,
+                    visual, "Padding");
+            }
+            #endregion
         }
 
         public void AddChild(IRenderer child, Point position)
@@ -265,10 +286,47 @@ namespace DeXign.Editor.Renderer
         protected virtual void OnRemovedChild(IRenderer child)
         {
         }
+
         
+        protected override void OnDragStarted()
+        {
+            base.OnDragStarted();
+
+            changedProperties.Clear();
+        }
+
+        protected override void OnDragCompleted()
+        {
+            foreach (IRenderer componentRenderer in this.Storyboard.Components.Select(c => c.GetRenderer()))
+            {
+                (componentRenderer as StoryboardLayer).InvalidateVisual();
+            }
+        }
+
+        private IEnumerable<IRenderer> GetOverlappedComponentRenderers()
+        {
+            Rect bound = GetBound();
+
+            foreach (IRenderer r in this.Storyboard.Components.Select(c => c.GetRenderer()))
+            {
+                if (r is IUISupport support)
+                {
+                    if (bound.IntersectsWith(support.GetBound()))
+                    {
+                        yield return r;
+                    }
+                }
+            }
+        }
+
         protected override void OnRender(DrawingContext dc)
         {
             base.OnRender(dc);
+
+            foreach (IRenderer componentRenderer in GetOverlappedComponentRenderers())
+            {
+                (componentRenderer as StoryboardLayer).InvalidateVisual();
+            }
 
             if (showModelName)
             {
@@ -291,7 +349,7 @@ namespace DeXign.Editor.Renderer
                 var position = new Point(this.Fit(blank), -text.Height - this.Fit(blank));
                 var bound = new Rect(position, new Size(text.Width, text.Height));
 
-                this.Fit(ref bound, blank, blank);
+                this.InflateFit(ref bound, blank, blank);
 
                 dc.PushOpacity(opacity);
                 dc.DrawRectangle(Brushes.White, null, bound);
@@ -353,7 +411,7 @@ namespace DeXign.Editor.Renderer
 
             return new Rect(
                 point,
-                Element.DesiredSize);
+                Element.RenderSize);
         }
         #endregion
     }

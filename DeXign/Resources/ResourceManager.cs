@@ -15,6 +15,11 @@ namespace DeXign.Resources
         private static Dictionary<string, BitmapImage> imageCache =
             new Dictionary<string, BitmapImage>();
 
+        public static FontFamily GetFont(string fontName, ResourceDictionary resources = null)
+        {
+            return GetResource<FontFamily>($"Font.{fontName}", resources);
+        }
+
         public static StreamGeometry GetPath(string pathName, ResourceDictionary resources = null)
         {
             return GetResource<StreamGeometry>($"Path.{pathName}", resources);

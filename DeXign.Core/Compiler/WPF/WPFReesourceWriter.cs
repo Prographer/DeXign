@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Resources;
 
@@ -8,9 +9,12 @@ namespace DeXign.Core.Compiler
     {
         ResourceWriter writer;
 
+        List<string> resourceNames;
+
         public WPFResourceWriter(Stream stream)
         {
             writer = new ResourceWriter(stream);
+            resourceNames = new List<string>();
         }
 
         // directory: A/B/C...
@@ -22,6 +26,12 @@ namespace DeXign.Core.Compiler
             if (!string.IsNullOrWhiteSpace(directory))
                 name = directory + "/" + name;
 
+            name = name.ToLower();
+
+            if (resourceNames.Contains(name))
+                return;
+
+            resourceNames.Add(name);
             writer.AddResource(name, new MemoryStream(File.ReadAllBytes(fileName)));
         }
 
@@ -29,6 +39,11 @@ namespace DeXign.Core.Compiler
         {
             if (!string.IsNullOrWhiteSpace(directory))
                 name = directory + "/" + name;
+            
+            if (resourceNames.Contains(name))
+                return;
+
+            resourceNames.Add(name);
 
             writer.AddResource(name, xaml);
         }
@@ -37,6 +52,11 @@ namespace DeXign.Core.Compiler
         {
             if (!string.IsNullOrWhiteSpace(directory))
                 name = directory + "/" + name;
+
+            if (resourceNames.Contains(name))
+                return;
+
+            resourceNames.Add(name);
 
             writer.AddResource(name, new MemoryStream(xaml));
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace {RootNamespace}
+namespace {Property:RootNamespace}
 {
     public class DXApp : Application
     {

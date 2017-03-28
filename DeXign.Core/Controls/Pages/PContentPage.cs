@@ -8,7 +8,7 @@ namespace DeXign.Core.Controls
     [DesignElement(Visible = false, Category = Constants.Designer.Layout, DisplayName = "화면")]
     [ContentProperty("Content")]
     [XForms("Xamarin.Forms", "ContentPage")]
-    [WPF("System.Windows.Controls", "Page")]
+    [WPF("clr-namespace:DeXign.UI;assembly=DeXign.UI", "DeXignPage")]
     public class PContentPage : PPage
     {
         public static readonly DependencyProperty ContentProperty =

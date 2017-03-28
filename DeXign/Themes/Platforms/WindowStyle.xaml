@@ -1,32 +1,66 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:DeXign.Theme"
-                    xmlns:ui="clr-namespace:DeXign.UI;assembly=DeXign.UI"
-                    xmlns:r="clr-namespace:DeXign.Editor.Renderer">
-    
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DeXign.Theme"
+    xmlns:r="clr-namespace:DeXign.Editor.Renderer"
+    xmlns:ui="clr-namespace:DeXign.UI;assembly=DeXign.UI">
+
     <Style x:Key="{x:Static local:ThemeKeyStore.Screen}" TargetType="{x:Type ContentControl}">
-        <Setter Property="Background" Value="White"/>
+        <Setter Property="Background" Value="White" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContentControl}">
                     <Grid>
                         <Grid Margin="-14,-40,-14,-14">
-                            <Rectangle RadiusX="6" RadiusY="6" Fill="#E8E8E8"/>
+                            <Rectangle
+                                Fill="#E8E8E8"
+                                RadiusX="6"
+                                RadiusY="6" />
 
-                            <Grid Height="40" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="16,0">
-                                <TextBlock Text="DX" Foreground="#C5C5C5" VerticalAlignment="Center" FontSize="14"/>
-                                
-                                <ui:SpacingStackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Spacing="15">
-                                    <Path Data="{StaticResource Path.Minimize}" Width="12" Height="12" Fill="#C5C5C5" Stretch="Uniform" VerticalAlignment="Bottom"/>
-                                    <Path Data="{StaticResource Path.Maximize}" Width="12" Height="12" Fill="#C5C5C5" Stretch="Uniform"/>
-                                    <Path Data="{StaticResource Path.Close}" Width="12" Height="12" Fill="#C5C5C5" Stretch="Uniform"/>
+                            <Grid
+                                Height="40"
+                                Margin="16,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Top">
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    Foreground="#C5C5C5"
+                                    Text="DX" />
+
+                                <ui:SpacingStackPanel
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal"
+                                    Spacing="15">
+                                    <Path
+                                        Width="12"
+                                        Height="12"
+                                        VerticalAlignment="Bottom"
+                                        Data="{StaticResource Path.Minimize}"
+                                        Fill="#C5C5C5"
+                                        Stretch="Uniform" />
+                                    <Path
+                                        Width="12"
+                                        Height="12"
+                                        Data="{StaticResource Path.Maximize}"
+                                        Fill="#C5C5C5"
+                                        Stretch="Uniform" />
+                                    <Path
+                                        Width="12"
+                                        Height="12"
+                                        Data="{StaticResource Path.Close}"
+                                        Fill="#C5C5C5"
+                                        Stretch="Uniform" />
                                 </ui:SpacingStackPanel>
                             </Grid>
                         </Grid>
-                        
-                        <Rectangle Fill="White" IsHitTestVisible="False"/>
-                        <Rectangle Fill="{TemplateBinding Background}" IsHitTestVisible="False"/>
-                        <ContentPresenter/>
+
+                        <Rectangle Fill="White" IsHitTestVisible="False" />
+
+                        <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
+                            <ContentPresenter />
+                        </Border>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -34,60 +68,72 @@
     </Style>
 
     <Style x:Key="{x:Static local:ThemeKeyStore.BoxView}" TargetType="{x:Type Rectangle}">
-        <Setter Property="Fill" Value="BlueViolet"/>
+        <Setter Property="Fill" Value="BlueViolet" />
     </Style>
 
-    <Style x:Key="{x:Static local:ThemeKeyStore.Button}" TargetType="{x:Type r:RadiusButton}" BasedOn="{StaticResource {x:Type Button}}">
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Padding" Value="8,6"/>
+    <Style
+        x:Key="{x:Static local:ThemeKeyStore.Button}"
+        BasedOn="{StaticResource {x:Type Button}}"
+        TargetType="{x:Type r:RadiusButton}">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="8,6" />
     </Style>
 
     <Style x:Key="{x:Static local:ThemeKeyStore.ProgressBar}" TargetType="{x:Type ProgressBar}">
-        <Setter Property="Maximum" Value="1"/>
-        <Setter Property="Minimum" Value="0"/>
+        <Setter Property="Maximum" Value="1" />
+        <Setter Property="Minimum" Value="0" />
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ProgressBar}">
                     <Grid x:Name="TemplateRoot" MinHeight="5">
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}" />
+                        <Rectangle x:Name="PART_Track" />
+                        <Grid
+                            x:Name="PART_Indicator"
+                            HorizontalAlignment="Left"
+                            ClipToBounds="true">
+                            <Rectangle x:Name="Indicator" Fill="{TemplateBinding Foreground}" />
+                            <Rectangle
+                                x:Name="Animation"
+                                Fill="{TemplateBinding Foreground}"
+                                RenderTransformOrigin="0.5,0.5">
+                                <Rectangle.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform />
+                                        <SkewTransform />
+                                        <RotateTransform />
+                                        <TranslateTransform />
+                                    </TransformGroup>
+                                </Rectangle.RenderTransform>
+                            </Rectangle>
+                        </Grid>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Determinate"/>
+                                <VisualState x:Name="Determinate" />
                                 <VisualState x:Name="Indeterminate">
                                     <Storyboard RepeatBehavior="Forever">
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="Animation">
-                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.25"/>
-                                            <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.25"/>
-                                            <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.25"/>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Animation" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.25" />
+                                            <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.25" />
+                                            <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.25" />
                                         </DoubleAnimationUsingKeyFrames>
-                                        <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="Animation">
-                                            <EasingPointKeyFrame KeyTime="0" Value="-0.5,0.5"/>
-                                            <EasingPointKeyFrame KeyTime="0:0:1" Value="0.5,0.5"/>
-                                            <EasingPointKeyFrame KeyTime="0:0:2" Value="1.5,0.5"/>
+                                        <PointAnimationUsingKeyFrames Storyboard.TargetName="Animation" Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)">
+                                            <EasingPointKeyFrame KeyTime="0" Value="-0.5,0.5" />
+                                            <EasingPointKeyFrame KeyTime="0:0:1" Value="0.5,0.5" />
+                                            <EasingPointKeyFrame KeyTime="0:0:2" Value="1.5,0.5" />
                                         </PointAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"/>
-                        <Rectangle x:Name="PART_Track"/>
-                        <Grid x:Name="PART_Indicator" ClipToBounds="true" HorizontalAlignment="Left">
-                            <Rectangle x:Name="Indicator" Fill="{TemplateBinding Foreground}"/>
-                            <Rectangle x:Name="Animation" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5">
-                                <Rectangle.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform/>
-                                        <SkewTransform/>
-                                        <RotateTransform/>
-                                        <TranslateTransform/>
-                                    </TransformGroup>
-                                </Rectangle.RenderTransform>
-                            </Rectangle>
-                        </Grid>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsIndeterminate" Value="true">
-                            <Setter Property="Visibility" TargetName="Indicator" Value="Collapsed"/>
+                            <Setter TargetName="Indicator" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -95,6 +141,5 @@
         </Setter>
     </Style>
 
-    <Style x:Key="{x:Static local:ThemeKeyStore.Slider}" TargetType="{x:Type Slider}">
-    </Style>
+    <Style x:Key="{x:Static local:ThemeKeyStore.Slider}" TargetType="{x:Type Slider}" />
 </ResourceDictionary>

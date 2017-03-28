@@ -16,7 +16,7 @@ namespace DeXign.Core
         public object Element { get; }
 
         // Element Type
-        public CodeComponentType ElementType { get; }
+        public CodeComponentType ElementType { get; set; }
 
         // 노드 부모
         public CodeComponent<TAttribute> Parent { get; set; }

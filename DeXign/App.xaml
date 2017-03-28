@@ -2,25 +2,26 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="Windows/EditorWindow.xaml">-->
-<Application x:Class="DeXign.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             StartupUri="Windows/MainWindow.xaml">
+<Application
+    x:Class="DeXign.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    StartupUri="Windows/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/Colors.xaml"/>
-                <ResourceDictionary Source="Resources/Paths.xaml"/>
-                <ResourceDictionary Source="Resources/Converters.xaml"/>
-                <ResourceDictionary Source="Resources/Assets.xaml"/>
+                <ResourceDictionary Source="Resources/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Paths.xaml" />
+                <ResourceDictionary Source="Resources/Converters.xaml" />
+                <ResourceDictionary Source="Resources/Assets.xaml" />
 
-                <ResourceDictionary Source="Resources/ToolBoxResources.xaml"/>
-                <ResourceDictionary Source="Resources/PropertyGridResources.xaml"/>
-                
-                <ResourceDictionary Source="Themes/DexignStyle.xaml"/>
-                <ResourceDictionary Source="Themes/DexignTemplate.xaml"/>
-                <ResourceDictionary Source="Themes/DesignerStyle.xaml"/>
-                <ResourceDictionary Source="Themes/LogicStyle.xaml"/>
+                <ResourceDictionary Source="Resources/ToolBoxResources.xaml" />
+                <ResourceDictionary Source="Resources/PropertyGridResources.xaml" />
+
+                <ResourceDictionary Source="Themes/DexignStyle.xaml" />
+                <ResourceDictionary Source="Themes/DexignTemplate.xaml" />
+                <ResourceDictionary Source="Themes/DesignerStyle.xaml" />
+                <ResourceDictionary Source="Themes/LogicStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

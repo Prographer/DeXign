@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using DeXign.Extension;
 using DeXign.Core;
 using DeXign.Converter;
+using System.Windows.Media;
 
 namespace DeXign.Editor.Logic
 {

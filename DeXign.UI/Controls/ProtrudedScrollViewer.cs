@@ -2,15 +2,15 @@
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
-namespace DeXign.Controls
+namespace DeXign.UI
 {
     public class ProtrudedScrollViewer : ScrollViewer
     {
         ScrollBar verticalScrollBar;
         ScrollBar horizontalScrollBar;
 
-        internal ScrollBar VerticalScrollBar => verticalScrollBar;
-        internal ScrollBar HorizontalScrollBar => horizontalScrollBar;
+        public ScrollBar VerticalScrollBar => verticalScrollBar;
+        public ScrollBar HorizontalScrollBar => horizontalScrollBar;
 
         public ProtrudedScrollViewer()
         {

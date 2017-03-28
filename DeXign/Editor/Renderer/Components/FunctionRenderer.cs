@@ -2,6 +2,7 @@
 using DeXign.Editor;
 using DeXign.Editor.Logic;
 using DeXign.Editor.Renderer;
+using System.Windows.Media;
 
 [assembly: ExportRenderer(typeof(PFunction), typeof(Function), typeof(FunctionRenderer))]
 
@@ -11,6 +12,11 @@ namespace DeXign.Editor.Renderer
     {
         public FunctionRenderer(Function adornedElement, PFunction model) : base(adornedElement, model)
         {
+        }
+
+        protected override void OnDrawOutSightText(DrawingContext drawingContext)
+        {
+            DrawSightText(drawingContext, this.Model.FunctionName);
         }
     }
 }

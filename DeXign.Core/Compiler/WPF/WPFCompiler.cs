@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Reflection;
 using System.Diagnostics;
 using System.CodeDom.Compiler;
@@ -8,7 +9,6 @@ using System.Collections.Generic;
 
 using DeXign.Extension;
 using DeXign.Core.Logic;
-using DeXign.Core.Controls;
 
 using Microsoft.CSharp;
 
@@ -20,6 +20,8 @@ namespace DeXign.Core.Compiler
             new[]
             {
                 "System.dll",
+                "System.Runtime.dll",
+                "System.Core.dll",
                 "System.Xml.dll",
                 "System.Xaml.dll",
                 "System.Windows.dll",
@@ -57,22 +59,21 @@ namespace DeXign.Core.Compiler
         }
 
         #region [ Compile ]
-        public override DXCompileResult Compile(DXCompileOption option, PContentPage[] screens, PBinderHost[] components)
+        public override DXCompileResult Compile(DXCompileParameter parameter)
         {
             var sw = new Stopwatch();
             sw.Start();
             
             // Result
-            var result = new DXCompileResult(option);
+            var result = new DXCompileResult(parameter.Option);
 
-            // Layout
-            WPFLayoutGenerator generator = CreateLayoutGenerator(option, screens);
-            
-            // CS Builder
-            var csBuilder = new WPFCodeBuilder(option, screens, components);
+            // NameContainer
+            var sharedNameContainer = new NameContainer();
+            var sharedCallbackContainer = new NameContainer();
 
             // CodeDom
             var provider = new CSharpCodeProvider();
+
             var compileParam = new CompilerParameters()
             {
                 GenerateExecutable = true,
@@ -86,16 +87,33 @@ namespace DeXign.Core.Compiler
             };
 
             // Add WPF Referenced Assembly
-            Assembly[] dependencyLibs = GetReferencedAssemblyNames(screens, components).ToArray();
+            Assembly[] dependencyLibs = GetReferencedAssemblyNames(parameter).ToArray();
 
             AddReferencedAssemblies(compileParam, dependencyLibs);
 
+            // Mapper
+            var mapper = new DXMapper<CSharpCodeMapAttribute>(
+                new WPFMappingProvider(sharedCallbackContainer),
+                sharedNameContainer);
+
+            // Generator
+            WPFLayoutGenerator layoutGenerator = CreateLayoutGenerator(parameter);
+            CSharpGenerator logicGenerator = CreateLogicGenerator(parameter);
+
+            layoutGenerator.SetNameContainer(sharedNameContainer); // 공유 이름 컨테이너 설정
+            logicGenerator.SetNameContainer(sharedNameContainer); // 공유 이름 컨테이너 설정
+            logicGenerator.SetCallbackContainer(sharedCallbackContainer); // 공유 콜밸 컨테이너 설정
+            logicGenerator.SetMapper(mapper); // 코드 매핑 설정
+
+            // WPF Code Builder
+            var wpfCodeBuilder = new WPFCodeBuilder(parameter, logicGenerator);
+
             // 임시 파일 경로
             string tempIconPath = compileParam.TempFiles.AddExtension("ico");
-            string tempResFileName = Path.Combine(Path.GetTempPath(), $"{option.ApplicationName}.g.resources");
+            string tempResFileName = Path.Combine(Path.GetTempPath(), $"{parameter.Option.ApplicationName}.g.resources");
             //                              기본 디렉터리 / Build / 어플리케이션이름 / 플랫폼 
-            string directory = Path.Combine(option.Directory, "Build", option.ApplicationName, option.TargetPlatform.ToString());
-            string exePath = Path.Combine(directory, $"{option.ApplicationName}.exe");
+            string directory = Path.Combine(parameter.Option.Directory, "Build", parameter.Option.ApplicationName, parameter.Option.TargetPlatform.ToString());
+            string exePath = Path.Combine(directory, $"{parameter.Option.ApplicationName}.exe");
 
             compileParam.TempFiles.AddFile(tempResFileName, false);
 
@@ -103,12 +121,14 @@ namespace DeXign.Core.Compiler
             DirectoryEx.CreateDirectory(directory);
 
             // Generate Native Code
-            string[] screensXaml = generator.Generate().ToArray();
+            string[] screensXaml = layoutGenerator.Generate().ToArray();
             var csSources = new List<string>();
-
+            
             foreach (string cs in WPFCompiler.CodeResources.Values)
             {
-                csSources.Add(csBuilder.Build(cs));
+                DXMappingResult mappingResult = wpfCodeBuilder.Build(cs);
+                
+                csSources.Add(mappingResult.Source);
             }
             
             // 리소스 생성
@@ -119,12 +139,12 @@ namespace DeXign.Core.Compiler
                     var res = new WPFResourceWriter(fs);
 
                     // 이미지 리소스 추가
-                    foreach (string img in generator.Images)
+                    foreach (string img in layoutGenerator.Images)
                         res.AddImage(img, "");
 
                     // 레이아웃 xaml 추가
-                    for (int i = 0; i < screens.Length; i++)
-                        res.AddXaml($"{screens[i].GetPageName()}.xaml", "", screensXaml[i]);
+                    for (int i = 0; i < parameter.Screens.Length; i++)
+                        res.AddXaml($"{parameter.Screens[i].GetPageName()}.xaml", "", screensXaml[i]);
 
                     res.Close();
                 }
@@ -143,6 +163,35 @@ namespace DeXign.Core.Compiler
             // 출력 및 컴파일 커맨드라인 설정
             compileParam.OutputAssembly = exePath;
             compileParam.CompilerOptions = $"/target:winexe /win32icon:{tempIconPath}";
+
+#if DEBUG
+            DeXign.UI.SpacingStackPanel s;
+
+            var w = new Window()
+            {
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                Content = new System.Windows.Controls.ScrollViewer()
+                {
+                    Content = (s = new DeXign.UI.SpacingStackPanel()
+                    {
+                        Spacing = 40
+                    })
+                }
+            };
+
+            foreach (string code in csSources)
+            {
+                s.Children.Add(
+                    new System.Windows.Controls.TextBox()
+                    {
+                        VerticalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Auto,
+                        IsReadOnly = true,
+                        Text = code
+                    });
+            }
+
+            w.ShowDialog();
+#endif
 
             // Compile Binary
             CompilerResults compileResult = provider.CompileAssemblyFromSource(compileParam, csSources.ToArray());
@@ -184,13 +233,13 @@ namespace DeXign.Core.Compiler
         #endregion
 
         #region [ Referenced Assembly ]
-        private static IEnumerable<Assembly> GetReferencedAssemblyNames(PContentPage[] screens, PBinderHost[] components)
+        private static IEnumerable<Assembly> GetReferencedAssemblyNames(DXCompileParameter parameter)
         {
             // 확장 모듈에서 생성된 객체인경우 어셈블리 가져옴
 
-            List<Assembly> assemblies = screens.Select(s => s.GetType().Assembly).ToList();
+            List<Assembly> assemblies = parameter.Screens.Select(s => s.GetType().Assembly).ToList();
             
-            foreach (PBinderHost comp in components)
+            foreach (PBinderHost comp in parameter.Components)
             {
                 foreach (IBinderHost host in BinderHelper.FindHostNodes(comp))
                 {
@@ -228,29 +277,46 @@ namespace DeXign.Core.Compiler
         #endregion
 
         #region [ Generator ]
-        private static WPFLayoutGenerator CreateLayoutGenerator(DXCompileOption option, PContentPage[] screens)
+        private static CSharpGenerator CreateLogicGenerator(DXCompileParameter parameter)
         {
-            var codeUnit = new CodeGeneratorUnit<PObject>()
-            {
-                NodeIterating = true
-            };
-
-            codeUnit.Items.AddRange(screens);
+            var logicUnit = new LogicGeneratorUnit(parameter.Components);
 
             var assemblyInfo = new CodeGeneratorAssemblyInfo()
             {
-                Title = option.ApplicationName
+                Title = parameter.Option.ApplicationName
             };
 
             var manifest = new CodeGeneratorManifest()
             {
-                RootNamespace = option.RootNamespace,
-                ApplicationName = option.ApplicationName
+                RootNamespace = parameter.Option.RootNamespace,
+                ApplicationName = parameter.Option.ApplicationName
             };
 
-            // Layout Generate
+            // Logic Generator
+            return new CSharpGenerator(
+                logicUnit,
+                manifest,
+                assemblyInfo);
+        }
+
+        private static WPFLayoutGenerator CreateLayoutGenerator(DXCompileParameter parameter)
+        {
+            var layoutUnit = new LayoutGeneratorUnit(parameter.Screens);
+            
+            var assemblyInfo = new CodeGeneratorAssemblyInfo()
+            {
+                Title = parameter.Option.ApplicationName
+            };
+
+            var manifest = new CodeGeneratorManifest()
+            {
+                RootNamespace = parameter.Option.RootNamespace,
+                ApplicationName = parameter.Option.ApplicationName
+            };
+
+            // Layout Generator
             return new WPFLayoutGenerator(
-                codeUnit,
+                layoutUnit,
                 manifest,
                 assemblyInfo);
         }
@@ -278,6 +344,11 @@ namespace DeXign.Core.Compiler
         private static string BuildResourceUri(string path)
         {
             return $"DeXign.Core.Compiler.WPF.{path.Replace('/', '.')}";
+        }
+
+        private string CreateIndent(int n)
+        {
+            return new string(' ', n * 4);
         }
         #endregion
     }

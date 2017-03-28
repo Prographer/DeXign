@@ -2,11 +2,11 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("{ApplicationName}")]
+[assembly: AssemblyTitle("{Property:ApplicationName}")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("{ApplicationName}")]
+[assembly: AssemblyProduct("{Property:ApplicationName}")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

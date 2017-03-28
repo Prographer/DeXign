@@ -189,7 +189,8 @@ namespace DeXign.Windows
                 .Select(r => r.ProvideValue() as PBinderHost)   // BinderHost º±≈√
                 .ToArray();
 
-            DXCompileResult result = DXCompiler.Compile(dxCompileOption, screens, binderHosts);
+            DXCompileResult result = DXCompiler.Compile(
+                new DXCompileParameter(dxCompileOption, screens, binderHosts));
             
             if (result.IsSuccess)
             {

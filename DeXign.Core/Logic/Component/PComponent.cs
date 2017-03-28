@@ -1,6 +1,4 @@
-﻿using DeXign.Extension;
-using System;
-using System.Linq;
+﻿using System;
 using System.Windows;
 
 using WPFExtension;
@@ -12,28 +10,36 @@ namespace DeXign.Core.Logic
         public static readonly DependencyProperty TitleProperty =
             DependencyHelper.Register();
 
+        public static readonly DependencyProperty DescriptionProperty =
+            DependencyHelper.Register();
+
         public string Title
         {
             get { return GetValue<string>(TitleProperty); }
             set { SetValue(TitleProperty, value); }
         }
 
-        public PComponent() : base()
+        public new string Description
         {
-            InitializeBinders();
+            get { return GetValue<string>(DescriptionProperty); }
+            set { SetValue(DescriptionProperty, value); }
         }
 
-        private void InitializeBinders()
+        public PComponent() : base()
         {
-            foreach (var attr in this.GetType().GetProperties()
-                .Where(_pi => _pi.HasAttribute<ComponentParameterAttribute>())
-                .Select(_pi => _pi.GetAttribute<ComponentParameterAttribute>())
-                .OrderBy(_attr => _attr.DisplayIndex))
-            {
-                var binder = AddParamterBinder(attr.DisplayName, attr.AssignableType);
+        }
 
-                binder.IsSingle = attr.IsSingle;
-            }
+        public PTargetBinder AddTargetBinder(string name, Type assignableType)
+        {
+            PTargetBinder binder;
+
+            AddBinder(binder = new PTargetBinder(this)
+            {
+                Title = name,
+                ParameterType = assignableType
+            });
+
+            return binder;
         }
 
         public PParameterBinder AddParamterBinder(string name, Type assignableType)

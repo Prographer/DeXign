@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 
@@ -22,6 +21,11 @@ namespace DeXign.Extension
                 var attr = fi.GetCustomAttribute<TAttribute>();
 
                 return attr;
+            }
+
+            if (obj is PropertyInfo pi)
+            {
+                return pi.GetAttribute<TAttribute>();
             }
 
             return obj.GetType().GetAttribute<TAttribute>();

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -7,7 +6,6 @@ using DeXign.Controls;
 using DeXign.Core;
 using DeXign.Core.Logic;
 using DeXign.Extension;
-using DeXign.Resources;
 
 using WPFExtension;
 
@@ -25,21 +23,17 @@ namespace DeXign.Editor.Logic
             set { SetValue(ValueSetterProperty, value); }
         }
 
-        protected PParameterBinder ValueBinder { get; private set; }
+        public new PSetter Model => (PSetter)base.Model;
 
-        private PObject dummyObject;
         private CheckBox valueCheckBox;
         
         protected override void OnAttachedComponentModel()
         {
             base.OnAttachedComponentModel();
-
-            this.ValueBinder = this.GetBinderModel<PParameterBinder>(BindOptions.Parameter, 1);
-
+            
             BindingEx.SetBinding(
-                valueCheckBox, CheckBox.IsCheckedProperty,
-                this.GetBindThumb(BindOptions.Parameter, 1), BindThumb.IsEnabledProperty,
-                converter: ResourceManager.GetConverter("Not"));
+                this.Model.ValueBinder, PBinder.IsDirectValueProperty,
+                valueCheckBox, CheckBox.IsCheckedProperty);
         }
 
         public override void OnApplyContentTemplate()
@@ -52,18 +46,21 @@ namespace DeXign.Editor.Logic
         protected override void OnTargetTypeChanged()
         {
             base.OnTargetTypeChanged();
-
-            dummyObject = Activator.CreateInstance(TargetType) as PObject;
-
-            InvalidateProperty(SelectedPropertyProperty);
+            
+            OnSelectedPropertyChanged();
         }
 
         protected override void OnSelectedPropertyChanged()
         {
-            base.OnTargetTypeChanged();
+            base.OnSelectedPropertyChanged();
 
-            if (dummyObject == null)
+            if (this.Model.DummyObject == null || this.TargetType == null)
+            {
+                this.ValueSetter?.Dispose();
+                this.ValueSetter = null;
+                
                 return;
+            }
 
             var pi = TargetType.GetProperty(SelectedProperty.Name);
             var attr = pi.GetAttribute<DesignElementAttribute>();
@@ -71,9 +68,9 @@ namespace DeXign.Editor.Logic
             this.ValueSetter?.Dispose();
 
             if (string.IsNullOrEmpty(attr.Key))
-                this.ValueSetter = SetterManager.CreateSetter(dummyObject, pi);
+                this.ValueSetter = SetterManager.CreateSetter(this.Model.DummyObject, pi);
             else
-                this.ValueSetter = SetterManager.CreateSetter(dummyObject, pi, attr.Key);
+                this.ValueSetter = SetterManager.CreateSetter(this.Model.DummyObject, pi, attr.Key);
 
             if (this.ValueSetter != null)
             {
@@ -84,6 +81,10 @@ namespace DeXign.Editor.Logic
                     vBoxSetter.Foreground = Brushes.Black;
                     vBoxSetter.Background = Brushes.Transparent;
                 }
+
+                BindingEx.SetBinding(
+                    this.ValueSetter as BaseSetter, BaseSetter.ValueProperty,
+                    this.Model.ValueBinder, PBinder.DirectValueProperty);
             }
         }
     }

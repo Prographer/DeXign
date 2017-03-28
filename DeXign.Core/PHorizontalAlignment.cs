@@ -2,8 +2,8 @@
 
 namespace DeXign.Core
 {
-    [XForms("LayoutOptions", "Xamarin.Forms")]
-    [WPF("HorizontalAlignment", "System.Windows")]
+    [XForms("Xamarin.Forms", "LayoutOptions")]
+    [WPF("System.Windows", "HorizontalAlignment")]
     public enum PHorizontalAlignment
     {
         [Description("왼쪽 정렬")]

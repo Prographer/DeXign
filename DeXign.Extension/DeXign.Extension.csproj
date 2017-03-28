@@ -65,6 +65,7 @@
     <Compile Include="DataObjectEx.cs" />
     <Compile Include="DirectoryEx.cs" />
     <Compile Include="DoubleEx.cs" />
+    <Compile Include="DrawingContextEx.cs" />
     <Compile Include="ElementExtension.cs" />
     <Compile Include="EnumEx.cs" />
     <Compile Include="Hardware.cs" />

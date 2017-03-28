@@ -1,4 +1,5 @@
-﻿using DeXign.Core.Logic;
+﻿using System.Windows.Media;
+using DeXign.Core.Logic;
 using DeXign.Editor;
 using DeXign.Editor.Renderer;
 
@@ -12,6 +13,11 @@ namespace DeXign.Editor.Renderer
     {
         public TriggerRenderer(l.Trigger adornedElement, PTrigger model) : base(adornedElement, model)
         {
+        }
+
+        protected override void OnDrawOutSightText(DrawingContext drawingContext)
+        {
+            DrawSightText(drawingContext, this.Model.EventInfo.Name);
         }
     }
 }

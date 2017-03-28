@@ -163,13 +163,13 @@ namespace DeXign.Core.Controls
 
         public PVisual()
         {
-            Binder = new PBinderHost();
-            Binder.AddNewBinder(BindOptions.Output);
+            this.Binder = new PLayoutBinderHost(this);
+            this.Binder.AddNewBinder(BindOptions.Output);
         }
 
         #region [ IBinder Interface ]
         // virtual binder
-        public PBinderHost Binder { get; set; }
+        public PLayoutBinderHost Binder { get; set; }
 
         public IBinderHost ProvideValue()
         {

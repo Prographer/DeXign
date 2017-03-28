@@ -1,4 +1,5 @@
-﻿using DeXign.Core.Logic;
+﻿using System.Windows.Media;
+using DeXign.Core.Logic;
 using DeXign.Editor;
 using DeXign.Editor.Logic;
 using DeXign.Editor.Renderer;
@@ -11,6 +12,11 @@ namespace DeXign.Editor.Renderer
     {
         public BranchRenderer(Branch adornedElement, PBranch model) : base(adornedElement, model)
         {
+        }
+
+        protected override void OnDrawOutSightText(DrawingContext drawingContext)
+        {
+            DrawSightText(drawingContext, "IF");
         }
     }
 }

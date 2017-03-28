@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using DeXign.UI;
 
-namespace {RootNamespace}
+namespace {Property:RootNamespace}
 {
     class Program
     {
@@ -18,9 +18,14 @@ namespace {RootNamespace}
                 WindowStartupLocation = WindowStartupLocation.CenterScreen,
                 Title = "DeXign Compiled WPF Window"
             };
-            try { 
-            {PageInitialize}
-            }catch(Exception ex) { MessageBox.Show(ex.ToString()); }
+            try
+            { 
+{Function:PageInitialize}
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
 
             MainWindow = dw;
 

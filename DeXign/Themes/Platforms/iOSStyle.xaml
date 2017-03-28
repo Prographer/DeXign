@@ -1,39 +1,75 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:DeXign.Theme"
-                    xmlns:r="clr-namespace:DeXign.Editor.Renderer">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DeXign.Theme"
+    xmlns:r="clr-namespace:DeXign.Editor.Renderer">
 
     <Style x:Key="{x:Static local:ThemeKeyStore.Screen}" TargetType="{x:Type ContentControl}">
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContentControl}">
                     <Grid>
                         <Grid Margin="-14,-59">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="5*"/>
-                                <ColumnDefinition Width="2*"/>
-                                <ColumnDefinition Width="5*"/>
+                                <ColumnDefinition Width="5*" />
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="5*" />
                             </Grid.ColumnDefinitions>
-                            
-                            <Rectangle Fill="#E6E6E6" RadiusX="38" RadiusY="38" Grid.ColumnSpan="3"/>
 
-                            <!-- Sub Camera? -->
-                            <Ellipse Grid.Column="0" Width="7" Height="7" Margin="0,29,15,0" Fill="#C5C5C5" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-                            
-                            <!-- Front Speaker -->
-                            <Rectangle Grid.Column="1" Height="5" Margin="0,30,0,0" RadiusX="2.5" RadiusY="2.5" Fill="#C5C5C5" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+                            <Rectangle
+                                Grid.ColumnSpan="3"
+                                Fill="#E6E6E6"
+                                RadiusX="38"
+                                RadiusY="38" />
 
-                            <!-- Front Camera -->
-                            <Ellipse Grid.Column="1" Width="6" Height="6" Margin="0,14,0,0" Fill="#C5C5C5" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                            <!--  Sub Camera?  -->
+                            <Ellipse
+                                Grid.Column="0"
+                                Width="7"
+                                Height="7"
+                                Margin="0,29,15,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Fill="#C5C5C5" />
 
-                            <!-- Home Button -->
-                            <Ellipse Grid.Column="1" Height="36" Width="36" Margin="0,0,0,12" Fill="#C5C5C5" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                            <!--  Front Speaker  -->
+                            <Rectangle
+                                Grid.Column="1"
+                                Height="5"
+                                Margin="0,30,0,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Top"
+                                Fill="#C5C5C5"
+                                RadiusX="2.5"
+                                RadiusY="2.5" />
+
+                            <!--  Front Camera  -->
+                            <Ellipse
+                                Grid.Column="1"
+                                Width="6"
+                                Height="6"
+                                Margin="0,14,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                Fill="#C5C5C5" />
+
+                            <!--  Home Button  -->
+                            <Ellipse
+                                Grid.Column="1"
+                                Width="36"
+                                Height="36"
+                                Margin="0,0,0,12"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                Fill="#C5C5C5" />
                         </Grid>
 
-                        <Rectangle Fill="White" IsHitTestVisible="False"/>
-                        <Rectangle Fill="{TemplateBinding Background}" IsHitTestVisible="False"/>
-                        <ContentPresenter/>
+                        <Rectangle Fill="White" IsHitTestVisible="False" />
+
+                        <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
+                            <ContentPresenter />
+                        </Border>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -41,20 +77,32 @@
     </Style>
 
     <Style x:Key="{x:Static local:ThemeKeyStore.BoxView}" TargetType="{x:Type Rectangle}">
-        <Setter Property="Fill" Value="{StaticResource Brush.iOS.Accent}"/>
+        <Setter Property="Fill" Value="{StaticResource Brush.iOS.Accent}" />
     </Style>
 
-    <Style x:Key="{x:Static local:ThemeKeyStore.Button}" TargetType="{x:Type r:RadiusButton}" BasedOn="{StaticResource {x:Type Button}}">
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Padding" Value="8,6"/>
-        <Setter Property="Background" Value="White"/>
-        <Setter Property="Foreground" Value="{StaticResource Brush.iOS.Accent}"/>
+    <Style
+        x:Key="{x:Static local:ThemeKeyStore.Button}"
+        BasedOn="{StaticResource {x:Type Button}}"
+        TargetType="{x:Type r:RadiusButton}">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="8,6" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Foreground" Value="{StaticResource Brush.iOS.Accent}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type r:RadiusButton}">
-                    <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}"
-                            CornerRadius="{TemplateBinding BorderRadius, Converter={StaticResource Converter.DoubleToCornerRadius}}">
-                        <ContentPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center" TextBlock.Foreground="{TemplateBinding Foreground}"/>
+                    <Border
+                        Padding="{TemplateBinding Padding}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding BorderRadius,
+                                                       Converter={StaticResource Converter.DoubleToCornerRadius}}">
+                        <ContentPresenter
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding Content}"
+                            TextBlock.Foreground="{TemplateBinding Foreground}" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -62,56 +110,69 @@
     </Style>
 
     <Style x:Key="{x:Static local:ThemeKeyStore.ProgressBar}" TargetType="{x:Type ProgressBar}">
-        <Setter Property="Foreground" Value="{StaticResource Brush.iOS.Accent}"/>
-        <Setter Property="Background" Value="{StaticResource Brush.iOS.Gray}"/>
-        <Setter Property="Maximum" Value="1"/>
-        <Setter Property="Minimum" Value="0"/>
-        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Foreground" Value="{StaticResource Brush.iOS.Accent}" />
+        <Setter Property="Background" Value="{StaticResource Brush.iOS.Gray}" />
+        <Setter Property="Maximum" Value="1" />
+        <Setter Property="Minimum" Value="0" />
+        <Setter Property="BorderThickness" Value="0" />
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ProgressBar}">
                     <Grid>
-                        <Grid x:Name="TemplateRoot" Height="5" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                        <Grid
+                            x:Name="TemplateRoot"
+                            Height="5"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center">
+                            <Border
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" />
+                            <Rectangle x:Name="PART_Track" />
+                            <Grid
+                                x:Name="PART_Indicator"
+                                HorizontalAlignment="Left"
+                                ClipToBounds="true">
+                                <Rectangle x:Name="Indicator" Fill="{TemplateBinding Foreground}" />
+                                <Rectangle
+                                    x:Name="Animation"
+                                    Fill="{TemplateBinding Foreground}"
+                                    RenderTransformOrigin="0.5,0.5">
+                                    <Rectangle.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform />
+                                            <SkewTransform />
+                                            <RotateTransform />
+                                            <TranslateTransform />
+                                        </TransformGroup>
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+                            </Grid>
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Determinate"/>
+                                    <VisualState x:Name="Determinate" />
                                     <VisualState x:Name="Indeterminate">
                                         <Storyboard RepeatBehavior="Forever">
-                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="Animation">
-                                                <EasingDoubleKeyFrame KeyTime="0" Value="0.25"/>
-                                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.25"/>
-                                                <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.25"/>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Animation" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                                                <EasingDoubleKeyFrame KeyTime="0" Value="0.25" />
+                                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.25" />
+                                                <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.25" />
                                             </DoubleAnimationUsingKeyFrames>
-                                            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="Animation">
-                                                <EasingPointKeyFrame KeyTime="0" Value="-0.5,0.5"/>
-                                                <EasingPointKeyFrame KeyTime="0:0:1" Value="0.5,0.5"/>
-                                                <EasingPointKeyFrame KeyTime="0:0:2" Value="1.5,0.5"/>
+                                            <PointAnimationUsingKeyFrames Storyboard.TargetName="Animation" Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)">
+                                                <EasingPointKeyFrame KeyTime="0" Value="-0.5,0.5" />
+                                                <EasingPointKeyFrame KeyTime="0:0:1" Value="0.5,0.5" />
+                                                <EasingPointKeyFrame KeyTime="0:0:2" Value="1.5,0.5" />
                                             </PointAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"/>
-                            <Rectangle x:Name="PART_Track"/>
-                            <Grid x:Name="PART_Indicator" ClipToBounds="true" HorizontalAlignment="Left">
-                                <Rectangle x:Name="Indicator" Fill="{TemplateBinding Foreground}"/>
-                                <Rectangle x:Name="Animation" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5">
-                                    <Rectangle.RenderTransform>
-                                        <TransformGroup>
-                                            <ScaleTransform/>
-                                            <SkewTransform/>
-                                            <RotateTransform/>
-                                            <TranslateTransform/>
-                                        </TransformGroup>
-                                    </Rectangle.RenderTransform>
-                                </Rectangle>
-                            </Grid>
                         </Grid>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsIndeterminate" Value="true">
-                            <Setter Property="Visibility" TargetName="Indicator" Value="Collapsed"/>
+                            <Setter TargetName="Indicator" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -119,7 +180,7 @@
         </Setter>
     </Style>
 
-    <!-- #region Slider Style -->
+    <!--#region Slider Style-->
     <Style x:Key="SliderRepeatButton" TargetType="{x:Type RepeatButton}">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
@@ -128,7 +189,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Rectangle Fill="{StaticResource Brush.iOS.Gray}" Height="3"/>
+                    <Rectangle Height="3" Fill="{StaticResource Brush.iOS.Gray}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -140,7 +201,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Rectangle SnapsToDevicePixels="True" Fill="{StaticResource Brush.iOS.Accent}" Height="3"/>
+                    <Rectangle
+                        Height="3"
+                        Fill="{StaticResource Brush.iOS.Accent}"
+                        SnapsToDevicePixels="True" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -152,9 +216,18 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Ellipse Height="28" Width="28" Fill="White" Stroke="{StaticResource Brush.iOS.Gray}" StrokeThickness="0.5">
+                    <Ellipse
+                        Width="28"
+                        Height="28"
+                        Fill="White"
+                        Stroke="{StaticResource Brush.iOS.Gray}"
+                        StrokeThickness="0.5">
                         <Ellipse.Effect>
-                            <DropShadowEffect BlurRadius="8" Direction="270" ShadowDepth="2" Opacity="0.28"/>
+                            <DropShadowEffect
+                                BlurRadius="8"
+                                Direction="270"
+                                Opacity="0.28"
+                                ShadowDepth="2" />
                         </Ellipse.Effect>
                     </Ellipse>
                 </ControlTemplate>
@@ -163,7 +236,7 @@
     </Style>
 
     <Style x:Key="{x:Static local:ThemeKeyStore.Slider}" TargetType="{x:Type Slider}">
-        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Focusable" Value="False" />
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Template">
@@ -176,15 +249,21 @@
                                 <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <Track Grid.Row="1" x:Name="PART_Track"   >
+                            <Track x:Name="PART_Track" Grid.Row="1">
                                 <Track.DecreaseRepeatButton>
-                                    <RepeatButton Style="{StaticResource SliderRepeatButton1}"  Command="Slider.DecreaseLarge" Margin="0,0,0,0"/>
+                                    <RepeatButton
+                                        Margin="0,0,0,0"
+                                        Command="Slider.DecreaseLarge"
+                                        Style="{StaticResource SliderRepeatButton1}" />
                                 </Track.DecreaseRepeatButton>
                                 <Track.Thumb>
                                     <Thumb Style="{StaticResource SliderThumb}" />
                                 </Track.Thumb>
                                 <Track.IncreaseRepeatButton>
-                                    <RepeatButton Style="{StaticResource SliderRepeatButton}" Command="Slider.IncreaseLarge" Margin="0,0,0,0"/>
+                                    <RepeatButton
+                                        Margin="0,0,0,0"
+                                        Command="Slider.IncreaseLarge"
+                                        Style="{StaticResource SliderRepeatButton}" />
                                 </Track.IncreaseRepeatButton>
                             </Track>
                         </Grid>
@@ -193,5 +272,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <!-- #endregion -->
+    <!--#endregion-->
 </ResourceDictionary>

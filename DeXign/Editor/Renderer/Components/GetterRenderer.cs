@@ -4,6 +4,7 @@ using DeXign.Editor.Logic;
 using DeXign.Editor.Renderer;
 using DeXign.Extension;
 using System.Windows;
+using System.Windows.Media;
 
 [assembly: ExportRenderer(typeof(PGetter), typeof(Getter), typeof(GetterRenderer))]
 
@@ -27,5 +28,11 @@ namespace DeXign.Editor.Renderer
                 Model, PGetter.PropertyProperty,
                 Element, Getter.SelectedPropertyProperty);
         }
+
+        protected override void OnDrawOutSightText(DrawingContext drawingContext)
+        {
+            DrawSightText(drawingContext, "GET");
+        }
+
     }
 }
