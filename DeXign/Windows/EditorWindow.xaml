@@ -8,6 +8,7 @@
     xmlns:local="clr-namespace:DeXign"
     xmlns:m="clr-namespace:DeXign.Models"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="clr-namespace:DeXign.UI;assembly=DeXign.UI"
     Title="DX"
     Width="1280"
     Height="800"
@@ -360,19 +361,28 @@
             <TabControl
                 x:Name="tabControl"
                 Background="Transparent"
-                SelectionChanged="tabControl_SelectionChanged">
-                <!--<TabItem>
-                    <TabItem.Content>
-                        <Grid Background="#424242">
-                            <Border Background="White" CornerRadius="4" Width="120" Height="80" BorderBrush="{StaticResource Brush.Logic.Event}" BorderThickness="0,4,0,0" Margin="276.333,269.5,393.666,333.5">
-                                <Border.BitmapEffect>
-                                    <DropShadowBitmapEffect Color="#FFFFFF" Direction="270" ShadowDepth="0" Softness="0.36" Opacity="0.56"/>
-                                </Border.BitmapEffect>
-                            </Border>
-                        </Grid>
-                    </TabItem.Content>
-                </TabItem>-->
-            </TabControl>
+                SelectionChanged="tabControl_SelectionChanged" />
+            <ui:MessagePanel
+                x:Name="messagePanel"
+                Height="40"
+                VerticalAlignment="Bottom"
+                Direction="Bottom">
+                <Grid Background="White">
+                    <ui:SpacingStackPanel
+                        Margin="0,0,20,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <TextBlock Text="컴파일중.." />
+                        <ProgressBar
+                            Width="80"
+                            Height="20"
+                            Maximum="1"
+                            Minimum="0"
+                            Value="{Binding CompileProgress, Source={x:Static local:GlobalModel.Instance}}" />
+                    </ui:SpacingStackPanel>
+                </Grid>
+            </ui:MessagePanel>
         </Grid>
 
         <Rectangle

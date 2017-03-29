@@ -1,6 +1,7 @@
 ﻿using DeXign.Core.Controls;
 using DeXign.Core.Logic;
 using System;
+using System.Threading.Tasks;
 
 namespace DeXign.Core.Compiler
 {
@@ -11,7 +12,7 @@ namespace DeXign.Core.Compiler
             this.Platform = Platform.XForms;
         }
 
-        public override DXCompileResult Compile(DXCompileParameter parameter)
+        public override async Task<DXCompileResult> Compile(DXCompileParameter parameter)
         {
             return new DXCompileResult(parameter.Option)
             {

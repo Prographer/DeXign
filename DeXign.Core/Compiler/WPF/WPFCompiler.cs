@@ -11,6 +11,7 @@ using DeXign.Extension;
 using DeXign.Core.Logic;
 
 using Microsoft.CSharp;
+using System.Threading.Tasks;
 
 namespace DeXign.Core.Compiler
 {
@@ -59,14 +60,20 @@ namespace DeXign.Core.Compiler
         }
 
         #region [ Compile ]
-        public override DXCompileResult Compile(DXCompileParameter parameter)
+        public override async Task<DXCompileResult> Compile(DXCompileParameter parameter)
         {
+            const double TotalOnReport = 8;
+            int OnReport = 0;
+
+            // * OnReport Progress
+            await this.OnReport(++OnReport / TotalOnReport);
+
             var sw = new Stopwatch();
             sw.Start();
             
             // Result
             var result = new DXCompileResult(parameter.Option);
-
+            
             // NameContainer
             var sharedNameContainer = new NameContainer();
             var sharedCallbackContainer = new NameContainer();
@@ -90,6 +97,9 @@ namespace DeXign.Core.Compiler
             Assembly[] dependencyLibs = GetReferencedAssemblyNames(parameter).ToArray();
 
             AddReferencedAssemblies(compileParam, dependencyLibs);
+
+            // * OnReport Progress
+            await this.OnReport(++OnReport / TotalOnReport);
 
             // Mapper
             var mapper = new DXMapper<CSharpCodeMapAttribute>(
@@ -120,6 +130,9 @@ namespace DeXign.Core.Compiler
             // 출력 폴더 생성
             DirectoryEx.Create(directory);
 
+            // * OnReport Progress
+            await this.OnReport(++OnReport / TotalOnReport);
+
             // Generate Native Code
             string[] screensXaml = layoutGenerator.Generate().ToArray();
             var csSources = new List<string>();
@@ -130,7 +143,10 @@ namespace DeXign.Core.Compiler
                 
                 csSources.Add(mappingResult.Source);
             }
-            
+
+            // * OnReport Progress
+            await this.OnReport(++OnReport / TotalOnReport);
+
             // 리소스 생성
             if (provider.Supports(GeneratorSupport.Resources))
             {
@@ -151,7 +167,10 @@ namespace DeXign.Core.Compiler
 
                 compileParam.EmbeddedResources.Add(tempResFileName);
             }
-            
+
+            // * OnReport Progress
+            await this.OnReport(++OnReport / TotalOnReport);
+
             // 임시 아이콘 생성
             Stream iconStream = GetStreamResource("Resources/IconLogo.ico");
             byte[] iconBin = new byte[iconStream.Length];
@@ -159,7 +178,10 @@ namespace DeXign.Core.Compiler
             iconStream.Read(iconBin, 0, iconBin.Length);
 
             File.WriteAllBytes(tempIconPath, iconBin);
-            
+
+            // * OnReport Progress
+            await this.OnReport(++OnReport / TotalOnReport);
+
             // 출력 및 컴파일 커맨드라인 설정
             compileParam.OutputAssembly = exePath;
             compileParam.CompilerOptions = $"/target:winexe /win32icon:{tempIconPath}";
@@ -192,14 +214,16 @@ namespace DeXign.Core.Compiler
 
             w.ShowDialog();
 #endif
-
             // Compile Binary
             CompilerResults compileResult = provider.CompileAssemblyFromSource(compileParam, csSources.ToArray());
             compileParam.TempFiles.Delete();
-
+            
             // 컴파일 시간 기록
             sw.Stop();
             result.Elapsed = sw.Elapsed;
+
+            // * OnReport Progress
+            await this.OnReport(++OnReport / TotalOnReport);
 
             if (compileResult.Errors.Count > 0)
             {
@@ -227,6 +251,9 @@ namespace DeXign.Core.Compiler
 
                 result.IsSuccess = true;
             }
+
+            // * OnReport Progress
+            await this.OnReport(++OnReport / TotalOnReport);
 
             return result;
         }

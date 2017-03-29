@@ -14,6 +14,13 @@ namespace DeXign
             set { _isDebugging = value; RaisePropertyChanged(); }
         }
 
+        private double _compileProgress = 0;
+        public double CompileProgress
+        {
+            get { return _compileProgress; }
+            set { _compileProgress = value; RaisePropertyChanged(); }
+        }
+
         static GlobalModel()
         {
             if (GlobalModel.Instance == null)

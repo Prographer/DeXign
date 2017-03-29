@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Controls;
 using System.ComponentModel;
 using System.CodeDom.Compiler;
+using t = System.Threading.Tasks;
 
 using DeXign.IO;
 using DeXign.Controls;
@@ -156,7 +157,7 @@ namespace DeXign.Windows
             GlobalModel.Instance.IsDebugging = false;
         }
 
-        private void RunDebug_Execute(object sender, ExecutedRoutedEventArgs e)
+        private async void RunDebug_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             // TODO: Compile
             var proj = this.Model.SelectedProject;
@@ -167,11 +168,16 @@ namespace DeXign.Windows
                 return;
             }
 
+            GlobalModel.Instance.IsDebugging = true;
+            GlobalModel.Instance.CompileProgress = 0;
+
+            messagePanel.Show();
+
+            await t.Task.Delay(300);
+
             // 저장
             proj.Save();
-
-            GlobalModel.Instance.IsDebugging = true;
-
+            
             // 컴파일 옵션
             var dxCompileOption = new DXCompileOption()
             {
@@ -188,13 +194,24 @@ namespace DeXign.Windows
                 .Where(r => r.ProvideValue().Items.Sum(b => b.Items.Count) > 0)   // 연결된 아이템들
                 .Select(r => r.ProvideValue() as PBinderHost)   // BinderHost 선택
                 .ToArray();
+
+            BaseCompilerService service =
+                DXCompiler.GetCompilerService(dxCompileOption.TargetPlatform).FirstOrDefault();
             
-            DXCompileResult result = DXCompiler.Compile(
+            // 컴파일 프로그레스 등록
+            service.ProgressChanged += Compile_ProgressChanged;
+            
+            DXCompileResult result = await DXCompiler.Compile(
                 new DXCompileParameter(dxCompileOption, screens, binderHosts));
 
+            // 컴파일 프로그레스 등록해제
+            service.ProgressChanged -= Compile_ProgressChanged;
+
+            messagePanel.Hide();
+            
             if (result.IsSuccess)
             {
-                OnCompileSuccess(result);
+                await OnCompileSuccess(result);
             }
             else
             {
@@ -202,7 +219,12 @@ namespace DeXign.Windows
             }
         }
 
-        private async void OnCompileSuccess(DXCompileResult result)
+        private void Compile_ProgressChanged(object sender, double e)
+        {
+            GlobalModel.Instance.CompileProgress = e;
+        }
+
+        private async t.Task OnCompileSuccess(DXCompileResult result)
         {
             switch (result.Option.TargetPlatform)
             {

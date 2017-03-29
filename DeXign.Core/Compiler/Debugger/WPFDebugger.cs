@@ -23,7 +23,7 @@ namespace DeXign.Core.Compiler
         {
             if (IsBusy)
                 return;
-
+            
             var startInfo = new ProcessStartInfo(this.FileName);
 
             this.AppProcess = Process.Start(startInfo);
@@ -31,7 +31,9 @@ namespace DeXign.Core.Compiler
             // Stop으로 AppProcess가 삭제될 수 있음
             while (this.AppProcess != null && !this.AppProcess.HasExited)
             {
-                await Task.Delay(500);
+                await Task.Delay(1000);
+
+                this.AppProcess.Refresh();
             }
 
             await this.Stop();
@@ -47,6 +49,8 @@ namespace DeXign.Core.Compiler
                 {
                     this.AppProcess.Kill();
                 }
+
+                this.AppProcess.Dispose();
 
                 this.AppProcess = null;
             }

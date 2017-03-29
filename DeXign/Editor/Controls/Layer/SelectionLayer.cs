@@ -24,10 +24,6 @@ namespace DeXign.Editor.Layer
         public event EventHandler DesignModeChanged;
 
         #region [ Dependency Property ]
-        public static readonly DependencyProperty GripSizeProperty = 
-            DependencyHelper.Register(
-                new FrameworkPropertyMetadata(7d, FrameworkPropertyMetadataOptions.AffectsRender));
-
         public static readonly DependencyProperty DisplayMarginProperty =
             DependencyHelper.Register(
                 new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender));
@@ -81,13 +77,7 @@ namespace DeXign.Editor.Layer
         {
             get { return (FrameworkElement)base.AdornedElement; }
         }
-
-        public double GripSize
-        {
-            get { return (double)GetValue(GripSizeProperty); }
-            set { SetValue(GripSizeProperty, value); }
-        }
-
+        
         /// <summary>
         /// Margin의 상태를 설정하거나 가져옵니다.
         /// </summary>
@@ -188,6 +178,7 @@ namespace DeXign.Editor.Layer
         #endregion
 
         #region [ Local Variable ]
+        const double GripSize = 7;
         const double Blank = 6;
         const double ValueBoxBlank = 2;
 
@@ -358,9 +349,11 @@ namespace DeXign.Editor.Layer
                 {
                     new LayerResizeThumb(this)
                     {
+                        Width = GripSize,
+                        Height = GripSize,
                         ResizeDirection = ResizeGripDirection.TopLeft,
                         Cursor = Cursors.SizeNWSE,
-                        Margin = new Thickness(-1, -1, 1, 1),
+                        Margin = new Thickness(-GripSize, -GripSize, GripSize, GripSize),
                         HorizontalAlignment = HorizontalAlignment.Left,
                         VerticalAlignment = VerticalAlignment.Top,
                         RenderTransform = scale,
@@ -368,9 +361,11 @@ namespace DeXign.Editor.Layer
                     },
                     new LayerResizeThumb(this)
                     {
+                        Width = GripSize,
+                        Height = GripSize,
                         ResizeDirection = ResizeGripDirection.Top,
                         Cursor = Cursors.SizeNS,
-                        Margin = new Thickness(0, -1, 0, 1),
+                        Margin = new Thickness(0, -GripSize, 0, GripSize),
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Top,
                         RenderTransform = scale,
@@ -378,9 +373,11 @@ namespace DeXign.Editor.Layer
                     },
                     new LayerResizeThumb(this)
                     {
+                        Width = GripSize,
+                        Height = GripSize,
                         ResizeDirection = ResizeGripDirection.TopRight,
                         Cursor = Cursors.SizeNESW,
-                        Margin = new Thickness(1, -1, -1, 1),
+                        Margin = new Thickness(GripSize, -GripSize, -GripSize, GripSize),
                         HorizontalAlignment = HorizontalAlignment.Right,
                         VerticalAlignment = VerticalAlignment.Top,
                         RenderTransform = scale,
@@ -388,9 +385,11 @@ namespace DeXign.Editor.Layer
                     },
                     new LayerResizeThumb(this)
                     {
+                        Width = GripSize,
+                        Height = GripSize,
                         ResizeDirection = ResizeGripDirection.Left,
                         Cursor = Cursors.SizeWE,
-                        Margin = new Thickness(-1, 0, 1, 0),
+                        Margin = new Thickness(-GripSize, 0, GripSize, 0),
                         HorizontalAlignment = HorizontalAlignment.Left,
                         VerticalAlignment = VerticalAlignment.Center,
                         RenderTransform = scale,
@@ -398,9 +397,11 @@ namespace DeXign.Editor.Layer
                     },
                     new LayerResizeThumb(this)
                     {
+                        Width = GripSize,
+                        Height = GripSize,
                         ResizeDirection = ResizeGripDirection.Right,
                         Cursor = Cursors.SizeWE,
-                        Margin = new Thickness(1, 0, -1, 0),
+                        Margin = new Thickness(GripSize, 0, -GripSize, 0),
                         HorizontalAlignment = HorizontalAlignment.Right,
                         VerticalAlignment = VerticalAlignment.Center,
                         RenderTransform = scale,
@@ -408,9 +409,10 @@ namespace DeXign.Editor.Layer
                     },
                     new LayerResizeThumb(this)
                     {
+                        Width = GripSize, Height = GripSize,
                         ResizeDirection = ResizeGripDirection.BottomLeft,
                         Cursor = Cursors.SizeNESW,
-                        Margin = new Thickness(-1, 1, 1, -1),
+                        Margin = new Thickness(-GripSize, GripSize, GripSize, -GripSize),
                         HorizontalAlignment = HorizontalAlignment.Left,
                         VerticalAlignment = VerticalAlignment.Bottom,
                         RenderTransform = scale,
@@ -418,9 +420,10 @@ namespace DeXign.Editor.Layer
                     },
                     new LayerResizeThumb(this)
                     {
+                        Width = GripSize, Height = GripSize,
                         ResizeDirection = ResizeGripDirection.Bottom,
                         Cursor = Cursors.SizeNS,
-                        Margin = new Thickness(0, 1, 0, -1),
+                        Margin = new Thickness(0, GripSize, 0, -GripSize),
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Bottom,
                         RenderTransform = scale,
@@ -428,9 +431,10 @@ namespace DeXign.Editor.Layer
                     },
                     new LayerResizeThumb(this)
                     {
+                        Width = GripSize, Height = GripSize,
                         ResizeDirection = ResizeGripDirection.BottomRight,
                         Cursor = Cursors.SizeNWSE,
-                        Margin = new Thickness(1, 1, -1, -1),
+                        Margin = new Thickness(GripSize, GripSize, -GripSize, -GripSize),
                         HorizontalAlignment = HorizontalAlignment.Right,
                         VerticalAlignment = VerticalAlignment.Bottom,
                         RenderTransform = scale
@@ -493,41 +497,7 @@ namespace DeXign.Editor.Layer
                 BindingEx.SetBinding(
                     this, SelectionBrushProperty,
                     thumb, LayerResizeThumb.StrokeProperty);
-
-                BindingEx.SetBinding(
-                    this, GripSizeProperty,
-                    thumb, LayerResizeThumb.WidthProperty);
-
-                BindingEx.SetBinding(
-                    this, GripSizeProperty,
-                    thumb, LayerResizeThumb.HeightProperty);
-
-                var holder = new ElementThicknessBinder(thumb, LayerResizeThumb.MarginProperty);
-
-                if (holder.Top != 0)
-                    BindingEx.SetBinding(
-                        this, GripSizeProperty,
-                        holder, ElementThicknessBinder.TopProperty,
-                        converter: (holder.Top > 0 ? null : reverseConverter));
-
-                if (holder.Left != 0)
-                    BindingEx.SetBinding(
-                        this, GripSizeProperty,
-                        holder, ElementThicknessBinder.LeftProperty,
-                        converter: (holder.Left > 0 ? null : reverseConverter));
-
-                if (holder.Right != 0)
-                    BindingEx.SetBinding(
-                        this, GripSizeProperty,
-                        holder, ElementThicknessBinder.RightProperty,
-                        converter: (holder.Right > 0 ? null : reverseConverter));
-
-                if (holder.Bottom != 0)
-                    BindingEx.SetBinding(
-                        this, GripSizeProperty,
-                        holder, ElementThicknessBinder.BottomProperty,
-                        converter: (holder.Bottom > 0 ? null : reverseConverter));
-
+                
                 thumb.DragStarted += ThumbOnDragStarted;
                 thumb.DragCompleted += ThumbOnDragCompleted;
             }

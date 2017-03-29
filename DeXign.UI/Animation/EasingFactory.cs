@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Media.Animation;
 
-namespace DeXign.Animation
+namespace DeXign.UI.Animation
 {
     public static class EasingFactory
     {

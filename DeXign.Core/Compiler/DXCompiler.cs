@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using DeXign.Extension;
 using DeXign.Core.Logic;
 using DeXign.Core.Controls;
+using System.Threading.Tasks;
 
 namespace DeXign.Core.Compiler
 {
@@ -20,11 +21,11 @@ namespace DeXign.Core.Compiler
             AddCompiler(new XFormsCompiler());
         }
 
-        public static DXCompileResult Compile(DXCompileParameter parameter)
+        public static async Task<DXCompileResult> Compile(DXCompileParameter parameter)
         {
             foreach (BaseCompilerService service in GetCompilerService(parameter.Option.TargetPlatform))
             {
-                return service.Compile(parameter);
+                return await service.Compile(parameter);
             }
 
             // 컴파일 오류

@@ -6,7 +6,6 @@
     xmlns:dc="clr-namespace:DeXign.Editor.Controls"
     xmlns:local="clr-namespace:DeXign"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ui="clr-namespace:DeXign.UI;assembly=DeXign.UI"
     Title="StoryboardPage"
     d:DesignHeight="665"
     d:DesignWidth="977"
@@ -25,20 +24,5 @@
                 <dc:Storyboard x:Name="storyboard" />
             </dc:StoryboardZoomPanel>
         </AdornerDecorator>
-
-        <ui:SpacingStackPanel
-            Margin="10"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Bottom"
-            Orientation="Horizontal">
-            <Button
-                Padding="10"
-                Click="Button_Click"
-                Content="DEBUG: ZoomFit" />
-            <Button
-                Padding="10"
-                Click="Button_Click_1"
-                Content="Binder Tree" />
-        </ui:SpacingStackPanel>
     </Grid>
 </Page>

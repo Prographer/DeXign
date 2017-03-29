@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media.Animation;
 
-namespace DeXign.Animation
+namespace DeXign.UI.Animation
 {
     public class SpringEase : EasingFunctionBase
     {

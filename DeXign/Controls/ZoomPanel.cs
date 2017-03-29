@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-using DeXign.Animation;
+using DeXign.UI.Animation;
 using DeXign.Extension;
 
 using WPFExtension;

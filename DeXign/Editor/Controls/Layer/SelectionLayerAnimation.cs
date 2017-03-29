@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Input;
 
-using DeXign.Animation;
+using DeXign.UI.Animation;
 
 namespace DeXign.Editor.Layer
 {

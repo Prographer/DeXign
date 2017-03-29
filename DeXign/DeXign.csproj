@@ -123,9 +123,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Animation\Animator.cs" />
-    <Compile Include="Animation\EasingFactory.cs" />
-    <Compile Include="Animation\SpringEase.cs" />
     <Compile Include="Controls\BezierLine.cs" />
     <Compile Include="Controls\Cell\ContentCell.cs" />
     <Compile Include="Controls\Cell\CheckBoxCell.cs" />

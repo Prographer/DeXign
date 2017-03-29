@@ -51,10 +51,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animation\Animator.cs" />
+    <Compile Include="Animation\EasingFactory.cs" />
+    <Compile Include="Animation\SpringEase.cs" />
     <Compile Include="BrushHelper.cs" />
     <Compile Include="Controls\DeXignLabel.cs" />
     <Compile Include="Controls\DeXignButton.cs" />
     <Compile Include="Controls\DeXignPage.cs" />
+    <Compile Include="Controls\MessagePanel.cs" />
     <Compile Include="Controls\ProtrudedScrollViewer.cs" />
     <Compile Include="Exceptions\ElementNameDuplicateException.cs" />
     <Compile Include="Exceptions\ElementNotFoundException.cs" />
