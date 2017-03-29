@@ -76,6 +76,7 @@ namespace DeXign.Task
 
             bool state = chkBox.IsChecked.Value;
 
+            // 체크 박스 태스크
             taskManager.Push(
                 new TaskData(chkBox,
                 () =>
@@ -123,6 +124,7 @@ namespace DeXign.Task
 
             comboBox.SetTag(doSelectedItem);
 
+            // 콤보박스 태스크
             taskManager.Push(
                 new TaskData(comboBox,
                 () =>

@@ -549,7 +549,7 @@ namespace DeXign.Editor.Layer
 
         private void MoveThumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
-            ThumbOnDragCompleted(sender, null);
+            ClearDrag();
 
             OnDragCompleted();
         }
@@ -629,7 +629,7 @@ namespace DeXign.Editor.Layer
         #endregion
 
         #region [ Guide Line Status ]
-        private void ThumbOnDragCompleted(object sender, DragCompletedEventArgs e)
+        private void ClearDrag()
         {
             // Clear Snapped Guidelines
             Storyboard.GuideLayer.ClearSnappedGuidelines();
@@ -638,6 +638,11 @@ namespace DeXign.Editor.Layer
             DisplayWidthBottom = false;
             DisplayHeightLeft = false;
             DisplayHeightRight = false;
+        }
+
+        private void ThumbOnDragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            OnSizingCompleted();
         }
 
         private void ThumbOnDragStarted(object sender, DragStartedEventArgs dragStartedEventArgs)
@@ -679,6 +684,16 @@ namespace DeXign.Editor.Layer
                     DisplayHeightRight = true;
                     break; ;
             }
+
+            OnSizingStarted();
+        }
+
+        protected virtual void OnSizingStarted()
+        {
+        }
+
+        protected virtual void OnSizingCompleted()
+        {
         }
         #endregion
 

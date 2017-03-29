@@ -14,6 +14,8 @@ using DeXign.Extension;
 using DeXign.Converter;
 
 using WPFExtension;
+using System.Windows.Controls;
+using DeXign.Task;
 
 namespace DeXign.Editor.Renderer
 {
@@ -55,10 +57,12 @@ namespace DeXign.Editor.Renderer
         #endregion
 
         #region [ Local Variable ]
+        private Thickness beginMargin;
+        private Point beginPosition;
+        private Size beginSize;
+
         private bool showModelName = false;
         private string displayTypeName = "";
-
-        private List<DependencyProperty> changedProperties;
         #endregion
 
         static LayerRenderer()
@@ -86,15 +90,6 @@ namespace DeXign.Editor.Renderer
 
             // Binder
             RendererManager.ResolveBinder(this).Released += LayerRenderer_Released;
-
-            // Property Hook
-            changedProperties = new List<DependencyProperty>();
-            model.PropertyChanged += Model_PropertyChanged;
-        }
-
-        private void Model_PropertyChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            changedProperties.SafeAdd(e.Property);
         }
 
         private void LayerRenderer_Released(object sender, BinderBindedEventArgs e)
@@ -290,17 +285,77 @@ namespace DeXign.Editor.Renderer
         
         protected override void OnDragStarted()
         {
-            base.OnDragStarted();
-
-            changedProperties.Clear();
+            beginMargin = this.Element.Margin;
+            beginPosition = new Point(Canvas.GetLeft(this.Element), Canvas.GetTop(this.Element));
         }
 
         protected override void OnDragCompleted()
         {
+            Thickness undoMargin = beginMargin;
+            Thickness doMargin = this.Element.Margin;
+
+            Point undoPosition = beginPosition;
+            Point doPosition = new Point(Canvas.GetLeft(this.Element), Canvas.GetTop(this.Element));
+
+            // 이동 태스크
+            this.Storyboard.TaskManager.Push(
+                new TaskData(this,
+                () =>
+                {
+                    this.Element.Margin = doMargin;
+                    Canvas.SetLeft(this.Element, doPosition.X);
+                    Canvas.SetTop(this.Element, doPosition.Y);
+                },
+                () =>
+                {
+                    this.Element.Margin = undoMargin;
+                    Canvas.SetLeft(this.Element, undoPosition.X);
+                    Canvas.SetTop(this.Element, undoPosition.Y);
+                }));
+
             foreach (IRenderer componentRenderer in this.Storyboard.Components.Select(c => c.GetRenderer()))
             {
                 (componentRenderer as StoryboardLayer).InvalidateVisual();
             }
+        }
+
+        protected override void OnSizingStarted()
+        {
+            beginSize = new Size(this.Model.Width, this.Model.Height);
+
+            OnDragStarted();
+        }
+
+        protected override void OnSizingCompleted()
+        {
+            Size undoSize = beginSize;
+            Size doSize = new Size(this.Model.Width, this.Model.Height);
+
+            Thickness undoMargin = beginMargin;
+            Thickness doMargin = this.Element.Margin;
+
+            Point undoPosition = beginPosition;
+            Point doPosition = new Point(Canvas.GetLeft(this.Element), Canvas.GetTop(this.Element));
+
+            // 이동 태스크
+            this.Storyboard.TaskManager.Push(
+                new TaskData(this,
+                () =>
+                {
+                    this.SetSize(doSize.Width, doSize.Height);
+
+                    this.Element.Margin = doMargin;
+                    Canvas.SetLeft(this.Element, doPosition.X);
+                    Canvas.SetTop(this.Element, doPosition.Y);
+                },
+                () =>
+                {
+                    this.SetSize(undoSize.Width, undoSize.Height);
+
+                    this.Element.Margin = undoMargin;
+                    Canvas.SetLeft(this.Element, undoPosition.X);
+                    Canvas.SetTop(this.Element, undoPosition.Y);
+                }));
         }
 
         private IEnumerable<IRenderer> GetOverlappedComponentRenderers()

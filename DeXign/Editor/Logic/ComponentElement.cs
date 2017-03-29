@@ -470,6 +470,7 @@ namespace DeXign.Editor.Logic
 
             var layer = this.GetRenderer() as StoryboardLayer;
 
+            // 드래그 태스크
             this.TaskManager.Push(
                 new TaskData(this,
                 () =>
