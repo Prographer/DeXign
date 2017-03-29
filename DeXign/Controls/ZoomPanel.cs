@@ -11,8 +11,19 @@ using WPFExtension;
 
 namespace DeXign.Controls
 {
+    public class ZoomEventArgs : EventArgs
+    {
+        public double OldScale { get; set; }
+        public double NewScale { get; set; }
+    }
+
     public class ZoomPanel : ContentControl
     {
+        #region [ Event ]
+        public event EventHandler Panning;
+        public event EventHandler<ZoomEventArgs> Zooming;
+        #endregion
+
         #region [ Dependency Property ]
         public static readonly DependencyProperty MinScaleProperty =
             DependencyHelper.Register(
@@ -144,7 +155,7 @@ namespace DeXign.Controls
                 {
                     Zoom(this.Scale - delta, position);
                 }
-
+                
                 e.Handled = true;
             }
         }
@@ -302,6 +313,27 @@ namespace DeXign.Controls
             return new Size(
                 contentElement.RenderSize.Width * this.Scale,
                 contentElement.RenderSize.Height * this.Scale);
+        }
+
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(e);
+
+            switch (e.Property.Name)
+            {
+                case "Scale":
+                    Zooming?.Invoke(this, new ZoomEventArgs()
+                    {
+                        OldScale = (double)e.OldValue,
+                        NewScale = (double)e.NewValue
+                    });
+                    break;
+
+                case "OffsetX":
+                case "OffsetY":
+                    Panning?.Invoke(this, EventArgs.Empty);
+                    break;
+            }
         }
     }
 }

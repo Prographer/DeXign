@@ -676,6 +676,11 @@ namespace DeXign.Editor.Layer
         private void MoveThumb_Moved(object sender, EventArgs e)
         {
             RaiseInvalidatedLayout();
+            OnMoved();
+        }
+
+        protected virtual void OnMoved()
+        {
         }
 
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)

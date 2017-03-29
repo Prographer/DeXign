@@ -19,7 +19,8 @@ using DeXign.Task;
 
 namespace DeXign.Editor.Renderer
 {
-    public class LayerRenderer<TModel, TElement> : DropSelectionLayer, IRenderer<TModel, TElement>, IRendererElement, IUISupport
+    public class LayerRenderer<TModel, TElement> : DropSelectionLayer,
+        IRenderer<TModel, TElement>, IRendererElement, IUISupport, IMovable
         where TModel : PVisual
         where TElement : FrameworkElement
     {
@@ -44,6 +45,7 @@ namespace DeXign.Editor.Renderer
 
         #region [ Event ]
         public event EventHandler ElementAttached;
+        public event EventHandler Moved;
         #endregion
 
         #region [ Property ]
@@ -282,7 +284,13 @@ namespace DeXign.Editor.Renderer
         {
         }
 
-        
+        protected override void OnMoved()
+        {
+            base.OnMoved();
+
+            Moved?.Invoke(this, EventArgs.Empty);
+        }
+
         protected override void OnDragStarted()
         {
             beginMargin = this.Element.Margin;
@@ -327,7 +335,7 @@ namespace DeXign.Editor.Renderer
         protected override void OnSizingStarted()
         {
             beginSize = new Size(this.Model.Width, this.Model.Height);
-
+            
             OnDragStarted();
         }
 

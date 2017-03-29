@@ -2,6 +2,7 @@
     x:Class="DeXign.Windows.Pages.StoryboardPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:DeXign.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dc="clr-namespace:DeXign.Editor.Controls"
     xmlns:local="clr-namespace:DeXign"
@@ -24,5 +25,7 @@
                 <dc:Storyboard x:Name="storyboard" />
             </dc:StoryboardZoomPanel>
         </AdornerDecorator>
+
+        <!--<c:Ruler x:Name="ruler" Scale="{Binding ElementName=zoomPanel, Path=Scale}" />-->
     </Grid>
 </Page>

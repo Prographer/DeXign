@@ -5,6 +5,11 @@ using System.Windows.Controls;
 using DeXign.Theme;
 using DeXign.Models;
 using DeXign.Extension;
+using System;
+using DeXign.Editor;
+using System.Linq;
+using DeXign.Controls;
+using System.Windows.Threading;
 
 namespace DeXign.Windows.Pages
 {
@@ -18,6 +23,7 @@ namespace DeXign.Windows.Pages
             InitializeComponent();
             InitializeCommands();
             InitializeModel();
+            InitializeRuler();
 
             SetTheme(Platform.Android);
 
@@ -27,12 +33,40 @@ namespace DeXign.Windows.Pages
             // Task Manager Setting
             storyboard.TaskManager = Model.TaskManager;
         }
-
+        
         private void StoryboardPage_Loaded(object sender, RoutedEventArgs e)
         {
             Keyboard.Focus(storyboard);
+
+            this.Unloaded += StoryboardPage_Unloaded;
+            GroupSelector.SelectedItemChanged += GroupSelector_SelectedItemChanged;
         }
 
+        private void StoryboardPage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            this.Unloaded -= StoryboardPage_Unloaded;
+            GroupSelector.SelectedItemChanged -= GroupSelector_SelectedItemChanged;
+        }
+
+        //private void ZoomPanel_Update(object sender, EventArgs e)
+        //{
+        //    Dispatcher.BeginInvoke(
+        //        (Action)ruler.InvalidateVisual,
+        //        DispatcherPriority.Render);
+        //}
+
+
+        private void InitializeRuler()
+        {
+            //zoomPanel.Zooming += ZoomPanel_Update;
+            //zoomPanel.Panning += ZoomPanel_Update;
+        }
+
+        private void GroupSelector_SelectedItemChanged(object sender, EventArgs e)
+        {
+            //ruler.Target = GroupSelector.GetSelectedItems().FirstOrDefault();
+        }
+        
         private void InitializeModel()
         {
             Model = new StoryboardModel(this);

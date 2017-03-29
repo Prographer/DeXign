@@ -133,6 +133,7 @@
     <Compile Include="Controls\RecentFileTextBlock.cs" />
     <Compile Include="Controls\RectangleEx.cs" />
     <Compile Include="Controls\RoundButton.cs" />
+    <Compile Include="Controls\Ruler.cs" />
     <Compile Include="Controls\ZoomPanel.cs" />
     <Compile Include="Database\RecentDB.cs" />
     <Compile Include="Editor\Connector\LineConnector.cs" />
@@ -211,6 +212,7 @@
     <Compile Include="Editor\Renderer\RendererTreeHelper.cs" />
     <Compile Include="Editor\Renderer\StoryboardRenderer.cs" />
     <Compile Include="GlobalModel.cs" />
+    <Compile Include="Interfaces\IMovable.cs" />
     <Compile Include="IO\Packages\Component\BindExpression.cs" />
     <Compile Include="IO\Packages\Component\ComponentExpressionPacakgeFile.cs" />
     <Compile Include="IO\Packages\Component\ComponentPackageFile.cs" />

@@ -24,18 +24,12 @@ namespace DeXign
         {
             SDKManager.Init();
             
-            var sw = new Stopwatch();
-            sw.Start();
-
             types = GetModuleTypesCore().ToArray();
             functions = types
                 .Select(at => at.Element)
                 .ToDictionary(
                     t => t,
                     t => GetFunctionsCore(t).ToArray());
-
-            sw.Stop();
-            MessageBox.Show(sw.ElapsedMilliseconds.ToString());
         }
 
         public static void Init()

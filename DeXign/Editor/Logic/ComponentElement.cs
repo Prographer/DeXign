@@ -37,11 +37,12 @@ namespace DeXign.Editor.Logic
     }
 
     [TemplatePart(Name = "PART_moveThumb", Type = typeof(RelativeThumb))]
-    public class ComponentElement : ContentControl
+    public class ComponentElement : ContentControl, IMovable
     {
         const double GridSnap = 16;
 
         public event EventHandler<BindedEventArgs> Binded;
+        public event EventHandler Moved;
 
         public static readonly DependencyProperty HeaderProperty =
             DependencyHelper.Register(
@@ -448,6 +449,8 @@ namespace DeXign.Editor.Logic
 
             this.Left = SnapToGrid(x);
             this.Top = SnapToGrid(y);
+
+            Moved?.Invoke(this, EventArgs.Empty);
         }
 
         private void MoveThumb_DragStarted(object sender, DragStartedEventArgs e)
