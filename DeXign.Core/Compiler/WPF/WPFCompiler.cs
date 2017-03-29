@@ -255,7 +255,8 @@ namespace DeXign.Core.Compiler
             }
 
             return assemblies
-                .Where(ass => !ass.GetName().Name.AnyEquals("DeXign.Core"));
+                .Where(ass => !ass.GetName().Name.AnyEquals("DeXign.Core"))
+                .Distinct();
         }
 
         private static void AddReferencedAssemblies(CompilerParameters param, params Assembly[] assemblies)

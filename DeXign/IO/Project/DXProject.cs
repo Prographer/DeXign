@@ -10,9 +10,11 @@ using DeXign.Core.Controls;
 using DeXign.Database;
 using DeXign.Editor.Renderer;
 using DeXign.Extension;
+using DeXign.Core.Logic;
 
 using Microsoft.Win32;
-using DeXign.Core.Logic;
+using System.Reflection;
+using System.Text;
 
 namespace DeXign.IO
 {
@@ -58,130 +60,217 @@ namespace DeXign.IO
         internal DXProject(string path) : this()
         {
             this.FileName = path;
+            this.CanOpen = false;
 
             rendererInfos = new Dictionary<Guid, RendererSurface>();
             binderInfos = new Dictionary<Guid, PBinder>();
-
-            try
+            
+            // 패키지 파일 불러옴
+            if (!LoadPackages())
             {
-                LoadPackages();
+                MessageBox.Show("파일을 불러올 수 없습니다.", "DeXign", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                return;
+            }
 
-                LoadManifest();
-                LoadScreens();
-                LoadScreenRenderers();
-                LoadComponents();
-            }
-            catch
+            // 매니페스트 불러옴
+            if (!LoadManifest())
             {
-                CanOpen = false;
+                MessageBox.Show("프로젝트 구성파일을 찾을 수 없습니다.", "DeXign", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                return;
             }
+       
+            // Screen, Renderer, Component 구성 요소 불러옴
+            if (!LoadScreens() ||
+                !LoadScreenRenderers() ||
+                !LoadComponents())
+            {
+                if (this.Manifest != null)
+                {
+                    string[] manifestReferences = this.Manifest.ReferencedModules.Items.ToArray();
+                    string[] loadedReferences = SDKManager.GetReferencedModules().ToArray();
+
+                    string[] exceptedModules = manifestReferences.Except(loadedReferences).ToArray();
+
+                    if (exceptedModules.Length > 0)
+                    {
+                        var sb = new StringBuilder();
+                        sb.AppendLine("이 프로젝트를 열기위한 모듈을 찾을 수 없습니다.");
+                        sb.AppendLine();
+
+                        foreach (string module in exceptedModules)
+                        {
+                            sb.AppendLine(module.Split(',')[0]);
+                        }
+
+                        MessageBox.Show(sb.ToString(), "DeXign", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("알 수 없는 오류", "DeXign", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
+
+                return;
+            }
+
+            this.CanOpen = true;
         }
         #endregion
 
         #region [ Load ]
-        private void LoadPackages()
+        private bool LoadPackages()
         {
-            packageFiles.Clear();
-
-            using (var fs = File.OpenRead(FileName))
+            try
             {
-                packageFiles.AddRange(
-                    Package.Unpackaging(fs));
-            }
-        }
+                packageFiles.Clear();
 
-        private void LoadManifest()
-        {
-            // Manifest
-            var manifestFile = packageFiles
-                .FirstOrDefault(pf => pf.Name == ManifestPackageFile.FileName);
-
-            if (manifestFile == null)
-                return;
-
-            var x = new XmlSerializer(typeof(DXProjectManifest));
-            var manifest = x.Deserialize(manifestFile.Stream) as DXProjectManifest;
-
-            this.Manifest = manifest;
-        }
-
-        private void LoadScreens()
-        {
-            Screens.Clear();
-            Components.Clear();
-
-            var screenFiles = packageFiles
-                .Where(pf => pf.Name.IsMatch($"^{ScreenPackageFile.Path}/.+"));
-            
-            foreach (PackageFile file in screenFiles)
-            {
-                string name = Path.GetFileNameWithoutExtension(file.Name);
-                var reader = new ObjectXmlReader(file.Stream);
-
-                object model = reader.ReadObject();
-
-                if (model is PContentPage page)
+                using (var fs = File.OpenRead(FileName))
                 {
-                    // Name Setting
-                    LayoutExtension.SetPageName(page, name);
+                    packageFiles.AddRange(
+                        Package.Unpackaging(fs));
+                }
 
-                    Screens.Add(page);
+                return true;
+            }
+            catch
+            {
+            }
 
-                    CachingBinder(page.Binder);
+            return false;
+        }
 
-                    foreach (var node in ObjectContentTreeHelper.FindContentChildrens<PVisual, PVisual>(page))
+        private bool LoadManifest()
+        {
+            try
+            {
+                // Manifest
+                var manifestFile = packageFiles
+                    .FirstOrDefault(pf => pf.Name == ManifestPackageFile.FileName);
+
+                if (manifestFile == null)
+                    return false;
+
+                var x = new XmlSerializer(typeof(DXProjectManifest));
+                var manifest = x.Deserialize(manifestFile.Stream) as DXProjectManifest;
+
+                this.Manifest = manifest;
+
+                return true;
+            }
+            catch
+            {
+            }
+
+            return false;
+        }
+
+        private bool LoadScreens()
+        {
+            try
+            {
+                Screens.Clear();
+                Components.Clear();
+
+                var screenFiles = packageFiles
+                    .Where(pf => pf.Name.IsMatch($"^{ScreenPackageFile.Path}/.+"));
+
+                foreach (PackageFile file in screenFiles)
+                {
+                    string name = Path.GetFileNameWithoutExtension(file.Name);
+                    var reader = new ObjectXmlReader(file.Stream);
+
+                    object model = reader.ReadObject();
+
+                    if (model is PContentPage page)
                     {
-                        CachingBinder(node.Child.Binder);
+                        // Name Setting
+                        LayoutExtension.SetPageName(page, name);
+
+                        Screens.Add(page);
+
+                        CachingBinder(page.Binder);
+
+                        foreach (var node in ObjectContentTreeHelper.FindContentChildrens<PVisual, PVisual>(page))
+                        {
+                            CachingBinder(node.Child.Binder);
+                        }
                     }
                 }
+
+                return true;
             }
+            catch
+            {
+            }
+
+            return false;
         }
         
-        private void LoadScreenRenderers()
+        private bool LoadScreenRenderers()
         {
-            var rendererFiles = packageFiles
-                .Where(pf => pf.Name.IsMatch($"^{ScreenRendererPackageFile.Path}/.+"));
-            
-            foreach (PackageFile file in rendererFiles)
+            try
             {
-                var reader = new ObjectXmlReader(file.Stream);
+                var rendererFiles = packageFiles
+                .Where(pf => pf.Name.IsMatch($"^{ScreenRendererPackageFile.Path}/.+"));
 
-                var container = reader.ReadObject() as ObjectContainer<RendererSurface>;
+                foreach (PackageFile file in rendererFiles)
+                {
+                    var reader = new ObjectXmlReader(file.Stream);
 
-                foreach (var r in container.Items)
-                    rendererInfos[r.Guid] = r;
+                    var container = reader.ReadObject() as ObjectContainer<RendererSurface>;
+
+                    foreach (var r in container.Items)
+                        rendererInfos[r.Guid] = r;
+                }
+
+                return true;
             }
+            catch
+            {
+            }
+
+            return false;
         }
 
-        private void LoadComponents()
+        private bool LoadComponents()
         {
-            var componentFile = packageFiles
+            try
+            {
+                var componentFile = packageFiles
                 .FirstOrDefault(pf => pf.Name == ComponentPackageFile.FileName);
 
-            var expressionFile = packageFiles
-                .FirstOrDefault(pf => pf.Name == ComponentExpressionPackageFile.FileName);
-            
-            if (componentFile != null)
+                var expressionFile = packageFiles
+                    .FirstOrDefault(pf => pf.Name == ComponentExpressionPackageFile.FileName);
+
+                if (componentFile != null)
+                {
+                    var reader = new ObjectXmlReader(componentFile.Stream);
+
+                    var container = reader.ReadObject() as ObjectContainer<PComponent>;
+
+                    this.Components.AddRange(container.Items);
+
+                    // Binder Cache
+                    foreach (PComponent c in container.Items)
+                        CachingBinder(c);
+                }
+
+                if (expressionFile != null)
+                {
+                    var reader = new ObjectXmlReader(expressionFile.Stream);
+
+                    var container = reader.ReadObject() as ObjectContainer<BindExpression>;
+
+                    bindExpressions = container.Items;
+                }
+
+                return true;
+            }
+            catch
             {
-                var reader = new ObjectXmlReader(componentFile.Stream);
-
-                var container = reader.ReadObject() as ObjectContainer<PComponent>;
-
-                this.Components.AddRange(container.Items);
-
-                // Binder Cache
-                foreach (PComponent c in container.Items)
-                    CachingBinder(c);
             }
 
-            if (expressionFile != null)
-            {
-                var reader = new ObjectXmlReader(expressionFile.Stream);
-
-                var container = reader.ReadObject() as ObjectContainer<BindExpression>;
-
-                bindExpressions = container.Items;
-            }
+            return false;
         }
 
         private void CachingBinder(IBinderHostProvider provider)
@@ -203,7 +292,22 @@ namespace DeXign.IO
 
         public void Save()
         {
+            this.Manifest.ReferencedModules.Items.Clear();
             packageFiles.Clear();
+
+            // Update Referenced Modules
+            Assembly coreAssembly = Assembly.GetAssembly(typeof(PComponent));
+
+            foreach (var c in this.Components)
+            {
+                string name = c.GetType().Assembly.FullName;
+
+                if (c is PFunction pFunc)
+                    name = pFunc.FunctionInfo.DeclaringType.Assembly.FullName;
+
+                if (name != coreAssembly.FullName)
+                    this.Manifest.ReferencedModules.Items.SafeAdd(name);
+            }
 
             // Set Manifest
             packageFiles.Add(
@@ -277,7 +381,9 @@ namespace DeXign.IO
             var proj = new DXProject(path);
 
             if (proj.CanOpen)
+            {
                 RecentDB.AddFile(Path.GetFullPath(path));
+            }
 
             return proj;
         }
@@ -294,16 +400,12 @@ namespace DeXign.IO
 
             if (result)
             {
-                var project = DXProject.Open(fileDialog.FileName);
+                var proj = DXProject.Open(fileDialog.FileName);
 
-                if (!project.CanOpen)
-                {
-                    // 메박 커스텀하고 내용 바꿀..
-                    MessageBox.Show("어디 나사하나 빠진 파일 같습니다.");
+                if (!proj.CanOpen)
                     return null;
-                }
 
-                return project;
+                return proj;
             }
 
             return null;

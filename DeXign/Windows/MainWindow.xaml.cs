@@ -81,8 +81,6 @@ namespace DeXign.Windows
                 // 프로젝트 열기 실패
                 if (!project.CanOpen)
                 {
-                    // 메박 커스텀하고 내용 바꿀..
-                    MessageBox.Show("어디 나사하나 빠진 파일 같습니다.");
                     return;
                 }
             }

@@ -188,10 +188,10 @@ namespace DeXign.Windows
                 .Where(r => r.ProvideValue().Items.Sum(b => b.Items.Count) > 0)   // 연결된 아이템들
                 .Select(r => r.ProvideValue() as PBinderHost)   // BinderHost 선택
                 .ToArray();
-
+            
             DXCompileResult result = DXCompiler.Compile(
                 new DXCompileParameter(dxCompileOption, screens, binderHosts));
-            
+
             if (result.IsSuccess)
             {
                 OnCompileSuccess(result);
