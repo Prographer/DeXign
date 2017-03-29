@@ -65,6 +65,7 @@ namespace DeXign.IO
             try
             {
                 LoadPackages();
+
                 LoadManifest();
                 LoadScreens();
                 LoadScreenRenderers();
@@ -110,8 +111,8 @@ namespace DeXign.IO
             Components.Clear();
 
             var screenFiles = packageFiles
-                .Where(pf => pf.Name.StartsWith("Screens\\"));
-
+                .Where(pf => pf.Name.IsMatch($"^{ScreenPackageFile.Path}/.+"));
+            
             foreach (PackageFile file in screenFiles)
             {
                 string name = Path.GetFileNameWithoutExtension(file.Name);
@@ -139,7 +140,7 @@ namespace DeXign.IO
         private void LoadScreenRenderers()
         {
             var rendererFiles = packageFiles
-                .Where(pf => pf.Name.StartsWith($"{ScreenRendererPackageFile.Path}\\"));
+                .Where(pf => pf.Name.IsMatch($"^{ScreenRendererPackageFile.Path}/.+"));
             
             foreach (PackageFile file in rendererFiles)
             {

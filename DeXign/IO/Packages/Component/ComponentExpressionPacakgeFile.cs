@@ -7,7 +7,7 @@ namespace DeXign.IO
     internal class ComponentExpressionPackageFile : ModelPackageFile<ObjectContainer<BindExpression>>
     {
         public const string Path = "Component";
-        public const string FileName = "Component\\Expressions.xml";
+        public const string FileName = "Component/Expressions.xml";
 
         public ComponentExpressionPackageFile(List<PComponent> model)
         {

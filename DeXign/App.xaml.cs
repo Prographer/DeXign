@@ -14,6 +14,9 @@ namespace DeXign
             // Local Database
             RecentDB.Open();
 
+            // Load Modules
+            SDKManager.Init();
+
             base.OnStartup(e);
         }
 

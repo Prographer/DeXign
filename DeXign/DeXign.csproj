@@ -55,10 +55,6 @@
     <ApplicationIcon>Resources\Icons\IconLogo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DeXign.Module.System, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DLL\DeXign.Module.System.dll</HintPath>
-    </Reference>
     <Reference Include="LiteDB, Version=3.1.0.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
       <HintPath>..\packages\LiteDB.3.1.0\lib\net35\LiteDB.dll</HintPath>
     </Reference>
@@ -67,9 +63,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationFramework.Aero2" />
-    <Reference Include="SUI">
-      <HintPath>..\DLL\SUI.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />

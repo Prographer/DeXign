@@ -15,7 +15,7 @@ namespace DeXign.IO
 
         public ScreenRendererPackageFile(ScreenRenderer screenRenderer)
         {
-            this.Name = $"{Path}\\{LayoutExtension.GetPageName(screenRenderer.Model)}.xml";
+            this.Name = $"{Path}/{LayoutExtension.GetPageName(screenRenderer.Model)}.xml";
 
             List<IRenderer> childrens = RendererTreeHelper
                 .FindChildrens<IRenderer>(screenRenderer)

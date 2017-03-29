@@ -296,6 +296,11 @@ namespace DeXign.Editor.Renderer
 
             Point undoPosition = beginPosition;
             Point doPosition = new Point(Canvas.GetLeft(this.Element), Canvas.GetTop(this.Element));
+            
+            // 아무 작업 없음
+            if (undoPosition.Equals(doPosition) && 
+                undoMargin.Equals(doMargin))
+                return;
 
             // 이동 태스크
             this.Storyboard.TaskManager.Push(
@@ -336,6 +341,12 @@ namespace DeXign.Editor.Renderer
 
             Point undoPosition = beginPosition;
             Point doPosition = new Point(Canvas.GetLeft(this.Element), Canvas.GetTop(this.Element));
+
+            // 아무 작업 없음
+            if (undoSize.Equals(doSize) && 
+                undoMargin.Equals(doMargin) && 
+                undoPosition.Equals(doPosition))
+                return;
 
             // 이동 태스크
             this.Storyboard.TaskManager.Push(

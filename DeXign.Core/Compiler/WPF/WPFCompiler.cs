@@ -118,7 +118,7 @@ namespace DeXign.Core.Compiler
             compileParam.TempFiles.AddFile(tempResFileName, false);
 
             // 출력 폴더 생성
-            DirectoryEx.CreateDirectory(directory);
+            DirectoryEx.Create(directory);
 
             // Generate Native Code
             string[] screensXaml = layoutGenerator.Generate().ToArray();

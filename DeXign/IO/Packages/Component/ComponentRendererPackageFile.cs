@@ -13,7 +13,7 @@ namespace DeXign.IO
     internal class ComponentRendererPackageFile : ModelPackageFile<ObjectContainer<RendererSurface>>
     {
         public const string Path = "Renderers";
-        public const string FileName = "Renderers\\Components.xml";
+        public const string FileName = "Renderers/Components.xml";
 
         public ComponentRendererPackageFile(List<PComponent> list)
         {

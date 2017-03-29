@@ -1,16 +1,22 @@
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace DeXign.Extension
 {
     public static class StringEx
     {
-        public static bool AnyEquals(this string expression, string obj)
+        public static bool IsMatch(this string input, string pattern)
         {
-            return expression.Equals(obj, StringComparison.OrdinalIgnoreCase);
+            return Regex.IsMatch(input, pattern);
         }
 
-        public static TEnum? ToEnum<TEnum>(this string expression) where TEnum : struct
+        public static bool AnyEquals(this string input, string obj)
+        {
+            return input.Equals(obj, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static TEnum? ToEnum<TEnum>(this string input) where TEnum : struct
         {
             var type = typeof(TEnum);
 
@@ -18,7 +24,7 @@ namespace DeXign.Extension
             {
                 var q = type.GetEnumValues()
                     .Cast<TEnum>()
-                    .Where(e => e.ToString().AnyEquals(expression));
+                    .Where(e => e.ToString().AnyEquals(input));
 
                 if (q.Count() > 0)
                     return q.First();

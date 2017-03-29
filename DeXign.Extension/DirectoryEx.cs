@@ -5,7 +5,7 @@ namespace DeXign.Extension
 {
     public static class DirectoryEx
     {
-        public static void CreateDirectory(string directory)
+        public static void Create(string directory)
         {
             string[] seg = directory.Split('\\');
 
