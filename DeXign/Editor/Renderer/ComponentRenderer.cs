@@ -16,6 +16,7 @@ using DeXign.OS;
 using System.Windows.Documents;
 using System.Diagnostics;
 using DeXign.Core.Controls;
+using DeXign.Render;
 
 namespace DeXign.Editor.Renderer
 {
@@ -52,7 +53,8 @@ namespace DeXign.Editor.Renderer
 
         private Border elementBorder;
         private Brush selectionBrush;
-        private FontFamily fontNotoSans;
+
+        private GlyphRunFactory gFactory;
 
         public ComponentRenderer(TElement adornedElement, TModel model) : base(adornedElement)
         {
@@ -61,12 +63,12 @@ namespace DeXign.Editor.Renderer
             this.SetAdornerIndex(10);
 
             this.Metadata = new RendererMetadata();
-            
+
             this.Model = model;
             this.Element = adornedElement;
 
             this.Element.SetComponentModel(this.Model);
-            
+
             this.Element.AddSelectedHandler(OnSelected);
             this.Element.AddUnselectedHandler(OnUnSelected);
 
@@ -84,7 +86,10 @@ namespace DeXign.Editor.Renderer
         private void InitializeResources()
         {
             selectionBrush = ResourceManager.GetBrush("Flat.Accent.DeepDark");
-            fontNotoSans = ResourceManager.GetFont("NotoSans.Light");
+
+            gFactory = GlyphRunFactory.Create(
+                new Typeface(
+                    ResourceManager.GetFont("NotoSans.Light"), FontStyles.Normal, FontWeights.Bold, FontStretches.Normal));
         }
 
         private void OnSelected(object sender, SelectionChangedEventArgs e)
@@ -148,7 +153,7 @@ namespace DeXign.Editor.Renderer
 
             var outputThumb = outputBinder.GetView<BindThumb>();
             var inputThumb = inputBinder.GetView<BindThumb>();
-            
+
             DisconnectVisualLine(outputThumb, inputThumb);
         }
 
@@ -175,7 +180,7 @@ namespace DeXign.Editor.Renderer
             }
 
             // 보더 가져옴
-            elementBorder= this.Element.FindVisualChildrens<Border>()
+            elementBorder = this.Element.FindVisualChildrens<Border>()
                 .FirstOrDefault(b => b.Name == "border");
         }
 
@@ -241,7 +246,7 @@ namespace DeXign.Editor.Renderer
         {
             AdornerLayer layer = this.Storyboard.GetAdornerLayer();
             Rect bound = GetBound();
-            
+
             foreach (IRenderer r in RendererTreeHelper.FindChildrens<IRenderer>(this.Storyboard.GetRenderer(), true, true))
             {
                 if (r.Model is PVisual && r is IUISupport support)
@@ -321,19 +326,9 @@ namespace DeXign.Editor.Renderer
                 textBrush = Brushes.Lime;
             }
 
-            var typeface = new Typeface(fontNotoSans, FontStyles.Normal, FontWeights.Bold, FontStretches.Normal);
-            var formatText = CreateFormattedText(text, 10, typeface, textBrush);
+            var run = gFactory.CreateGlyphRun(text, this.Fit(12), new Rect(new Point(0, 0), this.RenderSize), AlignmentX.Center, AlignmentY.Center);
 
-            var position = new Point(
-                this.RenderSize.Width / 2 - formatText.Width / 2,
-                this.RenderSize.Height / 2 - formatText.Height / 2);
-
-            if (this.RenderSize.Width * 1.1 < formatText.Width)
-            {
-                return;
-            }
-
-            drawingContext.DrawText(formatText, position);
+            drawingContext.DrawGlyphRun(textBrush, run);
         }
 
         private void DrawOutLine(DrawingContext drawingContext, Brush penBrush, double strokeWidth, double opacity = 1)

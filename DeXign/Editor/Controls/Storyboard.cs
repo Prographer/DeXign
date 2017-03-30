@@ -50,12 +50,11 @@ namespace DeXign.Editor.Controls
 
         #region [ Local Variable ]
         private ClosableTabItem mangedTabItem;
-        private DispatcherTimer updateTimer;
 
         private Popup componentBoxPopup;
         private Point componentBoxPosition;
         private ComponentBox componentBox;
-        
+
         private Stack<LineConnectorBase> pendingLines;
         private LineConnectorCollection lineCollection;
 
@@ -63,13 +62,13 @@ namespace DeXign.Editor.Controls
         private ReciprocalConverter scaleConverter;
         private ScaleTransform scaleTransform;
         #endregion
-        
+
         #region [ Constructor ]
         public Storyboard()
         {
             if (DesignerProperties.GetIsInDesignMode(this))
                 return;
-            
+
             InitializeLayer();
             InitializeComponents();
             InitializeBindings();
@@ -102,15 +101,17 @@ namespace DeXign.Editor.Controls
             componentBox.ItemSelected += ComponentBox_ItemSelected;
 
             // Line Update Timer
-            updateTimer = new DispatcherTimer()
-            {
-                Interval = TimeSpan.FromMilliseconds(17)
-            };
-
-            updateTimer.Tick += UpdateTimer_Tick;
-            updateTimer.Start();
+            CompositionTarget.Rendering += CompositionTarget_Rendering;
         }
-        
+
+        private void CompositionTarget_Rendering(object sender, EventArgs e)
+        {
+            foreach (var line in lineCollection)
+                line.Update();
+
+            LineLayer.InvalidateArrange();
+        }
+
         private void InitializeBindings()
         {
             this.InputBindings.Add(
@@ -143,7 +144,7 @@ namespace DeXign.Editor.Controls
             this.CommandBindings.Add(
                 new CommandBinding(DXCommands.DesignModeCommand, DesignMode_Execute));
         }
-        
+
         private void InitializeLayer()
         {
             GuideLayer = new GuideLayer(this);
@@ -185,7 +186,7 @@ namespace DeXign.Editor.Controls
                     converter: scaleConverter);
             }
         }
-        
+
         private void Storyboard_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (DataContext is StoryboardModel sbModel)
@@ -205,14 +206,6 @@ namespace DeXign.Editor.Controls
                 mangedTabItem = frame.Parent as ClosableTabItem;
                 mangedTabItem.Closed += MangedTabItem_Closed;
             }
-        }
-
-        private void UpdateTimer_Tick(object sender, EventArgs e)
-        {
-            foreach (var line in lineCollection)
-                line.Update();
-
-            LineLayer.InvalidateArrange();
         }
         #endregion
 
@@ -251,7 +244,7 @@ namespace DeXign.Editor.Controls
                 GroupSelector.UnselectAll();
             }
         }
-        
+
         private void DeleteLayer(IRenderer renderer)
         {
             var element = renderer.Element;
@@ -357,16 +350,16 @@ namespace DeXign.Editor.Controls
             var metadata = DesignerManager.GetElementType(typeof(PContentPage));
             var control = this.GenerateToElement(this, metadata.Element, pushTask: false) as ContentControl;
             var model = (PContentPage)control.GetRenderer().Model;
-            
+
             LayoutExtension.SetPageName(
-                model, 
+                model,
                 $"Screen{Screens?.Count}");
 
             Keyboard.Focus(this);
-            
+
             return control;
         }
-        
+
         /// <summary>
         /// 어셈블리의 <see cref="DesignElementAttribute"/> 특성으로 등록된 데이터 모델 <see cref="Type"/>의 <see cref="IRenderer{TModel, TElement}"/>를 생성 후 Parent의 자식으로 설정합니다.
         /// </summary>
@@ -375,7 +368,7 @@ namespace DeXign.Editor.Controls
         /// <returns></returns>
         public FrameworkElement GenerateToElement(
             FrameworkElement parent,
-            Type type, 
+            Type type,
             Point position = default(Point),
             bool pushTask = true)
         {
@@ -416,7 +409,7 @@ namespace DeXign.Editor.Controls
             {
                 AddElement(parent, visual);
             }
-            
+
             return visual;
         }
 
@@ -540,7 +533,7 @@ namespace DeXign.Editor.Controls
         {
             LineLayer.InvalidateArrange();
         }
-        
+
         /// <summary>
         /// 연결점을 시각적으로 동기화시켜주는 임시 <see cref="LineConnectorBase"/>를 생성합니다.
         /// </summary>
@@ -575,7 +568,7 @@ namespace DeXign.Editor.Controls
             BindThumb target)
         {
             var connector = CreateConnectedLine(output, target);
-            
+
             // add pending line
             pendingLines.Push(connector);
             lineCollection.Remove(connector);
@@ -628,7 +621,7 @@ namespace DeXign.Editor.Controls
                 return null;
 
             var connector = new LineConnector(this, output, input);
-            
+
             if (ZoomPanel != null)
             {
                 connector.Line.LineBrush = Brushes.DimGray;
@@ -668,7 +661,7 @@ namespace DeXign.Editor.Controls
         {
             if (!HasPendingConnectedLine())
                 return;
-            
+
             var connector = pendingLines.Pop();
 
             connector.Updated -= Connector_Updated;
@@ -699,7 +692,7 @@ namespace DeXign.Editor.Controls
         public FrameworkElement AddNewComponent(ComponentBoxItemModel model, Point position)
         {
             Type pType = model.ItemModelType;
-            
+
             if (pType == null)
             {
                 MessageBox.Show("Coming soon! (Logic)");
@@ -733,12 +726,12 @@ namespace DeXign.Editor.Controls
 
                 functionRenderer.Model.SetRuntimeFunction(model.Data as MethodInfo);
             }
-            
+
             ZoomFocusTo(control.GetRenderer());
-            
+
             return control;
         }
-        
+
         private void Storyboard_Deactivated(object sender, EventArgs e)
         {
             CloseComponentBox();
@@ -760,7 +753,7 @@ namespace DeXign.Editor.Controls
             // Popup Child Force Measure
             componentBox.Measure(
                 new Size(componentBox.MaxWidth, componentBox.MaxHeight));
-            
+
             // Popup Open
             componentBoxPopup.IsOpen = true;
         }
@@ -785,7 +778,7 @@ namespace DeXign.Editor.Controls
         internal void ConnectComponent(BindThumb outputThumb, BindThumb inputThumb)
         {
             outputThumb.Binder.Bind(inputThumb.Binder);
-            
+
             // Connect
             ConnectComponentLine(outputThumb, inputThumb);
         }
@@ -801,7 +794,7 @@ namespace DeXign.Editor.Controls
                     connector.Line.LineBrush = ResourceManager.GetBrush("Flat.Accent.DeepDark");
             }
 
-            
+
 
             connector?.Update();
         }
@@ -813,7 +806,7 @@ namespace DeXign.Editor.Controls
                 DeleteConnectedLine(line);
             }
         }
-        
+
 
         private void ComponentBox_ItemSelected(object sender, ComponentBoxItemModel model)
         {
@@ -907,7 +900,6 @@ namespace DeXign.Editor.Controls
 
         private void MangedTabItem_Closed(object sender, EventArgs e)
         {
-            updateTimer.Stop();
             Model.Project.Close();
         }
     }

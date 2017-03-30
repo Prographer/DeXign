@@ -265,6 +265,7 @@
     <Compile Include="IO\Packages\ScreenPackageFile.cs" />
     <Compile Include="IO\Package.cs" />
     <Compile Include="IO\PackageFile.cs" />
+    <Compile Include="Render\GlyphRunFactory.cs" />
     <Compile Include="SDKManager.cs" />
     <Compile Include="System\Mouse.cs" />
     <Compile Include="System\Screen.cs" />

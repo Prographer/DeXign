@@ -183,7 +183,6 @@ namespace DeXign.Editor.Layer
         const double ValueBoxBlank = 2;
 
         LayerMoveThumb moveThumb;
-        Rectangle frame;
         Grid resizeGrid;
         Grid clipGrid;
         bool cancelNextInvert;
@@ -279,16 +278,6 @@ namespace DeXign.Editor.Layer
             // Selection
             moveThumb.PreviewMouseLeftButtonDown += MoveThumb_PreviewMouseLeftButtonDown;
             moveThumb.PreviewMouseLeftButtonUp += MoveThumb_PreviewMouseLeftButtonUp;
-            #endregion
-
-            #region < Add Frame >
-            Add(frame = new Rectangle()
-            {
-                Visibility = Visibility.Collapsed,
-                Stroke = Brushes.Red,
-                StrokeThickness = 1,
-                SnapsToDevicePixels = true
-            });
             #endregion
 
             #region < Add Margin Clips >
@@ -470,21 +459,10 @@ namespace DeXign.Editor.Layer
                 scale, ScaleTransform.ScaleYProperty,
                 converter: reciprocalConverter);
 
-            // ParentScale X -> frame StrokeThickness
-            BindingEx.SetBinding(
-                Zoom, ZoomPanel.ScaleProperty,
-                frame, Shape.StrokeThicknessProperty,
-                converter: reciprocalConverter);
-
             // SelectionBrush -> triggerButton Background
             BindingEx.SetBinding(
                 this, SelectionBrushProperty,
                 TriggerButton, Control.BackgroundProperty);
-
-            // SelectionBrush -> frame Stroke
-            BindingEx.SetBinding(
-                this, SelectionBrushProperty,
-                frame, Shape.StrokeProperty);
 
             var reverseConverter = new MultiplayConverter()
             {
@@ -789,14 +767,11 @@ namespace DeXign.Editor.Layer
         
         private void UpdateFrame()
         {
-            frame.Visibility = Visibility.Collapsed;
             resizeGrid.Visibility = Visibility.Collapsed;
             TriggerButton.Visibility = Visibility.Collapsed;
 
             if (DesignMode != DesignMode.None)
             {
-                frame.Visibility = Visibility.Visible;
-
                 if (DesignMode == DesignMode.Size)
                     resizeGrid.Visibility = Visibility.Visible;
                 else

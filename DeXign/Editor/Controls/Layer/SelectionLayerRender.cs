@@ -9,6 +9,7 @@ using System.Windows.Input;
 using DeXign.UI;
 using System.Reflection;
 using System.Windows.Controls;
+using System.Diagnostics;
 
 namespace DeXign.Editor.Layer
 {
@@ -18,13 +19,6 @@ namespace DeXign.Editor.Layer
         protected override Size ArrangeOverride(Size finalSize)
         {
             var arrangeSize = base.ArrangeOverride(finalSize);
-
-            // * Virtual Bound Arrange *
-
-            var rect = new Rect(new Point(0, 0), RenderSize);
-            this.InflateFit(ref rect, 1, 1);
-             
-            frame.Arrange(rect);
 
             // * Vritual Parent Bound Arrange *
 
@@ -37,7 +31,7 @@ namespace DeXign.Editor.Layer
 
             if (virtualHeight == 0)
                 virtualHeight = this.Fit(ClipData.TopClip.RenderSize.Height);
-            
+
             ClipData.LeftClip.Arrange(
                 new Rect(
                     parentRect.X - virtualWidth / 2, 0,
@@ -58,22 +52,13 @@ namespace DeXign.Editor.Layer
                     0, parentRect.Bottom - virtualHeight / 2,
                     RenderSize.Width, virtualHeight));
 
-            // * Virtual Thumb Bound Arrange *
-            /*parentRect.X = Math.Max(parentRect.X, 0);
-            parentRect.Y = Math.Max(parentRect.Y, 0);
-            parentRect.Width = Math.Min(parentRect.Width, moveThumb.RenderSize.Width);
-            parentRect.Height = Math.Min(parentRect.Height, moveThumb.RenderSize.Height);
-            
-            moveThumb.Measure(parentRect.Size);
-            moveThumb.Arrange(parentRect);*/
-
             return arrangeSize;
         }
 
         protected void BeginGuidelineSet(DrawingContext dc)
         {
             var guidelines = new GuidelineSet();
-            
+
             guidelines.GuidelinesX.Add(this.Fit(1) / 2);
             guidelines.GuidelinesX.Add(this.Fit(1) / 2);
             guidelines.GuidelinesY.Add(this.Fit(1) / 2);
@@ -96,7 +81,10 @@ namespace DeXign.Editor.Layer
             BeginGuidelineSet(dc);
 
             OnDispatchRender(dc);
-            
+
+            if (DesignMode != DesignMode.None)
+                DrawSelectedFrame(dc);
+
             if (DesignMode == DesignMode.Size)
             {
                 if (DisplayMargin)
@@ -118,12 +106,20 @@ namespace DeXign.Editor.Layer
             EndGuidelineSet(dc);
         }
 
+        private void DrawSelectedFrame(DrawingContext dc)
+        {
+            var pen = CreatePen(SelectionBrush, 1);
+            var rect = new Rect(new Point(), this.RenderSize);
+
+            dc.DrawRectangle(null, pen, rect);
+        }
+
         private void DrawClickArea(DrawingContext dc)
         {
             dc.DrawRectangle(
                 Brushes.Transparent,
                 null,
-                new Rect(new Point(0, 0), RenderSize));
+                new Rect(new Point(0, 0), this.RenderSize));
         }
 
         private void DrawFrame(DrawingContext dc)
@@ -154,7 +150,7 @@ namespace DeXign.Editor.Layer
                 var bound = new Rect(0, 0, this.RenderSize.Width, this.RenderSize.Height);
 
                 this.InflateFit(ref bound, 2, 2);
-                
+
                 dc.DrawRectangle(null, dashedPen, bound);
             }
         }
@@ -283,7 +279,7 @@ namespace DeXign.Editor.Layer
                 if (parentLayout.Bound.Y < 0)
                     textBoundTop.Y = parentLayout.Bound.Top - Blank * 2 - textBoundTop.Width / 2 - textBoundTop.Height / 2;
                 else
-                    textBoundTop.Y = parentLayout.Bound.Top + Blank * 2 + textBoundTop.Width / 2 - textBoundTop.Height / 2; 
+                    textBoundTop.Y = parentLayout.Bound.Top + Blank * 2 + textBoundTop.Width / 2 - textBoundTop.Height / 2;
 
                 textPositionTop.Y = textBoundTop.Y + this.Fit(ValueBoxBlank);
             }
@@ -360,7 +356,7 @@ namespace DeXign.Editor.Layer
             // Value Box Wrapping
             if (textBound.Width >= lineWidth)
             {
-                textBound.Y += this.Fit(isBottom ? 15d : -15d);
+                textBound.Y += this.Fit(15d) * (isBottom ? 1 : -1);
                 textPosition.Y = textBound.Y + ValueBoxBlank;
             }
 
@@ -468,7 +464,7 @@ namespace DeXign.Editor.Layer
                 size.Width = bound.Width;
                 size.Height = bound.Height;
             }
-            
+
             return new Rect(
                 position,
                 size);
@@ -492,7 +488,7 @@ namespace DeXign.Editor.Layer
 
             if (element is SpacingStackPanel ssp)
                 return ssp.Padding;
-            
+
             return new Thickness(0);
         }
         #endregion
