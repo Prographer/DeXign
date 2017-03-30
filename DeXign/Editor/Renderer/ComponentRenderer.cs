@@ -326,7 +326,8 @@ namespace DeXign.Editor.Renderer
                 textBrush = Brushes.Lime;
             }
 
-            var run = gFactory.CreateGlyphRun(text, this.Fit(12), new Rect(new Point(0, 0), this.RenderSize), AlignmentX.Center, AlignmentY.Center);
+            var rect = new Rect(new Point(0, 0), this.RenderSize);
+            var run = gFactory.CreateGlyphRun(text, this.Fit(12), rect, AlignmentX.Center, AlignmentY.Center);
 
             drawingContext.DrawGlyphRun(textBrush, run);
         }

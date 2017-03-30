@@ -81,10 +81,7 @@ namespace DeXign.Editor.Layer
             BeginGuidelineSet(dc);
 
             OnDispatchRender(dc);
-
-            if (DesignMode != DesignMode.None)
-                DrawSelectedFrame(dc);
-
+            
             if (DesignMode == DesignMode.Size)
             {
                 if (DisplayMargin)
@@ -102,6 +99,9 @@ namespace DeXign.Editor.Layer
                 if (DisplayHeightRight)
                     DrawGuideLineHeight(dc, true);
             }
+
+            if (DesignMode != DesignMode.None)
+                DrawSelectedFrame(dc);
 
             EndGuidelineSet(dc);
         }
