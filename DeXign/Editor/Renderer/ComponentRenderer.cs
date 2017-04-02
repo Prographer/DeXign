@@ -54,10 +54,11 @@ namespace DeXign.Editor.Renderer
         private Border elementBorder;
         private Brush selectionBrush;
 
-        private GlyphRunFactory gFactory;
+        private TextBlock descriptionBlock;
 
         public ComponentRenderer(TElement adornedElement, TModel model) : base(adornedElement)
         {
+            InitializeComponent();
             InitializeResources();
 
             this.SetAdornerIndex(10);
@@ -83,13 +84,26 @@ namespace DeXign.Editor.Renderer
             RendererManager.ResolveBinder(this).Binded += ComponentRenderer_Binded;
         }
 
+        private void InitializeComponent()
+        {
+            this.Add(descriptionBlock = new TextBlock()
+            {
+                Visibility = Visibility.Collapsed,
+                IsHitTestVisible = false,
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                FontFamily = ResourceManager.GetFont("NotoSans.Light"),
+                FontSize = 12
+            });
+        }
+
         private void InitializeResources()
         {
             selectionBrush = ResourceManager.GetBrush("Flat.Accent.DeepDark");
 
-            gFactory = GlyphRunFactory.Create(
-                new Typeface(
-                    ResourceManager.GetFont("NotoSans.Light"), FontStyles.Normal, FontWeights.Bold, FontStretches.Normal));
+            //gFactory = GlyphRunFactory.Create(
+            //    new Typeface(
+            //        ResourceManager.GetFont("NotoSans.Light"), FontStyles.Normal, FontWeights.Bold, FontStretches.Normal));
         }
 
         private void OnSelected(object sender, SelectionChangedEventArgs e)
@@ -182,6 +196,8 @@ namespace DeXign.Editor.Renderer
             // 보더 가져옴
             elementBorder = this.Element.FindVisualChildrens<Border>()
                 .FirstOrDefault(b => b.Name == "border");
+
+            this.Storyboard.SetUnscaledProperty(descriptionBlock, TextBlock.FontSizeProperty);
         }
 
         public void AddChild(IRenderer child, Point position)
@@ -285,10 +301,14 @@ namespace DeXign.Editor.Renderer
 
         private void DrawOutSight(DrawingContext drawingContext)
         {
+            descriptionBlock.Visibility = Visibility.Collapsed;
+
             if (this.Zoom.Scale < MaxZoom)
             {
                 DrawOutLine(drawingContext, this.Element.AccentBrush, 1);
                 OnDrawOutSight(drawingContext);
+
+                descriptionBlock.Visibility = Visibility.Visible;
             }
         }
 
@@ -326,10 +346,13 @@ namespace DeXign.Editor.Renderer
                 textBrush = Brushes.Lime;
             }
 
-            var rect = new Rect(new Point(0, 0), this.RenderSize);
-            var run = gFactory.CreateGlyphRun(text, this.Fit(12), rect, AlignmentX.Center, AlignmentY.Center);
+            descriptionBlock.Foreground = textBrush;
+            descriptionBlock.Text = text;
 
-            drawingContext.DrawGlyphRun(textBrush, run);
+            //var rect = new Rect(new Point(0, 0), this.RenderSize);
+            //var run = gFactory.CreateGlyphRun(text, this.Fit(12), rect, AlignmentX.Center, AlignmentY.Center);
+
+            //drawingContext.DrawGlyphRun(textBrush, run);
         }
 
         private void DrawOutLine(DrawingContext drawingContext, Brush penBrush, double strokeWidth, double opacity = 1)

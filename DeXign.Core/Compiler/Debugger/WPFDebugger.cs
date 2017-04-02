@@ -33,7 +33,7 @@ namespace DeXign.Core.Compiler
             {
                 await Task.Delay(1000);
 
-                this.AppProcess.Refresh();
+                this.AppProcess?.Refresh();
             }
 
             await this.Stop();

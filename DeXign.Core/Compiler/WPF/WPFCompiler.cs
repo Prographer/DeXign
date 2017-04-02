@@ -12,6 +12,7 @@ using DeXign.Core.Logic;
 
 using Microsoft.CSharp;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace DeXign.Core.Compiler
 {
@@ -187,32 +188,43 @@ namespace DeXign.Core.Compiler
             compileParam.CompilerOptions = $"/target:winexe /win32icon:{tempIconPath}";
 
 #if DEBUG
-            DeXign.UI.SpacingStackPanel s;
+            UI.SpacingStackPanel s;
 
             var w = new Window()
             {
                 WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                Content = new System.Windows.Controls.ScrollViewer()
+                Content = new ScrollViewer()
                 {
-                    Content = (s = new DeXign.UI.SpacingStackPanel()
+                    Content = (s = new UI.SpacingStackPanel()
                     {
                         Spacing = 40
                     })
                 }
             };
 
+            foreach (string xaml in screensXaml)
+            {
+                s.Children.Add(
+                    new TextBox()
+                    {
+                        VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+                        IsReadOnly = true,
+                        Text = xaml
+                    });
+            }
+
             foreach (string code in csSources)
             {
                 s.Children.Add(
-                    new System.Windows.Controls.TextBox()
+                    new TextBox()
                     {
-                        VerticalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Auto,
+                        VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
                         IsReadOnly = true,
                         Text = code
                     });
             }
 
-            w.ShowDialog();
+            w.Show();
 #endif
             // Compile Binary
             CompilerResults compileResult = provider.CompileAssemblyFromSource(compileParam, csSources.ToArray());

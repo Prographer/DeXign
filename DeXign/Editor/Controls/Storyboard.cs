@@ -888,9 +888,27 @@ namespace DeXign.Editor.Controls
         }
         #endregion
 
-        public void SetUnscaledControl(UIElement element)
+        public void SetUnscaledControl(FrameworkElement element)
         {
-            element.RenderTransform = scaleTransform;
+            element.LayoutTransform = scaleTransform;
+        }
+
+        public void SetUnscaledProperty(FrameworkElement element, DependencyProperty property)
+        {
+            element.LayoutTransform = scaleTransform;
+            return;
+            if (property.PropertyType != typeof(double))
+                throw new ArgumentException("Support only double property");
+
+            double factor = (double)element.GetValue(property);
+
+            BindingEx.SetBinding(
+                ZoomPanel, ZoomPanel.ScaleProperty,
+                element, property,
+                converter: new ReciprocalConverter()
+                {
+                    Factor = factor
+                });
         }
 
         public void Close()

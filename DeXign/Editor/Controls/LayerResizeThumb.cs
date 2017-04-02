@@ -1,17 +1,12 @@
+using DeXign.Controls;
+using DeXign.Editor.Layer;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Shell;
-
-using DeXign.Editor.Layer;
-using DeXign.Extension;
-
 using WPFExtension;
-using System.Collections.Generic;
-using DeXign.Controls;
-using System.Windows.Input;
 
 namespace DeXign.Editor.Controls
 {
@@ -35,6 +30,7 @@ namespace DeXign.Editor.Controls
         private Vector beginSize;
         private Vector beginPosition;
         private Thickness beginThickness;
+        private Thickness beginTargetThickness;
         private Rect beginBound;
         private Vector positionLimit;
 
@@ -78,6 +74,7 @@ namespace DeXign.Editor.Controls
                 var position = Target.TranslatePoint(new Point(0, 0), (UIElement)Target.Parent);
 
                 beginThickness = Layer.GetParentLayoutInfo().Margin;
+                beginTargetThickness = Target.Margin;
 
                 beginThickness.Left *= -1;
                 beginThickness.Top *= -1;
@@ -121,7 +118,7 @@ namespace DeXign.Editor.Controls
                 ResizeDirection == ResizeGripDirection.BottomLeft ||
                 ResizeDirection == ResizeGripDirection.BottomRight;
 
-            Thickness margin = beginThickness;
+            Thickness margin = beginTargetThickness;
             var parentLayout = Layer.GetParentLayoutInfo();
 
             if (hasSizingTop)
@@ -132,24 +129,24 @@ namespace DeXign.Editor.Controls
                         SizingHeight(-deltaY * 2);
                         break;
 
-                    case VerticalAlignment.Bottom:
-                        {
-                            double sizedHeight = SizingHeight(-deltaY);
-                            margin.Top = Math.Min(parentLayout.Bound.Height - sizedHeight - margin.Bottom, 0);
-                        }
-                        break;
-
                     case VerticalAlignment.Stretch:
-                        margin.Bottom = parentLayout.Bound.Height - parentLayout.Bound.Y - Target.RenderSize.Height;
+                        margin.Bottom = beginThickness.Bottom;
                         margin.Top = Math.Min(
-                            beginThickness.Top + deltaY, 
-                            beginBound.Bottom - Target.GetDesignMinHeight());
+                            beginThickness.Top + deltaY,
+                            parentLayout.Bound.Height - beginThickness.Bottom - Target.GetDesignMinHeight());
                         break;
 
                     case VerticalAlignment.Top:
                         {
                             double sizedHeight = SizingHeight(-deltaY);
-                            margin.Top = parentLayout.Bound.Height - sizedHeight - margin.Bottom;
+                            margin.Top = beginBound.Bottom - sizedHeight;
+                        }
+                        break;
+
+                    case VerticalAlignment.Bottom:
+                        {
+                            double sizedHeight = SizingHeight(-deltaY);
+                            margin.Top = Math.Min(parentLayout.Bound.Height - sizedHeight - margin.Bottom, 0);
                         }
                         break;
                 }
@@ -162,22 +159,24 @@ namespace DeXign.Editor.Controls
                     case VerticalAlignment.Center:
                         SizingHeight(deltaY * 2);
                         break;
-                        
+
                     case VerticalAlignment.Stretch:
-                        margin.Bottom = beginThickness.Bottom - deltaY;
+                        margin.Bottom = Math.Min(
+                                beginThickness.Bottom - deltaY,
+                                parentLayout.Bound.Height - beginThickness.Top - Target.GetDesignMinHeight());
                         break;
 
                     case VerticalAlignment.Top:
                     case VerticalAlignment.Bottom:
                         {
-                            double sizedHeight = SizingHeight(deltaY);
-                            margin.Bottom = parentLayout.Bound.Height - parentLayout.Bound.Y - sizedHeight;
+                            SizingHeight(deltaY);
+
+                            margin.Bottom = Math.Min(
+                                beginThickness.Bottom - deltaY,
+                                parentLayout.Bound.Height - beginThickness.Top - Target.GetDesignMinHeight());
 
                             if (Layer.ClipData.VerticalAlignment == VerticalAlignment.Top)
                                 margin.Bottom = Math.Min(margin.Bottom, 0);
-
-                            if (Layer.Parent is IStackLayout)
-                                margin.Bottom = beginThickness.Bottom;
                         }
                         break;
                 }
@@ -191,24 +190,24 @@ namespace DeXign.Editor.Controls
                         SizingWidth(-deltaX * 2);
                         break;
 
-                    case HorizontalAlignment.Right:
-                        {
-                            double sizedWidth = SizingWidth(-deltaX);
-                            margin.Left = Math.Min(parentLayout.Bound.Width - sizedWidth - margin.Right, 0);
-                        }
-                        break;
-
                     case HorizontalAlignment.Stretch:
-                        margin.Right = parentLayout.Margin.Right;
+                        margin.Right = beginThickness.Right;
                         margin.Left = Math.Min(
                             beginThickness.Left + deltaX,
-                            parentLayout.Bound.Width - parentLayout.Margin.Right - Target.GetDesignMinWidth());
+                            parentLayout.Bound.Width - beginThickness.Right - Target.GetDesignMinWidth());
                         break;
 
                     case HorizontalAlignment.Left:
                         {
                             double sizedWidth = SizingWidth(-deltaX);
                             margin.Left = beginBound.Right - sizedWidth;
+                        }
+                        break;
+
+                    case HorizontalAlignment.Right:
+                        {
+                            double sizedWidth = SizingWidth(-deltaX);
+                            margin.Left = Math.Min(parentLayout.Bound.Width - sizedWidth - margin.Right, 0);
                         }
                         break;
                 }
@@ -223,20 +222,22 @@ namespace DeXign.Editor.Controls
                         break;
 
                     case HorizontalAlignment.Stretch:
-                        margin.Right = beginThickness.Right - deltaX;
+                        margin.Right = Math.Min(
+                                beginThickness.Right - deltaX,
+                                parentLayout.Bound.Width - beginThickness.Left - Target.GetDesignMinWidth());
                         break;
 
                     case HorizontalAlignment.Left:
                     case HorizontalAlignment.Right:
                         {
                             double sizedWidth = SizingWidth(deltaX);
-                            margin.Right = parentLayout.Bound.Width - parentLayout.Bound.X - sizedWidth;
+
+                            margin.Right = Math.Min(
+                                beginThickness.Right - deltaX,
+                                parentLayout.Bound.Width - beginThickness.Left - Target.GetDesignMinWidth());
 
                             if (Layer.ClipData.HorizontalAlignment == HorizontalAlignment.Left)
                                 margin.Right = Math.Min(margin.Right, 0);
-
-                            if (Layer.Parent is IStackLayout)
-                                margin.Right = beginThickness.Right;
                         }
                         break;
                 }
