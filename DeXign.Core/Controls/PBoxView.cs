@@ -23,7 +23,7 @@ namespace DeXign.Core.Controls
         [WPF("Fill")]
         public Brush Fill
         {
-            get { return GetValue<Brush>(FillProperty); }
+            get { return this.GetValue<Brush>(FillProperty); }
             set { SetValue(FillProperty, value); }
         }
     }

@@ -18,7 +18,7 @@ namespace DeXign.Controls
         
         public double StarWidth
         {
-            get { return (double)GetValue(StarWidthProperty); }
+            get { return this.GetValue<double>(StarWidthProperty); }
             set { SetValue(StarWidthProperty, value); }
         }
         

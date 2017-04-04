@@ -13,7 +13,7 @@ namespace DeXign.Core.Logic
         
         public ComparisonPredicate Operator
         {
-            get { return GetValue<ComparisonPredicate>(OperatorProperty); }
+            get { return this.GetValue<ComparisonPredicate>(OperatorProperty); }
             set { SetValue(OperatorProperty, value); }
         }
         

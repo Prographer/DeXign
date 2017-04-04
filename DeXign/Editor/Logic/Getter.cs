@@ -1,5 +1,6 @@
-﻿using DeXign.Extension;
-using DeXign.Core.Logic;
+﻿using DeXign.Core.Logic;
+
+using WPFExtension;
 
 namespace DeXign.Editor.Logic
 {
@@ -15,7 +16,7 @@ namespace DeXign.Editor.Logic
 
             if (this.ReturnBinder != null)
             {
-                BindingEx.SetBinding(
+                BindingHelper.SetBinding(
                     this, BaseProperty.TargetTypeProperty,
                     this.ReturnBinder, PReturnBinder.ReturnTypeProperty);
             }

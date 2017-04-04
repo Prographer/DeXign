@@ -25,31 +25,31 @@ namespace DeXign.Controls
 
         public CornerRadius CornerRadius
         {
-            get { return (CornerRadius)GetValue(CornerRadiusProperty); }
+            get { return this.GetValue<CornerRadius>(CornerRadiusProperty); }
             set { SetValue(CornerRadiusProperty, value); }
         }
 
         public Brush MouseOverBrush
         {
-            get { return (Brush)GetValue(MouseOverBrushProperty); }
+            get { return this.GetValue<Brush>(MouseOverBrushProperty); }
             set { SetValue(MouseOverBrushProperty, value); }
         }
 
         public Brush MouseDownBrush
         {
-            get { return (Brush)GetValue(MouseDownBrushProperty); }
+            get { return this.GetValue<Brush>(MouseDownBrushProperty); }
             set { SetValue(MouseDownBrushProperty, value); }
         }
 
         public Brush HighlightBrush
         {
-            get { return (Brush)GetValue(HighlightBrushProperty); }
+            get { return this.GetValue<Brush>(HighlightBrushProperty); }
             set { SetValue(HighlightBrushProperty, value); }
         }
 
         public bool IsHighlight
         {
-            get { return (bool)GetValue(IsHighlightProperty); }
+            get { return this.GetValue<bool>(IsHighlightProperty); }
             set { SetValue(IsHighlightProperty, value); }
         }
     }

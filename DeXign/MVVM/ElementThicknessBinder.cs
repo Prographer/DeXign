@@ -4,7 +4,7 @@ using WPFExtension;
 
 namespace DeXign
 {
-    class ElementThicknessBinder : DependencyObjectEx, IDisposable
+    class ElementThicknessBinder : DependencyObject, IDisposable
     {
         public static readonly DependencyProperty LeftProperty =
             DependencyHelper.Register();
@@ -20,26 +20,26 @@ namespace DeXign
 
         public double Left
         {
-            get { return GetValue<double>(LeftProperty); }
-            set { SetValue(LeftProperty, value); }
+            get { return this.GetValue<double>(LeftProperty); }
+            set { this.SetValue(LeftProperty, value); }
         }
 
         public double Top
         {
-            get { return GetValue<double>(TopProperty); }
-            set { SetValue(TopProperty, value); }
+            get { return this.GetValue<double>(TopProperty); }
+            set { this.SetValue(TopProperty, value); }
         }
 
         public double Right
         {
-            get { return GetValue<double>(RightProperty); }
-            set { SetValue(RightProperty, value); }
+            get { return this.GetValue<double>(RightProperty); }
+            set { this.SetValue(RightProperty, value); }
         }
 
         public double Bottom
         {
-            get { return GetValue<double>(BottomProperty); }
-            set { SetValue(BottomProperty, value); }
+            get { return this.GetValue<double>(BottomProperty); }
+            set { this.SetValue(BottomProperty, value); }
         }
 
         public DependencyObject Target { get; private set; }

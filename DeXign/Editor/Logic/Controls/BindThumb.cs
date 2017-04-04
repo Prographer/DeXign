@@ -47,20 +47,20 @@ namespace DeXign.Editor.Logic
 
         public bool HasBindError
         {
-            get { return (bool)GetValue(HasBindErrorProperty); }
+            get { return this.GetValue<bool>(HasBindErrorProperty); }
             set { SetValue(HasBindErrorProperty, value); }
         }
 
         public BindOptions BindOption
         {
-            get { return (BindOptions)GetValue(BindOptionProperty); }
+            get { return this.GetValue<BindOptions>(BindOptionProperty); }
             set { SetValue(BindOptionProperty, value); }
         }
 
 #if DEBUG
         public bool IsDebug
         {
-            get { return (bool)GetValue(IsDebugProperty); }
+            get { return this.GetValue<bool>(IsDebugProperty); }
             set { SetValue(IsDebugProperty, value); }
         }
 #endif

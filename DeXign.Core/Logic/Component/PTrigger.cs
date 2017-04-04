@@ -61,7 +61,7 @@ namespace DeXign.Core.Logic
 
         public string EventName
         {
-            get { return GetValue<string>(EventNameProperty); }
+            get { return this.GetValue<string>(EventNameProperty); }
             set { SetValue(EventNameProperty, value); }
         }
         
@@ -69,7 +69,7 @@ namespace DeXign.Core.Logic
         {
             get
             {
-                return GetValue<DXEventInfo>(EventInfoProperty);
+                return this.GetValue<DXEventInfo>(EventInfoProperty);
             }
             set
             {
@@ -79,7 +79,7 @@ namespace DeXign.Core.Logic
 
         public NamedParameterInfo[] ParameterInfos
         {
-            get { return GetValue<NamedParameterInfo[]>(ParameterInfosProperty); }
+            get { return this.GetValue<NamedParameterInfo[]>(ParameterInfosProperty); }
             private set { SetValue(ParameterInfosPropertyKey, value); }
         }
         

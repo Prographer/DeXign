@@ -33,13 +33,13 @@ namespace DeXign.Core.Logic
         /// </summary>
         public bool IsDirectValue
         {
-            get { return GetValue<bool>(IsDirectValueProperty); }
+            get { return this.GetValue<bool>(IsDirectValueProperty); }
             set { SetValue(IsDirectValueProperty, value); }
         }
 
         public object DirectValue
         {
-            get { return GetValue<object>(DirectValueProperty); }
+            get { return this.GetValue<object>(DirectValueProperty); }
             set { SetValue(DirectValueProperty, value); }
         }
 

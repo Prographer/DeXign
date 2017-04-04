@@ -19,7 +19,7 @@ namespace DeXign.Core.Controls
         [WPF("Value")]
         public double Progress
         {
-            get { return GetValue<double>(ProgressProperty); }
+            get { return this.GetValue<double>(ProgressProperty); }
             set { SetValue(ProgressProperty, value); }
         }
     }

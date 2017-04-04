@@ -47,8 +47,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
     <Reference Include="WPFExtension, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WPFExtension.1.0.1\lib\net45\WPFExtension.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\WPFExtension.1.1.0\lib\net45\WPFExtension.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -15,13 +15,13 @@ namespace DeXign.Core.Logic
 
         public string Title
         {
-            get { return GetValue<string>(TitleProperty); }
+            get { return this.GetValue<string>(TitleProperty); }
             set { SetValue(TitleProperty, value); }
         }
 
         public new string Description
         {
-            get { return GetValue<string>(DescriptionProperty); }
+            get { return this.GetValue<string>(DescriptionProperty); }
             set { SetValue(DescriptionProperty, value); }
         }
 

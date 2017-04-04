@@ -19,19 +19,19 @@ namespace DeXign.Controls
 
         public string FileName
         {
-            get { return (string)GetValue(FileNameProperty); }
+            get { return this.GetValue<string>(FileNameProperty); }
             set { SetValue(FileNameProperty, value); }
         }
 
         public string Title
         {
-            get { return (string)GetValue(TitleProperty); }
+            get { return this.GetValue<string>(TitleProperty); }
             set { SetValue(TitleProperty, value); }
         }
 
         public string SubTitle
         {
-            get { return (string)GetValue(SubTitleProperty); }
+            get { return this.GetValue<string>(SubTitleProperty); }
             set { SetValue(SubTitleProperty, value); }
         }
 

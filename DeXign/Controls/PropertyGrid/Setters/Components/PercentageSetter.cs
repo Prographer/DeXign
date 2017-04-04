@@ -31,17 +31,17 @@ namespace DeXign.Controls
             slider = GetTemplateChild<Slider>("PART_slider");
             valueBox = GetTemplateChild<TextBox>("PART_valueBox");
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 this, ValueProperty,
                 slider, Slider.ValueProperty);
 
             if (this.Target is PSlider)
             {
-                BindingEx.SetBinding(
+                BindingHelper.SetBinding(
                     this.Target, PSlider.MinimumProperty,
                     slider, Slider.MinimumProperty);
 
-                BindingEx.SetBinding(
+                BindingHelper.SetBinding(
                     this.Target, PSlider.MaximumProperty,
                     slider, Slider.MaximumProperty);
                 

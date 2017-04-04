@@ -40,7 +40,7 @@ namespace DeXign.Controls
 
         public Type EnumType
         {
-            get { return (Type)GetValue(EnumTypeProperty); }
+            get { return this.GetValue<Type>(EnumTypeProperty); }
             set
             {
                 if (!value.IsEnum)
@@ -58,7 +58,7 @@ namespace DeXign.Controls
 
         public ObservableCollection<EnumContent> Contents
         {
-            get { return (ObservableCollection<EnumContent>)GetValue(ContentsPropertyKey.DependencyProperty); }
+            get { return this.GetValue<ObservableCollection<EnumContent>>(ContentsPropertyKey.DependencyProperty); }
         }
 
         public EnumRadioBox()

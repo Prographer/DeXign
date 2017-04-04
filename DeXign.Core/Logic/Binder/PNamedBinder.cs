@@ -11,7 +11,7 @@ namespace DeXign.Core.Logic
 
         public string Title
         {
-            get { return GetValue<string>(TitleProperty); }
+            get { return this.GetValue<string>(TitleProperty); }
             set { SetValue(TitleProperty, value); }
         }
 

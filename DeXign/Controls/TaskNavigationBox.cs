@@ -21,7 +21,7 @@ namespace DeXign.Controls
 
         public TaskManager TaskManager
         {
-            get { return (TaskManager)GetValue(TaskManagerProperty); }
+            get { return this.GetValue<TaskManager>(TaskManagerProperty); }
             set
             {
                 SetValue(TaskManagerProperty, value);
@@ -31,13 +31,13 @@ namespace DeXign.Controls
 
         public bool CanUndo
         {
-            get { return (bool)GetValue(CanUndoProperty); }
+            get { return this.GetValue<bool>(CanUndoProperty); }
             set { SetValue(CanUndoProperty, value); }
         }
 
         public bool CanRedo
         {
-            get { return (bool)GetValue(CanRedoProperty); }
+            get { return this.GetValue<bool>(CanRedoProperty); }
             set { SetValue(CanRedoProperty, value); }
         }
 
@@ -54,12 +54,12 @@ namespace DeXign.Controls
 
                 if (expression == null)
                 {
-                    BindingEx.SetBinding(
+                    BindingHelper.SetBinding(
                         TaskManager, TaskManager.CanRedoProperty,
                         this, TaskNavigationBox.CanRedoProperty,
                         BindingMode.OneWay);
 
-                    BindingEx.SetBinding(
+                    BindingHelper.SetBinding(
                         TaskManager, TaskManager.CanUndoProperty,
                         this, TaskNavigationBox.CanUndoProperty,
                         BindingMode.OneWay);

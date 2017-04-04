@@ -20,13 +20,13 @@ namespace DeXign.Controls
 
         public Uri Link
         {
-            get { return (Uri)GetValue(LinkProperty); }
+            get { return this.GetValue<Uri>(LinkProperty); }
             set { SetValue(LinkProperty, value); }
         }
 
         public ICommand Command
         {
-            get { return (ICommand)GetValue(CommandProperty); }
+            get { return this.GetValue<ICommand>(CommandProperty); }
             set { SetValue(CommandProperty, value); }
         }
 

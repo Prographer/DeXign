@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Reflection;
 
-using DeXign.Extension;
+using WPFExtension;
 
 namespace DeXign.Controls
 {
@@ -22,7 +22,7 @@ namespace DeXign.Controls
 
             ValueRadioBox.Value = this.Value;
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 this, ValueProperty,
                 ValueRadioBox, EnumRadioBox.ValueProperty);
         }

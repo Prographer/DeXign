@@ -25,7 +25,7 @@ namespace DeXign.Core.Controls
         [WPF("Margin")]
         public Thickness Margin
         {
-            get { return GetValue<Thickness>(MarginProperty); }
+            get { return this.GetValue<Thickness>(MarginProperty); }
             set { SetValue(MarginProperty, value); }
         }
 
@@ -34,7 +34,7 @@ namespace DeXign.Core.Controls
         [WPF("VerticalAlignment")]
         public PVerticalAlignment VerticalAlignment
         {
-            get { return GetValue<PVerticalAlignment>(VerticalAlignmentProperty); }
+            get { return this.GetValue<PVerticalAlignment>(VerticalAlignmentProperty); }
             set { SetValue(VerticalAlignmentProperty, value); }
         }
 
@@ -43,7 +43,7 @@ namespace DeXign.Core.Controls
         [WPF("HorizontalAlignment")]
         public PHorizontalAlignment HorizontalAlignment
         {
-            get { return GetValue<PHorizontalAlignment>(HorizontalAlignmentProperty); }
+            get { return this.GetValue<PHorizontalAlignment>(HorizontalAlignmentProperty); }
             set { SetValue(HorizontalAlignmentProperty, value); }
         }
     }

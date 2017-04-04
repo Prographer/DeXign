@@ -13,7 +13,7 @@ namespace DeXign.UI
 
         public string WindowTitle
         {
-            get { return (string)GetValue(WindowTitleProperty); }
+            get { return this.GetValue<string>(WindowTitleProperty); }
             set { SetValue(WindowTitleProperty, value); }
         }
     }

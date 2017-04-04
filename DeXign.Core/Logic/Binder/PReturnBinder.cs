@@ -12,7 +12,7 @@ namespace DeXign.Core.Logic
 
         public Type ReturnType
         {
-            get { return GetValue<Type>(ReturnTypeProperty); }
+            get { return this.GetValue<Type>(ReturnTypeProperty); }
             set { SetValue(ReturnTypeProperty, value); }
         }
 

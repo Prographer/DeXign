@@ -46,19 +46,19 @@ namespace DeXign.Controls
 
         public bool IsLoading
         {
-            get { return (bool)GetValue(IsLoadingProperty); }
+            get { return this.GetValue<bool>(IsLoadingProperty); }
             set { SetValue(IsLoadingProperty, value); }
         }
 
         public int CaptionHeight
         {
-            get { return (int)GetValue(CaptionHeightProperty); }
+            get { return this.GetValue<int>(CaptionHeightProperty); }
             set { SetValue(CaptionHeightProperty, value); }
         }
 
         public Menu Menu
         {
-            get { return (Menu)GetValue(MenuProperty); }
+            get { return this.GetValue<Menu>(MenuProperty); }
             set { SetValue(MenuProperty, value); }
         }
 
@@ -68,7 +68,7 @@ namespace DeXign.Controls
             set { SetValue(SubMenuProperty, value); }
         }
 
-        public IntPtr Handle => (IntPtr)GetValue(HandlePropertyKey.DependencyProperty);
+        public IntPtr Handle => this.GetValue<IntPtr>(HandlePropertyKey.DependencyProperty);
 
         #endregion
 

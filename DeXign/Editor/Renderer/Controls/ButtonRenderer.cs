@@ -22,7 +22,7 @@ namespace DeXign.Editor.Renderer
 
         public double BorderRadius
         {
-            get { return (double)GetValue(BorderRadiusProperty); }
+            get { return this.GetValue<double>(BorderRadiusProperty); }
             set { SetValue(BorderRadiusProperty, value); }
         }
     }
@@ -45,27 +45,27 @@ namespace DeXign.Editor.Renderer
             SetSize(double.NaN, double.NaN);
             
             // Binding
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 Model, PButton.TextProperty,
                 element, Button.ContentProperty);
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 element, Button.ForegroundProperty,
                 Model, PButton.ForegroundProperty);
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 element, Button.BorderThicknessProperty,
                 Model, PButton.BorderThicknessProperty);
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 element, Button.BorderBrushProperty,
                 Model, PButton.BorderBrushProperty);
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 element, RadiusButton.BorderRadiusProperty,
                 Model, PButton.BorderRadiusProperty);
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 element, Button.FontSizeProperty,
                 Model, PButton.FontSizeProperty);
 

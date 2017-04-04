@@ -9,6 +9,8 @@ using DeXign.Extension;
 using DeXign.Converter;
 using DeXign.UI;
 
+using WPFExtension;
+
 [assembly: ExportRenderer(typeof(PStackLayout), typeof(SpacingStackPanel), typeof(StackLayoutRenderer))]
 
 namespace DeXign.Editor.Renderer
@@ -35,12 +37,12 @@ namespace DeXign.Editor.Renderer
         {
             base.OnElementAttached(element);
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 element, StackPanel.OrientationProperty,
                 Model, PStackLayout.OrientationProperty,
                 converter: orientationConverter);
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 element, SpacingStackPanel.SpacingProperty,
                 Model, PStackLayout.SpacingProperty);
 

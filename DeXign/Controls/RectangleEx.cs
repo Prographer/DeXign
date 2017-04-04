@@ -32,25 +32,25 @@ namespace DeXign.Controls
 
         public double Radius
         {
-            get { return (double)GetValue(RadiusProperty); }
+            get { return this.GetValue<double>(RadiusProperty); }
             set { SetValue(RadiusProperty, value); }
         }
 
         public Brush Fill
         {
-            get { return (Brush)GetValue(FillProperty); }
+            get { return this.GetValue<Brush>(FillProperty); }
             set { SetValue(FillProperty, value); }
         }
 
         public Brush Stroke
         {
-            get { return (Brush)GetValue(StrokeProperty); }
+            get { return this.GetValue<Brush>(StrokeProperty); }
             set { SetValue(StrokeProperty, value); }
         }
 
         public double StrokeThickness
         {
-            get { return (double)GetValue(StrokeThicknessProperty); }
+            get { return this.GetValue<double>(StrokeThicknessProperty); }
             set { SetValue(StrokeThicknessProperty, value); }
         }
         

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -6,8 +7,6 @@ using System.Windows.Controls;
 using DeXign.Extension;
 
 using WPFExtension;
-using System.Linq;
-using System.Windows.Media;
 
 namespace DeXign.Controls
 {
@@ -51,7 +50,9 @@ namespace DeXign.Controls
             this.Target = target;
 
             TargetProperty = pi;
-            TargetDependencyProperty = TargetProperty?.GetDependencyProperty();
+
+            if (TargetProperty != null)
+                TargetDependencyProperty = ReflectionEx.GetDependencyProperty(TargetProperty);
 
             if (TargetProperty == null || TargetDependencyProperty == null)
                 throw new ArgumentException("속성을 찾을 수 없습니다.");
@@ -89,7 +90,7 @@ namespace DeXign.Controls
         {
             SetValue(ValueProperty, GetTargetValue());
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 Target, TargetDependencyProperty,
                 this, ValueProperty);
         }

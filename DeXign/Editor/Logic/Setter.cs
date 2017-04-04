@@ -20,7 +20,7 @@ namespace DeXign.Editor.Logic
 
         public ISetter ValueSetter
         {
-            get { return (ISetter)GetValue(ValueSetterProperty); }
+            get { return this.GetValue<ISetter>(ValueSetterProperty); }
             set { SetValue(ValueSetterProperty, value); }
         }
 
@@ -46,7 +46,7 @@ namespace DeXign.Editor.Logic
         {
             base.OnAttachedComponentModel();
             
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 this.Model.ValueBinder, PBinder.IsDirectValueProperty,
                 valueCheckBox, CheckBox.IsCheckedProperty);
         }
@@ -97,7 +97,7 @@ namespace DeXign.Editor.Logic
                     vBoxSetter.Background = Brushes.Transparent;
                 }
 
-                BindingEx.SetBinding(
+                BindingHelper.SetBinding(
                     this.ValueSetter as BaseSetter, BaseSetter.ValueProperty,
                     this.Model.ValueBinder, PBinder.DirectValueProperty);
             }

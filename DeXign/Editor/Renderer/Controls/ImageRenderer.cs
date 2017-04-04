@@ -1,14 +1,14 @@
-﻿using DeXign.Controls;
+﻿using System.Windows.Media;
+
 using DeXign.Converter;
 using DeXign.Core;
 using DeXign.Core.Controls;
 using DeXign.Editor;
 using DeXign.Editor.Renderer.Controls;
-using DeXign.Extension;
 using DeXign.Resources;
 using DeXign.UI;
 
-using System.Windows.Media;
+using WPFExtension;
 
 [assembly: ExportRenderer(typeof(PImage), typeof(ImageBox), typeof(ImageRenderer))]
 
@@ -24,12 +24,13 @@ namespace DeXign.Editor.Renderer.Controls
         {
             base.OnElementAttached(element);
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 Model, PImage.SourceProperty,
                 element, ImageBox.SourceProperty,
                 converter: ResourceManager.GetConverter("PathToImage"));
 
-            BindingEx.SetBinding(
+
+            BindingHelper.SetBinding(
                 Model, PImage.StretchProperty,
                 element, ImageBox.StretchProperty,
                 converter: new EnumToEnumConverter<PStretch, Stretch>());

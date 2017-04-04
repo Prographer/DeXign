@@ -15,7 +15,7 @@ namespace DeXign.Editor.Layer
 
         public VisualCollection Children
         {
-            get { return (VisualCollection)GetValue(ChildrenPropertyKey.DependencyProperty); }
+            get { return this.GetValue<VisualCollection>(ChildrenPropertyKey.DependencyProperty); }
         }
 
         protected VisualCollection InternalChildren;

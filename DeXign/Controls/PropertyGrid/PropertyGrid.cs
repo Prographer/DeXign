@@ -24,7 +24,7 @@ namespace DeXign.Controls
 
         public object[] SelectedObjects
         {
-            get { return (object[])GetValue(SelectedObjectsProperty); }
+            get { return this.GetValue<object[]>(SelectedObjectsProperty); }
             set { SetValue(SelectedObjectsProperty, value); }
         }
 
@@ -96,7 +96,7 @@ namespace DeXign.Controls
             });
 
             // Search bar Binding
-            Binding b = BindingEx.SetBinding(
+            Binding b = BindingHelper.SetBinding(
                 GetTemplateChild("PART_searchBox"), TextBox.TextProperty,
                 this, FilterKeywordProperty,
                 sourceTrigger: UpdateSourceTrigger.PropertyChanged);

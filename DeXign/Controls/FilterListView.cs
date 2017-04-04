@@ -31,7 +31,7 @@ namespace DeXign.Controls
 
         public string FilterKeyword
         {
-            get { return (string)GetValue(FilterKeywordProperty); }
+            get { return this.GetValue<string>(FilterKeywordProperty); }
             set { SetValue(FilterKeywordProperty, value); }
         }
 

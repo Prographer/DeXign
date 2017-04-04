@@ -22,7 +22,7 @@ namespace DeXign.Core.Controls
         [WPF("Content")]
         public PObject Content
         {
-            get { return GetValue<PObject>(ContentProperty); }
+            get { return this.GetValue<PObject>(ContentProperty); }
             set { SetValue(ContentProperty, value); }
         }
     }

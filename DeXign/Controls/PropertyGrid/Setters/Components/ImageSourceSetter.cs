@@ -1,13 +1,10 @@
-﻿using DeXign.Extension;
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using System.Reflection;
+
+using Microsoft.Win32;
+
+using WPFExtension;
 
 namespace DeXign.Controls
 {
@@ -30,7 +27,7 @@ namespace DeXign.Controls
             sourceBox = GetTemplateChild<SubmitTextBox>("PART_sourceBox");
             sourceButton = GetTemplateChild<Button>("PART_sourceButton");
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 this, ValueProperty,
                 sourceBox, SubmitTextBox.TextProperty);
 

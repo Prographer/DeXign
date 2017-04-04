@@ -52,37 +52,37 @@ namespace DeXign.Controls
         #region [ Property ] 
         public double Scale
         {
-            get { return (double)GetValue(ScaleProperty); }
+            get { return this.GetValue<double>(ScaleProperty); }
             set { SetValue(ScaleProperty, value); }
         }
 
         public double MinScale
         {
-            get { return (double)GetValue(MinScaleProperty); }
+            get { return this.GetValue<double>(MinScaleProperty); }
             set { SetValue(MinScaleProperty, value); }
         }
 
         public double MaxScale
         {
-            get { return (double)GetValue(MaxScaleProperty); }
+            get { return this.GetValue<double>(MaxScaleProperty); }
             set { SetValue(MaxScaleProperty, value); }
         }
 
         public double OffsetX
         {
-            get { return (double)GetValue(OffsetXProperty); }
+            get { return this.GetValue<double>(OffsetXProperty); }
             set { SetValue(OffsetXProperty, value); }
         }
 
         public double OffsetY
         {
-            get { return (double)GetValue(OffsetYProperty); }
+            get { return this.GetValue<double>(OffsetYProperty); }
             set { SetValue(OffsetYProperty, value); }
         }
 
         public bool IsPanning
         {
-            get { return (bool)GetValue(IsPanningProperty); }
+            get { return this.GetValue<bool>(IsPanningProperty); }
             set { SetValue(IsPanningProperty, value); }
         }
         #endregion
@@ -115,22 +115,22 @@ namespace DeXign.Controls
             contentTransformGroup.Children.Add(contentScaleTransform);
 
             // Scale X
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 this, ScaleProperty,
                 contentScaleTransform, ScaleTransform.ScaleXProperty);
 
             // Scale Y
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 this, ScaleProperty,
                 contentScaleTransform, ScaleTransform.ScaleYProperty);
             
             // Offset X
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 this, OffsetXProperty,
                 contentOffsetTransform, TranslateTransform.XProperty);
 
             // Offset Y
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 this, OffsetYProperty,
                 contentOffsetTransform, TranslateTransform.YProperty);
         }

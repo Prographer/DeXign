@@ -46,13 +46,13 @@ namespace DeXign.Editor.Logic
 
         public Direction PlaceDirection
         {
-            get { return (Direction)GetValue(PlaceDirectionProperty); }
+            get { return this.GetValue<Direction>(PlaceDirectionProperty); }
             set { SetValue(PlaceDirectionProperty, value); }
         }
 
         public bool IsEmpty
         {
-            get { return (bool)GetValue(IsEmptyProperty); }
+            get { return this.GetValue<bool>(IsEmptyProperty); }
             set { SetValue(IsEmptyProperty, value); }
         }
         

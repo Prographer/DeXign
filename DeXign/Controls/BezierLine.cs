@@ -47,56 +47,56 @@ namespace DeXign.Controls
 
         public double X1
         {
-            get { return (double)GetValue(X1Property); }
+            get { return this.GetValue<double>(X1Property); }
             set { SetValue(X1Property, value); }
         }
 
         public double Y1
         {
-            get { return (double)GetValue(Y1Property); }
+            get { return this.GetValue<double>(Y1Property); }
             set { SetValue(Y1Property, value); }
         }
 
         public double X2
         {
-            get { return (double)GetValue(X2Property); }
+            get { return this.GetValue<double>(X2Property); }
             set { SetValue(X2Property, value); }
         }
 
         public double Y2
         {
-            get { return (double)GetValue(Y2Property); }
+            get { return this.GetValue<double>(Y2Property); }
             set { SetValue(Y2Property, value); }
         }
 
         public Point BezierPoint1
         {
-            get { return (Point)GetValue(BezierPoint1Property); }
+            get { return this.GetValue<Point>(BezierPoint1Property); }
             set { SetValue(BezierPoint1Property, value); }
         }
 
         public Point BezierPoint2
         {
-            get { return (Point)GetValue(BezierPoint2Property); }
+            get { return this.GetValue<Point>(BezierPoint2Property); }
             set { SetValue(BezierPoint2Property, value); }
         }
         
         public double StrokeThickness
         {
-            get { return (double)GetValue(StrokeThicknessProperty); }
+            get { return this.GetValue<double>(StrokeThicknessProperty); }
             set { SetValue(StrokeThicknessProperty, value); }
         }
 
         public Brush LineBrush
         {
-            get { return (Brush)GetValue(LineBrushProperty); }
+            get { return this.GetValue<Brush>(LineBrushProperty); }
             set { SetValue(LineBrushProperty, value); }
         }
 
 #if DEBUG
         public bool IsDebug
         {
-            get { return (bool)GetValue(IsDebugProperty); }
+            get { return this.GetValue<bool>(IsDebugProperty); }
             set { SetValue(IsDebugProperty, value); }
         }
 #endif

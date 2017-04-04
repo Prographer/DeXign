@@ -24,13 +24,13 @@ namespace DeXign.Behavior
 
         public Orientation Orientation
         {
-            get { return (Orientation)GetValue(OrientationProperty); }
+            get { return this.GetValue<Orientation>(OrientationProperty); }
             set { SetValue(OrientationProperty, value); }
         }
 
         public double ShadowSize
         {
-            get { return (double)GetValue(ShadowSizeProperty); }
+            get { return this.GetValue<double>(ShadowSizeProperty); }
             set { SetValue(ShadowSizeProperty, value); }
         }
 

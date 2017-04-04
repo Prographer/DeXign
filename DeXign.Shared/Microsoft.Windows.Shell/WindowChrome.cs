@@ -6,6 +6,9 @@ using System.Windows;
 using System.Windows.Data;
 
 using Standard;
+
+using WPFExtension;
+
 /**************************************************************************\
     Copyright Microsoft Corporation. All Rights Reserved.
 \**************************************************************************/
@@ -191,7 +194,7 @@ namespace Microsoft.Windows.Shell
         /// <summary>The extent of the top of the window to treat as the caption.</summary>
         public double CaptionHeight
         {
-            get { return (double)GetValue(CaptionHeightProperty); }
+            get { return this.GetValue<double>(CaptionHeightProperty); }
             set { SetValue(CaptionHeightProperty, value); }
         }
 
@@ -204,7 +207,7 @@ namespace Microsoft.Windows.Shell
 
         public Thickness ResizeBorderThickness
         {
-            get { return (Thickness)GetValue(ResizeBorderThicknessProperty); }
+            get { return this.GetValue<Thickness>(ResizeBorderThicknessProperty); }
             set { SetValue(ResizeBorderThicknessProperty, value); }
         }
 
@@ -231,7 +234,7 @@ namespace Microsoft.Windows.Shell
 
         public Thickness GlassFrameThickness
         {
-            get { return (Thickness)GetValue(GlassFrameThicknessProperty); }
+            get { return this.GetValue<Thickness>(GlassFrameThicknessProperty); }
             set { SetValue(GlassFrameThicknessProperty, value); }
         }
 
@@ -243,7 +246,7 @@ namespace Microsoft.Windows.Shell
 
         public bool UseAeroCaptionButtons
         {
-            get { return (bool)GetValue(UseAeroCaptionButtonsProperty); }
+            get { return this.GetValue<bool>(UseAeroCaptionButtonsProperty); }
             set { SetValue(UseAeroCaptionButtonsProperty, value); }
         }
 
@@ -260,7 +263,7 @@ namespace Microsoft.Windows.Shell
         /// </summary>
         public bool IgnoreTaskbarOnMaximize
         {
-            get { return (bool)GetValue(IgnoreTaskbarOnMaximizeProperty); }
+            get { return this.GetValue<bool>(IgnoreTaskbarOnMaximizeProperty); }
             set { SetValue(IgnoreTaskbarOnMaximizeProperty, value); }
         }
 
@@ -272,7 +275,7 @@ namespace Microsoft.Windows.Shell
 
         public bool UseNoneWindowStyle
         {
-            get { return (bool)GetValue(UseNoneWindowStyleProperty); }
+            get { return this.GetValue<bool>(UseNoneWindowStyleProperty); }
             set { SetValue(UseNoneWindowStyleProperty, value); }
         }
 
@@ -287,7 +290,7 @@ namespace Microsoft.Windows.Shell
 
         public CornerRadius CornerRadius
         {
-            get { return (CornerRadius)GetValue(CornerRadiusProperty); }
+            get { return this.GetValue<CornerRadius>(CornerRadiusProperty); }
             set { SetValue(CornerRadiusProperty, value); }
         }
 
@@ -336,7 +339,7 @@ namespace Microsoft.Windows.Shell
 
         public SacrificialEdge SacrificialEdge
         {
-            get { return (SacrificialEdge)GetValue(SacrificialEdgeProperty); }
+            get { return this.GetValue<SacrificialEdge>(SacrificialEdgeProperty); }
             set { SetValue(SacrificialEdgeProperty, value); }
         }
 

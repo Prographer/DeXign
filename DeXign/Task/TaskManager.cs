@@ -14,7 +14,7 @@ namespace DeXign.Task
     /// <summary>
     /// 작업관련 메서드를 제공하고 관리하는 클래스입니다.
     /// </summary>
-    public class TaskManager : DependencyObjectEx
+    public class TaskManager : DependencyObject
     {
         private static readonly DependencyPropertyKey CanRedoPropertyKey =
             DependencyHelper.RegisterReadOnly();
@@ -37,7 +37,7 @@ namespace DeXign.Task
         /// </summary>
         public bool CanRedo
         {
-            get { return GetValue<bool>(CanRedoProperty); }
+            get { return this.GetValue<bool>(CanRedoProperty); }
             private set { SetValue(CanRedoPropertyKey, value); }
         }
 
@@ -46,7 +46,7 @@ namespace DeXign.Task
         /// </summary>
         public bool CanUndo
         {
-            get { return GetValue<bool>(CanUndoProperty); }
+            get { return this.GetValue<bool>(CanUndoProperty); }
             private set { SetValue(CanUndoPropertyKey, value); }
         }
 

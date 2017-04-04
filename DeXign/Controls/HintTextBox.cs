@@ -12,7 +12,7 @@ namespace DeXign.Controls
 
         public string TextHint
         {
-            get { return (string)GetValue(TextHintProperty); }
+            get { return this.GetValue<string>(TextHintProperty); }
             set { SetValue(TextHintProperty, value); }
         }
     }

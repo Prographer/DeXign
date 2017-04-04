@@ -36,7 +36,7 @@ namespace DeXign.Core.Controls
         [WPF("Text")]
         public string Text
         {
-            get { return GetValue<string>(TextProperty); }
+            get { return this.GetValue<string>(TextProperty); }
             set { SetValue(TextProperty, value); }
         }
 
@@ -45,7 +45,7 @@ namespace DeXign.Core.Controls
         [WPF("VerticalContentAlignment")]
         public PVerticalTextAlignment VerticalTextAlignment
         {
-            get { return GetValue<PVerticalTextAlignment>(VerticalTextAlignmentProperty); }
+            get { return this.GetValue<PVerticalTextAlignment>(VerticalTextAlignmentProperty); }
             set { SetValue(VerticalTextAlignmentProperty, value); }
         }
 
@@ -54,7 +54,7 @@ namespace DeXign.Core.Controls
         [WPF("HorizontalContentAlignment")]
         public PHorizontalTextAlignment HorizontalTextAlignment
         {
-            get { return GetValue<PHorizontalTextAlignment>(HorizontalTextAlignmentProperty); }
+            get { return this.GetValue<PHorizontalTextAlignment>(HorizontalTextAlignmentProperty); }
             set { SetValue(HorizontalTextAlignmentProperty, value); }
         }
 
@@ -71,7 +71,7 @@ namespace DeXign.Core.Controls
         [DesignElement(Category = Constants.Property.Design, DisplayName = "폰트")]
         public FontFamily FontFamily
         {
-            get { return GetValue<FontFamily>(FontFamilyProperty); }
+            get { return this.GetValue<FontFamily>(FontFamilyProperty); }
             set { SetValue(FontFamilyProperty, value); }
         }
 
@@ -80,7 +80,7 @@ namespace DeXign.Core.Controls
         [WPF("Foreground")]
         public Brush Foreground
         {
-            get { return GetValue<Brush>(ForegroundProperty); }
+            get { return this.GetValue<Brush>(ForegroundProperty); }
             set { SetValue(ForegroundProperty, value); }
         }
 
@@ -89,7 +89,7 @@ namespace DeXign.Core.Controls
         [WPF("FontWeight")]
         public PFontAttributes FontAttributes
         {
-            get { return GetValue<PFontAttributes>(FontAttributesProperty); }
+            get { return this.GetValue<PFontAttributes>(FontAttributesProperty); }
             set { SetValue(FontAttributesProperty, value); }
         }
 
@@ -98,7 +98,7 @@ namespace DeXign.Core.Controls
         [WPF("FontSize")]
         public double FontSize
         {
-            get { return GetValue<double>(FontSizeProperty); }
+            get { return this.GetValue<double>(FontSizeProperty); }
             set { SetValue(FontSizeProperty, value); }
         }
     }

@@ -17,7 +17,7 @@ namespace DeXign.Core.Logic
 
         public PVisual TargetVisual
         {
-            get { return GetValue<PVisual>(TargetVisualProperty); }
+            get { return this.GetValue<PVisual>(TargetVisualProperty); }
             set { SetValue(TargetVisualProperty, value); }
         }
 

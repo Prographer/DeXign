@@ -17,7 +17,7 @@ namespace DeXign.Core
         [XForms("Width")]
         public PGridLength Width
         {
-            get { return GetValue<PGridLength>(WidthProperty); }
+            get { return this.GetValue<PGridLength>(WidthProperty); }
             set { SetValue(WidthProperty, value); }
         }
         

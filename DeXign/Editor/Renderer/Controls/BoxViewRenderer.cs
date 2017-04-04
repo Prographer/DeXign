@@ -1,12 +1,11 @@
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Shapes;
 
 using DeXign.Core.Controls;
 using DeXign.Editor;
 using DeXign.Editor.Renderer;
-using DeXign.Extension;
 using DeXign.Theme;
+
+using WPFExtension;
 
 [assembly: ExportRenderer(typeof(PBoxView), typeof(Rectangle), typeof(BoxViewRenderer))]
 
@@ -27,7 +26,7 @@ namespace DeXign.Editor.Renderer
         {
             base.OnElementAttached(element);
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 element, Rectangle.FillProperty,
                 Model, PBoxView.FillProperty);
 

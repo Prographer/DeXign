@@ -60,7 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyEx.cs" />
-    <Compile Include="BindingEx.cs" />
     <Compile Include="BoolEx.cs" />
     <Compile Include="DataObjectEx.cs" />
     <Compile Include="DirectoryEx.cs" />

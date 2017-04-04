@@ -18,7 +18,7 @@ namespace DeXign.Core.Controls
         [WPF("Padding")]
         public Thickness Padding
         {
-            get { return GetValue<Thickness>(PaddingProperty); }
+            get { return this.GetValue<Thickness>(PaddingProperty); }
             set { SetValue(PaddingProperty, value); }
         }
     }

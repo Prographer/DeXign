@@ -29,20 +29,20 @@ namespace DeXign.Core.Controls
         
         public PPage CurrentPage
         {
-            get { return GetValue<PPage>(CurrentPageProperty); }
+            get { return this.GetValue<PPage>(CurrentPageProperty); }
         }
 
         [XForms("Tint")]
         public SolidColorBrush AccentColor
         {
-            get { return GetValue<SolidColorBrush>(AccentColorProperty); }
+            get { return this.GetValue<SolidColorBrush>(AccentColorProperty); }
             set { SetValue(AccentColorProperty, value); }
         }
 
         [XForms("BarBackgroundColor")]
         public SolidColorBrush BarBackground
         {
-            get { return GetValue<SolidColorBrush>(BarBackgroundProperty); }
+            get { return this.GetValue<SolidColorBrush>(BarBackgroundProperty); }
             set { SetValue(BarBackgroundProperty, value); }
         }
 

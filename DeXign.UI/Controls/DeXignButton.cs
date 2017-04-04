@@ -12,7 +12,7 @@ namespace DeXign.UI
 
         public string Text
         {
-            get { return (string)GetValue(TextProperty); }
+            get { return this.GetValue<string>(TextProperty); }
             set { SetValue(TextProperty, value); }
         }
     }

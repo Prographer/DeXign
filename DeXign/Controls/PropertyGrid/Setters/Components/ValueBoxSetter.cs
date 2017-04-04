@@ -1,11 +1,13 @@
-﻿using DeXign.Extension;
-using DeXign.Resources;
-using DeXign.Rules;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+
+using DeXign.Rules;
+using DeXign.Resources;
+
+using WPFExtension;
 
 namespace DeXign.Controls
 {
@@ -31,7 +33,7 @@ namespace DeXign.Controls
 
             if (TargetProperty.PropertyType == typeof(double))
             {
-                Binding b = BindingEx.SetBinding(
+                Binding b = BindingHelper.SetBinding(
                     this, ValueProperty,
                     valueBox, TextBox.TextProperty,
                     converter: ResourceManager.GetConverter("DoubleToString"));
@@ -40,7 +42,7 @@ namespace DeXign.Controls
             }
             else
             {
-                BindingEx.SetBinding(
+                BindingHelper.SetBinding(
                     this, ValueProperty,
                     valueBox, TextBox.TextProperty);
             }

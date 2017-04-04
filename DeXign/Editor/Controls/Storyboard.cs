@@ -9,23 +9,24 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Reflection;
 using System.ComponentModel;
-using System.Windows.Threading;
 
 using DeXign.Core;
-using DeXign.Core.Controls;
 using DeXign.Core.Logic;
+using DeXign.Core.Designer;
+using DeXign.Core.Controls;
 using DeXign.Editor.Layer;
+using DeXign.Editor.Logic;
 using DeXign.Editor.Renderer;
 using DeXign.OS;
 using DeXign.Models;
 using DeXign.Extension;
-using DeXign.Core.Designer;
 using DeXign.Controls;
 using DeXign.Converter;
 using DeXign.Task;
 using DeXign.Utilities;
-using DeXign.Editor.Logic;
 using DeXign.Resources;
+
+using WPFExtension;
 
 namespace DeXign.Editor.Controls
 {
@@ -174,13 +175,13 @@ namespace DeXign.Editor.Controls
                 scaleTransform = new ScaleTransform();
 
                 // ParentScale X -> scale X
-                BindingEx.SetBinding(
+                BindingHelper.SetBinding(
                     ZoomPanel, ZoomPanel.ScaleProperty,
                     scaleTransform, ScaleTransform.ScaleXProperty,
                     converter: scaleConverter);
 
                 // ParentScale Y -> scale Y
-                BindingEx.SetBinding(
+                BindingHelper.SetBinding(
                     ZoomPanel, ZoomPanel.ScaleProperty,
                     scaleTransform, ScaleTransform.ScaleYProperty,
                     converter: scaleConverter);
@@ -594,7 +595,7 @@ namespace DeXign.Editor.Controls
             {
                 connector.Line.LineBrush = Brushes.DimGray;
 
-                BindingEx.SetBinding(
+                BindingHelper.SetBinding(
                     ZoomPanel, ZoomPanel.ScaleProperty,
                     connector.Line, BezierLine.StrokeThicknessProperty,
                     converter: new ReciprocalConverter()
@@ -626,7 +627,7 @@ namespace DeXign.Editor.Controls
             {
                 connector.Line.LineBrush = Brushes.DimGray;
 
-                BindingEx.SetBinding(
+                BindingHelper.SetBinding(
                     ZoomPanel, ZoomPanel.ScaleProperty,
                     connector.Line, BezierLine.StrokeThicknessProperty,
                     converter: new ReciprocalConverter()
@@ -902,7 +903,7 @@ namespace DeXign.Editor.Controls
 
             double factor = (double)element.GetValue(property);
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 ZoomPanel, ZoomPanel.ScaleProperty,
                 element, property,
                 converter: new ReciprocalConverter()

@@ -31,19 +31,19 @@ namespace DeXign.Editor.Logic
 
         public DependencyProperty SelectedProperty
         {
-            get { return (DependencyProperty)GetValue(SelectedPropertyProperty); }
+            get { return this.GetValue<DependencyProperty>(SelectedPropertyProperty); }
             set { SetValue(SelectedPropertyProperty, value); }
         }
 
         public Type TargetType
         {
-            get { return (Type)GetValue(TargetTypeProperty); }
+            get { return this.GetValue<Type>(TargetTypeProperty); }
             set { SetValue(TargetTypeProperty, value); }
         }
 
         public ObservableCollection<PropertyItem> PropertyList
         {
-            get { return (ObservableCollection<PropertyItem>)GetValue(PropertyListProperty); }
+            get { return this.GetValue<ObservableCollection<PropertyItem>>(PropertyListProperty); }
         }
 
         public new PTargetable Model => (PTargetable)base.Model;
@@ -65,7 +65,7 @@ namespace DeXign.Editor.Logic
         {
             base.OnAttachedComponentModel();
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 this.Model, PTargetable.PropertyProperty,
                 this, BaseProperty.SelectedPropertyProperty);
         }

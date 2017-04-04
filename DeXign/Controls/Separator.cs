@@ -17,13 +17,13 @@ namespace DeXign.Controls
 
         public Brush LineBrush1
         {
-            get { return (Brush)GetValue(LineBrush1Property); }
+            get { return this.GetValue<Brush>(LineBrush1Property); }
             set { SetValue(LineBrush1Property, value); }
         }
 
         public Brush LineBrush2
         {
-            get { return (Brush)GetValue(LineBrush2Property); }
+            get { return this.GetValue<Brush>(LineBrush2Property); }
             set { SetValue(LineBrush2Property, value); }
         }
 

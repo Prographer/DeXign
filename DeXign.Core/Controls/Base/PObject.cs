@@ -19,14 +19,14 @@ namespace DeXign.Core
         // for resources
         public Guid Guid
         {
-            get { return GetValue<Guid>(GuidProperty); }
+            get { return this.GetValue<Guid>(GuidProperty); }
             set { SetValue(GuidProperty, value); }
         }
 
         [DesignElement(DisplayName = "이름", Visible = false)]
         public string Name
         {
-            get { return GetValue<string>(NameProperty); }
+            get { return this.GetValue<string>(NameProperty); }
             set { SetValue(NameProperty, value); }
         }
 
@@ -51,11 +51,6 @@ namespace DeXign.Core
 
         protected virtual void OnGuidChanged()
         {
-        }
-
-        public T GetValue<T>(DependencyProperty dp)
-        {
-            return (T)GetValue(dp);
         }
     }
 }

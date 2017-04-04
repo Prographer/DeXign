@@ -40,7 +40,7 @@ namespace DeXign.Core.Controls
         [WPF("Text")]
         public string Text
         {
-            get { return GetValue<string>(TextProperty); }
+            get { return this.GetValue<string>(TextProperty); }
             set { SetValue(TextProperty, value); }
         }
 
@@ -49,7 +49,7 @@ namespace DeXign.Core.Controls
         [WPF("Foreground")]
         public Brush Foreground
         {
-            get { return GetValue<Brush>(ForegroundProperty); }
+            get { return this.GetValue<Brush>(ForegroundProperty); }
             set { SetValue(ForegroundProperty, value); }
         }
 
@@ -57,7 +57,7 @@ namespace DeXign.Core.Controls
         [XForms("BorderRadius")]
         public double BorderRadius
         {
-            get { return GetValue<double>(BorderRadiusProperty); }
+            get { return this.GetValue<double>(BorderRadiusProperty); }
             set { SetValue(BorderRadiusProperty, value); }
         }
 
@@ -66,7 +66,7 @@ namespace DeXign.Core.Controls
         [WPF("BorderThickness")]
         public double BorderThickness
         {
-            get { return GetValue<double>(BorderThicknessProperty); }
+            get { return this.GetValue<double>(BorderThicknessProperty); }
             set { SetValue(BorderThicknessProperty, value); }
         }
 
@@ -75,7 +75,7 @@ namespace DeXign.Core.Controls
         [WPF("BorderBrush")]
         public Brush BorderBrush
         {
-            get { return GetValue<Brush>(BorderBrushProperty); }
+            get { return this.GetValue<Brush>(BorderBrushProperty); }
             set { SetValue(BorderBrushProperty, value); }
         }
 
@@ -84,7 +84,7 @@ namespace DeXign.Core.Controls
         [WPF("FontSize")]
         public double FontSize
         {
-            get { return GetValue<double>(FontSizeProperty); }
+            get { return this.GetValue<double>(FontSizeProperty); }
             set { SetValue(FontSizeProperty, value); }
         }
 

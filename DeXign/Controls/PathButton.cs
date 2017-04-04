@@ -30,37 +30,37 @@ namespace DeXign.Controls
 
         public CornerRadius CornerRadius
         {
-            get { return (CornerRadius)GetValue(CornerRadiusProperty); }
+            get { return this.GetValue<CornerRadius>(CornerRadiusProperty); }
             set { SetValue(CornerRadiusProperty, value); }
         }
 
         public StreamGeometry PathData
         {
-            get { return (StreamGeometry)GetValue(PathDataProperty); }
+            get { return this.GetValue<StreamGeometry>(PathDataProperty); }
             set { SetValue(PathDataProperty, value); }
         }
 
         public double PathWidth
         {
-            get { return (double)GetValue(PathWidthProperty); }
+            get { return this.GetValue<double>(PathWidthProperty); }
             set { SetValue(PathWidthProperty, value); }
         }
 
         public double PathHeight
         {
-            get { return (double)GetValue(PathHeightProperty); }
+            get { return this.GetValue<double>(PathHeightProperty); }
             set { SetValue(PathHeightProperty, value); }
         }
 
         public HorizontalAlignment PathHorizontalAlignment
         {
-            get { return (HorizontalAlignment)GetValue(PathHorizontalAlignmentProperty); }
+            get { return this.GetValue<HorizontalAlignment>(PathHorizontalAlignmentProperty); }
             set { SetValue(PathHorizontalAlignmentProperty, value); }
         }
 
         public VerticalAlignment PathVerticalAlignment
         {
-            get { return (VerticalAlignment)GetValue(PathVerticalAlignmentProperty); }
+            get { return this.GetValue<VerticalAlignment>(PathVerticalAlignmentProperty); }
             set { SetValue(PathVerticalAlignmentProperty, value); }
         }
     }

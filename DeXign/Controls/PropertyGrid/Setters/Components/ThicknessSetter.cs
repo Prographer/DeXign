@@ -19,7 +19,7 @@ namespace DeXign.Controls
 
         public bool IsMargin
         {
-            get { return (bool)GetValue(IsMarginProperty); }
+            get { return this.GetValue<bool>(IsMarginProperty); }
             set { SetValue(IsMarginProperty, value); }
         }
 
@@ -45,19 +45,19 @@ namespace DeXign.Controls
             rightValueBox = GetTemplateChild<TextBox>("PART_rightValueBox");
             bottomValueBox = GetTemplateChild<TextBox>("PART_bottomValueBox");
             
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 marginBinder, ElementThicknessBinder.LeftProperty,
                 leftValueBox, TextBox.TextProperty);
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 marginBinder, ElementThicknessBinder.TopProperty,
                 topValueBox, TextBox.TextProperty);
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 marginBinder, ElementThicknessBinder.RightProperty,
                 rightValueBox, TextBox.TextProperty);
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 marginBinder, ElementThicknessBinder.BottomProperty,
                 bottomValueBox, TextBox.TextProperty);
         }

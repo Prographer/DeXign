@@ -33,7 +33,7 @@ namespace DeXign.UI
 
         public MessageDirection Direction
         {
-            get { return (MessageDirection)GetValue(DirectionProperty); }
+            get { return this.GetValue<MessageDirection>(DirectionProperty); }
             set { SetValue(DirectionProperty, value); }
         }
 

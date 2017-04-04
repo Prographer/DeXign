@@ -23,13 +23,13 @@ namespace DeXign.UI
 
         public double Spacing
         {
-            get { return (double)GetValue(SpacingProperty); }
+            get { return this.GetValue<double>(SpacingProperty); }
             set { SetValue(SpacingProperty, value); }
         }
 
         public Thickness Padding
         {
-            get { return (Thickness)GetValue(PaddingProperty); }
+            get { return this.GetValue<Thickness>(PaddingProperty); }
             set { SetValue(PaddingProperty, value); }
         }
 

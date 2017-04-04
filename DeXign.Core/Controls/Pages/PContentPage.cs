@@ -18,7 +18,7 @@ namespace DeXign.Core.Controls
         [WPF("Content")]
         public PControl Content
         {
-            get { return GetValue<PControl>(ContentProperty); }
+            get { return this.GetValue<PControl>(ContentProperty); }
             set { SetValue(ContentProperty, value); }
         }
     }

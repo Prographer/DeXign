@@ -18,7 +18,7 @@ namespace DeXign.Core
         [XForms("Height")]
         public PGridLength Height
         {
-            get { return GetValue<PGridLength>(HeightProperty); }
+            get { return this.GetValue<PGridLength>(HeightProperty); }
             set { SetValue(HeightProperty, value); }
         }
 

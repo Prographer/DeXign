@@ -1,7 +1,8 @@
-﻿using DeXign.Extension;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+
+using WPFExtension;
 
 namespace DeXign.Controls
 {
@@ -21,7 +22,7 @@ namespace DeXign.Controls
 
             slider = GetTemplateChild<Slider>("PART_slider");
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 this, ValueProperty,
                 slider, Slider.ValueProperty);
         }

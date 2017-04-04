@@ -61,7 +61,7 @@ namespace DeXign.Core.Controls
         [XForms("ColumnSpacing")]
         public double ColumnSpacing
         {
-            get { return GetValue<double>(ColumnSpacingProperty); }
+            get { return this.GetValue<double>(ColumnSpacingProperty); }
             set { SetValue(ColumnSpacingProperty, value); }
         }
 
@@ -69,7 +69,7 @@ namespace DeXign.Core.Controls
         [XForms("RowSpacing")]
         public double RowSpacing
         {
-            get { return GetValue<double>(RowSpacingProperty); }
+            get { return this.GetValue<double>(RowSpacingProperty); }
             set { SetValue(RowSpacingProperty, value); }
         }
 
@@ -78,7 +78,7 @@ namespace DeXign.Core.Controls
         {
             get
             {
-                return GetValue<PDefinitionCollection<PColumnDefinition>>(
+                return this.GetValue<PDefinitionCollection<PColumnDefinition>>(
                     ColumnDefinitionsPropertyKey.DependencyProperty);
             }
         }
@@ -88,7 +88,7 @@ namespace DeXign.Core.Controls
         {
             get
             {
-                return GetValue<PDefinitionCollection<PRowDefinition>>(
+                return this.GetValue<PDefinitionCollection<PRowDefinition>>(
                     RowDefinitionsPropertyKey.DependencyProperty);
             }
         }

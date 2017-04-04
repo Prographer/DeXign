@@ -25,13 +25,13 @@ namespace DeXign.Controls
 
         public FrameworkElement Target
         {
-            get { return (FrameworkElement)GetValue(TargetProperty); }
+            get { return this.GetValue<FrameworkElement>(TargetProperty); }
             set { SetValue(TargetProperty, value); }
         }
 
         public double Scale
         {
-            get { return (double)GetValue(ScaleProperty); }
+            get { return this.GetValue<double>(ScaleProperty); }
             set { SetValue(ScaleProperty, value); }
         }
 

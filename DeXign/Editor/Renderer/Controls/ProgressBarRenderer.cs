@@ -1,14 +1,11 @@
-﻿using DeXign.Core.Controls;
+﻿using System.Windows.Controls;
+
+using DeXign.Theme;
 using DeXign.Editor;
 using DeXign.Editor.Renderer;
-using DeXign.Extension;
-using DeXign.Theme;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+using DeXign.Core.Controls;
+
+using WPFExtension;
 
 [assembly: ExportRenderer(typeof(PProgressBar), typeof(ProgressBar), typeof(ProgressBarRenderer))]
 
@@ -31,7 +28,7 @@ namespace DeXign.Editor.Renderer
 
             SetHeight(double.NaN);
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 Model, PProgressBar.ProgressProperty,
                 element, ProgressBar.ValueProperty);
         }

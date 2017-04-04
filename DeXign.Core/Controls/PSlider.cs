@@ -24,7 +24,7 @@ namespace DeXign.Core.Controls
         [WPF("Minimum")]
         public double Minimum
         {
-            get { return GetValue<double>(MinimumProperty); }
+            get { return this.GetValue<double>(MinimumProperty); }
             set { SetValue(MinimumProperty, value); }
         }
 
@@ -33,7 +33,7 @@ namespace DeXign.Core.Controls
         [WPF("Maximum")]
         public double Maximum
         {
-            get { return GetValue<double>(MaximumProperty); }
+            get { return this.GetValue<double>(MaximumProperty); }
             set { SetValue(MaximumProperty, value); }
         }
 
@@ -42,7 +42,7 @@ namespace DeXign.Core.Controls
         [WPF("Value")]
         public double Value
         {
-            get { return GetValue<double>(ValueProperty); }
+            get { return this.GetValue<double>(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
         

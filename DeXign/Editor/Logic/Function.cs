@@ -1,5 +1,6 @@
 ﻿using DeXign.Core.Logic;
-using DeXign.Extension;
+
+using WPFExtension;
 
 namespace DeXign.Editor.Logic
 {
@@ -11,7 +12,7 @@ namespace DeXign.Editor.Logic
         {
             base.OnAttachedComponentModel();
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 Model, PFunction.FunctionNameProperty,
                 this, HeaderProperty);
         }

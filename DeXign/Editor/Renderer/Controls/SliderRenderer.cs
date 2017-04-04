@@ -3,8 +3,9 @@
 using DeXign.Core.Controls;
 using DeXign.Editor;
 using DeXign.Editor.Renderer;
-using DeXign.Extension;
 using DeXign.Theme;
+
+using WPFExtension;
 
 [assembly: ExportRenderer(typeof(PSlider), typeof(Slider), typeof(SliderRenderer))]
 
@@ -27,15 +28,15 @@ namespace DeXign.Editor.Renderer
 
             SetHeight(double.NaN);
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 Model, PSlider.MinimumProperty,
                 element, Slider.MinimumProperty);
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 Model, PSlider.MaximumProperty,
                 element, Slider.MaximumProperty);
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 Model, PSlider.ValueProperty,
                 element, Slider.ValueProperty);
         }

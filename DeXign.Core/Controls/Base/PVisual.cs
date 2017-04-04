@@ -57,7 +57,7 @@ namespace DeXign.Core.Controls
         [XForms("AnchorX")]
         public double AnchorX
         {
-            get { return GetValue<double>(AnchorXProperty); }
+            get { return this.GetValue<double>(AnchorXProperty); }
             set { SetValue(AnchorXProperty, value); }
         }
 
@@ -65,7 +65,7 @@ namespace DeXign.Core.Controls
         [XForms("AnchorY")]
         public double AnchorY
         {
-            get { return GetValue<double>(AnchorYProperty); }
+            get { return this.GetValue<double>(AnchorYProperty); }
             set { SetValue(AnchorYProperty, value); }
         }
 
@@ -74,7 +74,7 @@ namespace DeXign.Core.Controls
         [WPF("Background")]
         public Brush Background
         {
-            get { return GetValue<Brush>(BackgroundProperty); }
+            get { return this.GetValue<Brush>(BackgroundProperty); }
             set { SetValue(BackgroundProperty, value); }
         }
 
@@ -83,7 +83,7 @@ namespace DeXign.Core.Controls
         [WPF("Width")]
         public double Width
         {
-            get { return GetValue<double>(WidthProperty); }
+            get { return this.GetValue<double>(WidthProperty); }
             set { SetValue(WidthProperty, value); }
         }
 
@@ -92,7 +92,7 @@ namespace DeXign.Core.Controls
         [WPF("Height")]
         public double Height
         {
-            get { return GetValue<double>(HeightProperty); }
+            get { return this.GetValue<double>(HeightProperty); }
             set { SetValue(HeightProperty, value); }
         }
 
@@ -101,7 +101,7 @@ namespace DeXign.Core.Controls
         [WPF("MinHeight")]
         public double MinHeight
         {
-            get { return GetValue<double>(MinHeightProperty); }
+            get { return this.GetValue<double>(MinHeightProperty); }
             set { SetValue(MinHeightProperty, value); }
         }
 
@@ -110,7 +110,7 @@ namespace DeXign.Core.Controls
         [WPF("MinWidth")]
         public double MinWidth
         {
-            get { return GetValue<double>(MinWidthProperty); }
+            get { return this.GetValue<double>(MinWidthProperty); }
             set { SetValue(MinWidthProperty, value); }
         }
 
@@ -119,7 +119,7 @@ namespace DeXign.Core.Controls
         [WPF("Opacity")]
         public double Opacity
         {
-            get { return GetValue<double>(OpacityProperty); }
+            get { return this.GetValue<double>(OpacityProperty); }
             set { SetValue(OpacityProperty, value); }
         }
 
@@ -127,7 +127,7 @@ namespace DeXign.Core.Controls
         [XForms("Rotation")]
         public double Rotation
         {
-            get { return GetValue<double>(RotationProperty); }
+            get { return this.GetValue<double>(RotationProperty); }
             set { SetValue(RotationProperty, value); }
         }
 
@@ -135,7 +135,7 @@ namespace DeXign.Core.Controls
         [XForms("RotationX")]
         public double RotationX
         {
-            get { return GetValue<double>(RotationXProperty); }
+            get { return this.GetValue<double>(RotationXProperty); }
             set { SetValue(RotationXProperty, value); }
         }
 
@@ -143,21 +143,21 @@ namespace DeXign.Core.Controls
         [XForms("RotationY")]
         public double RotationY
         {
-            get { return GetValue<double>(RotationYProperty); }
+            get { return this.GetValue<double>(RotationYProperty); }
             set { SetValue(RotationYProperty, value); }
         }
 
         [XForms("X")]
         public double X
         {
-            get { return GetValue<double>(XProperty); }
+            get { return this.GetValue<double>(XProperty); }
             set { SetValue(XProperty, value); }
         }
 
         [XForms("Y")]
         public double Y
         {
-            get { return GetValue<double>(YProperty); }
+            get { return this.GetValue<double>(YProperty); }
             set { SetValue(YProperty, value); }
         }
 

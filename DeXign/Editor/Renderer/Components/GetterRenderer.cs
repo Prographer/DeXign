@@ -1,10 +1,12 @@
-﻿using DeXign.Core.Logic;
+﻿using System.Windows;
+using System.Windows.Media;
+
+using DeXign.Core.Logic;
 using DeXign.Editor;
 using DeXign.Editor.Logic;
 using DeXign.Editor.Renderer;
-using DeXign.Extension;
-using System.Windows;
-using System.Windows.Media;
+
+using WPFExtension;
 
 [assembly: ExportRenderer(typeof(PGetter), typeof(Getter), typeof(GetterRenderer))]
 
@@ -20,11 +22,11 @@ namespace DeXign.Editor.Renderer
         {
             base.OnLoaded(adornedElement);
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 Model, PGetter.TargetTypeProperty,
                 Element, Getter.TargetTypeProperty);
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 Model, PGetter.PropertyProperty,
                 Element, Getter.SelectedPropertyProperty);
         }

@@ -18,19 +18,19 @@ namespace DeXign.Controls
 
         public string Header
         {
-            get { return (string)GetValue(HeaderProperty); }
+            get { return this.GetValue<string>(HeaderProperty); }
             set { SetValue(HeaderProperty, value); }
         }
 
         public VerticalAlignment HeaderVerticalAlignment
         {
-            get { return (VerticalAlignment)GetValue(HeaderVerticalAlignmentProperty); }
+            get { return this.GetValue<VerticalAlignment>(HeaderVerticalAlignmentProperty); }
             set { SetValue(HeaderVerticalAlignmentProperty, value); }
         }
 
         public HorizontalAlignment HeaderHorizontalAlignment
         {
-            get { return (HorizontalAlignment)GetValue(HeaderHorizontalAlignmentProperty); }
+            get { return this.GetValue<HorizontalAlignment>(HeaderHorizontalAlignmentProperty); }
             set { SetValue(HeaderHorizontalAlignmentProperty, value); }
         }
 

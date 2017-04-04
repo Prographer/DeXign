@@ -14,7 +14,7 @@ namespace DeXign.Core.Logic
         
         public Type ParameterType
         {
-            get { return GetValue<Type>(ParameterTypeProperty); }
+            get { return this.GetValue<Type>(ParameterTypeProperty); }
             set { SetValue(ParameterTypeProperty, value); }
         }
 
@@ -32,7 +32,7 @@ namespace DeXign.Core.Logic
 
             if (targetBinder is PReturnBinder returnBinder)
             {
-                BindingEx.SetBinding(
+                BindingHelper.SetBinding(
                     returnBinder, PReturnBinder.ReturnTypeProperty,
                     this, PParameterBinder.ParameterTypeProperty);
             }

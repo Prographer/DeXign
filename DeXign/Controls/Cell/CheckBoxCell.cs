@@ -14,13 +14,13 @@ namespace DeXign.Controls
 
         public bool IsChecked
         {
-            get { return (bool)GetValue(IsCheckedProperty); }
+            get { return this.GetValue<bool>(IsCheckedProperty); }
             set { SetValue(IsCheckedProperty, value); }
         }
 
         public string Text
         {
-            get { return (string)GetValue(TextProperty); }
+            get { return this.GetValue<string>(TextProperty); }
             set { SetValue(TextProperty, value); }
         }
     }

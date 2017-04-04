@@ -61,7 +61,7 @@ namespace DeXign.Core.Logic
 
         public string FunctionName
         {
-            get { return GetValue<string>(FunctionNameProperty); }
+            get { return this.GetValue<string>(FunctionNameProperty); }
             set { SetValue(FunctionNameProperty, value); }
         }
 
@@ -69,7 +69,7 @@ namespace DeXign.Core.Logic
         {
             get
             {
-                return GetValue<DXMethodInfo>(FunctionInfoProperty);
+                return this.GetValue<DXMethodInfo>(FunctionInfoProperty);
             }
             set
             {
@@ -81,7 +81,7 @@ namespace DeXign.Core.Logic
 
         public NamedParameterInfo[] ParameterInfos
         {
-            get { return GetValue<NamedParameterInfo[]>(ParameterInfosProperty); }
+            get { return this.GetValue<NamedParameterInfo[]>(ParameterInfosProperty); }
             private set { SetValue(ParameterInfosPropertyKey, value); }
         }
 

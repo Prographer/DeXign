@@ -19,7 +19,7 @@ namespace DeXign.Editor.Logic
 
         public ComparisonPredicate Operator
         {
-            get { return (ComparisonPredicate)GetValue(OperatorProperty); }
+            get { return this.GetValue<ComparisonPredicate>(OperatorProperty); }
             set { SetValue(OperatorProperty, value); }
         }
 
@@ -38,11 +38,11 @@ namespace DeXign.Editor.Logic
         {
             base.OnAttachedComponentModel();
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 this.Model, PBranch.OperatorProperty,
                 this, OperatorProperty);
                 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 this.Model.Value2Binder, PBinder.IsDirectValueProperty,
                 valueCheckBox, CheckBox.IsCheckedProperty);
 

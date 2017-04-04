@@ -15,13 +15,13 @@ namespace DeXign.Core.Logic
 
         public DependencyProperty Property
         {
-            get { return GetValue<DependencyProperty>(PropertyProperty); }
+            get { return this.GetValue<DependencyProperty>(PropertyProperty); }
             set { SetValue(PropertyProperty, value); }
         }
         
         public Type TargetType
         {
-            get { return GetValue<Type>(TargetTypeProperty); }
+            get { return this.GetValue<Type>(TargetTypeProperty); }
             set { SetValue(TargetTypeProperty, value); }
         }
 

@@ -20,7 +20,7 @@ namespace DeXign.Controls
 
         public TextBox TextBox
         {
-            get { return (TextBox)GetValue(TextBoxProperty); }
+            get { return this.GetValue<TextBox>(TextBoxProperty); }
             set { SetValue(TextBoxProperty, value); }
         }
 
@@ -31,7 +31,7 @@ namespace DeXign.Controls
 
         public string Text
         {
-            get { return (string)GetValue(TextProperty); }
+            get { return this.GetValue<string>(TextProperty); }
             set { SetValue(TextProperty, value); }
         }
 

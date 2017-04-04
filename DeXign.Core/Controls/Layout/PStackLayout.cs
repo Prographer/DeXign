@@ -24,7 +24,7 @@ namespace DeXign.Core.Controls
         [WPF("Orientation")]
         public POrientation Orientation
         {
-            get { return GetValue<POrientation>(OrientationProperty); }
+            get { return this.GetValue<POrientation>(OrientationProperty); }
             set { SetValue(OrientationProperty, value); }
         }
 
@@ -33,7 +33,7 @@ namespace DeXign.Core.Controls
         [WPF("Spacing")]
         public double Spacing
         {
-            get { return GetValue<double>(SpacingProperty); }
+            get { return this.GetValue<double>(SpacingProperty); }
             set { SetValue(SpacingProperty, value); }
         }
 

@@ -83,7 +83,7 @@ namespace DeXign.Editor.Layer
         /// </summary>
         public bool DisplayMargin
         {
-            get { return (bool)GetValue(DisplayMarginProperty); }
+            get { return this.GetValue<bool>(DisplayMarginProperty); }
             set { SetValue(DisplayMarginProperty, value); }
         }
 
@@ -92,7 +92,7 @@ namespace DeXign.Editor.Layer
         /// </summary>
         public bool DisplayWidthTop
         {
-            get { return (bool)GetValue(DisplayWidthTopProperty); }
+            get { return this.GetValue<bool>(DisplayWidthTopProperty); }
             set { SetValue(DisplayWidthTopProperty, value); }
         }
 
@@ -101,7 +101,7 @@ namespace DeXign.Editor.Layer
         /// </summary>
         public bool DisplayWidthBottom
         {
-            get { return (bool)GetValue(DisplayWidthBottomProperty); }
+            get { return this.GetValue<bool>(DisplayWidthBottomProperty); }
             set { SetValue(DisplayWidthBottomProperty, value); }
         }
 
@@ -110,7 +110,7 @@ namespace DeXign.Editor.Layer
         /// </summary>
         public bool DisplayHeightLeft
         {
-            get { return (bool)GetValue(DisplayHeightLeftProperty); }
+            get { return this.GetValue<bool>(DisplayHeightLeftProperty); }
             set { SetValue(DisplayHeightLeftProperty, value); }
         }
 
@@ -119,7 +119,7 @@ namespace DeXign.Editor.Layer
         /// </summary>
         public bool DisplayHeightRight
         {
-            get { return (bool)GetValue(DisplayHeightRightProperty); }
+            get { return this.GetValue<bool>(DisplayHeightRightProperty); }
             set { SetValue(DisplayHeightRightProperty, value); }
         }
 
@@ -128,7 +128,7 @@ namespace DeXign.Editor.Layer
         /// </summary>
         public Brush SelectionBrush
         {
-            get { return (Brush)GetValue(SelectionBrushProperty); }
+            get { return this.GetValue<Brush>(SelectionBrushProperty); }
             set { SetValue(SelectionBrushProperty, value); }
         }
 
@@ -137,7 +137,7 @@ namespace DeXign.Editor.Layer
         /// </summary>
         public Brush FrameBrush
         {
-            get { return (Brush)GetValue(FrameBrushProperty); }
+            get { return this.GetValue<Brush>(FrameBrushProperty); }
             set { SetValue(FrameBrushProperty, value); }
         }
 
@@ -146,7 +146,7 @@ namespace DeXign.Editor.Layer
         /// </summary>
         public double FrameThickness
         {
-            get { return (double)GetValue(FrameThicknessProperty); }
+            get { return this.GetValue<double>(FrameThicknessProperty); }
             set { SetValue(FrameThicknessProperty, value); }
         }
 
@@ -155,19 +155,19 @@ namespace DeXign.Editor.Layer
         /// </summary>
         public DesignMode DesignMode
         {
-            get { return (DesignMode)GetValue(DesignModeProperty); }
+            get { return this.GetValue<DesignMode>(DesignModeProperty); }
             set { SetValue(DesignModeProperty, value); }
         }
 
         public bool IsHighlight
         {
-            get { return (bool)GetValue(IsHighlightProperty); }
+            get { return this.GetValue<bool>(IsHighlightProperty); }
             set { SetValue(IsHighlightProperty, value); }
         }
 
         public Brush HighlightBrush
         {
-            get { return (Brush)GetValue(HighlightBrushProperty); }
+            get { return this.GetValue<Brush>(HighlightBrushProperty); }
             set { SetValue(HighlightBrushProperty, value); }
         }
 
@@ -448,19 +448,19 @@ namespace DeXign.Editor.Layer
             var reciprocalConverter = new ReciprocalConverter();
 
             // ParentScale X -> scale X
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 Zoom, ZoomPanel.ScaleProperty,
                 scale, ScaleTransform.ScaleXProperty,
                 converter: reciprocalConverter);
 
             // ParentScale Y -> scale Y
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 Zoom, ZoomPanel.ScaleProperty,
                 scale, ScaleTransform.ScaleYProperty,
                 converter: reciprocalConverter);
 
             // SelectionBrush -> triggerButton Background
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 this, SelectionBrushProperty,
                 TriggerButton, Control.BackgroundProperty);
 
@@ -472,7 +472,7 @@ namespace DeXign.Editor.Layer
             foreach (LayerResizeThumb thumb in resizeGrid.Children)
             {
                 // SelectionBrush -> thumb Stroke
-                BindingEx.SetBinding(
+                BindingHelper.SetBinding(
                     this, SelectionBrushProperty,
                     thumb, LayerResizeThumb.StrokeProperty);
                 

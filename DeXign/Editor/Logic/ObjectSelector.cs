@@ -23,7 +23,7 @@ namespace DeXign.Editor.Logic
 
         public IRenderer TargetRenderer
         {
-            get { return (IRenderer)GetValue(TargetRendererProperty); }
+            get { return this.GetValue<IRenderer>(TargetRendererProperty); }
             set { SetValue(TargetRendererProperty, value); }
         }
 
@@ -47,7 +47,7 @@ namespace DeXign.Editor.Logic
             {
                 string displayName = this.Model.TargetVisual.GetAttribute<DesignElementAttribute>().DisplayName;
 
-                var b = BindingEx.SetBinding(
+                var b = BindingHelper.SetBinding(
                     this.Model.TargetVisual, PObject.NameProperty,
                     nameBlock, TextBlock.TextProperty,
                     converter: new FallbackStringConverter()

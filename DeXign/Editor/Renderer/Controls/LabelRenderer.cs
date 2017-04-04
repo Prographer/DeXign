@@ -1,18 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 
+using DeXign.Controls;
+using DeXign.Core;
 using DeXign.Core.Controls;
 using DeXign.Editor;
 using DeXign.Editor.Renderer;
-using DeXign.Extension;
-using DeXign.Controls;
-using DeXign.Core;
 using DeXign.Converter;
+
+using WPFExtension;
 
 [assembly: ExportRenderer(typeof(PLabel), typeof(LabelEx), typeof(LabelRenderer))]
 
@@ -39,25 +34,25 @@ namespace DeXign.Editor.Renderer
 
             SetSize(double.NaN, double.NaN);
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 Model, PLabel.ForegroundProperty,
                 element, LabelEx.ForegroundProperty);
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 Model, PLabel.TextProperty,
                 element, LabelEx.ContentProperty);
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 Model, PLabel.HorizontalTextAlignmentProperty,
                 element, LabelEx.HorizontalContentAlignmentProperty,
                 converter: hConverter);
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 Model, PLabel.VerticalTextAlignmentProperty,
                 element, LabelEx.VerticalContentAlignmentProperty,
                 converter: vConverter);
 
-            BindingEx.SetBinding(
+            BindingHelper.SetBinding(
                 element, LabelEx.FontSizeProperty,
                 Model, PLabel.FontSizeProperty);
 

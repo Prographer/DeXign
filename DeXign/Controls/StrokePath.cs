@@ -42,31 +42,31 @@ namespace DeXign.Controls
 
         public Geometry Data
         {
-            get { return (StreamGeometry)GetValue(DataProperty); }
+            get { return this.GetValue<StreamGeometry>(DataProperty); }
             set { SetValue(DataProperty, value); }
         }
 
         public Brush Fill
         {
-            get { return (Brush)GetValue(FillProperty); }
+            get { return this.GetValue<Brush>(FillProperty); }
             set { SetValue(FillProperty, value); }
         }
 
         public Brush Stroke
         {
-            get { return (Brush)GetValue(StrokeProperty); }
+            get { return this.GetValue<Brush>(StrokeProperty); }
             set { SetValue(StrokeProperty, value); }
         }
 
         public double StrokeThickness
         {
-            get { return (double)GetValue(StrokeThicknessProperty); }
+            get { return this.GetValue<double>(StrokeThicknessProperty); }
             set { SetValue(StrokeThicknessProperty, value); }
         }
 
         public Stretch Stretch
         {
-            get { return (Stretch)GetValue(StretchProperty); }
+            get { return this.GetValue<Stretch>(StretchProperty); }
             set { SetValue(StretchProperty, value); }
         }
 

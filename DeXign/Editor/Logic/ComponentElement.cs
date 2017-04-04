@@ -82,40 +82,40 @@ namespace DeXign.Editor.Logic
 
         public string Header
         {
-            get { return (string)GetValue(HeaderProperty); }
+            get { return this.GetValue<string>(HeaderProperty); }
             set { SetValue(HeaderProperty, value); }
         }
 
         public Brush AccentBrush
         {
-            get { return (Brush)GetValue(AccentBrushProperty); }
+            get { return this.GetValue<Brush>(AccentBrushProperty); }
             set { SetValue(AccentBrushProperty, value); }
         }
 
         public Color AccentColor
         {
-            get { return (Color)GetValue(AccentColorProperty); }
+            get { return this.GetValue<Color>(AccentColorProperty); }
             set { SetValue(AccentColorProperty, value); }
         }
         
         public ObservableCollection<BindThumb> InputThumbs
         {
-            get { return (ObservableCollection<BindThumb>)GetValue(InputThumbsProperty); }
+            get { return this.GetValue<ObservableCollection<BindThumb>>(InputThumbsProperty); }
         }
 
         public ObservableCollection<BindThumb> OutputThumbs
         {
-            get { return (ObservableCollection<BindThumb>)GetValue(OutputThumbsProperty); }
+            get { return this.GetValue<ObservableCollection<BindThumb>>(OutputThumbsProperty); }
         }
 
         public ObservableCollection<BindThumb> ParameterThumbs
         {
-            get { return (ObservableCollection<BindThumb>)GetValue(ParameterThumbsProperty); }
+            get { return this.GetValue<ObservableCollection<BindThumb>>(ParameterThumbsProperty); }
         }
 
         public ObservableCollection<BindThumb> ReturnThumbs
         {
-            get { return (ObservableCollection<BindThumb>)GetValue(ReturnThumbsProperty); }
+            get { return this.GetValue<ObservableCollection<BindThumb>>(ReturnThumbsProperty); }
         }
 
         public PComponent Model => (PComponent)this.DataContext;

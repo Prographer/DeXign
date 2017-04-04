@@ -24,7 +24,7 @@ namespace DeXign.Core.Controls
         [DXResource(ResourceType.Image)]
         public string Source
         {
-            get { return GetValue<string>(SourceProperty); }
+            get { return this.GetValue<string>(SourceProperty); }
             set { SetValue(SourceProperty, value); }
         }
 
@@ -33,7 +33,7 @@ namespace DeXign.Core.Controls
         [WPF("Stretch")]
         public PStretch Stretch
         {
-            get { return GetValue<PStretch>(StretchProperty); }
+            get { return this.GetValue<PStretch>(StretchProperty); }
             set { SetValue(StretchProperty, value); }
         }
 

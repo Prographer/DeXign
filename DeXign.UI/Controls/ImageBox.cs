@@ -16,13 +16,13 @@ namespace DeXign.UI
 
         public ImageSource Source
         {
-            get { return (ImageSource)GetValue(SourceProperty); }
+            get { return this.GetValue<ImageSource>(SourceProperty); }
             set { SetValue(SourceProperty, value); }
         }
 
         public Stretch Stretch
         {
-            get { return (Stretch)GetValue(StretchProperty); }
+            get { return this.GetValue<Stretch>(StretchProperty); }
             set { SetValue(StretchProperty, value); }
         }
     }
