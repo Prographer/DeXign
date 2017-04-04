@@ -55,30 +55,12 @@ namespace DeXign.Editor.Layer
             return arrangeSize;
         }
 
-        protected void BeginGuidelineSet(DrawingContext dc)
-        {
-            var guidelines = new GuidelineSet();
-
-            guidelines.GuidelinesX.Add(this.Fit(1) / 2);
-            guidelines.GuidelinesX.Add(this.Fit(1) / 2);
-            guidelines.GuidelinesY.Add(this.Fit(1) / 2);
-            guidelines.GuidelinesY.Add(this.Fit(1) / 2);
-
-            dc.PushGuidelineSet(guidelines);
-        }
-
-        protected void EndGuidelineSet(DrawingContext dc)
-        {
-            dc.Pop();
-
-        }
-
         protected override void OnRender(DrawingContext dc)
         {
             DrawClickArea(dc);
             DrawFrame(dc);
 
-            BeginGuidelineSet(dc);
+            this.BeginGuidelineSet(dc);
 
             OnDispatchRender(dc);
             
@@ -103,7 +85,7 @@ namespace DeXign.Editor.Layer
             if (DesignMode != DesignMode.None)
                 DrawSelectedFrame(dc);
 
-            EndGuidelineSet(dc);
+            this.EndGuidelineSet(dc);
         }
 
         private void DrawSelectedFrame(DrawingContext dc)

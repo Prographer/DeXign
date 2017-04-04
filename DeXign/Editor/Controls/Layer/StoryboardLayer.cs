@@ -77,6 +77,23 @@ namespace DeXign.Editor.Layer
         {
             return value / Scale;
         }
+
+        protected void BeginGuidelineSet(DrawingContext dc)
+        {
+            var guidelines = new GuidelineSet();
+            
+            guidelines.GuidelinesX.Add(this.Fit(1) / 2);
+            guidelines.GuidelinesX.Add(this.Fit(1) / 2);
+            guidelines.GuidelinesY.Add(this.Fit(1) / 2);
+            guidelines.GuidelinesY.Add(this.Fit(1) / 2);
+
+            dc.PushGuidelineSet(guidelines);
+        }
+
+        protected void EndGuidelineSet(DrawingContext dc)
+        {
+            dc.Pop();
+        }
         #endregion
 
         #region [ Resource Methods ]

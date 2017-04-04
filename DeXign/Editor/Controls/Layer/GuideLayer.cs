@@ -35,33 +35,31 @@ namespace DeXign.Editor.Layer
         {
             base.OnRender(dc);
 
-            var guidelines = new GuidelineSet();
+            this.BeginGuidelineSet(dc);
 
-            guidelines.GuidelinesX.Add(this.Fit(1) / 2);
-            guidelines.GuidelinesX.Add(this.Fit(1) / 2);
-            guidelines.GuidelinesY.Add(this.Fit(1) / 2);
-            guidelines.GuidelinesY.Add(this.Fit(1) / 2);
-
-            dc.PushGuidelineSet(guidelines);
+            var pen = this.CreatePen(Brushes.Red, 1);
             
-            var pen = new Pen(Brushes.Red, this.Fit(1));
-
-            int n = 0;
-            foreach (Guideline item in SnapItems)
+            foreach (var g in SnapItems
+                .Where(item => item.IsVertical)
+                .GroupBy(item => Math.Round(item.Point1.X, 2)))
             {
-                dc.DrawLine(pen, item.Point1, item.Point2);
+                var minY = g.Min(item => Math.Min(item.Point1.Y, item.Point2.Y));
+                var maxY = g.Max(item => Math.Max(item.Point1.Y, item.Point2.Y));
 
-                var t = new FormattedText(
-                    (n++).ToString(), System.Globalization.CultureInfo.InvariantCulture,
-                    FlowDirection.LeftToRight,
-                    new Typeface("Verdana"),
-                    12,
-                    Brushes.Blue);
-
-                dc.DrawText(t, item.Point1);
+                dc.DrawLine(pen, new Point(g.Key, minY), new Point(g.Key, maxY));
             }
 
-            dc.Pop();
+            foreach (var g in SnapItems
+                .Where(item => !item.IsVertical)
+                .GroupBy(item => Math.Round(item.Point1.Y, 2)))
+            {
+                var minX = g.Min(item => Math.Min(item.Point1.X, item.Point2.X));
+                var maxX = g.Max(item => Math.Max(item.Point1.X, item.Point2.X));
+
+                dc.DrawLine(pen, new Point(minX, g.Key), new Point(maxX, g.Key));
+            }
+
+            this.EndGuidelineSet(dc);
         }
 
         public void ClearSnappedGuidelines()
