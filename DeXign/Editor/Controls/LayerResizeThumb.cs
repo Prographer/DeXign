@@ -1,4 +1,5 @@
 using DeXign.Controls;
+using DeXign.Core.Controls;
 using DeXign.Editor.Layer;
 using System;
 using System.Collections.Generic;
@@ -178,6 +179,13 @@ namespace DeXign.Editor.Controls
 
                             if (TargetLayer.ClipData.VerticalAlignment == VerticalAlignment.Top)
                                 margin.Bottom = Math.Min(margin.Bottom, 0);
+
+                            // 부모가 스택인경우 처리
+                            if (this.TargetLayer.Parent.Model is PStackLayout stack &&
+                                stack.Orientation == Core.POrientation.Vertical)
+                            {
+                                margin.Bottom = beginThickness.Bottom;
+                            }
                         }
                         break;
                 }
@@ -239,6 +247,13 @@ namespace DeXign.Editor.Controls
 
                             if (TargetLayer.ClipData.HorizontalAlignment == HorizontalAlignment.Left)
                                 margin.Right = Math.Min(margin.Right, 0);
+
+                            // 부모가 스택인경우 처리
+                            if (this.TargetLayer.Parent.Model is PStackLayout stack &&
+                                stack.Orientation == Core.POrientation.Horizontal)
+                            {
+                                margin.Right = beginThickness.Right;
+                            }
                         }
                         break;
                 }
