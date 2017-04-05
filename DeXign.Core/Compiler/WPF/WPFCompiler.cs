@@ -187,45 +187,45 @@ namespace DeXign.Core.Compiler
             compileParam.OutputAssembly = exePath;
             compileParam.CompilerOptions = $"/target:winexe /win32icon:{tempIconPath}";
 
-#if DEBUG
-            UI.SpacingStackPanel s;
+//#if DEBUG
+//            UI.SpacingStackPanel s;
 
-            var w = new Window()
-            {
-                WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                Content = new ScrollViewer()
-                {
-                    Content = (s = new UI.SpacingStackPanel()
-                    {
-                        Spacing = 40
-                    })
-                }
-            };
+//            var w = new Window()
+//            {
+//                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+//                Content = new ScrollViewer()
+//                {
+//                    Content = (s = new UI.SpacingStackPanel()
+//                    {
+//                        Spacing = 40
+//                    })
+//                }
+//            };
 
-            foreach (string xaml in screensXaml)
-            {
-                s.Children.Add(
-                    new TextBox()
-                    {
-                        VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                        IsReadOnly = true,
-                        Text = xaml
-                    });
-            }
+//            foreach (string xaml in screensXaml)
+//            {
+//                s.Children.Add(
+//                    new TextBox()
+//                    {
+//                        VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+//                        IsReadOnly = true,
+//                        Text = xaml
+//                    });
+//            }
 
-            foreach (string code in csSources)
-            {
-                s.Children.Add(
-                    new TextBox()
-                    {
-                        VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                        IsReadOnly = true,
-                        Text = code
-                    });
-            }
+//            foreach (string code in csSources)
+//            {
+//                s.Children.Add(
+//                    new TextBox()
+//                    {
+//                        VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+//                        IsReadOnly = true,
+//                        Text = code
+//                    });
+//            }
 
-            w.Show();
-#endif
+//            w.Show();
+//#endif
             // Compile Binary
             CompilerResults compileResult = provider.CompileAssemblyFromSource(compileParam, csSources.ToArray());
             compileParam.TempFiles.Delete();

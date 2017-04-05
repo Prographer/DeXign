@@ -38,7 +38,7 @@ namespace DeXign.Editor.Renderer
 
         protected override void OnSelected()
         {
-            if (this.Model.TargetVisual.GetRenderer() is SelectionLayer layer)
+            if (this.Element.TargetRenderer is SelectionLayer layer)
             {
                 layer.IsHighlight = true;
             }
@@ -46,7 +46,7 @@ namespace DeXign.Editor.Renderer
 
         protected override void OnUnSelected()
         {
-            if (this.Model.TargetVisual.GetRenderer() is SelectionLayer layer)
+            if (this.Element.TargetRenderer is SelectionLayer layer)
             {
                 layer.IsHighlight = false;
             }

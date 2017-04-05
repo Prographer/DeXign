@@ -43,18 +43,23 @@ namespace DeXign.Editor.Logic
 
             nameBlock = GetTemplateChild<TextBlock>("PART_nameBlock");
 
-            if (this.Model.TargetVisual != null)
-            {
-                string displayName = this.Model.TargetVisual.GetAttribute<DesignElementAttribute>().DisplayName;
+            SetTargetVisualBinding();
+        }
 
-                var b = BindingHelper.SetBinding(
-                    this.Model.TargetVisual, PObject.NameProperty,
-                    nameBlock, TextBlock.TextProperty,
-                    converter: new FallbackStringConverter()
-                    {
-                        FallbackValue = $"<이름 없음> ({displayName})"
-                    });
-            }
+        private void SetTargetVisualBinding()
+        {
+            if (this.Model.TargetVisual == null)
+                return;
+
+            string displayName = this.Model.TargetVisual.GetAttribute<DesignElementAttribute>().DisplayName;
+
+            var b = BindingHelper.SetBinding(
+                this.Model.TargetVisual, PObject.NameProperty,
+                nameBlock, TextBlock.TextProperty,
+                converter: new FallbackStringConverter()
+                {
+                    FallbackValue = $"<이름 없음> ({displayName})"
+                });
         }
 
         protected override void OnAttachedComponentModel()
@@ -76,6 +81,8 @@ namespace DeXign.Editor.Logic
             if (this.TargetRenderer.Model is PVisual visualModel)
             {
                 this.Model.TargetVisual = visualModel;
+
+                SetTargetVisualBinding();
             }
 
             OnTargetRendererChangd();

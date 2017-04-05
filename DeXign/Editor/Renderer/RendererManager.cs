@@ -13,6 +13,7 @@ using WPFExtension;
 using DeXign.Core;
 using DeXign.Utilities;
 using DeXign.Core.Logic;
+using System.Diagnostics;
 
 namespace DeXign.Editor.Renderer
 {
@@ -132,6 +133,8 @@ namespace DeXign.Editor.Renderer
 
         public static IRenderer GetRenderer(this DependencyObject element)
         {
+            var stack = new StackTrace();
+
             return (IRenderer)element.GetValue(RendererProperty);
         }
 
