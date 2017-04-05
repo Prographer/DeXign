@@ -103,7 +103,7 @@ namespace DeXign.Editor
 
         public static bool IsLocked(this DependencyObject obj)
         {
-            return (bool)obj.GetValue(LockProperty);
+            return obj.GetValue<bool>(LockProperty);
         }
         #endregion
 

@@ -208,9 +208,6 @@ namespace DeXign.Editor.Logic
         {
             if (this.IsFloating())
                 return;
-
-            this.AddSelectedHandler(Selected);
-            this.AddUnselectedHandler(Unselected);
         }
 
         private void InitializeBinders()
@@ -367,48 +364,8 @@ namespace DeXign.Editor.Logic
 
         }
         
-        private void Unselected(object sender, SelectionChangedEventArgs e)
-        {
-            SetNodeOpacity(BindOptions.Output | BindOptions.Return, 0.3);
-            SetNodeOpacity(BindOptions.Input | BindOptions.Parameter, 0.3);
-
-            OnUnSelected();
-        }
-
-        private void Selected(object sender, SelectionChangedEventArgs e)
-        {
-            if (this.ParentStoryboard != null)
-                Keyboard.Focus(this.ParentStoryboard);
-
-            SetNodeOpacity(BindOptions.Output | BindOptions.Return, 1);
-            SetNodeOpacity(BindOptions.Input | BindOptions.Parameter, 1);
-
-            OnSelected();
-        }
-        
-        protected virtual void OnSelected()
-        {
-        }
-
-        protected virtual void OnUnSelected()
-        {
-        }
-
         public virtual void OnApplyContentTemplate()
         {
-        }
-
-        private void SetNodeOpacity(BindOptions option, double opacity)
-        {
-            this.Opacity = opacity;
-
-            foreach (var node in BinderHelper.FindHostNodes(this.Model, option))
-            {
-                var element = node.GetView<FrameworkElement>();
-
-                if (element != null)
-                    element.Opacity = opacity;
-            }
         }
 
         #region [ Template Method ]

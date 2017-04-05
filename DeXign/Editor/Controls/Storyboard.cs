@@ -365,7 +365,9 @@ namespace DeXign.Editor.Controls
         /// 어셈블리의 <see cref="DesignElementAttribute"/> 특성으로 등록된 데이터 모델 <see cref="Type"/>의 <see cref="IRenderer{TModel, TElement}"/>를 생성 후 Parent의 자식으로 설정합니다.
         /// </summary>
         /// <param name="parent"></param>
-        /// <param name="data"></param>
+        /// <param name="type"></param>
+        /// <param name="position"></param>
+        /// <param name="pushTask"></param>
         /// <returns></returns>
         public FrameworkElement GenerateToElement(
             FrameworkElement parent,

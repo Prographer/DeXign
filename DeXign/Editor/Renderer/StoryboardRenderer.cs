@@ -75,7 +75,7 @@ namespace DeXign.Editor.Renderer
 
                 Canvas.SetLeft(element, element.SnapToGrid(position.X));
                 Canvas.SetTop(element, element.SnapToGrid(position.Y));
-                Canvas.SetZIndex(element, 0);
+                Panel.SetZIndex(element, 0);
             }
         }
 

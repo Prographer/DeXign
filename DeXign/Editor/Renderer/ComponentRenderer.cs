@@ -60,7 +60,7 @@ namespace DeXign.Editor.Renderer
         {
             InitializeComponent();
             InitializeResources();
-
+            
             this.SetAdornerIndex(10);
 
             this.Metadata = new RendererMetadata();
@@ -69,11 +69,10 @@ namespace DeXign.Editor.Renderer
             this.Element = adornedElement;
 
             this.Element.SetComponentModel(this.Model);
-
-            this.Element.AddSelectedHandler(OnSelected);
-            this.Element.AddUnselectedHandler(OnUnSelected);
-
+            
             this.RendererChildren = new List<IRenderer>();
+
+            InitializeSelector();
 
             // Pending Visual Line Queue
             pendingConnectLine = new Queue<(BindThumb Output, BindThumb Input)>();
@@ -97,25 +96,80 @@ namespace DeXign.Editor.Renderer
             });
         }
 
+        private void InitializeSelector()
+        {
+            this.Element.AddSelectedHandler(Selected);
+            this.Element.AddUnselectedHandler(UnSelected);
+
+            if (!DesignTime.IsLocked(this))
+                GroupSelector.Select(this.Element, true);
+        }
+
         private void InitializeResources()
         {
             selectionBrush = ResourceManager.GetBrush("Flat.Accent.DeepDark");
-
-            //gFactory = GlyphRunFactory.Create(
-            //    new Typeface(
-            //        ResourceManager.GetFont("NotoSans.Light"), FontStyles.Normal, FontWeights.Bold, FontStretches.Normal));
         }
 
-        private void OnSelected(object sender, SelectionChangedEventArgs e)
+        private void Selected(object sender, SelectionChangedEventArgs e)
         {
+            Keyboard.Focus(this.Storyboard);
             this.SetAdornerIndex(10);
 
             this.InvalidateVisual();
+
+            ShowAllNodes();
+
+            OnSelected();
         }
 
-        private void OnUnSelected(object sender, SelectionChangedEventArgs e)
+        private void UnSelected(object sender, SelectionChangedEventArgs e)
         {
             this.InvalidateVisual();
+
+            HideAllNodes();
+
+            OnUnSelected();
+        }
+
+        public void InvalidateNodes()
+        {
+            if (GroupSelector.IsSelected(this.Element))
+                ShowAllNodes();
+            else
+                HideAllNodes();
+        }
+
+        private void ShowAllNodes()
+        {
+            SetNodeOpacity(BindOptions.Output | BindOptions.Return, 1);
+            SetNodeOpacity(BindOptions.Input | BindOptions.Parameter, 1);
+        }
+
+        private void HideAllNodes()
+        {
+            SetNodeOpacity(BindOptions.Output | BindOptions.Return, 0.3);
+            SetNodeOpacity(BindOptions.Input | BindOptions.Parameter, 0.3);
+        }
+
+        protected virtual void OnSelected()
+        {
+        }
+
+        protected virtual void OnUnSelected()
+        {
+        }
+
+        private void SetNodeOpacity(BindOptions option, double opacity)
+        {
+            this.Element.Opacity = opacity;
+
+            foreach (var node in BinderHelper.FindHostNodes(this.Model, option))
+            {
+                var element = node.GetView<FrameworkElement>();
+
+                if (element != null)
+                    element.Opacity = opacity;
+            }
         }
 
         protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
@@ -158,6 +212,9 @@ namespace DeXign.Editor.Renderer
             var inputThumb = inputBinder.GetView<BindThumb>();
 
             ConnectVisualLine(outputThumb, inputThumb);
+
+            if (DesignTime.IsLocked(this))
+                return;
         }
 
         private void ComponentRenderer_Released(object sender, BinderBindedEventArgs e)
@@ -255,6 +312,9 @@ namespace DeXign.Editor.Renderer
         protected override void OnDisposed()
         {
             base.OnDisposed();
+
+            this.Element.RemoveSelectedHandler(Selected);
+            this.Element.RemoveUnselectedHandler(UnSelected);
         }
         #endregion
 

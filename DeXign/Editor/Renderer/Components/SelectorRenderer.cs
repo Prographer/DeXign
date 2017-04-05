@@ -8,6 +8,7 @@ using WPFExtension;
 using System;
 using DeXign.Utilities;
 using DeXign.Core.Controls;
+using DeXign.Editor.Layer;
 
 [assembly: ExportRenderer(typeof(PSelector), typeof(ObjectSelector), typeof(SelectorRenderer))]
 
@@ -33,6 +34,22 @@ namespace DeXign.Editor.Renderer
         protected override void OnDrawOutSightText(DrawingContext drawingContext)
         {
             // Prevent Text Draw
+        }
+
+        protected override void OnSelected()
+        {
+            if (this.Model.TargetVisual.GetRenderer() is SelectionLayer layer)
+            {
+                layer.IsHighlight = true;
+            }
+        }
+
+        protected override void OnUnSelected()
+        {
+            if (this.Model.TargetVisual.GetRenderer() is SelectionLayer layer)
+            {
+                layer.IsHighlight = false;
+            }
         }
     }
 }

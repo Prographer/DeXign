@@ -84,25 +84,5 @@ namespace DeXign.Editor.Logic
         protected virtual void OnTargetRendererChangd()
         {
         }
-
-        protected override void OnUnSelected()
-        {
-            base.OnUnSelected();
-
-            if (this.TargetRenderer is SelectionLayer layer)
-            {
-                layer.IsHighlight = false;
-            }
-        }
-
-        protected override void OnSelected()
-        {
-            base.OnSelected();
-
-            if (this.TargetRenderer is SelectionLayer layer)
-            {
-                layer.IsHighlight = true;
-            }
-        }
     }
 }
