@@ -22,32 +22,34 @@ namespace DeXign.Controls
         {
             base.OnApplyTemplate();
 
-            //valueComboBox = GetTemplateChild<ComboBox>("PART_valueComboBox");
+            valueComboBox = GetTemplateChild<ComboBox>("PART_valueComboBox");
 
-            //foreach (Enum value in Enum.GetValues(TargetDependencyProperties.PropertyType))
-            //    valueComboBox.Items.Add(value.GetDescription());
+            foreach (Enum value in Enum.GetValues(this.PropertyType))
+                valueComboBox.Items.Add(value.GetDescription());
 
-            //valueComboBox.SelectedItem = ((Enum)Value).GetDescription();
-            //valueComboBox.SelectionChanged += ValueComboBox_SelectionChanged;
+            if (this.IsStable)
+                valueComboBox.SelectedItem = ((Enum)this.Value).GetDescription();
+
+            valueComboBox.SelectionChanged += ValueComboBox_SelectionChanged;
             
-            //ValueProperty.AddValueChanged(this, ValueChanged);
+            ValueProperty.AddValueChanged(this, ValueChanged);
         }
 
         private void ValueChanged(object sender, EventArgs e)
         {
-            //string v = ((Enum)Value).GetDescription();
+            string v = ((Enum)Value).GetDescription();
 
-            //if (valueComboBox.SelectedItem.ToString() != v)
-            //    valueComboBox.SelectedItem = v;
+            if (valueComboBox.SelectedItem.ToString() != v)
+                valueComboBox.SelectedItem = v;
         }
 
         private void ValueComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //Enum v = valueComboBox.SelectedItem.ToString()
-            //    .FromDescription(TargetProperties.PropertyType); ;
+            Enum v = valueComboBox.SelectedItem.ToString()
+                .FromDescription(this.PropertyType); ;
 
-            //if (Value != v)
-            //    Value = v;
+            if (Value != v)
+                Value = v;
         }
 
         protected override void OnDispose()
@@ -55,7 +57,7 @@ namespace DeXign.Controls
             if (valueComboBox != null)
             {
                 valueComboBox.SelectionChanged -= ValueComboBox_SelectionChanged;
-                //ValueProperty.RemoveValueChanged(this, ValueChanged);
+                ValueProperty.RemoveValueChanged(this, ValueChanged);
 
                 valueComboBox = null;
             }

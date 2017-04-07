@@ -27,6 +27,8 @@ namespace DeXign.Controls
 
         public DependencyProperty[] TargetDependencyProperties { get; private set; }
 
+        public Type PropertyType { get; private set; }
+
         public bool IsStable => multiConverter.IsStable;
 
         MultiPropertyConverter multiConverter;
@@ -54,7 +56,9 @@ namespace DeXign.Controls
             {
                 throw new ArgumentException("속성을 찾을 수 없습니다.");
             }
-            
+
+            this.PropertyType = this.TargetProperties[0].PropertyType;
+
             InitializeMultiBinding();
 
             this.Loaded += BaseSetter_Loaded;
