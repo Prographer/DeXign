@@ -29,9 +29,10 @@ namespace DeXign.Controls
 
         public Type PropertyType { get; private set; }
 
-        public bool IsStable => multiConverter.IsStable;
+        public bool IsStable => MultiConverter.IsStable;
 
-        MultiPropertyConverter multiConverter;
+        public MultiPropertyConverter MultiConverter { get; private set; }
+
         ListViewItem listViewItem;
         bool isDisposed = false;
 
@@ -67,11 +68,13 @@ namespace DeXign.Controls
 
         private void InitializeMultiBinding()
         {
-            multiConverter = new MultiPropertyConverter(this.TargetProperties[0].PropertyType);
+            MultiConverter = new MultiPropertyConverter(this.TargetProperties[0].PropertyType, this.Targets);
+
+            OnCreateMultiConverter();
 
             var multiBinding = new MultiBinding()
             {
-                Converter = multiConverter,
+                Converter = MultiConverter,
                 Mode = BindingMode.TwoWay,
                 UpdateSourceTrigger = UpdateSourceTrigger.Default
             };
@@ -88,6 +91,10 @@ namespace DeXign.Controls
             }
 
             this.SetBinding(ValueProperty, multiBinding);
+        }
+
+        protected virtual void OnCreateMultiConverter()
+        {
         }
 
         private void BaseSetter_Unloaded(object sender, RoutedEventArgs e)

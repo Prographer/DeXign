@@ -4,6 +4,8 @@ using System.Windows.Media;
 
 using DeXign.Converter;
 using DeXign.Extension;
+using System.Collections.Generic;
+using System.Windows.Data;
 
 namespace DeXign.Controls
 {
@@ -13,8 +15,20 @@ namespace DeXign.Controls
 
         public Type PropertyType { get; }
 
-        public MultiPropertyConverter(Type propertyType)
+        public object[] Targets { get; }
+
+        public IValueConverter this[object obj]
         {
+            get { return converters[obj]; }
+            set { converters[obj] = value; }
+        }
+
+        private Dictionary<object, IValueConverter> converters =
+            new Dictionary<object, IValueConverter>();
+
+        public MultiPropertyConverter(Type propertyType, object[] targets)
+        {
+            this.Targets = targets;
             this.PropertyType = propertyType;
         }
 
@@ -25,18 +39,32 @@ namespace DeXign.Controls
             if (values.Length == 1)
             {
                 this.IsStable = true;
-
-                result = values[0];
+                
+                if (converters.TryGetValue(this.Targets[0], out IValueConverter converter))
+                    result = converter.Convert(values[0], null, null, null);
+                else
+                    result = values[0];
             }
             else
             {
-                object source = values[0];
+                object source = null;
 
                 this.IsStable = false;
 
-                foreach (object value in values.Skip(1))
+                for (int i = 0; i < values.Length; i++)
                 {
-                    this.IsStable |= ValueEquals(source, value);
+                    object v = values[i];
+
+                    if (converters.TryGetValue(this.Targets[i], out IValueConverter converter))
+                        v = converter.Convert(v, null, null, null);
+
+                    if (i == 0)
+                    {
+                        source = v;
+                        continue;
+                    }
+
+                    this.IsStable |= ValueEquals(source, v);
 
                     if (!this.IsStable)
                         break;
@@ -57,7 +85,12 @@ namespace DeXign.Controls
 
             for (int i = 0; i < values.Length; i++)
             {
-                values[i] = value;
+                object v = value;
+
+                if (converters.TryGetValue(this.Targets[i], out IValueConverter converter))
+                    v = converter.ConvertBack(value, null, null, null);
+
+                values[i] = v;
             }
 
             return values;

@@ -129,7 +129,6 @@
     <Compile Include="Controls\PropertyGrid\Setters\ISetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\MultiPropertyConverter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\ImageSourceSetter.cs" />
-    <Compile Include="Controls\PropertyGrid\Setters\Components\SliderSetter.cs" />
     <Compile Include="Controls\Cell\TextCell.cs" />
     <Compile Include="Controls\RecentFileTextBlock.cs" />
     <Compile Include="Controls\RectangleEx.cs" />
@@ -249,6 +248,7 @@
     <Compile Include="MVVM\Converter\PathToImageConverter.cs" />
     <Compile Include="MVVM\Converter\PercentageConverter.cs" />
     <Compile Include="MVVM\Converter\DoubleToStringConverter.cs" />
+    <Compile Include="MVVM\Converter\SliderValueConverter.cs" />
     <Compile Include="MVVM\Converter\ToolboxIconConverter.cs" />
     <Compile Include="MVVM\Models\Base\BaseNotifyModel.cs" />
     <Compile Include="MVVM\Models\Base\IModel.cs" />
