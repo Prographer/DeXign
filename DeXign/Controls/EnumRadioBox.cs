@@ -53,8 +53,14 @@ namespace DeXign.Controls
         public object Value
         {
             get { return GetValue(ValueProperty); }
-            set { SetValue(ValueProperty, value); }
+            set
+            {
+                this.IsEmpty = false;
+                SetValue(ValueProperty, value);
+            }
         }
+
+        public bool IsEmpty { get; set; } = false;
 
         public ObservableCollection<EnumContent> Contents
         {
@@ -94,6 +100,9 @@ namespace DeXign.Controls
 
         private void ValueChanged(object sender, EventArgs e)
         {
+            if (this.IsEmpty)
+                return;
+
             var radio = Children
                 .Cast<RadioButton>()
                 .FirstOrDefault(r => r.Tag.Equals(this.Value));
@@ -115,8 +124,7 @@ namespace DeXign.Controls
                 var radio = new RadioButton()
                 {
                     Style = (Style)FindResource("EnumRadioButtonStyle"),
-                    Tag = value,
-                    IsChecked = value.Equals(this.Value)
+                    Tag = value
                 };
 
                 radio.Checked += (ss, ee) =>

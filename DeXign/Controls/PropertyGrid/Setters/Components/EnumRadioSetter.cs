@@ -20,11 +20,14 @@ namespace DeXign.Controls
 
             ValueRadioBox = GetTemplateChild<EnumRadioBox>("PART_valueRadioBox");
 
-            //ValueRadioBox.Value = this.Value;
+            if (this.IsStable)
+                ValueRadioBox.Value = this.Value;
+            else
+                ValueRadioBox.IsEmpty = true;
 
-            //BindingHelper.SetBinding(
-            //    this, ValueProperty,
-            //    ValueRadioBox, EnumRadioBox.ValueProperty);
+            BindingHelper.SetBinding(
+                this, ValueProperty,
+                ValueRadioBox, EnumRadioBox.ValueProperty);
         }
 
         protected override void OnDispose()

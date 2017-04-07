@@ -34,7 +34,9 @@ namespace DeXign.Controls
         public static ISetter CreateSetter(DependencyObject[] targets, PropertyInfo[] propertyInfos)
         {
             Type type = propertyInfos[0].PropertyType;
-            if (propertyInfos[0].PropertyType != typeof(double) && propertyInfos[0].PropertyType != typeof(string))
+            if (propertyInfos[0].PropertyType != typeof(double) && 
+                propertyInfos[0].PropertyType != typeof(string) &&
+                !propertyInfos[0].PropertyType.IsEnum)
                 return null;
             if (!setterTypes.ContainsKey(type))
             {
@@ -53,7 +55,9 @@ namespace DeXign.Controls
         {
             if (!setterNameTypes.ContainsKey(name))
                 return null;
-            if (propertyInfos[0].PropertyType != typeof(double) && propertyInfos[0].PropertyType != typeof(string))
+            if (propertyInfos[0].PropertyType != typeof(double) && 
+                propertyInfos[0].PropertyType != typeof(string) &&
+                !propertyInfos[0].PropertyType.IsEnum)
                 return null;
             return (ISetter)Activator.CreateInstance(
                 setterNameTypes[name],
