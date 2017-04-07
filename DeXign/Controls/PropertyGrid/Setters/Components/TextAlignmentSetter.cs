@@ -8,7 +8,7 @@ namespace DeXign.Controls
     [Setter(Type = typeof(PVerticalTextAlignment))]
     class VerticalTextAlignmentSetter : EnumRadioSetter
     {
-        public VerticalTextAlignmentSetter(DependencyObject target, PropertyInfo pi) : base(target, pi)
+        public VerticalTextAlignmentSetter(DependencyObject[] targets, PropertyInfo[] pis) : base(targets, pis)
         {
         }
 
@@ -21,7 +21,7 @@ namespace DeXign.Controls
     [Setter(Type = typeof(PHorizontalTextAlignment))]
     class HorizontalTextAlignmentSetter : EnumRadioSetter
     {
-        public HorizontalTextAlignmentSetter(DependencyObject target, PropertyInfo pi) : base(target, pi)
+        public HorizontalTextAlignmentSetter(DependencyObject[] targets, PropertyInfo[] pis) : base(targets, pis)
         {
         }
     }

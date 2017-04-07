@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
 using System.Reflection;
 using System.Collections.Generic;
@@ -32,10 +31,11 @@ namespace DeXign.Controls
             }
         }
 
-        public static ISetter CreateSetter(DependencyObject target, PropertyInfo pi)
+        public static ISetter CreateSetter(DependencyObject[] targets, PropertyInfo[] propertyInfos)
         {
-            Type type = pi.PropertyType;
-            
+            Type type = propertyInfos[0].PropertyType;
+            if (propertyInfos[0].PropertyType != typeof(double) && propertyInfos[0].PropertyType != typeof(string))
+                return null;
             if (!setterTypes.ContainsKey(type))
             {
                 if (type.IsEnum)
@@ -46,17 +46,28 @@ namespace DeXign.Controls
 
             return (ISetter)Activator.CreateInstance(
                 setterTypes[type],
-                new object[] { target, pi });
+                new object[] { targets, propertyInfos });
         }
 
-        public static ISetter CreateSetter(DependencyObject target, PropertyInfo pi, string name)
+        public static ISetter CreateSetter(DependencyObject[] targets, PropertyInfo[] propertyInfos, string name)
         {
             if (!setterNameTypes.ContainsKey(name))
                 return null;
-
+            if (propertyInfos[0].PropertyType != typeof(double) && propertyInfos[0].PropertyType != typeof(string))
+                return null;
             return (ISetter)Activator.CreateInstance(
                 setterNameTypes[name],
-                new object[] { target, pi });
+                new object[] { targets, propertyInfos });
+        }
+
+        public static ISetter CreateSetter(DependencyObject target, PropertyInfo propertyInfo)
+        {
+            return CreateSetter(new[] { target }, new[] { propertyInfo });
+        }
+
+        public static ISetter CreateSetter(DependencyObject target, PropertyInfo propertyInfo, string name)
+        {
+            return CreateSetter(new[] { target }, new[] { propertyInfo }, name);
         }
     }
 }

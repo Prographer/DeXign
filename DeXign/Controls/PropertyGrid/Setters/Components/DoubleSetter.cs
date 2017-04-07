@@ -9,7 +9,7 @@ namespace DeXign.Controls
     [Setter(Type = typeof(double))]
     class DoubleSetter : ValueBoxSetter
     {
-        public DoubleSetter(DependencyObject target, PropertyInfo pi) : base(target, pi)
+        public DoubleSetter(DependencyObject[] targets, PropertyInfo[] pis) : base(targets, pis)
         {
         }
     }

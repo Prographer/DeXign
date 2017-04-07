@@ -30,10 +30,10 @@ namespace DeXign.Controls
 
         ElementThicknessBinder marginBinder;
 
-        public ThicknessSetter(DependencyObject target, PropertyInfo pi) : base(target, pi)
+        public ThicknessSetter(DependencyObject[] targets, PropertyInfo[] pis) : base(targets, pis)
         {
-            marginBinder = new ElementThicknessBinder(Target, TargetDependencyProperty);
-            IsMargin = pi.Name == "Margin";
+            //marginBinder = new ElementThicknessBinder(Targets, TargetDependencyProperties);
+            //IsMargin = pis.Name == "Margin";
         }
 
         public override void OnApplyTemplate()

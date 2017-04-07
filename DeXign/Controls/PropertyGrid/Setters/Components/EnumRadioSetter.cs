@@ -10,7 +10,7 @@ namespace DeXign.Controls
     {
         internal EnumRadioBox ValueRadioBox;
 
-        public EnumRadioSetter(DependencyObject target, PropertyInfo pi) : base(target, pi)
+        public EnumRadioSetter(DependencyObject[] targets, PropertyInfo[] pis) : base(targets, pis)
         {
         }
 
@@ -20,11 +20,11 @@ namespace DeXign.Controls
 
             ValueRadioBox = GetTemplateChild<EnumRadioBox>("PART_valueRadioBox");
 
-            ValueRadioBox.Value = this.Value;
+            //ValueRadioBox.Value = this.Value;
 
-            BindingHelper.SetBinding(
-                this, ValueProperty,
-                ValueRadioBox, EnumRadioBox.ValueProperty);
+            //BindingHelper.SetBinding(
+            //    this, ValueProperty,
+            //    ValueRadioBox, EnumRadioBox.ValueProperty);
         }
 
         protected override void OnDispose()

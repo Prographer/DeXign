@@ -20,7 +20,7 @@ namespace DeXign.Controls
         Slider slider;
         TextBox valueBox;
 
-        public PercentageSetter(DependencyObject target, PropertyInfo pi) : base(target, pi)
+        public PercentageSetter(DependencyObject[] targets, PropertyInfo[] pis) : base(targets, pis)
         {
         }
 
@@ -31,39 +31,39 @@ namespace DeXign.Controls
             slider = GetTemplateChild<Slider>("PART_slider");
             valueBox = GetTemplateChild<TextBox>("PART_valueBox");
 
-            BindingHelper.SetBinding(
-                this, ValueProperty,
-                slider, Slider.ValueProperty);
+            //BindingHelper.SetBinding(
+            //    this, ValueProperty,
+            //    slider, Slider.ValueProperty);
 
-            if (this.Target is PSlider)
-            {
-                BindingHelper.SetBinding(
-                    this.Target, PSlider.MinimumProperty,
-                    slider, Slider.MinimumProperty);
+            //if (this.Targets is PSlider)
+            //{
+            //    BindingHelper.SetBinding(
+            //        this.Targets, PSlider.MinimumProperty,
+            //        slider, Slider.MinimumProperty);
 
-                BindingHelper.SetBinding(
-                    this.Target, PSlider.MaximumProperty,
-                    slider, Slider.MaximumProperty);
+            //    BindingHelper.SetBinding(
+            //        this.Targets, PSlider.MaximumProperty,
+            //        slider, Slider.MaximumProperty);
                 
-                PSlider.MaximumProperty.AddValueChanged(this.Target, MaximumChanged);
-                PSlider.MinimumProperty.AddValueChanged(this.Target, MinimumChanged);
-            }
+            //    PSlider.MaximumProperty.AddValueChanged(this.Targets, MaximumChanged);
+            //    PSlider.MinimumProperty.AddValueChanged(this.Targets, MinimumChanged);
+            //}
         }
 
         private void MinimumChanged(object sender, EventArgs e)
         {
             var data = GetTextBindingData();
 
-            data.Converter.Minimum = (double)this.Target.GetValue(PSlider.MinimumProperty);
-            data.Expression.UpdateSource();
+            //data.Converter.Minimum = (double)this.Targets.GetValue(PSlider.MinimumProperty);
+            //data.Expression.UpdateSource();
         }
 
         private void MaximumChanged(object sender, EventArgs e)
         {
             var data = GetTextBindingData();
 
-            data.Converter.Maximum = (double)this.Target.GetValue(PSlider.MaximumProperty);
-            data.Expression.UpdateSource();
+            //data.Converter.Maximum = (double)this.Targets.GetValue(PSlider.MaximumProperty);
+            //data.Expression.UpdateSource();
         }
 
         private (BindingExpression Expression, PercentageConverter Converter) GetTextBindingData()
@@ -77,11 +77,11 @@ namespace DeXign.Controls
 
         protected override void OnDispose()
         {
-            if (this.Target is PSlider)
-            {
-                PSlider.MaximumProperty.RemoveValueChanged(this.Target, MaximumChanged);
-                PSlider.MinimumProperty.RemoveValueChanged(this.Target, MinimumChanged);
-            }
+            //if (this.Targets is PSlider)
+            //{
+            //    PSlider.MaximumProperty.RemoveValueChanged(this.Targets, MaximumChanged);
+            //    PSlider.MinimumProperty.RemoveValueChanged(this.Targets, MinimumChanged);
+            //}
 
             slider = null;
         }

@@ -14,7 +14,7 @@ namespace DeXign.Controls
     {
         ColorCanvas colorCanvas;
 
-        public BrushSetter(DependencyObject target, PropertyInfo pi) : base(target, pi)
+        public BrushSetter(DependencyObject[] targets, PropertyInfo[] pis) : base(targets, pis)
         {
         }
 
@@ -22,44 +22,60 @@ namespace DeXign.Controls
         {
             base.OnApplyTemplate();
 
-            colorCanvas = GetTemplateChild<ColorCanvas>("PART_colorCanvas");
+            //colorCanvas = GetTemplateChild<ColorCanvas>("PART_colorCanvas");
             
-            if (this.Value is SolidColorBrush brush)
-            {
-                colorCanvas.SelectedColor = brush.Color;
+            //if (this.Value.PropertyType == typeof(SolidColorBrush))
+            //{
+            //    if (this.Value.IsStable)
+            //    {
+            //        colorCanvas.SelectedColor = (this.Value.Value as SolidColorBrush).Color;
+            //    }
+            //    else
+            //    {
+            //        colorCanvas.SelectedColor = Colors.Transparent;
+            //    }
 
-                TargetDependencyProperty.AddValueChanged(Target, Brush_Changed);
-                colorCanvas.SelectedColorChanged += ColorCanvas_SelectedColorChanged;
-            }
-            else
-            {
-                this.IsEnabled = false;
-            }
+            //    // hook
+            //    for (int i = 0; i < Targets.Length; i++)
+            //    {
+            //        TargetDependencyProperties[i].AddValueChanged(Targets[i], Brush_Changed);
+            //    }
+                
+            //    colorCanvas.SelectedColorChanged += ColorCanvas_SelectedColorChanged;
+            //}
+            //else
+            //{
+            //    this.IsEnabled = false;
+            //}
         }
 
         private void ColorCanvas_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
-            Value = new SolidColorBrush(e.NewValue.Value);
+            //Value = new PropertyValue(new SolidColorBrush(e.NewValue.Value));
         }
 
         private void Brush_Changed(object sender, System.EventArgs e)
         {
-            var brush = (Value as SolidColorBrush);
+            //var brush = (Value as SolidColorBrush);
 
-            if (colorCanvas != null && 
-                brush != null && !brush.Color.Equals(colorCanvas.SelectedColor))
-                colorCanvas.SelectedColor = brush.Color;
+            //if (colorCanvas != null && 
+            //    brush != null && !brush.Color.Equals(colorCanvas.SelectedColor))
+            //    colorCanvas.SelectedColor = brush.Color;
         }
 
         protected override void OnDispose()
         {
-            if (this.Value is SolidColorBrush && colorCanvas != null)
-            {
-                TargetDependencyProperty.RemoveValueChanged(Target, Brush_Changed);
-                colorCanvas.SelectedColorChanged -= ColorCanvas_SelectedColorChanged;
+            //if (this.Value.IsStable && this.Value.PropertyType == typeof(SolidColorBrush) && colorCanvas != null)
+            //{
+            //    for (int i = 0; i < Targets.Length; i++)
+            //    {
+            //        TargetDependencyProperties[i].RemoveValueChanged(Targets[i], Brush_Changed);
+            //    }
 
-                colorCanvas = null;
-            }
+            //    colorCanvas.SelectedColorChanged -= ColorCanvas_SelectedColorChanged;
+
+            //    colorCanvas = null;
+            //}
         }
     }
 }

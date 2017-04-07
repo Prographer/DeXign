@@ -16,7 +16,7 @@ namespace DeXign.Controls
         SubmitTextBox sourceBox;
         Button sourceButton;
 
-        public ImageSourceSetter(DependencyObject target, PropertyInfo pi) : base(target, pi)
+        public ImageSourceSetter(DependencyObject[] targets, PropertyInfo[] pis) : base(targets, pis)
         {
         }
 
@@ -27,9 +27,9 @@ namespace DeXign.Controls
             sourceBox = GetTemplateChild<SubmitTextBox>("PART_sourceBox");
             sourceButton = GetTemplateChild<Button>("PART_sourceButton");
 
-            BindingHelper.SetBinding(
-                this, ValueProperty,
-                sourceBox, SubmitTextBox.TextProperty);
+            //BindingHelper.SetBinding(
+            //    this, ValueProperty,
+            //    sourceBox, SubmitTextBox.TextProperty);
 
             sourceButton.Click += SourceButton_Click;
         }
@@ -46,7 +46,7 @@ namespace DeXign.Controls
 
             if (op.ShowDialog() == true)
             {
-                Value = op.FileName;
+                //Value = op.FileName;
             }
         }
     }

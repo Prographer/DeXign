@@ -12,7 +12,7 @@ namespace DeXign.Controls
     {
         Slider slider;
 
-        public SliderSetter(DependencyObject target, PropertyInfo pi) : base(target, pi)
+        public SliderSetter(DependencyObject[] targets, PropertyInfo[] pis) : base(targets, pis)
         {
         }
 
@@ -20,11 +20,11 @@ namespace DeXign.Controls
         {
             base.OnApplyTemplate();
 
-            slider = GetTemplateChild<Slider>("PART_slider");
+            //slider = GetTemplateChild<Slider>("PART_slider");
 
-            BindingHelper.SetBinding(
-                this, ValueProperty,
-                slider, Slider.ValueProperty);
+            //BindingHelper.SetBinding(
+            //    this, ValueProperty,
+            //    slider, Slider.ValueProperty);
         }
 
         protected override void OnDispose()

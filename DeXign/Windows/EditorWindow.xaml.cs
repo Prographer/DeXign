@@ -72,7 +72,7 @@ namespace DeXign.Windows
         {
             propertyGrid.SelectedObjects = GroupSelector.GetSelectedItems()
                 .Where(obj => obj is IRenderer)
-                .Select(r => (object)(r as IRenderer).Model)
+                .Select(r => (DependencyObject)(r as IRenderer).Model)
                 .ToArray();
         }
 

@@ -1,22 +1,21 @@
-﻿using System.Reflection;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
-
-using DeXign.Rules;
-using DeXign.Resources;
+using System.Windows.Controls;
+using System.Reflection;
 
 using WPFExtension;
+using DeXign.Resources;
+using DeXign.Rules;
 
 namespace DeXign.Controls
 {
-    [TemplatePart(Name = "PART_valueBox", Type = typeof(TextBox))]
+    [TemplatePart(Name = "PART_valueBox", Type = typeof(SubmitTextBox))]
     class ValueBoxSetter : BaseSetter
     {
-        TextBox valueBox;
+        SubmitTextBox valueBox;
 
-        public ValueBoxSetter(DependencyObject target, PropertyInfo pi) : base(target, pi)
+        public ValueBoxSetter(DependencyObject[] targets, PropertyInfo[] pis) : base(targets, pis)
         {
         }
 
@@ -29,9 +28,9 @@ namespace DeXign.Controls
         {
             base.OnApplyTemplate();
 
-            valueBox = GetTemplateChild<TextBox>("PART_valueBox");
+            valueBox = GetTemplateChild<SubmitTextBox>("PART_valueBox");
 
-            if (TargetProperty.PropertyType == typeof(double))
+            if (this.Value is double)
             {
                 Binding b = BindingHelper.SetBinding(
                     this, ValueProperty,
@@ -46,10 +45,16 @@ namespace DeXign.Controls
                     this, ValueProperty,
                     valueBox, TextBox.TextProperty);
             }
+
+            if (!this.IsStable)
+                valueBox.Text = "";
         }
 
         protected override void OnDispose()
         {
+            if (valueBox != null)
+                BindingOperations.ClearAllBindings(valueBox);
+            
             valueBox = null;
         }
     }

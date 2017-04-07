@@ -13,6 +13,10 @@ using WPFExtension;
 using Moda.KString;
 using DeXign.Extension;
 using System.Windows.Data;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
+using DeXign.Core;
 
 namespace DeXign.Controls
 {
@@ -22,14 +26,12 @@ namespace DeXign.Controls
         public static readonly DependencyProperty SelectedObjectsProperty =
             DependencyHelper.Register();
 
-        public object[] SelectedObjects
+        public DependencyObject[] SelectedObjects
         {
-            get { return this.GetValue<object[]>(SelectedObjectsProperty); }
+            get { return this.GetValue<DependencyObject[]>(SelectedObjectsProperty); }
             set { SetValue(SelectedObjectsProperty, value); }
         }
 
-        DependencyObject presentedObject = null;
-        
         public PropertyGrid() : base()
         {
             AddGroupProperty("Category");
@@ -45,37 +47,55 @@ namespace DeXign.Controls
 
             this.Clear();
 
-            if (SelectedObjects?.Length > 0 &&
-                !SelectedObjects[0].Equals(presentedObject))
+            if (SelectedObjects?.Length > 0)
             {
-                SetPresentedObject((DependencyObject)SelectedObjects[0]);
-
-                foreach (var prop in DesignerManager.GetProperties(presentedObject.GetType()))
+                foreach (var group in SelectedObjects
+                    .SelectMany(obj => GetHashedProperties(obj as DependencyObject))
+                    .GroupBy(
+                        p => p.HashCode,
+                        p => p))
                 {
-                    ISetter setter;
+                    if (group.Count() == SelectedObjects.Length)
+                    {
+                        var prop = group.ElementAt(0).Value;
 
-                    if (string.IsNullOrEmpty(prop.Attribute.Key))
-                        setter = SetterManager.CreateSetter(presentedObject, prop.Element);
-                    else
-                        setter = SetterManager.CreateSetter(presentedObject, prop.Element, prop.Attribute.Key);
-                    
-                    if (setter == null)
-                        continue;
-                    
-                    this.AddItem(
-                        new PropertyGridItemModel(prop, setter));
+                        PropertyInfo[] props = group
+                            .Select(item => item.Value.Element)
+                            .ToArray();
+
+                        // »ý¼º
+                        ISetter setter;
+
+                        if (string.IsNullOrEmpty(prop.Attribute.Key))
+                            setter = SetterManager.CreateSetter(SelectedObjects, props);
+                        else
+                            setter = SetterManager.CreateSetter(SelectedObjects, props, prop.Attribute.Key);
+
+                        if (setter == null)
+                            continue;
+
+                        this.AddItem(
+                            new PropertyGridItemModel(prop, setter));
+                    }
                 }
             }
-            else
-            {
-                SetPresentedObject(null);
-            }
+        }
+
+        private IEnumerable<(int HashCode, AttributeTuple<DesignElementAttribute, PropertyInfo> Value)> GetHashedProperties(DependencyObject obj)
+        {
+            return DesignerManager.GetProperties(obj.GetType())
+                .Select(p => (CreatePropertyHash(p), p));
+        }
+
+        private int CreatePropertyHash(AttributeTuple<DesignElementAttribute, PropertyInfo> attr)
+        {
+            return $"{attr.Attribute.Key}{attr.Attribute.DisplayName}{attr.Element.PropertyType.MetadataToken}".GetHashCode();
         }
 
         private void SetPresentedObject(DependencyObject obj)
         {
             this.DataContext = obj;
-            this.presentedObject = obj;
+            //this.presentedObject = obj;
         }
 
         protected override bool OnFilter(object item)

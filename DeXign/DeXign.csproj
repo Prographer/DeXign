@@ -126,6 +126,8 @@
     <Compile Include="Controls\Cell\ContentCell.cs" />
     <Compile Include="Controls\Cell\CheckBoxCell.cs" />
     <Compile Include="Controls\EnumRadioBox.cs" />
+    <Compile Include="Controls\PropertyGrid\Setters\ISetter.cs" />
+    <Compile Include="Controls\PropertyGrid\Setters\MultiPropertyConverter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\ImageSourceSetter.cs" />
     <Compile Include="Controls\PropertyGrid\Setters\Components\SliderSetter.cs" />
     <Compile Include="Controls\Cell\TextCell.cs" />
@@ -230,6 +232,7 @@
     <Compile Include="MVVM\Commands\ActionCommand.cs" />
     <Compile Include="MVVM\Commands\DialogCommands.cs" />
     <Compile Include="MVVM\Commands\RasableRoutedCommand.cs" />
+    <Compile Include="MVVM\Converter\BaseMultiValueConverter.cs" />
     <Compile Include="MVVM\Converter\BoolToObject.cs" />
     <Compile Include="MVVM\Converter\BoolToVisibilityConverter.cs" />
     <Compile Include="MVVM\Converter\DisplayNameConverter.cs" />

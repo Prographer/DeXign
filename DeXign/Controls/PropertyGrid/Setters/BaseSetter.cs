@@ -2,20 +2,14 @@
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Controls;
-
 using DeXign.Extension;
 
 using WPFExtension;
 
 namespace DeXign.Controls
 {
-    public interface ISetter : IDisposable
-    {
-        object GetTargetValue();
-        void SetTargetValue(object value);
-    }
-
     public class BaseSetter : Control, ISetter
     {
         public static readonly DependencyProperty ValueProperty =
@@ -23,45 +17,73 @@ namespace DeXign.Controls
 
         public object Value
         {
-            get
-            {
-                return GetValue(ValueProperty);
-            }
-            set
-            {
-                SetTargetValue(value);
-                SetValue(ValueProperty, value);
-            }
+            get { return GetValue(ValueProperty); }
+            set { SetValue(ValueProperty, value); }
         }
 
-        public DependencyObject Target { get; private set; }
+        public DependencyObject[] Targets { get; private set; }
 
-        public PropertyInfo TargetProperty { get; private set; }
+        public PropertyInfo[] TargetProperties { get; private set; }
 
-        public DependencyProperty TargetDependencyProperty { get; private set; }
+        public DependencyProperty[] TargetDependencyProperties { get; private set; }
 
+        public bool IsStable => multiConverter.IsStable;
+
+        MultiPropertyConverter multiConverter;
         ListViewItem listViewItem;
         bool isDisposed = false;
 
-        public BaseSetter(DependencyObject target, PropertyInfo pi)
+        public BaseSetter(DependencyObject[] target, PropertyInfo[] pi)
         {
             this.Focusable = false;
 
-            this.Target = target;
+            this.Targets = target;
+            this.TargetProperties = pi;
 
-            TargetProperty = pi;
+            if (this.TargetProperties != null)
+            {
+                this.TargetDependencyProperties = this.TargetProperties
+                    .Select(tp => ReflectionEx.GetDependencyProperty(tp))
+                    .Where(dp => dp != null)
+                    .ToArray();
+            }
 
-            if (TargetProperty != null)
-                TargetDependencyProperty = ReflectionEx.GetDependencyProperty(TargetProperty);
-
-            if (TargetProperty == null || TargetDependencyProperty == null)
+            if (this.TargetProperties == null || 
+                this.TargetDependencyProperties == null || 
+                this.TargetProperties.Length != this.TargetDependencyProperties.Length)
+            {
                 throw new ArgumentException("속성을 찾을 수 없습니다.");
-
-            // Target Binding
-            OnTargetPropertyBinding();
+            }
+            
+            InitializeMultiBinding();
 
             this.Loaded += BaseSetter_Loaded;
             this.Unloaded += BaseSetter_Unloaded;
+        }
+
+        private void InitializeMultiBinding()
+        {
+            multiConverter = new MultiPropertyConverter(this.TargetProperties[0].PropertyType);
+
+            var multiBinding = new MultiBinding()
+            {
+                Converter = multiConverter,
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.Default
+            };
+            
+            for (int i = 0; i < this.Targets.Length; i++)
+            {
+                multiBinding.Bindings.Add(
+                    new Binding(this.TargetDependencyProperties[i].Name)
+                    {
+                        Source = this.Targets[i],
+                        Mode = BindingMode.TwoWay,
+                        UpdateSourceTrigger = UpdateSourceTrigger.Default
+                    });
+            }
+
+            this.SetBinding(ValueProperty, multiBinding);
         }
 
         private void BaseSetter_Unloaded(object sender, RoutedEventArgs e)
@@ -85,25 +107,6 @@ namespace DeXign.Controls
         {
             OnSelected();
         }
-        
-        protected virtual void OnTargetPropertyBinding()
-        {
-            SetValue(ValueProperty, GetTargetValue());
-
-            BindingHelper.SetBinding(
-                Target, TargetDependencyProperty,
-                this, ValueProperty);
-        }
-
-        public virtual object GetTargetValue()
-        {
-            return TargetProperty.GetValue(Target);
-        }
-
-        public virtual void SetTargetValue(object value)
-        {
-            TargetProperty.SetValue(Target, value);
-        }
 
         protected virtual void OnSelected()
         {
@@ -123,9 +126,11 @@ namespace DeXign.Controls
 
                 OnDispose();
 
-                Target = null;
-                TargetProperty = null;
-                TargetDependencyProperty = null;
+                BindingOperations.ClearBinding(this, ValueProperty);
+
+                Targets = null;
+                TargetProperties = null;
+                TargetDependencyProperties = null;
             }
         }
 
